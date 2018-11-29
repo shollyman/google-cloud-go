@@ -89,6 +89,25 @@ func ExampleWorkflowTemplateClient_InstantiateWorkflowTemplate() {
 	// TODO: Handle error.
 }
 
+func ExampleWorkflowTemplateClient_InstantiateInlineWorkflowTemplate() {
+	ctx := context.Background()
+	c, err := dataproc.NewWorkflowTemplateClient(ctx)
+	if err != nil {
+		// TODO: Handle error.
+	}
+
+	req := &dataprocpb.InstantiateInlineWorkflowTemplateRequest{
+		// TODO: Fill request struct fields.
+	}
+	op, err := c.InstantiateInlineWorkflowTemplate(ctx, req)
+	if err != nil {
+		// TODO: Handle error.
+	}
+
+	err = op.Wait(ctx)
+	// TODO: Handle error.
+}
+
 func ExampleWorkflowTemplateClient_UpdateWorkflowTemplate() {
 	ctx := context.Background()
 	c, err := dataproc.NewWorkflowTemplateClient(ctx)

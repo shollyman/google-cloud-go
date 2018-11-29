@@ -14,17 +14,12 @@
 
 // AUTO-GENERATED CODE. DO NOT EDIT.
 
-// Package errorreporting is an auto-generated package for the
-// Stackdriver Error Reporting API.
+// Package storage is an auto-generated package for the
+// BigQuery Storage API.
 //
 //   NOTE: This package is in alpha. It is not stable, and is likely to change.
 //
-// Stackdriver Error Reporting groups and counts similar errors from cloud
-// services. The Stackdriver Error Reporting API provides a way to report new
-// errors and read access to error groups and their associated errors.
-//
-// Use the client at cloud.google.com/go/errorreporting in preference to this.
-package errorreporting // import "cloud.google.com/go/errorreporting/apiv1beta1"
+package storage // import "cloud.google.com/go/bigquery/storage/apiv1beta1"
 
 import (
 	"context"
@@ -49,6 +44,7 @@ func insertMetadata(ctx context.Context, mds ...metadata.MD) context.Context {
 // DefaultAuthScopes reports the default set of authentication scopes to use with this package.
 func DefaultAuthScopes() []string {
 	return []string{
+		"https://www.googleapis.com/auth/bigquery",
 		"https://www.googleapis.com/auth/cloud-platform",
 	}
 }
