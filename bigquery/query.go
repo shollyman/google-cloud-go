@@ -17,6 +17,8 @@ package bigquery
 import (
 	"context"
 	"errors"
+	"fmt"
+	"log"
 
 	"cloud.google.com/go/internal/trace"
 	bq "google.golang.org/api/bigquery/v2"
@@ -298,18 +300,61 @@ func (c *Client) Query(q string) *Query {
 
 // Run initiates a query job.
 func (q *Query) Run(ctx context.Context) (j *Job, err error) {
+	// TODO: consider adding child span for fastpath
 	ctx = trace.StartSpan(ctx, "cloud.google.com/go/bigquery.Query.Run")
 	defer func() { trace.EndSpan(ctx, err) }()
 
-	job, err := q.newJob()
+	queryConfig, err := q.probeFastPath()
+	if err != nil {
+		// slow path, traditional execution
+		log.Println("on slow path")
+		job, err := q.newJob()
+		if err != nil {
+			return nil, err
+		}
+		j, err = q.client.insertJob(ctx, job, nil)
+		if err != nil {
+			return nil, err
+		}
+		return j, nil
+	}
+	// we have a potential fastpath execution
+	resp, err := q.client.runQuery(ctx, queryConfig)
 	if err != nil {
 		return nil, err
 	}
-	j, err = q.client.insertJob(ctx, job, nil)
-	if err != nil {
-		return nil, err
+	// go back to faking things, like a job.
+	return bqQueryResponseToJob(queryConfig, resp, q.client)
+}
+
+// probeFastPath returns a bq QueryRequest if it can be run on the fast path,
+// or an error if not.
+func (q *Query) probeFastPath() (*bq.QueryRequest, error) {
+	// TODO: spend more time looking at this, there may be some defaults we're not considering
+	// This is essentially the denylist of settings which prevent us from composing an equivalent
+	// bq.QueryRequest due to differences in the available settings
+	if q.QueryConfig.Dst != nil ||
+		q.QueryConfig.TableDefinitions != nil ||
+		q.QueryConfig.CreateDisposition != "" ||
+		q.QueryConfig.WriteDisposition != "" ||
+		q.QueryConfig.Priority != "" ||
+		//!q.QueryConfig.UseStandardSQL ||
+		//q.QueryConfig.UseLegacySQL ||
+		q.QueryConfig.TimePartitioning != nil ||
+		q.QueryConfig.RangePartitioning != nil ||
+		q.QueryConfig.Clustering != nil ||
+		q.QueryConfig.DestinationEncryptionConfig != nil ||
+		q.QueryConfig.SchemaUpdateOptions != nil {
+		return nil, fmt.Errorf("QueryConfig incompatible with fastPath")
 	}
-	return j, nil
+	pfalse := false
+	return &bq.QueryRequest{
+		Query:        q.QueryConfig.Q,
+		UseLegacySql: &pfalse,
+		// TODO: set the request_id to something appropriate here when we're allowed.
+		// RequestId := something based on uuid?
+		// TODO: figure out what else we should copy (max bytes, default datasets, query params, etc)
+	}, nil
 }
 
 func (q *Query) newJob() (*bq.Job, error) {

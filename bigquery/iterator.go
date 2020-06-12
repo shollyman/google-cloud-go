@@ -42,11 +42,15 @@ func newRowIterator(ctx context.Context, t *Table, pf pageFetcher) *RowIterator 
 
 // A RowIterator provides access to the result of a BigQuery lookup.
 type RowIterator struct {
-	ctx      context.Context
-	table    *Table
-	pf       pageFetcher
-	pageInfo *iterator.PageInfo
-	nextFunc func() error
+	ctx   context.Context
+	table *Table
+	// Need this to support getQueryResults iteration
+	jobRef *bq.JobReference
+	// This holds the raw rows from a possible fastpath first page
+	prefetchedRows []*bq.TableRow
+	pf             pageFetcher
+	pageInfo       *iterator.PageInfo
+	nextFunc       func() error
 
 	// StartIndex can be set before the first call to Next. If PageInfo().Token
 	// is also set, StartIndex is ignored.
@@ -145,7 +149,7 @@ func isStructPtr(x interface{}) bool {
 func (it *RowIterator) PageInfo() *iterator.PageInfo { return it.pageInfo }
 
 func (it *RowIterator) fetch(pageSize int, pageToken string) (string, error) {
-	res, err := it.pf(it.ctx, it.table, it.Schema, it.StartIndex, int64(pageSize), pageToken)
+	res, err := it.pf(it.ctx, it.jobRef, it.table, it.Schema, it.prefetchedRows, it.StartIndex, int64(pageSize), pageToken)
 	if err != nil {
 		return "", err
 	}
@@ -155,8 +159,9 @@ func (it *RowIterator) fetch(pageSize int, pageToken string) (string, error) {
 	return res.pageToken, nil
 }
 
-// A pageFetcher returns a page of rows from a destination table.
-type pageFetcher func(ctx context.Context, _ *Table, _ Schema, startIndex uint64, pageSize int64, pageToken string) (*fetchPageResult, error)
+// A pageFetcher returns a page of rows from a destination table or job.
+// Our semantics are to use a jobReference if present, otherwise fallback to table-based iteration
+type pageFetcher func(ctx context.Context, _ *bq.JobReference, _ *Table, _ Schema, _ []*bq.TableRow, startIndex uint64, pageSize int64, pageToken string) (*fetchPageResult, error)
 
 type fetchPageResult struct {
 	pageToken string
@@ -165,8 +170,8 @@ type fetchPageResult struct {
 	schema    Schema
 }
 
-// fetchPage gets a page of rows from t.
-func fetchPage(ctx context.Context, t *Table, schema Schema, startIndex uint64, pageSize int64, pageToken string) (*fetchPageResult, error) {
+// fetchPage gets a page of rows from jobRef or t.
+func fetchPage(ctx context.Context, jobRef *bq.JobReference, t *Table, schema Schema, prefetched []*bq.TableRow, startIndex uint64, pageSize int64, pageToken string) (*fetchPageResult, error) {
 	// Fetch the table schema in the background, if necessary.
 	errc := make(chan error, 1)
 	if schema != nil {

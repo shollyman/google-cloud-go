@@ -37,6 +37,9 @@ type Job struct {
 	email      string
 	config     *bq.JobConfiguration
 	lastStatus *JobStatus
+	// we need to store the first page of results for the fastpath before we construct an iterator.
+	// memory-vs-speed:  should we toss this after the first iterator is constructed? probably yes
+	firstPage []*bq.TableRow
 }
 
 // JobFromID creates a Job which refers to an existing BigQuery job. The job
@@ -276,7 +279,10 @@ func (j *Job) Wait(ctx context.Context) (js *JobStatus, err error) {
 func (j *Job) Read(ctx context.Context) (ri *RowIterator, err error) {
 	ctx = trace.StartSpan(ctx, "cloud.google.com/go/bigquery.Job.Read")
 	defer func() { trace.EndSpan(ctx, err) }()
-
+	// check to see if we have a fastPath iterator
+	if j.firstPage != nil {
+		// TODO: plumb this in
+	}
 	return j.read(ctx, j.waitForQuery, fetchPage)
 }
 
@@ -765,6 +771,98 @@ func bqToJob2(qr *bq.JobReference, qc *bq.JobConfiguration, qs *bq.JobStatus, qt
 	}
 	j.setStatistics(qt, c)
 	return j, nil
+}
+
+func bqQueryResponseToJob(req *bq.QueryRequest, resp *bq.QueryResponse, c *Client) (*Job, error) {
+	j := &Job{
+		c: c,
+	}
+	if resp.JobReference != nil {
+		j.projectID = resp.JobReference.ProjectId
+		j.jobID = resp.JobReference.JobId
+		j.location = resp.JobReference.Location
+	}
+	// Frankenstein a JobConfiguration from the pieces we have
+	j.setConfig(bqQueryResponseToJobConfiguration(req, resp))
+
+	// Now, synthesize a JobStatus from the QueryResponse
+	// a QueryRequest can't be batch priority, so we assume it's never PENDING
+	state := "RUNNING"
+	if resp.JobComplete {
+		state = "DONE"
+	}
+	// QueryResponse has no ErrorResponse, so we must simulate.
+	var errResult *bq.ErrorProto
+	if resp.Errors != nil {
+		if resp.JobComplete && resp.Rows == nil && resp.NumDmlAffectedRows != 0 {
+			// Can we trust this?
+			// What if we're only dealing with warnings and we've got no rows or mutations
+			// recorded?
+			errResult = resp.Errors[0]
+		}
+	}
+	if err := j.setStatus(&bq.JobStatus{
+		State:       state,
+		ErrorResult: errResult,
+		Errors:      resp.Errors,
+	}); err != nil {
+		return nil, err
+	}
+	// Similar to config, we have to frankenstein a JobStatistics
+	j.setStatistics(bqQueryResponseToJobStatistics(req, resp), c)
+	// and finally, let's stash the first result page in the job if we find rows
+	if resp.Rows != nil {
+		j.firstPage = resp.Rows
+	}
+	return j, nil
+}
+
+// bqQueryResponseToJobConfiguration tries to synthesize a bq.JobConfiguration from a jobs.query response
+func bqQueryResponseToJobConfiguration(req *bq.QueryRequest, resp *bq.QueryResponse) *bq.JobConfiguration {
+	return &bq.JobConfiguration{
+		JobType: "QUERY",
+		DryRun:  req.DryRun,
+		Labels:  req.Labels,
+		Query: &bq.JobConfigurationQuery{
+			ConnectionProperties: req.ConnectionProperties,
+			Query:                req.Query,
+			Priority:             "INTERACTIVE",
+			QueryParameters:      req.QueryParameters,
+			UseQueryCache:        req.UseQueryCache,
+		},
+	}
+}
+
+// bqQueryResponseToJobStatistics tries to synthesize a bq.JobStatistics from a jobs.query request
+// and response
+func bqQueryResponseToJobStatistics(req *bq.QueryRequest, resp *bq.QueryResponse) *bq.JobStatistics {
+	return &bq.JobStatistics{
+		// problem: no create/start/end time
+		// problem: we can't populate NumChildJobs
+		// problem? we can't populate QuotaDeferments
+		// problem? we can't populate reservationusage
+		// problem? we can't populate ReservationId
+		// problem? we can't populate RowLevelSecurityStatistics
+		// problem? we can't populate ScriptStatistics
+		// problem: we can't populate TotalSlotMs
+		Query: &bq.JobStatistics2{
+			CacheHit: resp.CacheHit,
+			// problem?  can't populate BillingTier
+			// problem?  can't populate Ddl stats
+			// wtf: can set dryrun, but there's not EstimatedBytesProcessed?!
+			// problem?  can't populate Model stats
+			NumDmlAffectedRows: resp.NumDmlAffectedRows,
+			Schema:             resp.Schema,
+			// problem: can't populate StatementType
+			// problem? can't populate query plan or timeline
+			TotalBytesProcessed: resp.TotalBytesProcessed,
+			// problem: can't populate totalBytesBilled
+			// problem: can't populte TotalBytesProcessedAccuracy
+			// problem? can't populate TotalPartitionsProcessed
+			// problem: can't populate TotalSlotMs
+			// problem? can't populate UndeclaredQueryParameters
+		},
+	}
 }
 
 func (j *Job) setConfig(config *bq.JobConfiguration) {
