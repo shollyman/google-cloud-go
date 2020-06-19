@@ -17,6 +17,7 @@ package bigquery
 import (
 	"context"
 	"errors"
+	"fmt"
 
 	"cloud.google.com/go/internal/trace"
 	bq "google.golang.org/api/bigquery/v2"
@@ -324,11 +325,83 @@ func (q *Query) newJob() (*bq.Job, error) {
 }
 
 // Read submits a query for execution and returns the results via a RowIterator.
-// It is a shorthand for Query.Run followed by Job.Read.
-func (q *Query) Read(ctx context.Context) (*RowIterator, error) {
-	job, err := q.Run(ctx)
+// This method is optimized for reducing query latency.
+
+func (q *Query) Read(ctx context.Context) (it *RowIterator, err error) {
+	ctx = trace.StartSpan(ctx, "cloud.google.com/go/bigquery.Query.Run")
+	defer func() { trace.EndSpan(ctx, err) }()
+	queryRequest, err := q.probeFastPath()
+	if err != nil {
+		// Any error means we fallback to the older mechanism.
+		job, err := q.Run(ctx)
+		if err != nil {
+			return nil, err
+		}
+		return job.Read(ctx)
+	}
+	// we have a config, run on fastPath.
+	resp, err := q.client.runQuery(ctx, queryRequest)
 	if err != nil {
 		return nil, err
 	}
-	return job.Read(ctx)
+	partialJob := &Job{
+		c:         q.client,
+		jobID:     resp.JobReference.JobId,
+		location:  resp.JobReference.Location,
+		projectID: resp.JobReference.ProjectId,
+	}
+	if resp.JobComplete {
+		rowSource := &rowSource{
+			j: partialJob,
+			// While we're only concerned about the rowSource in the iterator construction,
+			// we get the first page of results at the same time.  Add references to the
+			// rowSource as the iterator knows how to consume them.
+			cachedRows:      resp.Rows,
+			cachedSchema:    resp.Schema,
+			cachedNextToken: resp.PageToken,
+		}
+		return newRowIterator(ctx, rowSource, fetchPage), nil
+	}
+	// on fastPath, but we need to poll because the job is incomplete.
+	// Fallback to job-based Read().
+	return partialJob.Read(ctx)
+}
+
+// probeFastPath is used to attempt configuring a jobs.Query request based on a
+// user's Query configuration.  It returns an error if such a request can't be
+// composed or is otherwise unsafe to run.
+func (q *Query) probeFastPath() (*bq.QueryRequest, error) {
+	// TODO: spend more time looking at this, there may be some defaults we're not considering
+	// This is essentially the denylist of settings which prevent us from composing an equivalent
+	// bq.QueryRequest due to differences in the available settings
+	if q.QueryConfig.Dst != nil ||
+		q.QueryConfig.TableDefinitions != nil ||
+		q.QueryConfig.CreateDisposition != "" ||
+		q.QueryConfig.WriteDisposition != "" ||
+		q.QueryConfig.Priority != "" ||
+		q.QueryConfig.UseLegacySQL ||
+		q.QueryConfig.TimePartitioning != nil ||
+		q.QueryConfig.RangePartitioning != nil ||
+		q.QueryConfig.Clustering != nil ||
+		q.QueryConfig.DestinationEncryptionConfig != nil ||
+		q.QueryConfig.SchemaUpdateOptions != nil {
+		return nil, fmt.Errorf("QueryConfig incompatible with fastPath")
+	}
+	pfalse := false
+	qRequest := &bq.QueryRequest{
+		Query:        q.QueryConfig.Q,
+		UseLegacySql: &pfalse,
+		Location:     q.Location,
+		// TODO: set the request_id to something appropriate here when we're allowed.
+		// RequestId := something based on uuid?
+		// TODO: figure out what else we should copy (max bytes, default datasets, query params, etc)
+	}
+	if q.QueryConfig.DefaultDatasetID != "" {
+		qRequest.DefaultDataset = &bq.DatasetReference{
+			ProjectId: q.QueryConfig.DefaultProjectID,
+			DatasetId: q.QueryConfig.DefaultDatasetID,
+		}
+	}
+
+	return qRequest, nil
 }
