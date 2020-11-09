@@ -29,6 +29,9 @@ import (
 	"cloud.google.com/go/internal/testutil"
 	"cloud.google.com/go/internal/uid"
 
+	"github.com/golang/protobuf/descriptor"
+	"github.com/golang/protobuf/proto"
+
 	storagepb "google.golang.org/genproto/googleapis/cloud/bigquery/storage/v1alpha2"
 )
 
@@ -136,18 +139,44 @@ func TestBareMetalStreaming(t *testing.T) {
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
+
+		// some dummy data
+		sampleData := []*TestMsg{
+			{Name: proto.String("test"), Intval: proto.Int64(17)},
+			{Name: proto.String("foo"), Intval: proto.Int64(99)},
+			{Name: proto.String("bar"), Intval: proto.Int64(88)},
+		}
+
+		// Get the ProtoDescriptor for the test message
+		_, desc := descriptor.ForMessage(sampleData[0])
+		data := &storagepb.AppendRowsRequest_ProtoData{
+			WriterSchema: &storagepb.ProtoSchema{
+				ProtoDescriptor: desc,
+			},
+			Rows: &storagepb.ProtoRows{},
+		}
+		var serialized [][]byte
+		for _, v := range sampleData {
+			out, err := proto.Marshal(v)
+			if err != nil {
+				t.Fatalf("failed to serialize proto: %v", err)
+			}
+			serialized = append(serialized, out)
+		}
+		data.Rows.SerializedRows = serialized
 		req := &storagepb.AppendRowsRequest{
 			WriteStream: writeStream.Name,
-			// TODO: figure out how to build a dynamic descriptor, then send some test rows.
-			Rows: nil,
+			Rows: &storagepb.AppendRowsRequest_ProtoRows{
+				ProtoRows: data,
+			},
 		}
 		stream.Send(req)
-		req = &storagepb.AppendRowsRequest{
+		req2 := &storagepb.AppendRowsRequest{
 			WriteStream: writeStream.Name,
-			// TODO: send more dummy rows
-			Rows: nil,
+			// Send same rows again, with no schema
+			Rows: req.Rows,
 		}
-		stream.Send(req)
+		stream.Send(req2)
 		stream.CloseSend()
 	}()
 
