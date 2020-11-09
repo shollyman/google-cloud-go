@@ -171,12 +171,15 @@ func TestBareMetalStreaming(t *testing.T) {
 			},
 		}
 		stream.Send(req)
-		req2 := &storagepb.AppendRowsRequest{
+		// Send a second request, after stripping schema
+		data.WriterSchema = nil
+		req = &storagepb.AppendRowsRequest{
 			WriteStream: writeStream.Name,
-			// Send same rows again, with no schema
-			Rows: req.Rows,
+			Rows: &storagepb.AppendRowsRequest_ProtoRows{
+				ProtoRows: data,
+			},
 		}
-		stream.Send(req2)
+		stream.Send(req)
 		stream.CloseSend()
 	}()
 
@@ -199,7 +202,23 @@ func TestBareMetalStreaming(t *testing.T) {
 	}()
 
 	wg.Wait()
-	log.Println("both done")
-	// TODO: run a query to validate the rows are present in table?
+
+	// verify we can see the appends via a query
+	sql := fmt.Sprintf("SELECT COUNT(1) FROM `%s`.%s.%s", testTable.ProjectID, testTable.DatasetID, testTable.TableID)
+	q := bqClient.Query(sql)
+	it, err := q.Read(ctx)
+	if err != nil {
+		t.Fatalf("failed to issue validation query: %v", err)
+	}
+	var rowdata []bigquery.Value
+	err = it.Next(&rowdata)
+	if err != nil {
+		t.Fatalf("error iterating validation results: %v", err)
+	}
+	// two batches of 3 rows each
+	want := int64(6)
+	if rowdata[0] != want {
+		t.Errorf("count mismatch, got %v want %v", rowdata, want)
+	}
 
 }
