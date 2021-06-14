@@ -67,27 +67,28 @@ func TestBQToTableMetadata(t *testing.T) {
 				RequirePartitionFilter:  true,
 				EncryptionConfiguration: &bq.EncryptionConfiguration{KmsKeyName: "keyName"},
 				Type:                    "EXTERNAL",
-				View:                    &bq.ViewDefinition{Query: "view-query"},
+				View:                    &bq.ViewDefinition{Query: "view-query", UseExplicitColumnNames: true},
 				Labels:                  map[string]string{"a": "b"},
 				ExternalDataConfiguration: &bq.ExternalDataConfiguration{
 					SourceFormat: "GOOGLE_SHEETS",
 				},
 			},
 			&TableMetadata{
-				Description:        "desc",
-				Name:               "fname",
-				Location:           "loc",
-				ViewQuery:          "view-query",
-				FullID:             "id",
-				Type:               ExternalTable,
-				Labels:             map[string]string{"a": "b"},
-				ExternalDataConfig: &ExternalDataConfig{SourceFormat: GoogleSheets},
-				ExpirationTime:     aTime.Truncate(time.Millisecond),
-				CreationTime:       aTime.Truncate(time.Millisecond),
-				LastModifiedTime:   aTime.Truncate(time.Millisecond),
-				NumBytes:           123,
-				NumLongTermBytes:   23,
-				NumRows:            7,
+				Description:                "desc",
+				Name:                       "fname",
+				Location:                   "loc",
+				ViewQuery:                  "view-query",
+				ViewUseExplicitColumnNames: true,
+				FullID:                     "id",
+				Type:                       ExternalTable,
+				Labels:                     map[string]string{"a": "b"},
+				ExternalDataConfig:         &ExternalDataConfig{SourceFormat: GoogleSheets},
+				ExpirationTime:             aTime.Truncate(time.Millisecond),
+				CreationTime:               aTime.Truncate(time.Millisecond),
+				LastModifiedTime:           aTime.Truncate(time.Millisecond),
+				NumBytes:                   123,
+				NumLongTermBytes:           23,
+				NumRows:                    7,
 				MaterializedView: &MaterializedViewDefinition{
 					EnableRefresh:   true,
 					Query:           "mat view query",
@@ -170,15 +171,17 @@ func TestTableMetadataToBQ(t *testing.T) {
 		},
 		{
 			&TableMetadata{
-				ViewQuery:              "q",
-				UseLegacySQL:           true,
-				TimePartitioning:       &TimePartitioning{},
-				RequirePartitionFilter: true,
+				ViewQuery:                  "q",
+				ViewUseExplicitColumnNames: true,
+				UseLegacySQL:               true,
+				TimePartitioning:           &TimePartitioning{},
+				RequirePartitionFilter:     true,
 			},
 			&bq.Table{
 				View: &bq.ViewDefinition{
-					Query:        "q",
-					UseLegacySql: true,
+					Query:                  "q",
+					UseLegacySql:           true,
+					UseExplicitColumnNames: true,
 				},
 				TimePartitioning: &bq.TimePartitioning{
 					Type:         "DAY",
@@ -262,9 +265,8 @@ func TestTableMetadataToBQ(t *testing.T) {
 
 	// Errors
 	for _, in := range []*TableMetadata{
-		{Schema: sc, ViewQuery: "q"}, // can't have both schema and query
-		{UseLegacySQL: true},         // UseLegacySQL without query
-		{UseStandardSQL: true},       // UseStandardSQL without query
+		{UseLegacySQL: true},   // UseLegacySQL without query
+		{UseStandardSQL: true}, // UseStandardSQL without query
 		// read-only fields
 		{FullID: "x"},
 		{Type: "x"},
@@ -324,9 +326,9 @@ func TestTableMetadataToUpdateToBQ(t *testing.T) {
 			},
 		},
 		{
-			tm: TableMetadataToUpdate{ViewQuery: "q"},
+			tm: TableMetadataToUpdate{ViewQuery: "q", ViewUseExplicitColumnNames: true},
 			want: &bq.Table{
-				View: &bq.ViewDefinition{Query: "q", ForceSendFields: []string{"Query"}},
+				View: &bq.ViewDefinition{Query: "q", UseExplicitColumnNames: true, ForceSendFields: []string{"Query", "UseExplicitColumnNames"}},
 			},
 		},
 		{

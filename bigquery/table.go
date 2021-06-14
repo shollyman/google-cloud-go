@@ -51,14 +51,23 @@ type TableMetadata struct {
 	// The user-friendly description of the table.
 	Description string
 
-	// The table schema. If provided on create, ViewQuery must be empty.
+	// The table schema.
 	Schema Schema
 
 	// If non-nil, this table is a materialized view.
 	MaterializedView *MaterializedViewDefinition
 
-	// The query to use for a logical view. If provided on create, Schema must be nil.
+	// The query to use for a logical view.
+	//
+	// If you wish to set the schema field names independently via the schema,
+	// set ViewUseExplicitNames.
 	ViewQuery string
+
+	// ViewUseExplicitColumnNames governs behavior of logical views.
+	//
+	// If set, the schema of the columns in the view can be explicitly specified
+	// independently of the view definition query.
+	ViewUseExplicitColumnNames bool
 
 	// Use Legacy SQL for the view query.
 	// At most one of UseLegacySQL and UseStandardSQL can be true.
@@ -468,9 +477,6 @@ func (tm *TableMetadata) toBQ() (*bq.Table, error) {
 	if tm == nil {
 		return t, nil
 	}
-	if tm.Schema != nil && tm.ViewQuery != "" {
-		return nil, errors.New("bigquery: provide Schema or ViewQuery, not both")
-	}
 	t.FriendlyName = tm.Name
 	t.Description = tm.Description
 	t.Labels = tm.Labels
@@ -481,7 +487,10 @@ func (tm *TableMetadata) toBQ() (*bq.Table, error) {
 		if tm.UseStandardSQL && tm.UseLegacySQL {
 			return nil, errors.New("bigquery: cannot provide both UseStandardSQL and UseLegacySQL")
 		}
-		t.View = &bq.ViewDefinition{Query: tm.ViewQuery}
+		t.View = &bq.ViewDefinition{
+			Query:                  tm.ViewQuery,
+			UseExplicitColumnNames: tm.ViewUseExplicitColumnNames,
+		}
 		if tm.UseLegacySQL {
 			t.View.UseLegacySql = true
 		} else {
@@ -583,6 +592,7 @@ func bqToTableMetadata(t *bq.Table) (*TableMetadata, error) {
 	}
 	if t.View != nil {
 		md.ViewQuery = t.View.Query
+		md.ViewUseExplicitColumnNames = t.View.UseExplicitColumnNames
 		md.UseLegacySQL = t.View.UseLegacySql
 	}
 	md.TimePartitioning = bqToTimePartitioning(t.TimePartitioning)
@@ -711,6 +721,13 @@ func (tm *TableMetadataToUpdate) toBQ() (*bq.Table, error) {
 			ForceSendFields: []string{"Query"},
 		}
 	}
+	if tm.ViewUseExplicitColumnNames != nil {
+		if t.View == nil {
+			t.View = &bq.ViewDefinition{}
+		}
+		t.View.UseExplicitColumnNames = optional.ToBool(tm.ViewUseExplicitColumnNames)
+		t.View.ForceSendFields = append(t.View.ForceSendFields, "UseExplicitColumnNames")
+	}
 	if tm.UseLegacySQL != nil {
 		if t.View == nil {
 			t.View = &bq.ViewDefinition{}
@@ -768,6 +785,12 @@ type TableMetadataToUpdate struct {
 
 	// The query to use for a view.
 	ViewQuery optional.String
+
+	// ViewUseExplicitColumnNames governs behavior of logical views.
+	//
+	// If set, the schema of the columns in the view can be explicitly specified
+	// independently of the view definition query.
+	ViewUseExplicitColumnNames optional.Bool
 
 	// Use Legacy SQL for the view query.
 	UseLegacySQL optional.Bool

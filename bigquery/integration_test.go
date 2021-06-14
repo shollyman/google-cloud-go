@@ -289,14 +289,27 @@ func TestIntegration_TableCreateView(t *testing.T) {
 
 	// Test that standard SQL views work.
 	view := dataset.Table("t_view_standardsql")
-	query := fmt.Sprintf("SELECT APPROX_COUNT_DISTINCT(name) FROM `%s.%s.%s`",
+	overrideSchema := Schema{
+		{Name: "bar", Type: IntegerFieldType},
+	}
+
+	query := fmt.Sprintf("SELECT APPROX_COUNT_DISTINCT(name) as foo FROM `%s.%s.%s`",
 		dataset.ProjectID, dataset.DatasetID, table.TableID)
 	err := view.Create(context.Background(), &TableMetadata{
-		ViewQuery:      query,
-		UseStandardSQL: true,
+		ViewQuery:                  query,
+		ViewUseExplicitColumnNames: true,
+		UseStandardSQL:             true,
+		Schema:                     overrideSchema,
 	})
 	if err != nil {
 		t.Fatalf("table.create: Did not expect an error, got: %v", err)
+	}
+	meta, err := view.Metadata(ctx)
+	if err != nil {
+		t.Fatalf("view Metadata()) error: %v", err)
+	}
+	if meta.Schema[0].Name != overrideSchema[0].Name {
+		t.Errorf("expected to override column name with %s, got %s", overrideSchema[0].Name, meta.Schema[0].Name)
 	}
 	if err := view.Delete(ctx); err != nil {
 		t.Fatal(err)
