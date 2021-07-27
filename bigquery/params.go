@@ -77,14 +77,16 @@ var (
 	numericParamType    = &bq.QueryParameterType{Type: "NUMERIC"}
 	bigNumericParamType = &bq.QueryParameterType{Type: "BIGNUMERIC"}
 	geographyParamType  = &bq.QueryParameterType{Type: "GEOGRAPHY"}
+	intervalParamType   = &bq.QueryParameterType{Type: "INTERVAL"}
 )
 
 var (
-	typeOfDate     = reflect.TypeOf(civil.Date{})
-	typeOfTime     = reflect.TypeOf(civil.Time{})
-	typeOfDateTime = reflect.TypeOf(civil.DateTime{})
-	typeOfGoTime   = reflect.TypeOf(time.Time{})
-	typeOfRat      = reflect.TypeOf(&big.Rat{})
+	typeOfDate       = reflect.TypeOf(civil.Date{})
+	typeOfTime       = reflect.TypeOf(civil.Time{})
+	typeOfDateTime   = reflect.TypeOf(civil.DateTime{})
+	typeOfGoTime     = reflect.TypeOf(time.Time{})
+	typeOfGoDuration = reflect.TypeOf(time.Second)
+	typeOfRat        = reflect.TypeOf(&big.Rat{})
 )
 
 // A QueryParameter is a parameter to a query.
@@ -154,6 +156,8 @@ func paramType(t reflect.Type) (*bq.QueryParameterType, error) {
 		return dateTimeParamType, nil
 	case typeOfGoTime, typeOfNullTimestamp:
 		return timestampParamType, nil
+	case typeOfGoDuration, typeOfNullDuration:
+		return intervalParamType, nil
 	case typeOfRat:
 		return numericParamType, nil
 	case typeOfNullBool:
@@ -236,6 +240,7 @@ func paramValue(v reflect.Value) (*bq.QueryParameterValue, error) {
 		typeOfNullFloat64,
 		typeOfNullBool,
 		typeOfNullTimestamp,
+		typeOfNullInterval,
 		typeOfNullDate,
 		typeOfNullTime,
 		typeOfNullDateTime:
@@ -262,6 +267,8 @@ func paramValue(v reflect.Value) (*bq.QueryParameterValue, error) {
 			res.Value = fmt.Sprint(v.FieldByName("Bool").Interface())
 		case typeOfNullTimestamp:
 			res.Value = v.FieldByName("Timestamp").Interface().(time.Time).Format(timestampFormat)
+		case typeOfNullInterval:
+			res.Value = v.FieldByName("Interval").Interface().(time.Duration).Microseconds()
 		case typeOfNullDate:
 			res.Value = v.FieldByName("Date").Interface().(civil.Date).String()
 		case typeOfNullTime:
@@ -292,6 +299,10 @@ func paramValue(v reflect.Value) (*bq.QueryParameterValue, error) {
 
 	case typeOfGoTime:
 		res.Value = v.Interface().(time.Time).Format(timestampFormat)
+		return res, nil
+
+	case typeOfGoDuration:
+		res.Value = v.Interface().(time.Duration).Microseconds()
 		return res, nil
 
 	case typeOfRat:
@@ -379,6 +390,7 @@ var paramTypeToFieldType = map[string]FieldType{
 	numericParamType.Type:    NumericFieldType,
 	bigNumericParamType.Type: BigNumericFieldType,
 	geographyParamType.Type:  GeographyFieldType,
+	intervalParamType.Type:   IntervalFieldType,
 }
 
 // Convert a parameter value from the service to a Go value. This is similar to, but
@@ -401,6 +413,15 @@ func convertParamValue(qval *bq.QueryParameterValue, qtype *bq.QueryParameterTyp
 			return NullTimestamp{Valid: false}, nil
 		}
 		return time.Parse(timestampFormat, qval.Value)
+	case "INTERVAL":
+		if isNullScalar(qval) {
+			return NullInterval{Valid: false}, nil
+		}
+		d, err := time.ParseDuration(qval.Value)
+		if err != nil {
+			return nil, err
+		}
+		return d, nil
 	case "DATETIME":
 		if isNullScalar(qval) {
 			return NullDateTime{Valid: false}, nil

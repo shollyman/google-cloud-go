@@ -84,6 +84,14 @@ type NullTimestamp struct {
 
 func (n NullTimestamp) String() string { return nullstr(n.Valid, n.Timestamp) }
 
+// NullInterval represents a BigQuery INTERVAL that may be null.
+type NullInterval struct {
+	Interval time.Duration
+	Valid    bool // Valid is true it Interval is not NULL.
+}
+
+func (n NullInterval) String() string { return nullstr(n.Valid, n.Interval) }
+
 // NullDate represents a BigQuery DATE that may be null.
 type NullDate struct {
 	Date  civil.Date
@@ -149,6 +157,9 @@ func (n NullGeography) MarshalJSON() ([]byte, error) { return nulljson(n.Valid, 
 
 // MarshalJSON converts the NullTimestamp to JSON.
 func (n NullTimestamp) MarshalJSON() ([]byte, error) { return nulljson(n.Valid, n.Timestamp) }
+
+// MarshalJSON converts the NullInterval to JSON.
+func (n NullInterval) MarshalJSON() ([]byte, error) { return nulljson(n.Valid, n.Interval) }
 
 // MarshalJSON converts the NullDate to JSON.
 func (n NullDate) MarshalJSON() ([]byte, error) { return nulljson(n.Valid, n.Date) }

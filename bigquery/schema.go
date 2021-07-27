@@ -226,6 +226,8 @@ const (
 	// BigNumericFieldType is a numeric field type that supports values of larger precision
 	// and scale than the NumericFieldType.
 	BigNumericFieldType FieldType = "BIGNUMERIC"
+	// IntervalFieldType is a temporal type for representing a duration of time.
+	IntervalFieldType FieldType = "INTERVAL"
 )
 
 var (
@@ -244,6 +246,7 @@ var (
 		NumericFieldType:    true,
 		GeographyFieldType:  true,
 		BigNumericFieldType: true,
+		IntervalFieldType:   true,
 	}
 	// The API will accept alias names for the types based on the Standard SQL type names.
 	fieldAliases = map[FieldType]FieldType{
@@ -386,6 +389,8 @@ func inferFieldSchema(fieldName string, rt reflect.Type, nullable bool) (*FieldS
 		return &FieldSchema{Required: !nullable, Type: BytesFieldType}, nil
 	case typeOfGoTime:
 		return &FieldSchema{Required: true, Type: TimestampFieldType}, nil
+	case typeOfGoDuration:
+		return &FieldSchema{Required: true, Type: IntervalFieldType}, nil
 	case typeOfDate:
 		return &FieldSchema{Required: true, Type: DateFieldType}, nil
 	case typeOfTime:
