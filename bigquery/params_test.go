@@ -247,7 +247,7 @@ func TestParamValueErrors(t *testing.T) {
 
 func TestParamType(t *testing.T) {
 	for _, test := range scalarTests {
-		got, err := paramType(reflect.TypeOf(test.val))
+		got, err := paramType(reflect.TypeOf(test.val), nil)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -265,7 +265,7 @@ func TestParamType(t *testing.T) {
 		{[3]bool{}, &bq.QueryParameterType{Type: "ARRAY", ArrayType: boolParamType}},
 		{S1{}, s1ParamType},
 	} {
-		got, err := paramType(reflect.TypeOf(test.val))
+		got, err := paramType(reflect.TypeOf(test.val), nil)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -279,7 +279,7 @@ func TestParamTypeErrors(t *testing.T) {
 	for _, val := range []interface{}{
 		nil, uint(0), new([]int), make(chan int),
 	} {
-		_, err := paramType(reflect.TypeOf(val))
+		_, err := paramType(reflect.TypeOf(val), nil)
 		if err == nil {
 			t.Errorf("%v (%T): got nil, want error", val, val)
 		}
@@ -293,7 +293,7 @@ func TestConvertParamValue(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		ptype, err := paramType(reflect.TypeOf(test.val))
+		ptype, err := paramType(reflect.TypeOf(test.val), nil)
 		if err != nil {
 			t.Fatal(err)
 		}

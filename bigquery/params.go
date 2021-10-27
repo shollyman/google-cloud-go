@@ -123,14 +123,23 @@ type QueryParameter struct {
 	// above.  Null strings will report in query statistics as a valid empty
 	// string.
 	Value interface{}
+
+	// For cases where type inference is insufficient, ExplicitType allows the user to indicate explicitly
+	// which type should be used.
+	ExplicitType *StandardSQLDataType
 }
 
 func (p QueryParameter) toBQ() (*bq.QueryParameter, error) {
-	pv, err := paramValue(reflect.ValueOf(p.Value))
+	pt, err := paramType(reflect.TypeOf(p.Value), p.ExplicitType)
 	if err != nil {
 		return nil, err
 	}
-	pt, err := paramType(reflect.TypeOf(p.Value))
+	var pv *bq.QueryParameterValue
+	if p.ExplicitType != nil {
+		pv, err = paramValue2(reflect.ValueOf(p.Value), pt)
+	} else {
+		pv, err = paramValue2(reflect.ValueOf(p.Value), nil)
+	}
 	if err != nil {
 		return nil, err
 	}
@@ -141,7 +150,32 @@ func (p QueryParameter) toBQ() (*bq.QueryParameter, error) {
 	}, nil
 }
 
-func paramType(t reflect.Type) (*bq.QueryParameterType, error) {
+func convertExplicitParamType(inType *StandardSQLDataType) *bq.QueryParameterType {
+	qpt := &bq.QueryParameterType{
+		Type: inType.TypeKind,
+	}
+	if inType.ArrayElementType != nil {
+		qpt.ArrayType = convertExplicitParamType(inType.ArrayElementType)
+	}
+	if inType.StructType != nil {
+		structTypes := make([]*bq.QueryParameterTypeStructTypes, len(inType.StructType.Fields))
+		for i, f := range inType.StructType.Fields {
+			ft := convertExplicitParamType(f.Type)
+			structTypes[i] = &bq.QueryParameterTypeStructTypes{
+				Name: f.Name,
+				Type: ft,
+			}
+		}
+		qpt.StructTypes = structTypes
+	}
+	return qpt
+}
+
+func paramType(t reflect.Type, explicitType *StandardSQLDataType) (*bq.QueryParameterType, error) {
+	if explicitType != nil {
+		// User has specified parameter typing explicitly, rather than infering based on value.
+		return convertExplicitParamType(explicitType), nil
+	}
 	if t == nil {
 		return nil, errors.New("bigquery: nil parameter")
 	}
@@ -187,7 +221,7 @@ func paramType(t reflect.Type) (*bq.QueryParameterType, error) {
 		fallthrough
 
 	case reflect.Array:
-		et, err := paramType(t.Elem())
+		et, err := paramType(t.Elem(), nil)
 		if err != nil {
 			return nil, err
 		}
@@ -207,7 +241,7 @@ func paramType(t reflect.Type) (*bq.QueryParameterType, error) {
 			return nil, err
 		}
 		for _, f := range fields {
-			pt, err := paramType(f.Type)
+			pt, err := paramType(f.Type, nil)
 			if err != nil {
 				return nil, err
 			}
@@ -219,6 +253,42 @@ func paramType(t reflect.Type) (*bq.QueryParameterType, error) {
 		return &bq.QueryParameterType{Type: "STRUCT", StructTypes: fts}, nil
 	}
 	return nil, fmt.Errorf("bigquery: Go type %s cannot be represented as a parameter type", t)
+}
+
+func paramValue2(v reflect.Value, explicitType *bq.QueryParameterType) (*bq.QueryParameterValue, error) {
+	if explicitType == nil {
+		return paramValue(v)
+	}
+	switch explicitType.Type {
+	case "INT64", "INTEGER":
+
+	case "BOOL":
+
+	case "BYTES":
+
+	case "DATE":
+
+	case "DATETIME":
+
+	case "GEOGRAPHY":
+
+	case "NUMERIC":
+
+	case "BIGNUMERIC":
+
+	case "FLOAT64":
+
+	case "STRING":
+
+	case "TIME":
+
+	case "TIMESTAMP":
+
+	case "ARRAY":
+
+	case "STRUCT", "RECORD":
+	}
+	return nil, fmt.Errorf("could not process explicit type: %s", explicitType.Type)
 }
 
 func paramValue(v reflect.Value) (*bq.QueryParameterValue, error) {
