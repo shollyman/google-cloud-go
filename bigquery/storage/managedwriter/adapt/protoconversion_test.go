@@ -721,3 +721,42 @@ func TestNormalizeDescriptor(t *testing.T) {
 		}
 	}
 }
+
+func TestExtensionBehavior(t *testing.T) {
+	got := protodesc.ToDescriptorProto((&testdata.SimpleMessageProto3{}).ProtoReflect().Descriptor())
+	want := &descriptorpb.DescriptorProto{
+		Name: proto.String("SimpleMessageProto3"),
+		Field: []*descriptorpb.FieldDescriptorProto{
+			{
+				Name:     proto.String("name"),
+				JsonName: proto.String("name"),
+				Number:   proto.Int32(1),
+				Type:     descriptorpb.FieldDescriptorProto_TYPE_STRING.Enum(),
+				Label:    descriptorpb.FieldDescriptorProto_LABEL_OPTIONAL.Enum(),
+				Options: &descriptorpb.FieldOptions{
+					UninterpretedOption: []*descriptorpb.UninterpretedOption{
+						{
+							Name: []*descriptorpb.UninterpretedOption_NamePart{
+								{
+									NamePart: proto.String("foo"),
+								},
+							},
+							StringValue: []byte("bar"),
+						},
+					},
+				},
+			},
+			{
+				Name:     proto.String("value"),
+				JsonName: proto.String("value"),
+				Number:   proto.Int32(2),
+				Type:     descriptorpb.FieldDescriptorProto_TYPE_MESSAGE.Enum(),
+				TypeName: proto.String(".google.protobuf.Int64Value"),
+				Label:    descriptorpb.FieldDescriptorProto_LABEL_OPTIONAL.Enum(),
+			},
+		},
+	}
+	if diff := cmp.Diff(got, want, protocmp.Transform()); diff != "" {
+		t.Errorf("-got, +want:\n%s", diff)
+	}
+}

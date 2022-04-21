@@ -17,11 +17,12 @@ package testdata;
 option go_package = "cloud.google.com/go/bigquery/storage/managedwriter/testdata";
 
 import "google/protobuf/wrappers.proto";
+import "extended_schema.proto";
 
 // SimpleMessageProto3 represents a simple message that transmits a string and int64 value.
 message SimpleMessageProto3 {
     // name is a simple scalar string.
-    string name = 1;
+    string name = 1 [(testdata.ColumnNameAlias) = "⏻"];
     // value is a simple int64 value.
     google.protobuf.Int64Value value = 2;
 }

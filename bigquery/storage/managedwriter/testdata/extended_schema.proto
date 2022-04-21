@@ -1,0 +1,13 @@
+
+syntax = "proto3";
+
+import "google/protobuf/descriptor.proto";
+
+package testdata;
+option go_package = "cloud.google.com/go/bigquery/storage/managedwriter/testdata";
+
+extend google.protobuf.FieldOptions {
+  // User-facing column name. This should be used to represent column
+  // names that do not conform to proto field naming conventions.
+  string ColumnNameAlias = 8675309;
+}
