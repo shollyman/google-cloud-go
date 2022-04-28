@@ -14,6 +14,4 @@
 
 // Package adapt adds functionality related to converting bigquery representations
 // like schema and data type representations.
-//
-// It is EXPERIMENTAL and subject to change or removal without notice.
 package adapt
