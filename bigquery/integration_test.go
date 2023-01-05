@@ -23,6 +23,7 @@ import (
 	"log"
 	"math/big"
 	"net/http"
+	"net/http/httputil"
 	"os"
 	"sort"
 	"strings"
@@ -46,6 +47,7 @@ import (
 	"google.golang.org/api/googleapi"
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
+	htransport "google.golang.org/api/transport/http"
 )
 
 const replayFilename = "bigquery.replay"
@@ -85,6 +87,33 @@ func getClient(t *testing.T) *Client {
 		t.Skip("Integration tests skipped")
 	}
 	return client
+}
+
+// a quick and dirty request dumper for reproducing issues
+type rawLogger struct {
+	rt http.RoundTripper
+}
+
+func (rl rawLogger) RoundTrip(r *http.Request) (*http.Response, error) {
+	// Use httputil to dump the request. Setting the second arg to true means
+	// that the body will be included as well.
+	reqDump, err := httputil.DumpRequest(r, true)
+	if err != nil {
+		// Handle err.
+	}
+	resp, err := rl.rt.RoundTrip(r)
+	if err != nil {
+		return resp, err
+	}
+
+	respDump, err := httputil.DumpResponse(resp, true)
+	if err != nil {
+		return nil, err
+	}
+	log.Printf("REQUEST\n=====\n%s\n=====\nRESPONSE\n=====\n%s\n=====\n",
+		string(reqDump), string(respDump))
+
+	return resp, nil
 }
 
 var grpcHeadersChecker = testutil.DefaultHeadersEnforcer()
@@ -194,10 +223,23 @@ func initIntegrationTest() func() {
 			// When we're not recording, do http header checking.
 			// We can't check universally because option.WithHTTPClient is
 			// incompatible with gRPC options.
-			bqOpts = append(bqOpts, grpcHeadersChecker.CallOptions()...)
+			//bqOpts = append(bqOpts, grpcHeadersChecker.CallOptions()...)
 			sOpts = append(sOpts, grpcHeadersChecker.CallOptions()...)
 			ptmOpts = append(ptmOpts, grpcHeadersChecker.CallOptions()...)
 			connOpts = append(connOpts, grpcHeadersChecker.CallOptions()...)
+
+			base := http.DefaultTransport
+			trans, err := htransport.NewTransport(ctx, base)
+			if err != nil {
+				log.Fatalf("creating transport: %+v", err)
+			}
+			c := http.Client{Transport: trans}
+
+			// Add RoundTripper to the created HTTP client.
+			c.Transport = rawLogger{rt: c.Transport}
+
+			bqOpts = append(bqOpts, option.WithHTTPClient(&c))
+
 		}
 		var err error
 		client, err = NewClient(ctx, projID, bqOpts...)
@@ -653,7 +695,12 @@ func TestIntegration_ColumnACLs(t *testing.T) {
 	testSchema := Schema{
 		{Name: "name", Type: StringFieldType},
 		{Name: "ssn", Type: StringFieldType},
-		{Name: "acct_balance", Type: NumericFieldType},
+		{Name: "sample_record", Type: RecordFieldType,
+			Schema: Schema{
+				{Name: "leaf", Type: StringFieldType},
+				{Name: "other_leaf", Type: IntegerFieldType, Description: "something"},
+			},
+		},
 	}
 	table := newTable(t, testSchema)
 	defer table.Delete(ctx)
@@ -667,22 +714,49 @@ func TestIntegration_ColumnACLs(t *testing.T) {
 	testSchema[1].PolicyTags = &PolicyTagList{
 		Names: []string{tagID},
 	}
+	testSchema[2].Schema[0].PolicyTags = &PolicyTagList{
+		Names: []string{tagID},
+	}
 
 	// Test: Amend an existing schema with a policy tag.
-	_, err = table.Update(ctx, TableMetadataToUpdate{
+	updateMeta, err := table.Update(ctx, TableMetadataToUpdate{
 		Schema: testSchema,
 	}, "")
 	if err != nil {
 		t.Errorf("update with policyTag failed: %v", err)
 	}
+	if diff := testutil.Diff(updateMeta.Schema, testSchema); diff != "" {
+		t.Errorf("updated schema differs, got=-, want=+\n%s", diff)
+	}
 
 	// Test: Create a new table with a policy tag defined.
 	newTable := dataset.Table(tableIDs.New())
 	if err = newTable.Create(ctx, &TableMetadata{
-		Schema:      schema,
+		Schema:      testSchema,
 		Description: "foo",
 	}); err != nil {
 		t.Errorf("failed to create new table with policy tag: %v", err)
+	}
+	createMeta, err := newTable.Metadata(ctx)
+	if err != nil {
+		t.Errorf("failed to get new table metadata")
+	}
+	if diff := testutil.Diff(createMeta.Schema, testSchema); diff != "" {
+		t.Errorf("created table schema differs, got=-, want=+\n%s", diff)
+	}
+
+	// Test: remove policy tag from the inner leaf
+	finalSchema := createMeta.Schema
+	finalSchema[2].Schema[0].PolicyTags = nil
+	finalSchema[2].Schema[1].Description = "new description"
+	updateMeta2, err := newTable.Update(ctx, TableMetadataToUpdate{
+		Schema: finalSchema,
+	}, "")
+	if err != nil {
+		t.Errorf("update removing policyTag failed: %v", err)
+	}
+	if diff := testutil.Diff(updateMeta2.Schema, finalSchema); diff != "" {
+		t.Errorf("final schema differs, got=-, want=+\n%s", diff)
 	}
 }
 
