@@ -132,7 +132,7 @@ func (cp *connectionPool) openWithRetry(co *connection) (storagepb.BigQueryWrite
 		if cp.location != "" {
 			ctx = metadata.AppendToOutgoingContext(ctx, "x-goog-request-params", fmt.Sprintf("write_location=%s", cp.location))
 		}
-		recordStat(cp.ctx, AppendClientOpenCount, 1)
+		recordStat(ctx, AppendClientOpenCount, 1)
 		arc, err := cp.open(cp.callOptions...)
 		if err != nil {
 			bo, shouldRetry := r.Retry(err)
