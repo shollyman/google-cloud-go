@@ -221,6 +221,7 @@ func (c *Client) resolvePool(ctx context.Context, settings *streamSettings, stre
 	if err != nil {
 		return nil, err
 	}
+	pool.location = loc
 	c.pools[loc] = pool
 	return pool, nil
 }

@@ -26,6 +26,7 @@ import (
 	"github.com/googleapis/gax-go/v2"
 	"go.opencensus.io/tag"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	grpcstatus "google.golang.org/grpc/status"
 )
 
@@ -44,7 +45,8 @@ var (
 // The pool retains references to connections, and maintains the mapping between writers
 // and connections.
 type connectionPool struct {
-	id string
+	id       string
+	location string // holds the region location.
 
 	// the pool retains the long-lived context responsible for opening/maintaining bidi connections.
 	ctx    context.Context
@@ -126,6 +128,10 @@ func (pool *connectionPool) removeWriter(writer *ManagedStream) error {
 func (cp *connectionPool) openWithRetry(co *connection) (storagepb.BigQueryWrite_AppendRowsClient, chan *pendingWrite, error) {
 	r := &unaryRetryer{}
 	for {
+		ctx := cp.ctx
+		if cp.location != "" {
+			ctx = metadata.AppendToOutgoingContext(ctx, "x-goog-request-params", fmt.Sprintf("write_location=%s", cp.location))
+		}
 		recordStat(cp.ctx, AppendClientOpenCount, 1)
 		arc, err := cp.open(cp.callOptions...)
 		if err != nil {
