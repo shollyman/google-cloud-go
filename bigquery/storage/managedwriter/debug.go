@@ -25,6 +25,15 @@ import (
 	"google.golang.org/grpc/metadata"
 )
 
+// DebugStreamLogger is a gRPC client stream interceptor suitable for logging activity related to client gRPC streams.
+// It leverages golang.org/x/exp/slog for logging.
+//
+// To use this with an existing client, pass the appropriate
+//
+//	client, err := managedwriter.NewClient(ctx, projectID, option.WithGRPCDialOption(grpc.WithStreamInterceptor(DebugStreamLogger)))
+//
+// Caveat: gRPC by default only allows a single interceptor, but there are specialized interceptors in the wild that
+// enable chaining.
 func DebugStreamLogger(ctx context.Context, desc *grpc.StreamDesc, cc *grpc.ClientConn, method string, streamer grpc.Streamer, opts ...grpc.CallOption) (grpc.ClientStream, error) {
 	dcs := &debugClientStream{
 		ctx:    ctx,
