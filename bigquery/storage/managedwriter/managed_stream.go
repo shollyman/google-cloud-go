@@ -125,6 +125,9 @@ type streamSettings struct {
 
 	// retain a copy of the stream client func.
 	streamFunc streamClientFunc
+
+	// retains the overrides for controlling default values.
+	missingValueInterpretations map[string]storagepb.AppendRowsRequest_MissingValueInterpretation
 }
 
 func defaultStreamSettings() *streamSettings {
