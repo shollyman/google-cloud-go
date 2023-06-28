@@ -129,11 +129,11 @@ func (cp *connectionPool) mergeCallOptions(co *connection) []gax.CallOption {
 	return mergedOpts
 }
 
-// openWithRetry establishes a new bidi stream and channel pair.  It is used by connection objects
+// openWithRetry establishes a new bidi stream and queue pair.  It is used by connection objects
 // when (re)opening the network connection to the backend.
 //
 // The connection.getStream() func should be the only consumer of this.
-func (cp *connectionPool) openWithRetry(co *connection) (storagepb.BigQueryWrite_AppendRowsClient, chan *pendingWrite, error) {
+func (cp *connectionPool) openWithRetry(co *connection) (storagepb.BigQueryWrite_AppendRowsClient, *pendingQueue, error) {
 	r := &unaryRetryer{}
 	for {
 		recordStat(cp.ctx, AppendClientOpenCount, 1)
@@ -158,9 +158,9 @@ func (cp *connectionPool) openWithRetry(co *connection) (storagepb.BigQueryWrite
 		if d := co.fc.maxInsertCount; d > 0 {
 			depth = d
 		}
-		ch := make(chan *pendingWrite, depth)
-		go connRecvProcessor(co, arc, ch)
-		return arc, ch, nil
+		queue := newPendingQueue(false, depth)
+		go connRecvProcessor(co, arc, queue)
+		return arc, queue, nil
 	}
 }
 
@@ -194,7 +194,7 @@ type connection struct {
 	arc       *storagepb.BigQueryWrite_AppendRowsClient // reference to the grpc connection (send, recv, close)
 	reconnect bool                                      //
 	err       error                                     // terminal connection error
-	pending   chan *pendingWrite
+	pending   *pendingQueue
 
 	loadBytesThreshold int
 	loadCountThreshold int
@@ -327,7 +327,7 @@ func (co *connection) close() {
 	}
 	// signal pending channel close.
 	if co.pending != nil {
-		close(co.pending)
+		co.pending.close()
 	}
 }
 
@@ -359,7 +359,7 @@ func (co *connection) lockingAppend(pw *pendingWrite) error {
 	}()
 
 	var arc *storagepb.BigQueryWrite_AppendRowsClient
-	var ch chan *pendingWrite
+	var queue *pendingQueue
 	var err error
 
 	// Handle promotion of per-request schema to default schema in the case of updates.
@@ -377,7 +377,7 @@ func (co *connection) lockingAppend(pw *pendingWrite) error {
 		}
 	}
 
-	arc, ch, err = co.getStream(arc, forceReconnect)
+	arc, queue, err = co.getStream(arc, forceReconnect)
 	if err != nil {
 		return err
 	}
@@ -416,14 +416,21 @@ func (co *connection) lockingAppend(pw *pendingWrite) error {
 		recordStat(co.ctx, AppendRequests, 1)
 		recordStat(co.ctx, AppendRequestBytes, int64(pw.reqSize))
 	}
-	ch <- pw
+	if err := queue.enqueue(pw); err != nil {
+		// we sent correctly, but the queue is closed?  something has gone terribly wrong with the receiver, so
+		// we need to stop using this connection.
+		//
+		// CloseSend will trigger a reconnect on the next write.
+		(*arc).CloseSend()
+		return fmt.Errorf("failed to enqueue pending write")
+	}
 	return nil
 }
 
 // getStream returns either a valid ARC client stream or permanent error.
 //
 // Any calls to getStream should do so in possesion of the critical section lock.
-func (co *connection) getStream(arc *storagepb.BigQueryWrite_AppendRowsClient, forceReconnect bool) (*storagepb.BigQueryWrite_AppendRowsClient, chan *pendingWrite, error) {
+func (co *connection) getStream(arc *storagepb.BigQueryWrite_AppendRowsClient, forceReconnect bool) (*storagepb.BigQueryWrite_AppendRowsClient, *pendingQueue, error) {
 	if co.err != nil {
 		return nil, nil, co.err
 	}
@@ -446,7 +453,7 @@ func (co *connection) getStream(arc *storagepb.BigQueryWrite_AppendRowsClient, f
 		(*co.arc).CloseSend()
 	}
 	if co.pending != nil {
-		close(co.pending)
+		co.pending.close()
 	}
 
 	co.arc = new(storagepb.BigQueryWrite_AppendRowsClient)
@@ -464,34 +471,36 @@ type streamClientFunc func(context.Context, ...gax.CallOption) (storagepb.BigQue
 // connRecvProcessor is used to propagate append responses back up with the originating write requests.  It
 // It runs as a goroutine.  A connection object allows for reconnection, and each reconnection establishes a new
 // processing gorouting and backing channel.
-func connRecvProcessor(co *connection, arc storagepb.BigQueryWrite_AppendRowsClient, ch <-chan *pendingWrite) {
+func connRecvProcessor(co *connection, arc storagepb.BigQueryWrite_AppendRowsClient, queue *pendingQueue) {
 	for {
 		select {
 		case <-co.ctx.Done():
-			// Context is done, so we're not going to get further updates.  Mark all work left in the channel
-			// with the context error.  We don't attempt to re-enqueue in this case.
-			for {
-				pw, ok := <-ch
-				if !ok {
-					return
-				}
-				// It's unlikely this connection will recover here, but for correctness keep the flow controller
-				// state correct by releasing.
-				co.release(pw)
-				pw.markDone(nil, co.ctx.Err())
-			}
-		case nextWrite, ok := <-ch:
+			// Context is done, so we're not going to get further updates.  Go ahead and close the queue and then process what remains.
+			queue.close()
+			queue.drain(co, co.ctx.Err())
+			// shutdown the receiver.
+			return
+		case _, ok := <-queue.msgWaiting():
 			if !ok {
 				// Channel closed, all elements processed.
 				return
 			}
 			// block until we get a corresponding response or err from stream.
 			resp, err := arc.Recv()
-			co.release(nextWrite)
 			if err != nil {
-				nextWrite.writer.processRetry(nextWrite, co, nil, err)
-				continue
+				// we've gotten an error from the bidi connection itself, which likely means we're in an unrecoverable state.  Even
+				// if the next recv were successful it's not clear we correctly mapping the request order, so our only option is to drain.
+				//
+				// TODO: consider explicitly closing here.
+				queue.drain(co, err)
+				return
 			}
+			// fetch the next element in the destination from the queue.
+			nextWrite, err := queue.dequeue(resp.GetWriteStream())
+			if err != nil {
+				panic(fmt.Sprintf("got response on connection %q without corresponding pending write for stream", co.id))
+			}
+			co.release(nextWrite)
 			// Record that we did in fact get a response from the backend.
 			recordStat(co.ctx, AppendResponses, 1)
 

@@ -17,7 +17,9 @@ package managedwriter
 import (
 	"container/list"
 	"fmt"
+	"io"
 	"sync"
+	"time"
 )
 
 var globalQueueId string = "GLOBAL_FIFO_QUEUE"
@@ -105,7 +107,7 @@ func (pq *pendingQueue) listDests() map[string]int {
 // dequeue provides the next element in the given destination.
 //
 // if the pendingQueue is not configured to support multiple destinations, the next message is grabbed from the
-// global queue regardless of the provided destination
+// global queue regardless of the provided destination.
 func (pq *pendingQueue) dequeue(destId string) (*pendingWrite, error) {
 	pq.mu.Lock()
 	defer pq.mu.Unlock()
@@ -122,4 +124,40 @@ func (pq *pendingQueue) dequeue(destId string) (*pendingWrite, error) {
 		delete(pq.dests, destId)
 	}
 	return e.Value.(*pendingWrite), nil
+}
+
+// drain handles draining any queued pending writes.
+//
+// if cause is not provided, io.EOF is used.
+func (pq *pendingQueue) drain(co *connection, cause error) {
+	if cause == nil {
+		cause = io.EOF
+	}
+	for {
+		for d, ct := range pq.listDests() {
+			for i := 0; i < ct; i++ {
+				if pw, _ := pq.dequeue(d); pw != nil {
+					if co != nil {
+						co.release(pw)
+					}
+					if pw.writer == nil {
+						// can't attribute a writer.  simply mark done.
+						pw.markDone(nil, cause)
+					} else {
+						pw.writer.processRetry(pw, co, nil, cause)
+					}
+				}
+			}
+		}
+		select {
+
+		case _, ok := <-pq.msgWaiting():
+			if !ok {
+				return
+			}
+		case <-time.After(50 * time.Millisecond):
+			continue
+		}
+	}
+
 }

@@ -20,7 +20,6 @@ import (
 	"fmt"
 	"io"
 	"testing"
-	"time"
 
 	"cloud.google.com/go/bigquery/storage/apiv1/storagepb"
 	"github.com/googleapis/gax-go/v2"
@@ -127,28 +126,22 @@ func TestConnection_LeakingReconnect(t *testing.T) {
 		t.Errorf("addWriter: %v", err)
 	}
 
-	var chans []chan *pendingWrite
+	var queues []*pendingQueue
 
 	for i := 0; i < 10; i++ {
-		_, ch, err := router.conn.getStream(nil, true)
+		_, queue, err := router.conn.getStream(nil, true)
 		if err != nil {
 			t.Fatalf("failed getStream(%d): %v", i, err)
 		}
-		chans = append(chans, ch)
+		queues = append(queues, queue)
 	}
 	var closedCount int
-	for _, ch := range chans {
-		select {
-		case _, ok := <-ch:
-			if !ok {
-				closedCount = closedCount + 1
-			}
-		case <-time.After(time.Second):
-			// we blocked, likely indicative that the channel is open.
-			continue
+	for _, q := range queues {
+		if q.closed {
+			closedCount = closedCount + 1
 		}
 	}
-	if wantClosed := len(chans) - 1; wantClosed != closedCount {
+	if wantClosed := len(queues) - 1; wantClosed != closedCount {
 		t.Errorf("closed count mismatch, got %d want %d", closedCount, wantClosed)
 	}
 }
@@ -364,11 +357,11 @@ func TestConnection_Receiver(t *testing.T) {
 		}
 		conn := router.conn
 		// use openWithRetry to get the reference to the channel and add our test pending write.
-		_, ch, _ := pool.openWithRetry(conn)
+		_, queue, _ := pool.openWithRetry(conn)
 		pw := newPendingWrite(ctx, ms, &storagepb.AppendRowsRequest{}, nil, "", "")
 		pw.writer = ms
 		pw.attemptCount = 1 // we're injecting directly, but attribute this as a single attempt.
-		ch <- pw
+		queue.enqueue(pw)
 
 		// Wait until the write is marked done.
 		<-pw.result.Ready()
