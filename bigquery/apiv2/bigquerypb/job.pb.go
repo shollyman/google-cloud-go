@@ -165,8 +165,6 @@ func (ListJobsRequest_StateFilter) EnumDescriptor() ([]byte, []int) {
 }
 
 // Job Creation Mode provides different options on job creation.
-//
-// This feature is not yet available. Jobs will always be created.
 type QueryRequest_JobCreationMode int32
 
 const (
@@ -252,10 +250,8 @@ type Job struct {
 	// requesting party. Populated for both first- and third-party identities.
 	// Only present for APIs that support third-party identities.
 	PrincipalSubject string `protobuf:"bytes,13,opt,name=principal_subject,json=principalSubject,proto3" json:"principal_subject,omitempty"`
-	// Output only. If set, it provides the reason why a Job was created.
-	// If not set, it should be treated as the default: REQUESTED.
-	//
-	// This feature is not yet available. Jobs will always be created.
+	// Output only. The reason why a Job was created.
+	// [Preview](/products/#product-launch-stages)
 	JobCreationReason *JobCreationReason `protobuf:"bytes,14,opt,name=job_creation_reason,json=jobCreationReason,proto3" json:"job_creation_reason,omitempty"`
 }
 
@@ -1536,9 +1532,7 @@ type QueryRequest struct {
 	// Optional. If not set, jobs are always required.
 	//
 	// If set, the query request will follow the behavior described
-	// JobCreationMode.
-	//
-	// This feature is not yet available. Jobs will always be created.
+	// JobCreationMode. [Preview](/products/#product-launch-stages)
 	JobCreationMode QueryRequest_JobCreationMode `protobuf:"varint,22,opt,name=job_creation_mode,json=jobCreationMode,proto3,enum=google.cloud.bigquery.v2.QueryRequest_JobCreationMode" json:"job_creation_mode,omitempty"`
 }
 
@@ -1715,23 +1709,18 @@ type QueryResponse struct {
 	// GetQueryResults can be used to read the results once the query has
 	// completed. Since this API only returns the first page of results,
 	// subsequent pages can be fetched via the same mechanism (GetQueryResults).
+	//
+	// If job_creation_mode was set to `JOB_CREATION_OPTIONAL` and the query
+	// completes without creating a job, this field will be empty.
 	JobReference *JobReference `protobuf:"bytes,3,opt,name=job_reference,json=jobReference,proto3" json:"job_reference,omitempty"`
-	// Optional. Only relevant when a job_reference is present in the response.
-	// If job_reference is not present it will always be unset. When job_reference
-	// is present, this field should be interpreted as follows:
+	// Optional. The reason why a Job was created.
 	//
-	// If set, it will provide the reason of why a Job was created.
-	//
-	// If not set, it should be treated as the default: REQUESTED.
-	//
-	// This feature is not yet available. Jobs will always be created.
+	// Only relevant when a job_reference is present in the response.
+	// If job_reference is not present it will always be unset.
+	// [Preview](/products/#product-launch-stages)
 	JobCreationReason *JobCreationReason `protobuf:"bytes,15,opt,name=job_creation_reason,json=jobCreationReason,proto3" json:"job_creation_reason,omitempty"`
-	// Query ID for the completed query.
-	//
-	// This ID will be auto-generated.
-	//
-	// This field is not yet available and it is currently not guaranteed to be
-	// populated.
+	// Auto-generated ID for the query.
+	// [Preview](/products/#product-launch-stages)
 	QueryId string `protobuf:"bytes,14,opt,name=query_id,json=queryId,proto3" json:"query_id,omitempty"`
 	// The total number of rows in the complete query result set, which can be
 	// more than the number of rows in this single page of results.

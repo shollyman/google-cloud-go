@@ -25,23 +25,6 @@ import (
 	"google.golang.org/protobuf/types/known/wrapperspb"
 )
 
-func ExampleNewRoutineClient() {
-	ctx := context.Background()
-	// This snippet has been automatically generated and should be regarded as a code template only.
-	// It will require modifications to work:
-	// - It may require correct/in-range values for request initialization.
-	// - It may require specifying regional endpoints when creating the service client as shown in:
-	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
-	c, err := bigquery.NewRoutineClient(ctx)
-	if err != nil {
-		// TODO: Handle error.
-	}
-	defer c.Close()
-
-	// TODO: Use client.
-	_ = c
-}
-
 func ExampleNewRoutineRESTClient() {
 	ctx := context.Background()
 	// This snippet has been automatically generated and should be regarded as a code template only.
@@ -66,7 +49,7 @@ func ExampleRoutineClient_DeleteRoutine() {
 	// - It may require correct/in-range values for request initialization.
 	// - It may require specifying regional endpoints when creating the service client as shown in:
 	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
-	c, err := bigquery.NewRoutineClient(ctx)
+	c, err := bigquery.NewRoutineRESTClient(ctx)
 	if err != nil {
 		// TODO: Handle error.
 	}
@@ -89,7 +72,7 @@ func ExampleRoutineClient_GetRoutine() {
 	// - It may require correct/in-range values for request initialization.
 	// - It may require specifying regional endpoints when creating the service client as shown in:
 	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
-	c, err := bigquery.NewRoutineClient(ctx)
+	c, err := bigquery.NewRoutineRESTClient(ctx)
 	if err != nil {
 		// TODO: Handle error.
 	}
@@ -114,7 +97,7 @@ func ExampleRoutineClient_InsertRoutine() {
 	// - It may require correct/in-range values for request initialization.
 	// - It may require specifying regional endpoints when creating the service client as shown in:
 	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
-	c, err := bigquery.NewRoutineClient(ctx)
+	c, err := bigquery.NewRoutineRESTClient(ctx)
 	if err != nil {
 		// TODO: Handle error.
 	}
@@ -139,7 +122,7 @@ func ExampleRoutineClient_ListRoutines() {
 	// - It may require correct/in-range values for request initialization.
 	// - It may require specifying regional endpoints when creating the service client as shown in:
 	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
-	c, err := bigquery.NewRoutineClient(ctx)
+	c, err := bigquery.NewRoutineRESTClient(ctx)
 	if err != nil {
 		// TODO: Handle error.
 	}
@@ -176,7 +159,7 @@ func ExampleRoutineClient_PatchRoutine() {
 	// - It may require correct/in-range values for request initialization.
 	// - It may require specifying regional endpoints when creating the service client as shown in:
 	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
-	c, err := bigquery.NewRoutineClient(ctx)
+	c, err := bigquery.NewRoutineRESTClient(ctx)
 	if err != nil {
 		// TODO: Handle error.
 	}
@@ -201,7 +184,7 @@ func ExampleRoutineClient_UpdateRoutine() {
 	// - It may require correct/in-range values for request initialization.
 	// - It may require specifying regional endpoints when creating the service client as shown in:
 	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
-	c, err := bigquery.NewRoutineClient(ctx)
+	c, err := bigquery.NewRoutineRESTClient(ctx)
 	if err != nil {
 		// TODO: Handle error.
 	}

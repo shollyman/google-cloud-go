@@ -20,16 +20,15 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"math"
 	"net/http"
 	"net/url"
+	"time"
 
 	bigquerypb "cloud.google.com/go/bigquery/apiv2/bigquerypb"
 	gax "github.com/googleapis/gax-go/v2"
 	"google.golang.org/api/googleapi"
 	"google.golang.org/api/option"
 	"google.golang.org/api/option/internaloption"
-	gtransport "google.golang.org/api/transport/grpc"
 	httptransport "google.golang.org/api/transport/http"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -42,34 +41,25 @@ type ProjectCallOptions struct {
 	GetServiceAccount []gax.CallOption
 }
 
-func defaultProjectGRPCClientOptions() []option.ClientOption {
-	return []option.ClientOption{
-		internaloption.WithDefaultEndpoint("bigquery.googleapis.com:443"),
-		internaloption.WithDefaultEndpointTemplate("bigquery.UNIVERSE_DOMAIN:443"),
-		internaloption.WithDefaultMTLSEndpoint("bigquery.mtls.googleapis.com:443"),
-		internaloption.WithDefaultUniverseDomain("googleapis.com"),
-		internaloption.WithDefaultAudience("https://bigquery.googleapis.com/"),
-		internaloption.WithDefaultScopes(DefaultAuthScopes()...),
-		internaloption.EnableJwtWithScope(),
-		internaloption.EnableNewAuthLibrary(),
-		option.WithGRPCDialOption(grpc.WithDefaultCallOptions(
-			grpc.MaxCallRecvMsgSize(math.MaxInt32))),
-	}
-}
-
-func defaultProjectCallOptions() *ProjectCallOptions {
-	return &ProjectCallOptions{
-		GetServiceAccount: []gax.CallOption{},
-	}
-}
-
 func defaultProjectRESTCallOptions() *ProjectCallOptions {
 	return &ProjectCallOptions{
-		GetServiceAccount: []gax.CallOption{},
+		GetServiceAccount: []gax.CallOption{
+			gax.WithTimeout(64000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnHTTPCodes(gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				},
+					http.StatusGatewayTimeout,
+					http.StatusServiceUnavailable,
+					http.StatusTooManyRequests)
+			}),
+		},
 	}
 }
 
-// internalProjectClient is an interface that defines the methods available from .
+// internalProjectClient is an interface that defines the methods available from BigQuery API.
 type internalProjectClient interface {
 	Close() error
 	setGoogleClientInfo(...string)
@@ -77,7 +67,7 @@ type internalProjectClient interface {
 	GetServiceAccount(context.Context, *bigquerypb.GetServiceAccountRequest, ...gax.CallOption) (*bigquerypb.GetServiceAccountResponse, error)
 }
 
-// ProjectClient is a client for interacting with .
+// ProjectClient is a client for interacting with BigQuery API.
 // Methods, except Close, may be called concurrently. However, fields must not be modified concurrently with method calls.
 //
 // This is an experimental RPC service definition for the BigQuery
@@ -119,83 +109,6 @@ func (c *ProjectClient) Connection() *grpc.ClientConn {
 // Google Cloud KMS
 func (c *ProjectClient) GetServiceAccount(ctx context.Context, req *bigquerypb.GetServiceAccountRequest, opts ...gax.CallOption) (*bigquerypb.GetServiceAccountResponse, error) {
 	return c.internalClient.GetServiceAccount(ctx, req, opts...)
-}
-
-// projectGRPCClient is a client for interacting with  over gRPC transport.
-//
-// Methods, except Close, may be called concurrently. However, fields must not be modified concurrently with method calls.
-type projectGRPCClient struct {
-	// Connection pool of gRPC connections to the service.
-	connPool gtransport.ConnPool
-
-	// Points back to the CallOptions field of the containing ProjectClient
-	CallOptions **ProjectCallOptions
-
-	// The gRPC API client.
-	projectClient bigquerypb.ProjectServiceClient
-
-	// The x-goog-* metadata to be sent with each request.
-	xGoogHeaders []string
-}
-
-// NewProjectClient creates a new project service client based on gRPC.
-// The returned client must be Closed when it is done being used to clean up its underlying connections.
-//
-// This is an experimental RPC service definition for the BigQuery
-// Project Service.
-//
-// It should not be relied on for production use cases at this time.
-func NewProjectClient(ctx context.Context, opts ...option.ClientOption) (*ProjectClient, error) {
-	clientOpts := defaultProjectGRPCClientOptions()
-	if newProjectClientHook != nil {
-		hookOpts, err := newProjectClientHook(ctx, clientHookParams{})
-		if err != nil {
-			return nil, err
-		}
-		clientOpts = append(clientOpts, hookOpts...)
-	}
-
-	connPool, err := gtransport.DialPool(ctx, append(clientOpts, opts...)...)
-	if err != nil {
-		return nil, err
-	}
-	client := ProjectClient{CallOptions: defaultProjectCallOptions()}
-
-	c := &projectGRPCClient{
-		connPool:      connPool,
-		projectClient: bigquerypb.NewProjectServiceClient(connPool),
-		CallOptions:   &client.CallOptions,
-	}
-	c.setGoogleClientInfo()
-
-	client.internalClient = c
-
-	return &client, nil
-}
-
-// Connection returns a connection to the API service.
-//
-// Deprecated: Connections are now pooled so this method does not always
-// return the same resource.
-func (c *projectGRPCClient) Connection() *grpc.ClientConn {
-	return c.connPool.Conn()
-}
-
-// setGoogleClientInfo sets the name and version of the application in
-// the `x-goog-api-client` header passed on each request. Intended for
-// use by Google-written clients.
-func (c *projectGRPCClient) setGoogleClientInfo(keyval ...string) {
-	kv := append([]string{"gl-go", gax.GoVersion}, keyval...)
-	kv = append(kv, "gapic", getVersionClient(), "gax", gax.Version, "grpc", grpc.Version)
-	c.xGoogHeaders = []string{
-		"x-goog-api-client", gax.XGoogHeader(kv...),
-	}
-}
-
-// Close closes the connection to the API service. The user should invoke this when
-// the client is no longer required.
-func (c *projectGRPCClient) Close() error {
-	return c.connPool.Close()
 }
 
 // Methods, except Close, may be called concurrently. However, fields must not be modified concurrently with method calls.
@@ -273,23 +186,6 @@ func (c *projectRESTClient) Close() error {
 // Deprecated: This method always returns nil.
 func (c *projectRESTClient) Connection() *grpc.ClientConn {
 	return nil
-}
-func (c *projectGRPCClient) GetServiceAccount(ctx context.Context, req *bigquerypb.GetServiceAccountRequest, opts ...gax.CallOption) (*bigquerypb.GetServiceAccountResponse, error) {
-	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v", "project_id", url.QueryEscape(req.GetProjectId()))}
-
-	hds = append(c.xGoogHeaders, hds...)
-	ctx = gax.InsertMetadataIntoOutgoingContext(ctx, hds...)
-	opts = append((*c.CallOptions).GetServiceAccount[0:len((*c.CallOptions).GetServiceAccount):len((*c.CallOptions).GetServiceAccount)], opts...)
-	var resp *bigquerypb.GetServiceAccountResponse
-	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
-		var err error
-		resp, err = c.projectClient.GetServiceAccount(ctx, req, settings.GRPC...)
-		return err
-	}, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return resp, nil
 }
 
 // GetServiceAccount rPC to get the service account for a project used for interactions with

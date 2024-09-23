@@ -186,6 +186,13 @@ func (StandardSqlDataType_TypeKind) EnumDescriptor() ([]byte, []int) {
 //	    ]
 //	  }
 //	}
+//
+// * RANGE<DATE>:
+//
+//	{
+//	  "typeKind": "RANGE",
+//	  "rangeElementType": {"typeKind": "DATE"}
+//	}
 type StandardSqlDataType struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

@@ -24,6 +24,7 @@ import (
 	"math"
 	"net/http"
 	"net/url"
+	"time"
 
 	bigquerypb "cloud.google.com/go/bigquery/apiv2/bigquerypb"
 	gax "github.com/googleapis/gax-go/v2"
@@ -31,7 +32,6 @@ import (
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 	"google.golang.org/api/option/internaloption"
-	gtransport "google.golang.org/api/transport/grpc"
 	httptransport "google.golang.org/api/transport/http"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -49,40 +49,52 @@ type ModelCallOptions struct {
 	DeleteModel []gax.CallOption
 }
 
-func defaultModelGRPCClientOptions() []option.ClientOption {
-	return []option.ClientOption{
-		internaloption.WithDefaultEndpoint("bigquery.googleapis.com:443"),
-		internaloption.WithDefaultEndpointTemplate("bigquery.UNIVERSE_DOMAIN:443"),
-		internaloption.WithDefaultMTLSEndpoint("bigquery.mtls.googleapis.com:443"),
-		internaloption.WithDefaultUniverseDomain("googleapis.com"),
-		internaloption.WithDefaultAudience("https://bigquery.googleapis.com/"),
-		internaloption.WithDefaultScopes(DefaultAuthScopes()...),
-		internaloption.EnableJwtWithScope(),
-		internaloption.EnableNewAuthLibrary(),
-		option.WithGRPCDialOption(grpc.WithDefaultCallOptions(
-			grpc.MaxCallRecvMsgSize(math.MaxInt32))),
-	}
-}
-
-func defaultModelCallOptions() *ModelCallOptions {
-	return &ModelCallOptions{
-		GetModel:    []gax.CallOption{},
-		ListModels:  []gax.CallOption{},
-		PatchModel:  []gax.CallOption{},
-		DeleteModel: []gax.CallOption{},
-	}
-}
-
 func defaultModelRESTCallOptions() *ModelCallOptions {
 	return &ModelCallOptions{
-		GetModel:    []gax.CallOption{},
-		ListModels:  []gax.CallOption{},
-		PatchModel:  []gax.CallOption{},
-		DeleteModel: []gax.CallOption{},
+		GetModel: []gax.CallOption{},
+		ListModels: []gax.CallOption{
+			gax.WithTimeout(64000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnHTTPCodes(gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				},
+					http.StatusGatewayTimeout,
+					http.StatusServiceUnavailable,
+					http.StatusTooManyRequests)
+			}),
+		},
+		PatchModel: []gax.CallOption{
+			gax.WithTimeout(64000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnHTTPCodes(gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				},
+					http.StatusGatewayTimeout,
+					http.StatusServiceUnavailable,
+					http.StatusTooManyRequests)
+			}),
+		},
+		DeleteModel: []gax.CallOption{
+			gax.WithTimeout(64000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnHTTPCodes(gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				},
+					http.StatusGatewayTimeout,
+					http.StatusServiceUnavailable,
+					http.StatusTooManyRequests)
+			}),
+		},
 	}
 }
 
-// internalModelClient is an interface that defines the methods available from .
+// internalModelClient is an interface that defines the methods available from BigQuery API.
 type internalModelClient interface {
 	Close() error
 	setGoogleClientInfo(...string)
@@ -93,7 +105,7 @@ type internalModelClient interface {
 	DeleteModel(context.Context, *bigquerypb.DeleteModelRequest, ...gax.CallOption) error
 }
 
-// ModelClient is a client for interacting with .
+// ModelClient is a client for interacting with BigQuery API.
 // Methods, except Close, may be called concurrently. However, fields must not be modified concurrently with method calls.
 //
 // This is an experimental RPC service definition for the BigQuery
@@ -151,83 +163,6 @@ func (c *ModelClient) PatchModel(ctx context.Context, req *bigquerypb.PatchModel
 // DeleteModel deletes the model specified by modelId from the dataset.
 func (c *ModelClient) DeleteModel(ctx context.Context, req *bigquerypb.DeleteModelRequest, opts ...gax.CallOption) error {
 	return c.internalClient.DeleteModel(ctx, req, opts...)
-}
-
-// modelGRPCClient is a client for interacting with  over gRPC transport.
-//
-// Methods, except Close, may be called concurrently. However, fields must not be modified concurrently with method calls.
-type modelGRPCClient struct {
-	// Connection pool of gRPC connections to the service.
-	connPool gtransport.ConnPool
-
-	// Points back to the CallOptions field of the containing ModelClient
-	CallOptions **ModelCallOptions
-
-	// The gRPC API client.
-	modelClient bigquerypb.ModelServiceClient
-
-	// The x-goog-* metadata to be sent with each request.
-	xGoogHeaders []string
-}
-
-// NewModelClient creates a new model service client based on gRPC.
-// The returned client must be Closed when it is done being used to clean up its underlying connections.
-//
-// This is an experimental RPC service definition for the BigQuery
-// Model Service.
-//
-// It should not be relied on for production use cases at this time.
-func NewModelClient(ctx context.Context, opts ...option.ClientOption) (*ModelClient, error) {
-	clientOpts := defaultModelGRPCClientOptions()
-	if newModelClientHook != nil {
-		hookOpts, err := newModelClientHook(ctx, clientHookParams{})
-		if err != nil {
-			return nil, err
-		}
-		clientOpts = append(clientOpts, hookOpts...)
-	}
-
-	connPool, err := gtransport.DialPool(ctx, append(clientOpts, opts...)...)
-	if err != nil {
-		return nil, err
-	}
-	client := ModelClient{CallOptions: defaultModelCallOptions()}
-
-	c := &modelGRPCClient{
-		connPool:    connPool,
-		modelClient: bigquerypb.NewModelServiceClient(connPool),
-		CallOptions: &client.CallOptions,
-	}
-	c.setGoogleClientInfo()
-
-	client.internalClient = c
-
-	return &client, nil
-}
-
-// Connection returns a connection to the API service.
-//
-// Deprecated: Connections are now pooled so this method does not always
-// return the same resource.
-func (c *modelGRPCClient) Connection() *grpc.ClientConn {
-	return c.connPool.Conn()
-}
-
-// setGoogleClientInfo sets the name and version of the application in
-// the `x-goog-api-client` header passed on each request. Intended for
-// use by Google-written clients.
-func (c *modelGRPCClient) setGoogleClientInfo(keyval ...string) {
-	kv := append([]string{"gl-go", gax.GoVersion}, keyval...)
-	kv = append(kv, "gapic", getVersionClient(), "gax", gax.Version, "grpc", grpc.Version)
-	c.xGoogHeaders = []string{
-		"x-goog-api-client", gax.XGoogHeader(kv...),
-	}
-}
-
-// Close closes the connection to the API service. The user should invoke this when
-// the client is no longer required.
-func (c *modelGRPCClient) Close() error {
-	return c.connPool.Close()
 }
 
 // Methods, except Close, may be called concurrently. However, fields must not be modified concurrently with method calls.
@@ -305,103 +240,6 @@ func (c *modelRESTClient) Close() error {
 // Deprecated: This method always returns nil.
 func (c *modelRESTClient) Connection() *grpc.ClientConn {
 	return nil
-}
-func (c *modelGRPCClient) GetModel(ctx context.Context, req *bigquerypb.GetModelRequest, opts ...gax.CallOption) (*bigquerypb.Model, error) {
-	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "dataset_id", url.QueryEscape(req.GetDatasetId()), "model_id", url.QueryEscape(req.GetModelId()))}
-
-	hds = append(c.xGoogHeaders, hds...)
-	ctx = gax.InsertMetadataIntoOutgoingContext(ctx, hds...)
-	opts = append((*c.CallOptions).GetModel[0:len((*c.CallOptions).GetModel):len((*c.CallOptions).GetModel)], opts...)
-	var resp *bigquerypb.Model
-	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
-		var err error
-		resp, err = c.modelClient.GetModel(ctx, req, settings.GRPC...)
-		return err
-	}, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return resp, nil
-}
-
-func (c *modelGRPCClient) ListModels(ctx context.Context, req *bigquerypb.ListModelsRequest, opts ...gax.CallOption) *ModelIterator {
-	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "dataset_id", url.QueryEscape(req.GetDatasetId()))}
-
-	hds = append(c.xGoogHeaders, hds...)
-	ctx = gax.InsertMetadataIntoOutgoingContext(ctx, hds...)
-	opts = append((*c.CallOptions).ListModels[0:len((*c.CallOptions).ListModels):len((*c.CallOptions).ListModels)], opts...)
-	it := &ModelIterator{}
-	req = proto.Clone(req).(*bigquerypb.ListModelsRequest)
-	it.InternalFetch = func(pageSize int, pageToken string) ([]*bigquerypb.Model, string, error) {
-		resp := &bigquerypb.ListModelsResponse{}
-		if pageToken != "" {
-			req.PageToken = pageToken
-		}
-		if pageSize > math.MaxInt32 {
-			req.MaxResults = &wrapperspb.UInt32Value{Value: uint32(math.MaxInt32)}
-		} else if pageSize != 0 {
-			req.MaxResults = &wrapperspb.UInt32Value{Value: uint32(pageSize)}
-		}
-		err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
-			var err error
-			resp, err = c.modelClient.ListModels(ctx, req, settings.GRPC...)
-			return err
-		}, opts...)
-		if err != nil {
-			return nil, "", err
-		}
-
-		it.Response = resp
-		return resp.GetModels(), resp.GetNextPageToken(), nil
-	}
-	fetch := func(pageSize int, pageToken string) (string, error) {
-		items, nextPageToken, err := it.InternalFetch(pageSize, pageToken)
-		if err != nil {
-			return "", err
-		}
-		it.items = append(it.items, items...)
-		return nextPageToken, nil
-	}
-
-	it.pageInfo, it.nextFunc = iterator.NewPageInfo(fetch, it.bufLen, it.takeBuf)
-	if psVal := req.GetMaxResults(); psVal != nil {
-		it.pageInfo.MaxSize = int(psVal.GetValue())
-	}
-	it.pageInfo.Token = req.GetPageToken()
-
-	return it
-}
-
-func (c *modelGRPCClient) PatchModel(ctx context.Context, req *bigquerypb.PatchModelRequest, opts ...gax.CallOption) (*bigquerypb.Model, error) {
-	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "dataset_id", url.QueryEscape(req.GetDatasetId()), "model_id", url.QueryEscape(req.GetModelId()))}
-
-	hds = append(c.xGoogHeaders, hds...)
-	ctx = gax.InsertMetadataIntoOutgoingContext(ctx, hds...)
-	opts = append((*c.CallOptions).PatchModel[0:len((*c.CallOptions).PatchModel):len((*c.CallOptions).PatchModel)], opts...)
-	var resp *bigquerypb.Model
-	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
-		var err error
-		resp, err = c.modelClient.PatchModel(ctx, req, settings.GRPC...)
-		return err
-	}, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return resp, nil
-}
-
-func (c *modelGRPCClient) DeleteModel(ctx context.Context, req *bigquerypb.DeleteModelRequest, opts ...gax.CallOption) error {
-	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "dataset_id", url.QueryEscape(req.GetDatasetId()), "model_id", url.QueryEscape(req.GetModelId()))}
-
-	hds = append(c.xGoogHeaders, hds...)
-	ctx = gax.InsertMetadataIntoOutgoingContext(ctx, hds...)
-	opts = append((*c.CallOptions).DeleteModel[0:len((*c.CallOptions).DeleteModel):len((*c.CallOptions).DeleteModel)], opts...)
-	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
-		var err error
-		_, err = c.modelClient.DeleteModel(ctx, req, settings.GRPC...)
-		return err
-	}, opts...)
-	return err
 }
 
 // GetModel gets the specified model resource by model ID.

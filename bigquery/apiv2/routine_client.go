@@ -24,6 +24,7 @@ import (
 	"math"
 	"net/http"
 	"net/url"
+	"time"
 
 	bigquerypb "cloud.google.com/go/bigquery/apiv2/bigquerypb"
 	gax "github.com/googleapis/gax-go/v2"
@@ -31,7 +32,6 @@ import (
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 	"google.golang.org/api/option/internaloption"
-	gtransport "google.golang.org/api/transport/grpc"
 	httptransport "google.golang.org/api/transport/http"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -51,44 +51,90 @@ type RoutineCallOptions struct {
 	ListRoutines  []gax.CallOption
 }
 
-func defaultRoutineGRPCClientOptions() []option.ClientOption {
-	return []option.ClientOption{
-		internaloption.WithDefaultEndpoint("bigquery.googleapis.com:443"),
-		internaloption.WithDefaultEndpointTemplate("bigquery.UNIVERSE_DOMAIN:443"),
-		internaloption.WithDefaultMTLSEndpoint("bigquery.mtls.googleapis.com:443"),
-		internaloption.WithDefaultUniverseDomain("googleapis.com"),
-		internaloption.WithDefaultAudience("https://bigquery.googleapis.com/"),
-		internaloption.WithDefaultScopes(DefaultAuthScopes()...),
-		internaloption.EnableJwtWithScope(),
-		internaloption.EnableNewAuthLibrary(),
-		option.WithGRPCDialOption(grpc.WithDefaultCallOptions(
-			grpc.MaxCallRecvMsgSize(math.MaxInt32))),
-	}
-}
-
-func defaultRoutineCallOptions() *RoutineCallOptions {
-	return &RoutineCallOptions{
-		GetRoutine:    []gax.CallOption{},
-		InsertRoutine: []gax.CallOption{},
-		UpdateRoutine: []gax.CallOption{},
-		PatchRoutine:  []gax.CallOption{},
-		DeleteRoutine: []gax.CallOption{},
-		ListRoutines:  []gax.CallOption{},
-	}
-}
-
 func defaultRoutineRESTCallOptions() *RoutineCallOptions {
 	return &RoutineCallOptions{
-		GetRoutine:    []gax.CallOption{},
-		InsertRoutine: []gax.CallOption{},
-		UpdateRoutine: []gax.CallOption{},
-		PatchRoutine:  []gax.CallOption{},
-		DeleteRoutine: []gax.CallOption{},
-		ListRoutines:  []gax.CallOption{},
+		GetRoutine: []gax.CallOption{
+			gax.WithTimeout(64000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnHTTPCodes(gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				},
+					http.StatusGatewayTimeout,
+					http.StatusServiceUnavailable,
+					http.StatusTooManyRequests)
+			}),
+		},
+		InsertRoutine: []gax.CallOption{
+			gax.WithTimeout(240000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnHTTPCodes(gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				},
+					http.StatusGatewayTimeout,
+					http.StatusServiceUnavailable,
+					http.StatusTooManyRequests)
+			}),
+		},
+		UpdateRoutine: []gax.CallOption{
+			gax.WithTimeout(240000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnHTTPCodes(gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				},
+					http.StatusGatewayTimeout,
+					http.StatusServiceUnavailable,
+					http.StatusTooManyRequests)
+			}),
+		},
+		PatchRoutine: []gax.CallOption{
+			gax.WithTimeout(240000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnHTTPCodes(gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				},
+					http.StatusGatewayTimeout,
+					http.StatusServiceUnavailable,
+					http.StatusTooManyRequests)
+			}),
+		},
+		DeleteRoutine: []gax.CallOption{
+			gax.WithTimeout(240000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnHTTPCodes(gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				},
+					http.StatusGatewayTimeout,
+					http.StatusServiceUnavailable,
+					http.StatusTooManyRequests)
+			}),
+		},
+		ListRoutines: []gax.CallOption{
+			gax.WithTimeout(64000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnHTTPCodes(gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				},
+					http.StatusGatewayTimeout,
+					http.StatusServiceUnavailable,
+					http.StatusTooManyRequests)
+			}),
+		},
 	}
 }
 
-// internalRoutineClient is an interface that defines the methods available from .
+// internalRoutineClient is an interface that defines the methods available from BigQuery API.
 type internalRoutineClient interface {
 	Close() error
 	setGoogleClientInfo(...string)
@@ -101,7 +147,7 @@ type internalRoutineClient interface {
 	ListRoutines(context.Context, *bigquerypb.ListRoutinesRequest, ...gax.CallOption) *RoutineIterator
 }
 
-// RoutineClient is a client for interacting with .
+// RoutineClient is a client for interacting with BigQuery API.
 // Methods, except Close, may be called concurrently. However, fields must not be modified concurrently with method calls.
 //
 // This is an experimental RPC service definition for the BigQuery
@@ -170,83 +216,6 @@ func (c *RoutineClient) DeleteRoutine(ctx context.Context, req *bigquerypb.Delet
 // role.
 func (c *RoutineClient) ListRoutines(ctx context.Context, req *bigquerypb.ListRoutinesRequest, opts ...gax.CallOption) *RoutineIterator {
 	return c.internalClient.ListRoutines(ctx, req, opts...)
-}
-
-// routineGRPCClient is a client for interacting with  over gRPC transport.
-//
-// Methods, except Close, may be called concurrently. However, fields must not be modified concurrently with method calls.
-type routineGRPCClient struct {
-	// Connection pool of gRPC connections to the service.
-	connPool gtransport.ConnPool
-
-	// Points back to the CallOptions field of the containing RoutineClient
-	CallOptions **RoutineCallOptions
-
-	// The gRPC API client.
-	routineClient bigquerypb.RoutineServiceClient
-
-	// The x-goog-* metadata to be sent with each request.
-	xGoogHeaders []string
-}
-
-// NewRoutineClient creates a new routine service client based on gRPC.
-// The returned client must be Closed when it is done being used to clean up its underlying connections.
-//
-// This is an experimental RPC service definition for the BigQuery
-// Routine Service.
-//
-// It should not be relied on for production use cases at this time.
-func NewRoutineClient(ctx context.Context, opts ...option.ClientOption) (*RoutineClient, error) {
-	clientOpts := defaultRoutineGRPCClientOptions()
-	if newRoutineClientHook != nil {
-		hookOpts, err := newRoutineClientHook(ctx, clientHookParams{})
-		if err != nil {
-			return nil, err
-		}
-		clientOpts = append(clientOpts, hookOpts...)
-	}
-
-	connPool, err := gtransport.DialPool(ctx, append(clientOpts, opts...)...)
-	if err != nil {
-		return nil, err
-	}
-	client := RoutineClient{CallOptions: defaultRoutineCallOptions()}
-
-	c := &routineGRPCClient{
-		connPool:      connPool,
-		routineClient: bigquerypb.NewRoutineServiceClient(connPool),
-		CallOptions:   &client.CallOptions,
-	}
-	c.setGoogleClientInfo()
-
-	client.internalClient = c
-
-	return &client, nil
-}
-
-// Connection returns a connection to the API service.
-//
-// Deprecated: Connections are now pooled so this method does not always
-// return the same resource.
-func (c *routineGRPCClient) Connection() *grpc.ClientConn {
-	return c.connPool.Conn()
-}
-
-// setGoogleClientInfo sets the name and version of the application in
-// the `x-goog-api-client` header passed on each request. Intended for
-// use by Google-written clients.
-func (c *routineGRPCClient) setGoogleClientInfo(keyval ...string) {
-	kv := append([]string{"gl-go", gax.GoVersion}, keyval...)
-	kv = append(kv, "gapic", getVersionClient(), "gax", gax.Version, "grpc", grpc.Version)
-	c.xGoogHeaders = []string{
-		"x-goog-api-client", gax.XGoogHeader(kv...),
-	}
-}
-
-// Close closes the connection to the API service. The user should invoke this when
-// the client is no longer required.
-func (c *routineGRPCClient) Close() error {
-	return c.connPool.Close()
 }
 
 // Methods, except Close, may be called concurrently. However, fields must not be modified concurrently with method calls.
@@ -324,136 +293,6 @@ func (c *routineRESTClient) Close() error {
 // Deprecated: This method always returns nil.
 func (c *routineRESTClient) Connection() *grpc.ClientConn {
 	return nil
-}
-func (c *routineGRPCClient) GetRoutine(ctx context.Context, req *bigquerypb.GetRoutineRequest, opts ...gax.CallOption) (*bigquerypb.Routine, error) {
-	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "dataset_id", url.QueryEscape(req.GetDatasetId()), "routine_id", url.QueryEscape(req.GetRoutineId()))}
-
-	hds = append(c.xGoogHeaders, hds...)
-	ctx = gax.InsertMetadataIntoOutgoingContext(ctx, hds...)
-	opts = append((*c.CallOptions).GetRoutine[0:len((*c.CallOptions).GetRoutine):len((*c.CallOptions).GetRoutine)], opts...)
-	var resp *bigquerypb.Routine
-	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
-		var err error
-		resp, err = c.routineClient.GetRoutine(ctx, req, settings.GRPC...)
-		return err
-	}, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return resp, nil
-}
-
-func (c *routineGRPCClient) InsertRoutine(ctx context.Context, req *bigquerypb.InsertRoutineRequest, opts ...gax.CallOption) (*bigquerypb.Routine, error) {
-	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "dataset_id", url.QueryEscape(req.GetDatasetId()))}
-
-	hds = append(c.xGoogHeaders, hds...)
-	ctx = gax.InsertMetadataIntoOutgoingContext(ctx, hds...)
-	opts = append((*c.CallOptions).InsertRoutine[0:len((*c.CallOptions).InsertRoutine):len((*c.CallOptions).InsertRoutine)], opts...)
-	var resp *bigquerypb.Routine
-	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
-		var err error
-		resp, err = c.routineClient.InsertRoutine(ctx, req, settings.GRPC...)
-		return err
-	}, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return resp, nil
-}
-
-func (c *routineGRPCClient) UpdateRoutine(ctx context.Context, req *bigquerypb.UpdateRoutineRequest, opts ...gax.CallOption) (*bigquerypb.Routine, error) {
-	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "dataset_id", url.QueryEscape(req.GetDatasetId()), "routine_id", url.QueryEscape(req.GetRoutineId()))}
-
-	hds = append(c.xGoogHeaders, hds...)
-	ctx = gax.InsertMetadataIntoOutgoingContext(ctx, hds...)
-	opts = append((*c.CallOptions).UpdateRoutine[0:len((*c.CallOptions).UpdateRoutine):len((*c.CallOptions).UpdateRoutine)], opts...)
-	var resp *bigquerypb.Routine
-	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
-		var err error
-		resp, err = c.routineClient.UpdateRoutine(ctx, req, settings.GRPC...)
-		return err
-	}, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return resp, nil
-}
-
-func (c *routineGRPCClient) PatchRoutine(ctx context.Context, req *bigquerypb.PatchRoutineRequest, opts ...gax.CallOption) (*bigquerypb.Routine, error) {
-	ctx = gax.InsertMetadataIntoOutgoingContext(ctx, c.xGoogHeaders...)
-	opts = append((*c.CallOptions).PatchRoutine[0:len((*c.CallOptions).PatchRoutine):len((*c.CallOptions).PatchRoutine)], opts...)
-	var resp *bigquerypb.Routine
-	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
-		var err error
-		resp, err = c.routineClient.PatchRoutine(ctx, req, settings.GRPC...)
-		return err
-	}, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return resp, nil
-}
-
-func (c *routineGRPCClient) DeleteRoutine(ctx context.Context, req *bigquerypb.DeleteRoutineRequest, opts ...gax.CallOption) error {
-	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "dataset_id", url.QueryEscape(req.GetDatasetId()), "routine_id", url.QueryEscape(req.GetRoutineId()))}
-
-	hds = append(c.xGoogHeaders, hds...)
-	ctx = gax.InsertMetadataIntoOutgoingContext(ctx, hds...)
-	opts = append((*c.CallOptions).DeleteRoutine[0:len((*c.CallOptions).DeleteRoutine):len((*c.CallOptions).DeleteRoutine)], opts...)
-	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
-		var err error
-		_, err = c.routineClient.DeleteRoutine(ctx, req, settings.GRPC...)
-		return err
-	}, opts...)
-	return err
-}
-
-func (c *routineGRPCClient) ListRoutines(ctx context.Context, req *bigquerypb.ListRoutinesRequest, opts ...gax.CallOption) *RoutineIterator {
-	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "dataset_id", url.QueryEscape(req.GetDatasetId()))}
-
-	hds = append(c.xGoogHeaders, hds...)
-	ctx = gax.InsertMetadataIntoOutgoingContext(ctx, hds...)
-	opts = append((*c.CallOptions).ListRoutines[0:len((*c.CallOptions).ListRoutines):len((*c.CallOptions).ListRoutines)], opts...)
-	it := &RoutineIterator{}
-	req = proto.Clone(req).(*bigquerypb.ListRoutinesRequest)
-	it.InternalFetch = func(pageSize int, pageToken string) ([]*bigquerypb.Routine, string, error) {
-		resp := &bigquerypb.ListRoutinesResponse{}
-		if pageToken != "" {
-			req.PageToken = pageToken
-		}
-		if pageSize > math.MaxInt32 {
-			req.MaxResults = &wrapperspb.UInt32Value{Value: uint32(math.MaxInt32)}
-		} else if pageSize != 0 {
-			req.MaxResults = &wrapperspb.UInt32Value{Value: uint32(pageSize)}
-		}
-		err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
-			var err error
-			resp, err = c.routineClient.ListRoutines(ctx, req, settings.GRPC...)
-			return err
-		}, opts...)
-		if err != nil {
-			return nil, "", err
-		}
-
-		it.Response = resp
-		return resp.GetRoutines(), resp.GetNextPageToken(), nil
-	}
-	fetch := func(pageSize int, pageToken string) (string, error) {
-		items, nextPageToken, err := it.InternalFetch(pageSize, pageToken)
-		if err != nil {
-			return "", err
-		}
-		it.items = append(it.items, items...)
-		return nextPageToken, nil
-	}
-
-	it.pageInfo, it.nextFunc = iterator.NewPageInfo(fetch, it.bufLen, it.takeBuf)
-	if psVal := req.GetMaxResults(); psVal != nil {
-		it.pageInfo.MaxSize = int(psVal.GetValue())
-	}
-	it.pageInfo.Token = req.GetPageToken()
-
-	return it
 }
 
 // GetRoutine gets the specified routine resource by routine ID.
