@@ -108,7 +108,7 @@ func (JobCreationReason_Code) EnumDescriptor() ([]byte, []int) {
 // [`jobs.insert`](https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/insert)
 // method calls it will always be `REQUESTED`.
 //
-// [Preview](/products/#product-launch-stages)
+// [Preview](https://cloud.google.com/products/#product-launch-stages)
 type JobCreationReason struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

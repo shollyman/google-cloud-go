@@ -32,8 +32,10 @@ import (
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 	"google.golang.org/api/option/internaloption"
+	gtransport "google.golang.org/api/transport/grpc"
 	httptransport "google.golang.org/api/transport/http"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/wrapperspb"
@@ -50,6 +52,124 @@ type JobCallOptions struct {
 	ListJobs        []gax.CallOption
 	GetQueryResults []gax.CallOption
 	Query           []gax.CallOption
+}
+
+func defaultJobGRPCClientOptions() []option.ClientOption {
+	return []option.ClientOption{
+		internaloption.WithDefaultEndpoint("bigquery.googleapis.com:443"),
+		internaloption.WithDefaultEndpointTemplate("bigquery.UNIVERSE_DOMAIN:443"),
+		internaloption.WithDefaultMTLSEndpoint("bigquery.mtls.googleapis.com:443"),
+		internaloption.WithDefaultUniverseDomain("googleapis.com"),
+		internaloption.WithDefaultAudience("https://bigquery.googleapis.com/"),
+		internaloption.WithDefaultScopes(DefaultAuthScopes()...),
+		internaloption.EnableJwtWithScope(),
+		internaloption.EnableNewAuthLibrary(),
+		option.WithGRPCDialOption(grpc.WithDefaultCallOptions(
+			grpc.MaxCallRecvMsgSize(math.MaxInt32))),
+	}
+}
+
+func defaultJobCallOptions() *JobCallOptions {
+	return &JobCallOptions{
+		CancelJob: []gax.CallOption{
+			gax.WithTimeout(64000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnCodes([]codes.Code{
+					codes.DeadlineExceeded,
+					codes.Unavailable,
+					codes.ResourceExhausted,
+				}, gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				})
+			}),
+		},
+		GetJob: []gax.CallOption{
+			gax.WithTimeout(64000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnCodes([]codes.Code{
+					codes.DeadlineExceeded,
+					codes.Unavailable,
+					codes.ResourceExhausted,
+				}, gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				})
+			}),
+		},
+		InsertJob: []gax.CallOption{
+			gax.WithTimeout(240000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnCodes([]codes.Code{
+					codes.DeadlineExceeded,
+					codes.Unavailable,
+					codes.ResourceExhausted,
+				}, gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				})
+			}),
+		},
+		DeleteJob: []gax.CallOption{
+			gax.WithTimeout(64000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnCodes([]codes.Code{
+					codes.DeadlineExceeded,
+					codes.Unavailable,
+					codes.ResourceExhausted,
+				}, gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				})
+			}),
+		},
+		ListJobs: []gax.CallOption{
+			gax.WithTimeout(240000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnCodes([]codes.Code{
+					codes.DeadlineExceeded,
+					codes.Unavailable,
+					codes.ResourceExhausted,
+				}, gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				})
+			}),
+		},
+		GetQueryResults: []gax.CallOption{
+			gax.WithTimeout(240000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnCodes([]codes.Code{
+					codes.DeadlineExceeded,
+					codes.Unavailable,
+					codes.ResourceExhausted,
+				}, gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				})
+			}),
+		},
+		Query: []gax.CallOption{
+			gax.WithTimeout(240000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnCodes([]codes.Code{
+					codes.DeadlineExceeded,
+					codes.Unavailable,
+					codes.ResourceExhausted,
+				}, gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				})
+			}),
+		},
+	}
 }
 
 func defaultJobRESTCallOptions() *JobCallOptions {
@@ -256,6 +376,83 @@ func (c *JobClient) Query(ctx context.Context, req *bigquerypb.PostQueryRequest,
 	return c.internalClient.Query(ctx, req, opts...)
 }
 
+// jobGRPCClient is a client for interacting with BigQuery API over gRPC transport.
+//
+// Methods, except Close, may be called concurrently. However, fields must not be modified concurrently with method calls.
+type jobGRPCClient struct {
+	// Connection pool of gRPC connections to the service.
+	connPool gtransport.ConnPool
+
+	// Points back to the CallOptions field of the containing JobClient
+	CallOptions **JobCallOptions
+
+	// The gRPC API client.
+	jobClient bigquerypb.JobServiceClient
+
+	// The x-goog-* metadata to be sent with each request.
+	xGoogHeaders []string
+}
+
+// NewJobClient creates a new job service client based on gRPC.
+// The returned client must be Closed when it is done being used to clean up its underlying connections.
+//
+// This is an experimental RPC service definition for the BigQuery
+// Job Service.
+//
+// It should not be relied on for production use cases at this time.
+func NewJobClient(ctx context.Context, opts ...option.ClientOption) (*JobClient, error) {
+	clientOpts := defaultJobGRPCClientOptions()
+	if newJobClientHook != nil {
+		hookOpts, err := newJobClientHook(ctx, clientHookParams{})
+		if err != nil {
+			return nil, err
+		}
+		clientOpts = append(clientOpts, hookOpts...)
+	}
+
+	connPool, err := gtransport.DialPool(ctx, append(clientOpts, opts...)...)
+	if err != nil {
+		return nil, err
+	}
+	client := JobClient{CallOptions: defaultJobCallOptions()}
+
+	c := &jobGRPCClient{
+		connPool:    connPool,
+		jobClient:   bigquerypb.NewJobServiceClient(connPool),
+		CallOptions: &client.CallOptions,
+	}
+	c.setGoogleClientInfo()
+
+	client.internalClient = c
+
+	return &client, nil
+}
+
+// Connection returns a connection to the API service.
+//
+// Deprecated: Connections are now pooled so this method does not always
+// return the same resource.
+func (c *jobGRPCClient) Connection() *grpc.ClientConn {
+	return c.connPool.Conn()
+}
+
+// setGoogleClientInfo sets the name and version of the application in
+// the `x-goog-api-client` header passed on each request. Intended for
+// use by Google-written clients.
+func (c *jobGRPCClient) setGoogleClientInfo(keyval ...string) {
+	kv := append([]string{"gl-go", gax.GoVersion}, keyval...)
+	kv = append(kv, "gapic", getVersionClient(), "gax", gax.Version, "grpc", grpc.Version)
+	c.xGoogHeaders = []string{
+		"x-goog-api-client", gax.XGoogHeader(kv...),
+	}
+}
+
+// Close closes the connection to the API service. The user should invoke this when
+// the client is no longer required.
+func (c *jobGRPCClient) Close() error {
+	return c.connPool.Close()
+}
+
 // Methods, except Close, may be called concurrently. However, fields must not be modified concurrently with method calls.
 type jobRESTClient struct {
 	// The http endpoint to connect to.
@@ -331,6 +528,157 @@ func (c *jobRESTClient) Close() error {
 // Deprecated: This method always returns nil.
 func (c *jobRESTClient) Connection() *grpc.ClientConn {
 	return nil
+}
+func (c *jobGRPCClient) CancelJob(ctx context.Context, req *bigquerypb.CancelJobRequest, opts ...gax.CallOption) (*bigquerypb.JobCancelResponse, error) {
+	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "job_id", url.QueryEscape(req.GetJobId()))}
+
+	hds = append(c.xGoogHeaders, hds...)
+	ctx = gax.InsertMetadataIntoOutgoingContext(ctx, hds...)
+	opts = append((*c.CallOptions).CancelJob[0:len((*c.CallOptions).CancelJob):len((*c.CallOptions).CancelJob)], opts...)
+	var resp *bigquerypb.JobCancelResponse
+	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
+		var err error
+		resp, err = c.jobClient.CancelJob(ctx, req, settings.GRPC...)
+		return err
+	}, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+func (c *jobGRPCClient) GetJob(ctx context.Context, req *bigquerypb.GetJobRequest, opts ...gax.CallOption) (*bigquerypb.Job, error) {
+	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "job_id", url.QueryEscape(req.GetJobId()))}
+
+	hds = append(c.xGoogHeaders, hds...)
+	ctx = gax.InsertMetadataIntoOutgoingContext(ctx, hds...)
+	opts = append((*c.CallOptions).GetJob[0:len((*c.CallOptions).GetJob):len((*c.CallOptions).GetJob)], opts...)
+	var resp *bigquerypb.Job
+	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
+		var err error
+		resp, err = c.jobClient.GetJob(ctx, req, settings.GRPC...)
+		return err
+	}, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+func (c *jobGRPCClient) InsertJob(ctx context.Context, req *bigquerypb.InsertJobRequest, opts ...gax.CallOption) (*bigquerypb.Job, error) {
+	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v", "project_id", url.QueryEscape(req.GetProjectId()))}
+
+	hds = append(c.xGoogHeaders, hds...)
+	ctx = gax.InsertMetadataIntoOutgoingContext(ctx, hds...)
+	opts = append((*c.CallOptions).InsertJob[0:len((*c.CallOptions).InsertJob):len((*c.CallOptions).InsertJob)], opts...)
+	var resp *bigquerypb.Job
+	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
+		var err error
+		resp, err = c.jobClient.InsertJob(ctx, req, settings.GRPC...)
+		return err
+	}, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+func (c *jobGRPCClient) DeleteJob(ctx context.Context, req *bigquerypb.DeleteJobRequest, opts ...gax.CallOption) error {
+	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "job_id", url.QueryEscape(req.GetJobId()))}
+
+	hds = append(c.xGoogHeaders, hds...)
+	ctx = gax.InsertMetadataIntoOutgoingContext(ctx, hds...)
+	opts = append((*c.CallOptions).DeleteJob[0:len((*c.CallOptions).DeleteJob):len((*c.CallOptions).DeleteJob)], opts...)
+	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
+		var err error
+		_, err = c.jobClient.DeleteJob(ctx, req, settings.GRPC...)
+		return err
+	}, opts...)
+	return err
+}
+
+func (c *jobGRPCClient) ListJobs(ctx context.Context, req *bigquerypb.ListJobsRequest, opts ...gax.CallOption) *ListFormatJobIterator {
+	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v", "project_id", url.QueryEscape(req.GetProjectId()))}
+
+	hds = append(c.xGoogHeaders, hds...)
+	ctx = gax.InsertMetadataIntoOutgoingContext(ctx, hds...)
+	opts = append((*c.CallOptions).ListJobs[0:len((*c.CallOptions).ListJobs):len((*c.CallOptions).ListJobs)], opts...)
+	it := &ListFormatJobIterator{}
+	req = proto.Clone(req).(*bigquerypb.ListJobsRequest)
+	it.InternalFetch = func(pageSize int, pageToken string) ([]*bigquerypb.ListFormatJob, string, error) {
+		resp := &bigquerypb.JobList{}
+		if pageToken != "" {
+			req.PageToken = pageToken
+		}
+		if pageSize > math.MaxInt32 {
+			req.MaxResults = &wrapperspb.Int32Value{Value: math.MaxInt32}
+		} else if pageSize != 0 {
+			req.MaxResults = &wrapperspb.Int32Value{Value: int32(pageSize)}
+		}
+		err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
+			var err error
+			resp, err = c.jobClient.ListJobs(ctx, req, settings.GRPC...)
+			return err
+		}, opts...)
+		if err != nil {
+			return nil, "", err
+		}
+
+		it.Response = resp
+		return resp.GetJobs(), resp.GetNextPageToken(), nil
+	}
+	fetch := func(pageSize int, pageToken string) (string, error) {
+		items, nextPageToken, err := it.InternalFetch(pageSize, pageToken)
+		if err != nil {
+			return "", err
+		}
+		it.items = append(it.items, items...)
+		return nextPageToken, nil
+	}
+
+	it.pageInfo, it.nextFunc = iterator.NewPageInfo(fetch, it.bufLen, it.takeBuf)
+	if psVal := req.GetMaxResults(); psVal != nil {
+		it.pageInfo.MaxSize = int(psVal.GetValue())
+	}
+	it.pageInfo.Token = req.GetPageToken()
+
+	return it
+}
+
+func (c *jobGRPCClient) GetQueryResults(ctx context.Context, req *bigquerypb.GetQueryResultsRequest, opts ...gax.CallOption) (*bigquerypb.GetQueryResultsResponse, error) {
+	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "job_id", url.QueryEscape(req.GetJobId()))}
+
+	hds = append(c.xGoogHeaders, hds...)
+	ctx = gax.InsertMetadataIntoOutgoingContext(ctx, hds...)
+	opts = append((*c.CallOptions).GetQueryResults[0:len((*c.CallOptions).GetQueryResults):len((*c.CallOptions).GetQueryResults)], opts...)
+	var resp *bigquerypb.GetQueryResultsResponse
+	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
+		var err error
+		resp, err = c.jobClient.GetQueryResults(ctx, req, settings.GRPC...)
+		return err
+	}, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+func (c *jobGRPCClient) Query(ctx context.Context, req *bigquerypb.PostQueryRequest, opts ...gax.CallOption) (*bigquerypb.QueryResponse, error) {
+	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v", "project_id", url.QueryEscape(req.GetProjectId()))}
+
+	hds = append(c.xGoogHeaders, hds...)
+	ctx = gax.InsertMetadataIntoOutgoingContext(ctx, hds...)
+	opts = append((*c.CallOptions).Query[0:len((*c.CallOptions).Query):len((*c.CallOptions).Query)], opts...)
+	var resp *bigquerypb.QueryResponse
+	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
+		var err error
+		resp, err = c.jobClient.Query(ctx, req, settings.GRPC...)
+		return err
+	}, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
 }
 
 // CancelJob requests that a job be cancelled. This call will return immediately, and

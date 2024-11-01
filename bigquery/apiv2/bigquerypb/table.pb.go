@@ -838,7 +838,8 @@ type Table struct {
 	//   - `MATERIALIZED_VIEW`: A precomputed view defined by a SQL query.
 	//   - `SNAPSHOT`: An immutable BigQuery table that preserves the contents of a
 	//     base table at a particular time. See additional information on
-	//     [table snapshots](/bigquery/docs/table-snapshots-intro).
+	//     [table
+	//     snapshots](https://cloud.google.com/bigquery/docs/table-snapshots-intro).
 	//
 	// The default value is `TABLE`.
 	Type string `protobuf:"bytes,17,opt,name=type,proto3" json:"type,omitempty"`
@@ -922,17 +923,19 @@ type Table struct {
 	MaxStaleness string `protobuf:"bytes,41,opt,name=max_staleness,json=maxStaleness,proto3" json:"max_staleness,omitempty"`
 	// Optional. Output only. Restriction config for table. If set, restrict
 	// certain accesses on the table based on the config. See [Data
-	// egress](/bigquery/docs/analytics-hub-introduction#data_egress) for more
-	// details.
+	// egress](https://cloud.google.com/bigquery/docs/analytics-hub-introduction#data_egress)
+	// for more details.
 	Restrictions *RestrictionConfig `protobuf:"bytes,46,opt,name=restrictions,proto3" json:"restrictions,omitempty"`
 	// Optional. Tables Primary Key and Foreign Key information
 	TableConstraints *TableConstraints `protobuf:"bytes,47,opt,name=table_constraints,json=tableConstraints,proto3" json:"table_constraints,omitempty"`
-	// Optional. The [tags](/bigquery/docs/tags) attached to this table. Tag keys
-	// are globally unique. Tag key is expected to be in the namespaced format,
-	// for example "123456789012/environment" where 123456789012 is the ID of the
-	// parent organization or project resource for this tag key. Tag value is
-	// expected to be the short name, for example "Production". See [Tag
-	// definitions](/iam/docs/tags-access-control#definitions) for more details.
+	// Optional. The [tags](https://cloud.google.com/bigquery/docs/tags) attached
+	// to this table. Tag keys are globally unique. Tag key is expected to be in
+	// the namespaced format, for example "123456789012/environment" where
+	// 123456789012 is the ID of the parent organization or project resource for
+	// this tag key. Tag value is expected to be the short name, for example
+	// "Production". See [Tag
+	// definitions](https://cloud.google.com/iam/docs/tags-access-control#definitions)
+	// for more details.
 	ResourceTags map[string]string `protobuf:"bytes,48,rep,name=resource_tags,json=resourceTags,proto3" json:"resource_tags,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// Optional. Table replication info for table created `AS REPLICA` DDL like:
 	// `CREATE MATERIALIZED VIEW mv1 AS REPLICA OF src_mv`

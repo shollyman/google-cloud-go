@@ -42,8 +42,8 @@ const (
 	// Should never be used.
 	RestrictionConfig_RESTRICTION_TYPE_UNSPECIFIED RestrictionConfig_RestrictionType = 0
 	// Restrict data egress. See [Data
-	// egress](/bigquery/docs/analytics-hub-introduction#data_egress) for more
-	// details.
+	// egress](https://cloud.google.com/bigquery/docs/analytics-hub-introduction#data_egress)
+	// for more details.
 	RestrictionConfig_RESTRICTED_DATA_EGRESS RestrictionConfig_RestrictionType = 1
 )
 

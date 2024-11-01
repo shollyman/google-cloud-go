@@ -32,7 +32,7 @@ func ExampleRowAccessPolicyClient_ListRowAccessPolicies_all() {
 	// - It may require correct/in-range values for request initialization.
 	// - It may require specifying regional endpoints when creating the service client as shown in:
 	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
-	c, err := bigquery.NewRowAccessPolicyRESTClient(ctx)
+	c, err := bigquery.NewRowAccessPolicyClient(ctx)
 	if err != nil {
 		// TODO: Handle error.
 	}

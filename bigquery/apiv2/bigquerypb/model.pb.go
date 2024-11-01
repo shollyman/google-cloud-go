@@ -1952,20 +1952,20 @@ type Model struct {
 	HparamSearchSpaces *Model_HparamSearchSpaces `protobuf:"bytes,18,opt,name=hparam_search_spaces,json=hparamSearchSpaces,proto3" json:"hparam_search_spaces,omitempty"`
 	// Output only. The default trial_id to use in TVFs when the trial_id is not
 	// passed in. For single-objective [hyperparameter
-	// tuning](/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview)
+	// tuning](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview)
 	// models, this is the best trial ID. For multi-objective [hyperparameter
-	// tuning](/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview)
+	// tuning](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview)
 	// models, this is the smallest trial ID among all Pareto optimal trials.
 	DefaultTrialId int64 `protobuf:"varint,21,opt,name=default_trial_id,json=defaultTrialId,proto3" json:"default_trial_id,omitempty"`
 	// Output only. Trials of a [hyperparameter
-	// tuning](/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview)
+	// tuning](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview)
 	// model sorted by trial_id.
 	HparamTrials []*Model_HparamTuningTrial `protobuf:"bytes,20,rep,name=hparam_trials,json=hparamTrials,proto3" json:"hparam_trials,omitempty"`
 	// Output only. For single-objective [hyperparameter
-	// tuning](/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview)
+	// tuning](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview)
 	// models, it only contains the best trial. For multi-objective
 	// [hyperparameter
-	// tuning](/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview)
+	// tuning](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview)
 	// models, it contains all Pareto optimal trials sorted by trial_id.
 	OptimalTrialIds []int64 `protobuf:"varint,22,rep,packed,name=optimal_trial_ids,json=optimalTrialIds,proto3" json:"optimal_trial_ids,omitempty"`
 	// Output only. Remote model info
@@ -4428,7 +4428,7 @@ func (x *Model_HparamSearchSpaces) GetOptimizer() *Model_StringHparamSearchSpace
 }
 
 // Training info of a trial in [hyperparameter
-// tuning](/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview)
+// tuning](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview)
 // models.
 type Model_HparamTuningTrial struct {
 	state         protoimpl.MessageState

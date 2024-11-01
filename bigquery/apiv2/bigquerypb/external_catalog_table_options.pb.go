@@ -119,8 +119,8 @@ type StorageDescriptor struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Optional. The physical location of the table
-	// (e.g. 'gs://spark-dataproc-data/pangea-data/case_sensitive/' or
-	// 'gs://spark-dataproc-data/pangea-data/*').
+	// (e.g. `gs://spark-dataproc-data/pangea-data/case_sensitive/` or
+	// `gs://spark-dataproc-data/pangea-data/*`).
 	// The maximum length is 2056 bytes.
 	LocationUri string `protobuf:"bytes,1,opt,name=location_uri,json=locationUri,proto3" json:"location_uri,omitempty"`
 	// Optional. Specifies the fully qualified class name of the InputFormat

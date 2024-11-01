@@ -24,6 +24,23 @@ import (
 	"google.golang.org/api/iterator"
 )
 
+func ExampleNewRowAccessPolicyClient() {
+	ctx := context.Background()
+	// This snippet has been automatically generated and should be regarded as a code template only.
+	// It will require modifications to work:
+	// - It may require correct/in-range values for request initialization.
+	// - It may require specifying regional endpoints when creating the service client as shown in:
+	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
+	c, err := bigquery.NewRowAccessPolicyClient(ctx)
+	if err != nil {
+		// TODO: Handle error.
+	}
+	defer c.Close()
+
+	// TODO: Use client.
+	_ = c
+}
+
 func ExampleNewRowAccessPolicyRESTClient() {
 	ctx := context.Background()
 	// This snippet has been automatically generated and should be regarded as a code template only.
@@ -48,7 +65,7 @@ func ExampleRowAccessPolicyClient_ListRowAccessPolicies() {
 	// - It may require correct/in-range values for request initialization.
 	// - It may require specifying regional endpoints when creating the service client as shown in:
 	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
-	c, err := bigquery.NewRowAccessPolicyRESTClient(ctx)
+	c, err := bigquery.NewRowAccessPolicyClient(ctx)
 	if err != nil {
 		// TODO: Handle error.
 	}

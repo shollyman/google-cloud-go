@@ -25,6 +25,23 @@ import (
 	"google.golang.org/protobuf/types/known/wrapperspb"
 )
 
+func ExampleNewModelClient() {
+	ctx := context.Background()
+	// This snippet has been automatically generated and should be regarded as a code template only.
+	// It will require modifications to work:
+	// - It may require correct/in-range values for request initialization.
+	// - It may require specifying regional endpoints when creating the service client as shown in:
+	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
+	c, err := bigquery.NewModelClient(ctx)
+	if err != nil {
+		// TODO: Handle error.
+	}
+	defer c.Close()
+
+	// TODO: Use client.
+	_ = c
+}
+
 func ExampleNewModelRESTClient() {
 	ctx := context.Background()
 	// This snippet has been automatically generated and should be regarded as a code template only.
@@ -49,7 +66,7 @@ func ExampleModelClient_DeleteModel() {
 	// - It may require correct/in-range values for request initialization.
 	// - It may require specifying regional endpoints when creating the service client as shown in:
 	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
-	c, err := bigquery.NewModelRESTClient(ctx)
+	c, err := bigquery.NewModelClient(ctx)
 	if err != nil {
 		// TODO: Handle error.
 	}
@@ -72,7 +89,7 @@ func ExampleModelClient_GetModel() {
 	// - It may require correct/in-range values for request initialization.
 	// - It may require specifying regional endpoints when creating the service client as shown in:
 	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
-	c, err := bigquery.NewModelRESTClient(ctx)
+	c, err := bigquery.NewModelClient(ctx)
 	if err != nil {
 		// TODO: Handle error.
 	}
@@ -97,7 +114,7 @@ func ExampleModelClient_ListModels() {
 	// - It may require correct/in-range values for request initialization.
 	// - It may require specifying regional endpoints when creating the service client as shown in:
 	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
-	c, err := bigquery.NewModelRESTClient(ctx)
+	c, err := bigquery.NewModelClient(ctx)
 	if err != nil {
 		// TODO: Handle error.
 	}
@@ -134,7 +151,7 @@ func ExampleModelClient_PatchModel() {
 	// - It may require correct/in-range values for request initialization.
 	// - It may require specifying regional endpoints when creating the service client as shown in:
 	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
-	c, err := bigquery.NewModelRESTClient(ctx)
+	c, err := bigquery.NewModelClient(ctx)
 	if err != nil {
 		// TODO: Handle error.
 	}

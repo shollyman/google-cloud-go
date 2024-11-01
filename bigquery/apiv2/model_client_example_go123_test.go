@@ -33,7 +33,7 @@ func ExampleModelClient_ListModels_all() {
 	// - It may require correct/in-range values for request initialization.
 	// - It may require specifying regional endpoints when creating the service client as shown in:
 	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
-	c, err := bigquery.NewModelRESTClient(ctx)
+	c, err := bigquery.NewModelClient(ctx)
 	if err != nil {
 		// TODO: Handle error.
 	}

@@ -25,6 +25,23 @@ import (
 	"google.golang.org/protobuf/types/known/wrapperspb"
 )
 
+func ExampleNewJobClient() {
+	ctx := context.Background()
+	// This snippet has been automatically generated and should be regarded as a code template only.
+	// It will require modifications to work:
+	// - It may require correct/in-range values for request initialization.
+	// - It may require specifying regional endpoints when creating the service client as shown in:
+	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
+	c, err := bigquery.NewJobClient(ctx)
+	if err != nil {
+		// TODO: Handle error.
+	}
+	defer c.Close()
+
+	// TODO: Use client.
+	_ = c
+}
+
 func ExampleNewJobRESTClient() {
 	ctx := context.Background()
 	// This snippet has been automatically generated and should be regarded as a code template only.
@@ -49,7 +66,7 @@ func ExampleJobClient_CancelJob() {
 	// - It may require correct/in-range values for request initialization.
 	// - It may require specifying regional endpoints when creating the service client as shown in:
 	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
-	c, err := bigquery.NewJobRESTClient(ctx)
+	c, err := bigquery.NewJobClient(ctx)
 	if err != nil {
 		// TODO: Handle error.
 	}
@@ -74,7 +91,7 @@ func ExampleJobClient_DeleteJob() {
 	// - It may require correct/in-range values for request initialization.
 	// - It may require specifying regional endpoints when creating the service client as shown in:
 	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
-	c, err := bigquery.NewJobRESTClient(ctx)
+	c, err := bigquery.NewJobClient(ctx)
 	if err != nil {
 		// TODO: Handle error.
 	}
@@ -97,7 +114,7 @@ func ExampleJobClient_GetJob() {
 	// - It may require correct/in-range values for request initialization.
 	// - It may require specifying regional endpoints when creating the service client as shown in:
 	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
-	c, err := bigquery.NewJobRESTClient(ctx)
+	c, err := bigquery.NewJobClient(ctx)
 	if err != nil {
 		// TODO: Handle error.
 	}
@@ -122,7 +139,7 @@ func ExampleJobClient_GetQueryResults() {
 	// - It may require correct/in-range values for request initialization.
 	// - It may require specifying regional endpoints when creating the service client as shown in:
 	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
-	c, err := bigquery.NewJobRESTClient(ctx)
+	c, err := bigquery.NewJobClient(ctx)
 	if err != nil {
 		// TODO: Handle error.
 	}
@@ -147,7 +164,7 @@ func ExampleJobClient_InsertJob() {
 	// - It may require correct/in-range values for request initialization.
 	// - It may require specifying regional endpoints when creating the service client as shown in:
 	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
-	c, err := bigquery.NewJobRESTClient(ctx)
+	c, err := bigquery.NewJobClient(ctx)
 	if err != nil {
 		// TODO: Handle error.
 	}
@@ -172,7 +189,7 @@ func ExampleJobClient_ListJobs() {
 	// - It may require correct/in-range values for request initialization.
 	// - It may require specifying regional endpoints when creating the service client as shown in:
 	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
-	c, err := bigquery.NewJobRESTClient(ctx)
+	c, err := bigquery.NewJobClient(ctx)
 	if err != nil {
 		// TODO: Handle error.
 	}
@@ -209,7 +226,7 @@ func ExampleJobClient_Query() {
 	// - It may require correct/in-range values for request initialization.
 	// - It may require specifying regional endpoints when creating the service client as shown in:
 	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
-	c, err := bigquery.NewJobRESTClient(ctx)
+	c, err := bigquery.NewJobClient(ctx)
 	if err != nil {
 		// TODO: Handle error.
 	}

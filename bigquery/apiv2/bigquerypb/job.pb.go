@@ -251,7 +251,7 @@ type Job struct {
 	// Only present for APIs that support third-party identities.
 	PrincipalSubject string `protobuf:"bytes,13,opt,name=principal_subject,json=principalSubject,proto3" json:"principal_subject,omitempty"`
 	// Output only. The reason why a Job was created.
-	// [Preview](/products/#product-launch-stages)
+	// [Preview](https://cloud.google.com/products/#product-launch-stages)
 	JobCreationReason *JobCreationReason `protobuf:"bytes,14,opt,name=job_creation_reason,json=jobCreationReason,proto3" json:"job_creation_reason,omitempty"`
 }
 
@@ -1532,7 +1532,8 @@ type QueryRequest struct {
 	// Optional. If not set, jobs are always required.
 	//
 	// If set, the query request will follow the behavior described
-	// JobCreationMode. [Preview](/products/#product-launch-stages)
+	// JobCreationMode.
+	// [Preview](https://cloud.google.com/products/#product-launch-stages)
 	JobCreationMode QueryRequest_JobCreationMode `protobuf:"varint,22,opt,name=job_creation_mode,json=jobCreationMode,proto3,enum=google.cloud.bigquery.v2.QueryRequest_JobCreationMode" json:"job_creation_mode,omitempty"`
 }
 
@@ -1717,10 +1718,10 @@ type QueryResponse struct {
 	//
 	// Only relevant when a job_reference is present in the response.
 	// If job_reference is not present it will always be unset.
-	// [Preview](/products/#product-launch-stages)
+	// [Preview](https://cloud.google.com/products/#product-launch-stages)
 	JobCreationReason *JobCreationReason `protobuf:"bytes,15,opt,name=job_creation_reason,json=jobCreationReason,proto3" json:"job_creation_reason,omitempty"`
 	// Auto-generated ID for the query.
-	// [Preview](/products/#product-launch-stages)
+	// [Preview](https://cloud.google.com/products/#product-launch-stages)
 	QueryId string `protobuf:"bytes,14,opt,name=query_id,json=queryId,proto3" json:"query_id,omitempty"`
 	// The total number of rows in the complete query result set, which can be
 	// more than the number of rows in this single page of results.

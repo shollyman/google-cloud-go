@@ -32,8 +32,10 @@ import (
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 	"google.golang.org/api/option/internaloption"
+	gtransport "google.golang.org/api/transport/grpc"
 	httptransport "google.golang.org/api/transport/http"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/wrapperspb"
@@ -49,6 +51,110 @@ type TableCallOptions struct {
 	UpdateTable []gax.CallOption
 	DeleteTable []gax.CallOption
 	ListTables  []gax.CallOption
+}
+
+func defaultTableGRPCClientOptions() []option.ClientOption {
+	return []option.ClientOption{
+		internaloption.WithDefaultEndpoint("bigquery.googleapis.com:443"),
+		internaloption.WithDefaultEndpointTemplate("bigquery.UNIVERSE_DOMAIN:443"),
+		internaloption.WithDefaultMTLSEndpoint("bigquery.mtls.googleapis.com:443"),
+		internaloption.WithDefaultUniverseDomain("googleapis.com"),
+		internaloption.WithDefaultAudience("https://bigquery.googleapis.com/"),
+		internaloption.WithDefaultScopes(DefaultAuthScopes()...),
+		internaloption.EnableJwtWithScope(),
+		internaloption.EnableNewAuthLibrary(),
+		option.WithGRPCDialOption(grpc.WithDefaultCallOptions(
+			grpc.MaxCallRecvMsgSize(math.MaxInt32))),
+	}
+}
+
+func defaultTableCallOptions() *TableCallOptions {
+	return &TableCallOptions{
+		GetTable: []gax.CallOption{
+			gax.WithTimeout(64000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnCodes([]codes.Code{
+					codes.DeadlineExceeded,
+					codes.Unavailable,
+					codes.ResourceExhausted,
+				}, gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				})
+			}),
+		},
+		InsertTable: []gax.CallOption{
+			gax.WithTimeout(240000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnCodes([]codes.Code{
+					codes.DeadlineExceeded,
+					codes.Unavailable,
+					codes.ResourceExhausted,
+				}, gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				})
+			}),
+		},
+		PatchTable: []gax.CallOption{
+			gax.WithTimeout(240000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnCodes([]codes.Code{
+					codes.DeadlineExceeded,
+					codes.Unavailable,
+					codes.ResourceExhausted,
+				}, gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				})
+			}),
+		},
+		UpdateTable: []gax.CallOption{
+			gax.WithTimeout(240000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnCodes([]codes.Code{
+					codes.DeadlineExceeded,
+					codes.Unavailable,
+					codes.ResourceExhausted,
+				}, gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				})
+			}),
+		},
+		DeleteTable: []gax.CallOption{
+			gax.WithTimeout(240000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnCodes([]codes.Code{
+					codes.DeadlineExceeded,
+					codes.Unavailable,
+					codes.ResourceExhausted,
+				}, gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				})
+			}),
+		},
+		ListTables: []gax.CallOption{
+			gax.WithTimeout(64000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnCodes([]codes.Code{
+					codes.DeadlineExceeded,
+					codes.Unavailable,
+					codes.ResourceExhausted,
+				}, gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				})
+			}),
+		},
+	}
 }
 
 func defaultTableRESTCallOptions() *TableCallOptions {
@@ -224,6 +330,83 @@ func (c *TableClient) ListTables(ctx context.Context, req *bigquerypb.ListTables
 	return c.internalClient.ListTables(ctx, req, opts...)
 }
 
+// tableGRPCClient is a client for interacting with BigQuery API over gRPC transport.
+//
+// Methods, except Close, may be called concurrently. However, fields must not be modified concurrently with method calls.
+type tableGRPCClient struct {
+	// Connection pool of gRPC connections to the service.
+	connPool gtransport.ConnPool
+
+	// Points back to the CallOptions field of the containing TableClient
+	CallOptions **TableCallOptions
+
+	// The gRPC API client.
+	tableClient bigquerypb.TableServiceClient
+
+	// The x-goog-* metadata to be sent with each request.
+	xGoogHeaders []string
+}
+
+// NewTableClient creates a new table service client based on gRPC.
+// The returned client must be Closed when it is done being used to clean up its underlying connections.
+//
+// This is an experimental RPC service definition for the BigQuery
+// Table Service.
+//
+// It should not be relied on for production use cases at this time.
+func NewTableClient(ctx context.Context, opts ...option.ClientOption) (*TableClient, error) {
+	clientOpts := defaultTableGRPCClientOptions()
+	if newTableClientHook != nil {
+		hookOpts, err := newTableClientHook(ctx, clientHookParams{})
+		if err != nil {
+			return nil, err
+		}
+		clientOpts = append(clientOpts, hookOpts...)
+	}
+
+	connPool, err := gtransport.DialPool(ctx, append(clientOpts, opts...)...)
+	if err != nil {
+		return nil, err
+	}
+	client := TableClient{CallOptions: defaultTableCallOptions()}
+
+	c := &tableGRPCClient{
+		connPool:    connPool,
+		tableClient: bigquerypb.NewTableServiceClient(connPool),
+		CallOptions: &client.CallOptions,
+	}
+	c.setGoogleClientInfo()
+
+	client.internalClient = c
+
+	return &client, nil
+}
+
+// Connection returns a connection to the API service.
+//
+// Deprecated: Connections are now pooled so this method does not always
+// return the same resource.
+func (c *tableGRPCClient) Connection() *grpc.ClientConn {
+	return c.connPool.Conn()
+}
+
+// setGoogleClientInfo sets the name and version of the application in
+// the `x-goog-api-client` header passed on each request. Intended for
+// use by Google-written clients.
+func (c *tableGRPCClient) setGoogleClientInfo(keyval ...string) {
+	kv := append([]string{"gl-go", gax.GoVersion}, keyval...)
+	kv = append(kv, "gapic", getVersionClient(), "gax", gax.Version, "grpc", grpc.Version)
+	c.xGoogHeaders = []string{
+		"x-goog-api-client", gax.XGoogHeader(kv...),
+	}
+}
+
+// Close closes the connection to the API service. The user should invoke this when
+// the client is no longer required.
+func (c *tableGRPCClient) Close() error {
+	return c.connPool.Close()
+}
+
 // Methods, except Close, may be called concurrently. However, fields must not be modified concurrently with method calls.
 type tableRESTClient struct {
 	// The http endpoint to connect to.
@@ -299,6 +482,139 @@ func (c *tableRESTClient) Close() error {
 // Deprecated: This method always returns nil.
 func (c *tableRESTClient) Connection() *grpc.ClientConn {
 	return nil
+}
+func (c *tableGRPCClient) GetTable(ctx context.Context, req *bigquerypb.GetTableRequest, opts ...gax.CallOption) (*bigquerypb.Table, error) {
+	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "dataset_id", url.QueryEscape(req.GetDatasetId()), "table_id", url.QueryEscape(req.GetTableId()))}
+
+	hds = append(c.xGoogHeaders, hds...)
+	ctx = gax.InsertMetadataIntoOutgoingContext(ctx, hds...)
+	opts = append((*c.CallOptions).GetTable[0:len((*c.CallOptions).GetTable):len((*c.CallOptions).GetTable)], opts...)
+	var resp *bigquerypb.Table
+	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
+		var err error
+		resp, err = c.tableClient.GetTable(ctx, req, settings.GRPC...)
+		return err
+	}, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+func (c *tableGRPCClient) InsertTable(ctx context.Context, req *bigquerypb.InsertTableRequest, opts ...gax.CallOption) (*bigquerypb.Table, error) {
+	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "dataset_id", url.QueryEscape(req.GetDatasetId()))}
+
+	hds = append(c.xGoogHeaders, hds...)
+	ctx = gax.InsertMetadataIntoOutgoingContext(ctx, hds...)
+	opts = append((*c.CallOptions).InsertTable[0:len((*c.CallOptions).InsertTable):len((*c.CallOptions).InsertTable)], opts...)
+	var resp *bigquerypb.Table
+	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
+		var err error
+		resp, err = c.tableClient.InsertTable(ctx, req, settings.GRPC...)
+		return err
+	}, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+func (c *tableGRPCClient) PatchTable(ctx context.Context, req *bigquerypb.UpdateOrPatchTableRequest, opts ...gax.CallOption) (*bigquerypb.Table, error) {
+	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "dataset_id", url.QueryEscape(req.GetDatasetId()), "table_id", url.QueryEscape(req.GetTableId()))}
+
+	hds = append(c.xGoogHeaders, hds...)
+	ctx = gax.InsertMetadataIntoOutgoingContext(ctx, hds...)
+	opts = append((*c.CallOptions).PatchTable[0:len((*c.CallOptions).PatchTable):len((*c.CallOptions).PatchTable)], opts...)
+	var resp *bigquerypb.Table
+	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
+		var err error
+		resp, err = c.tableClient.PatchTable(ctx, req, settings.GRPC...)
+		return err
+	}, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+func (c *tableGRPCClient) UpdateTable(ctx context.Context, req *bigquerypb.UpdateOrPatchTableRequest, opts ...gax.CallOption) (*bigquerypb.Table, error) {
+	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "dataset_id", url.QueryEscape(req.GetDatasetId()), "table_id", url.QueryEscape(req.GetTableId()))}
+
+	hds = append(c.xGoogHeaders, hds...)
+	ctx = gax.InsertMetadataIntoOutgoingContext(ctx, hds...)
+	opts = append((*c.CallOptions).UpdateTable[0:len((*c.CallOptions).UpdateTable):len((*c.CallOptions).UpdateTable)], opts...)
+	var resp *bigquerypb.Table
+	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
+		var err error
+		resp, err = c.tableClient.UpdateTable(ctx, req, settings.GRPC...)
+		return err
+	}, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+func (c *tableGRPCClient) DeleteTable(ctx context.Context, req *bigquerypb.DeleteTableRequest, opts ...gax.CallOption) error {
+	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "dataset_id", url.QueryEscape(req.GetDatasetId()), "table_id", url.QueryEscape(req.GetTableId()))}
+
+	hds = append(c.xGoogHeaders, hds...)
+	ctx = gax.InsertMetadataIntoOutgoingContext(ctx, hds...)
+	opts = append((*c.CallOptions).DeleteTable[0:len((*c.CallOptions).DeleteTable):len((*c.CallOptions).DeleteTable)], opts...)
+	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
+		var err error
+		_, err = c.tableClient.DeleteTable(ctx, req, settings.GRPC...)
+		return err
+	}, opts...)
+	return err
+}
+
+func (c *tableGRPCClient) ListTables(ctx context.Context, req *bigquerypb.ListTablesRequest, opts ...gax.CallOption) *ListFormatTableIterator {
+	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "dataset_id", url.QueryEscape(req.GetDatasetId()))}
+
+	hds = append(c.xGoogHeaders, hds...)
+	ctx = gax.InsertMetadataIntoOutgoingContext(ctx, hds...)
+	opts = append((*c.CallOptions).ListTables[0:len((*c.CallOptions).ListTables):len((*c.CallOptions).ListTables)], opts...)
+	it := &ListFormatTableIterator{}
+	req = proto.Clone(req).(*bigquerypb.ListTablesRequest)
+	it.InternalFetch = func(pageSize int, pageToken string) ([]*bigquerypb.ListFormatTable, string, error) {
+		resp := &bigquerypb.TableList{}
+		if pageToken != "" {
+			req.PageToken = pageToken
+		}
+		if pageSize > math.MaxInt32 {
+			req.MaxResults = &wrapperspb.UInt32Value{Value: uint32(math.MaxInt32)}
+		} else if pageSize != 0 {
+			req.MaxResults = &wrapperspb.UInt32Value{Value: uint32(pageSize)}
+		}
+		err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
+			var err error
+			resp, err = c.tableClient.ListTables(ctx, req, settings.GRPC...)
+			return err
+		}, opts...)
+		if err != nil {
+			return nil, "", err
+		}
+
+		it.Response = resp
+		return resp.GetTables(), resp.GetNextPageToken(), nil
+	}
+	fetch := func(pageSize int, pageToken string) (string, error) {
+		items, nextPageToken, err := it.InternalFetch(pageSize, pageToken)
+		if err != nil {
+			return "", err
+		}
+		it.items = append(it.items, items...)
+		return nextPageToken, nil
+	}
+
+	it.pageInfo, it.nextFunc = iterator.NewPageInfo(fetch, it.bufLen, it.takeBuf)
+	if psVal := req.GetMaxResults(); psVal != nil {
+		it.pageInfo.MaxSize = int(psVal.GetValue())
+	}
+	it.pageInfo.Token = req.GetPageToken()
+
+	return it
 }
 
 // GetTable gets the specified table resource by table ID.

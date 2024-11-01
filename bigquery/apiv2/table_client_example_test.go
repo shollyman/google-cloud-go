@@ -25,6 +25,23 @@ import (
 	"google.golang.org/protobuf/types/known/wrapperspb"
 )
 
+func ExampleNewTableClient() {
+	ctx := context.Background()
+	// This snippet has been automatically generated and should be regarded as a code template only.
+	// It will require modifications to work:
+	// - It may require correct/in-range values for request initialization.
+	// - It may require specifying regional endpoints when creating the service client as shown in:
+	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
+	c, err := bigquery.NewTableClient(ctx)
+	if err != nil {
+		// TODO: Handle error.
+	}
+	defer c.Close()
+
+	// TODO: Use client.
+	_ = c
+}
+
 func ExampleNewTableRESTClient() {
 	ctx := context.Background()
 	// This snippet has been automatically generated and should be regarded as a code template only.
@@ -49,7 +66,7 @@ func ExampleTableClient_DeleteTable() {
 	// - It may require correct/in-range values for request initialization.
 	// - It may require specifying regional endpoints when creating the service client as shown in:
 	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
-	c, err := bigquery.NewTableRESTClient(ctx)
+	c, err := bigquery.NewTableClient(ctx)
 	if err != nil {
 		// TODO: Handle error.
 	}
@@ -72,7 +89,7 @@ func ExampleTableClient_GetTable() {
 	// - It may require correct/in-range values for request initialization.
 	// - It may require specifying regional endpoints when creating the service client as shown in:
 	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
-	c, err := bigquery.NewTableRESTClient(ctx)
+	c, err := bigquery.NewTableClient(ctx)
 	if err != nil {
 		// TODO: Handle error.
 	}
@@ -97,7 +114,7 @@ func ExampleTableClient_InsertTable() {
 	// - It may require correct/in-range values for request initialization.
 	// - It may require specifying regional endpoints when creating the service client as shown in:
 	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
-	c, err := bigquery.NewTableRESTClient(ctx)
+	c, err := bigquery.NewTableClient(ctx)
 	if err != nil {
 		// TODO: Handle error.
 	}
@@ -122,7 +139,7 @@ func ExampleTableClient_ListTables() {
 	// - It may require correct/in-range values for request initialization.
 	// - It may require specifying regional endpoints when creating the service client as shown in:
 	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
-	c, err := bigquery.NewTableRESTClient(ctx)
+	c, err := bigquery.NewTableClient(ctx)
 	if err != nil {
 		// TODO: Handle error.
 	}
@@ -159,7 +176,7 @@ func ExampleTableClient_PatchTable() {
 	// - It may require correct/in-range values for request initialization.
 	// - It may require specifying regional endpoints when creating the service client as shown in:
 	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
-	c, err := bigquery.NewTableRESTClient(ctx)
+	c, err := bigquery.NewTableClient(ctx)
 	if err != nil {
 		// TODO: Handle error.
 	}
@@ -184,7 +201,7 @@ func ExampleTableClient_UpdateTable() {
 	// - It may require correct/in-range values for request initialization.
 	// - It may require specifying regional endpoints when creating the service client as shown in:
 	//   https://pkg.go.dev/cloud.google.com/go#hdr-Client_Options
-	c, err := bigquery.NewTableRESTClient(ctx)
+	c, err := bigquery.NewTableClient(ctx)
 	if err != nil {
 		// TODO: Handle error.
 	}
