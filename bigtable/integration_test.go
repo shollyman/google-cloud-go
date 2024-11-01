@@ -18,6 +18,7 @@ package bigtable
 
 import (
 	"context"
+	"encoding/binary"
 	"flag"
 	"fmt"
 	"log"
@@ -277,6 +278,125 @@ func TestIntegration_ReadRowList(t *testing.T) {
 
 	if got := strings.Join(elt, ","); got != want {
 		t.Fatalf("bulk read: wrong reads.\n got %q\nwant %q", got, want)
+	}
+}
+
+func TestIntegration_UpdateFamilyValueType(t *testing.T) {
+	ctx := context.Background()
+	_, _, adminClient, _, tableName, cleanup, err := setupIntegration(ctx, t)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(cleanup)
+	familyName := "new_family"
+	// Create a new column family
+	if err = adminClient.CreateColumnFamily(ctx, tableName, familyName); err != nil {
+		t.Fatalf("Failed to create column family: %v", err)
+	}
+	// the type of the family is not aggregate
+	table, err := adminClient.getTable(ctx, tableName, btapb.Table_SCHEMA_VIEW)
+	if err != nil {
+		t.Fatalf("Failed to get table: %v", err)
+	}
+	family := table.GetColumnFamilies()[familyName]
+	if family.ValueType.GetAggregateType() != nil {
+		t.Fatalf("New column family cannot be aggregate type")
+	}
+
+	// Update column family type to string type should be successful
+	update := Family{
+		ValueType: StringType{
+			Encoding: StringUtf8BytesEncoding{},
+		},
+	}
+	err = adminClient.UpdateFamily(ctx, tableName, familyName, update)
+	if err != nil {
+		t.Fatalf("Failed to update value type of family %s with current type %v: %v", familyName, family.ValueType, err)
+	}
+	// Get FamilyInfo to check if the type is updated
+	table, err = adminClient.getTable(ctx, tableName, btapb.Table_SCHEMA_VIEW)
+	if err != nil {
+		t.Fatalf("Failed to get table info: %v", err)
+	}
+	family = table.GetColumnFamilies()[familyName]
+	if !testutil.Equal(family.ValueType, update.ValueType.proto()) {
+		t.Fatalf("got %v, want %v", family.ValueType, update.ValueType.proto())
+	}
+}
+
+func TestIntegration_Aggregates(t *testing.T) {
+	ctx := context.Background()
+	_, _, ac, table, tableName, cleanup, err := setupIntegration(ctx, t)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer cleanup()
+	key := "some-key"
+	family := "sum"
+	column := "col"
+	mut := NewMutation()
+	mut.AddIntToCell(family, column, 1000, 5)
+
+	// Add 5 to empty cell.
+	if err := table.Apply(ctx, key, mut); err != nil {
+		t.Fatalf("Mutating row %q: %v", key, err)
+	}
+	row, err := table.ReadRow(ctx, key)
+	if err != nil {
+		t.Fatalf("Reading a row: %v", err)
+	}
+	wantRow := Row{
+		family: []ReadItem{
+			{Row: key, Column: fmt.Sprintf("%s:%s", family, column), Timestamp: 1000, Value: binary.BigEndian.AppendUint64([]byte{}, 5)},
+		},
+	}
+	if !testutil.Equal(row, wantRow) {
+		t.Fatalf("Read row mismatch.\n got %#v\nwant %#v", row, wantRow)
+	}
+
+	// Add 5 again.
+	if err := table.Apply(ctx, key, mut); err != nil {
+		t.Fatalf("Mutating row %q: %v", key, err)
+	}
+	row, err = table.ReadRow(ctx, key)
+	if err != nil {
+		t.Fatalf("Reading a row: %v", err)
+	}
+	wantRow = Row{
+		family: []ReadItem{
+			{Row: key, Column: fmt.Sprintf("%s:%s", family, column), Timestamp: 1000, Value: binary.BigEndian.AppendUint64([]byte{}, 10)},
+		},
+	}
+	if !testutil.Equal(row, wantRow) {
+		t.Fatalf("Read row mismatch.\n got %#v\nwant %#v", row, wantRow)
+	}
+
+	// Merge 5, which translates in the backend to adding 5 for sum column families.
+	mut2 := NewMutation()
+	mut2.MergeBytesToCell(family, column, 1000, binary.BigEndian.AppendUint64([]byte{}, 5))
+	if err := table.Apply(ctx, key, mut); err != nil {
+		t.Fatalf("Mutating row %q: %v", key, err)
+	}
+	row, err = table.ReadRow(ctx, key)
+	if err != nil {
+		t.Fatalf("Reading a row: %v", err)
+	}
+	wantRow = Row{
+		family: []ReadItem{
+			{Row: key, Column: fmt.Sprintf("%s:%s", family, column), Timestamp: 1000, Value: binary.BigEndian.AppendUint64([]byte{}, 15)},
+		},
+	}
+	if !testutil.Equal(row, wantRow) {
+		t.Fatalf("Read row mismatch.\n got %#v\nwant %#v", row, wantRow)
+	}
+
+	err = ac.UpdateFamily(ctx, tableName, family, Family{ValueType: StringType{}})
+	if err == nil {
+		t.Fatalf("Expected UpdateFamily to fail, but it didn't")
+	}
+	wantError := "Immutable fields 'value_type.aggregate_type' cannot be updated"
+	if !strings.Contains(err.Error(), wantError) {
+		t.Errorf("Wrong error. Expected to containt %q but was %v", wantError, err)
 	}
 }
 
@@ -4218,6 +4338,18 @@ func setupIntegration(ctx context.Context, t *testing.T) (_ IntegrationEnv, _ *C
 	if err != nil {
 		cancel()
 		t.Logf("Error creating column family: %v", err)
+		return nil, nil, nil, nil, "", nil, err
+	}
+
+	err = retryOnUnavailable(ctx, func() error {
+		return adminClient.CreateColumnFamilyWithConfig(ctx, tableName, "sum", Family{ValueType: AggregateType{
+			Input:      Int64Type{},
+			Aggregator: SumAggregator{},
+		}})
+	})
+	if err != nil {
+		cancel()
+		t.Logf("Error creating aggregate column family: %v", err)
 		return nil, nil, nil, nil, "", nil, err
 	}
 

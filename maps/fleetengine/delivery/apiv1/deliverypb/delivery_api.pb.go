@@ -66,6 +66,7 @@ type CreateDeliveryVehicleRequest struct {
 	// Required. The `DeliveryVehicle` entity to create. When creating a new
 	// delivery vehicle, you may set the following optional fields:
 	//
+	// * type
 	// * last_location
 	// * attributes
 	//
@@ -854,7 +855,7 @@ type ListTasksRequest struct {
 	// http://aip.dev/160 for examples of filter syntax. If you don't specify a
 	// value, or if you filter on an empty string, then all Tasks are returned.
 	// For information about the Task properties that you can filter on, see [List
-	// tasks](https://developers.google.com/maps/documentation/transportation-logistics/last-mile-fleet-solution/fleet-performance/fleet-engine/deliveries_api#list-tasks).
+	// tasks](https://developers.google.com/maps/documentation/mobility/fleet-engine/journeys/tasks/find-tasks#filter_listed_tasks).
 	Filter string `protobuf:"bytes,6,opt,name=filter,proto3" json:"filter,omitempty"`
 }
 
