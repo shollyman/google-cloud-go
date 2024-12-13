@@ -44,6 +44,7 @@ func TestSchemaToProtoConversion(t *testing.T) {
 	testCases := []struct {
 		description string
 		bq          *storagepb.TableSchema
+		options     []ConverterOption
 		// The un-normalized descriptor (sans dependencies)
 		wantProto2 *descriptorpb.DescriptorProto
 		// Normalized descriptor (all dependencies nested)
@@ -84,6 +85,80 @@ func TestSchemaToProtoConversion(t *testing.T) {
 						Label:  descriptorpb.FieldDescriptorProto_LABEL_OPTIONAL.Enum()},
 					{Name: proto.String("bar"), Number: proto.Int32(2), Type: descriptorpb.FieldDescriptorProto_TYPE_INT64.Enum(), Label: descriptorpb.FieldDescriptorProto_LABEL_REQUIRED.Enum()},
 					{Name: proto.String("baz"), Number: proto.Int32(3), Type: descriptorpb.FieldDescriptorProto_TYPE_BYTES.Enum(), Label: descriptorpb.FieldDescriptorProto_LABEL_REPEATED.Enum()},
+				},
+			},
+			wantProto3: &descriptorpb.DescriptorProto{
+				Name: proto.String("root"),
+				Field: []*descriptorpb.FieldDescriptorProto{
+					{
+						Name:     proto.String("foo"),
+						Number:   proto.Int32(1),
+						Type:     descriptorpb.FieldDescriptorProto_TYPE_MESSAGE.Enum(),
+						TypeName: proto.String(".google.protobuf.StringValue"),
+						Label:    descriptorpb.FieldDescriptorProto_LABEL_OPTIONAL.Enum()},
+					{Name: proto.String("bar"), Number: proto.Int32(2), Type: descriptorpb.FieldDescriptorProto_TYPE_INT64.Enum(), Label: descriptorpb.FieldDescriptorProto_LABEL_OPTIONAL.Enum()},
+					{Name: proto.String("baz"), Number: proto.Int32(3), Type: descriptorpb.FieldDescriptorProto_TYPE_BYTES.Enum(), Label: descriptorpb.FieldDescriptorProto_LABEL_REPEATED.Enum()},
+				},
+			},
+		},
+		{
+			description: "basic_with_options",
+			bq: &storagepb.TableSchema{
+				Fields: []*storagepb.TableFieldSchema{
+					{Name: "foo", Type: storagepb.TableFieldSchema_STRING, Mode: storagepb.TableFieldSchema_NULLABLE},
+					{Name: "bar", Type: storagepb.TableFieldSchema_INT64, Mode: storagepb.TableFieldSchema_REQUIRED},
+					{Name: "baz", Type: storagepb.TableFieldSchema_BYTES, Mode: storagepb.TableFieldSchema_REPEATED},
+				}},
+			options: []ConverterOption{
+				WithChangeType(),
+				WithSequenceNumber(),
+			},
+			wantProto2: &descriptorpb.DescriptorProto{
+				Name: proto.String("root"),
+				Field: []*descriptorpb.FieldDescriptorProto{
+					{
+						Name:   proto.String("foo"),
+						Number: proto.Int32(1),
+						Type:   descriptorpb.FieldDescriptorProto_TYPE_STRING.Enum(),
+						Label:  descriptorpb.FieldDescriptorProto_LABEL_OPTIONAL.Enum()},
+					{Name: proto.String("bar"), Number: proto.Int32(2), Type: descriptorpb.FieldDescriptorProto_TYPE_INT64.Enum(), Label: descriptorpb.FieldDescriptorProto_LABEL_REQUIRED.Enum()},
+					{Name: proto.String("baz"), Number: proto.Int32(3), Type: descriptorpb.FieldDescriptorProto_TYPE_BYTES.Enum(), Label: descriptorpb.FieldDescriptorProto_LABEL_REPEATED.Enum()},
+					{
+						Name:   proto.String("_CHANGE_TYPE"),
+						Number: proto.Int32(4),
+						Type:   descriptorpb.FieldDescriptorProto_TYPE_STRING.Enum(),
+						Label:  descriptorpb.FieldDescriptorProto_LABEL_OPTIONAL.Enum(),
+					},
+					{
+						Name:   proto.String("_CHANGE_SEQUENCE_NUMBER"),
+						Number: proto.Int32(5),
+						Type:   descriptorpb.FieldDescriptorProto_TYPE_STRING.Enum(),
+						Label:  descriptorpb.FieldDescriptorProto_LABEL_OPTIONAL.Enum(),
+					},
+				},
+			},
+			wantProto2Normalized: &descriptorpb.DescriptorProto{
+				Name: proto.String("root"),
+				Field: []*descriptorpb.FieldDescriptorProto{
+					{
+						Name:   proto.String("foo"),
+						Number: proto.Int32(1),
+						Type:   descriptorpb.FieldDescriptorProto_TYPE_STRING.Enum(),
+						Label:  descriptorpb.FieldDescriptorProto_LABEL_OPTIONAL.Enum()},
+					{Name: proto.String("bar"), Number: proto.Int32(2), Type: descriptorpb.FieldDescriptorProto_TYPE_INT64.Enum(), Label: descriptorpb.FieldDescriptorProto_LABEL_REQUIRED.Enum()},
+					{Name: proto.String("baz"), Number: proto.Int32(3), Type: descriptorpb.FieldDescriptorProto_TYPE_BYTES.Enum(), Label: descriptorpb.FieldDescriptorProto_LABEL_REPEATED.Enum()},
+					{
+						Name:   proto.String("_CHANGE_TYPE"),
+						Number: proto.Int32(4),
+						Type:   descriptorpb.FieldDescriptorProto_TYPE_STRING.Enum(),
+						Label:  descriptorpb.FieldDescriptorProto_LABEL_OPTIONAL.Enum(),
+					},
+					{
+						Name:   proto.String("_CHANGE_SEQUENCE_NUMBER"),
+						Number: proto.Int32(5),
+						Type:   descriptorpb.FieldDescriptorProto_TYPE_STRING.Enum(),
+						Label:  descriptorpb.FieldDescriptorProto_LABEL_OPTIONAL.Enum(),
+					},
 				},
 			},
 			wantProto3: &descriptorpb.DescriptorProto{
@@ -972,7 +1047,7 @@ func TestSchemaToProtoConversion(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.description, func(T *testing.T) {
 			// Proto2
-			p2d, err := StorageSchemaToProto2Descriptor(tc.bq, "root")
+			p2d, err := StorageSchemaToProto2Descriptor(tc.bq, "root", tc.options...)
 			if err != nil {
 				t.Fatalf("failed proto2 conversion: %v", err)
 			}
@@ -1000,7 +1075,7 @@ func TestSchemaToProtoConversion(t *testing.T) {
 				}
 			}
 
-			p3d, err := StorageSchemaToProto3Descriptor(tc.bq, "root")
+			p3d, err := StorageSchemaToProto3Descriptor(tc.bq, "root", tc.options...)
 			if err != nil {
 				t.Fatalf("failed proto3 conversion: %v", err)
 			}

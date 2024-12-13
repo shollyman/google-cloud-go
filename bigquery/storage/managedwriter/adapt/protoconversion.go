@@ -228,20 +228,78 @@ func (dm *dependencyCache) getRange(typ storagepb.TableFieldSchema_Type) protore
 	return md
 }
 
+type converterSettings struct {
+	addChangeType     bool
+	addSequenceNumber bool
+}
+
+type ConverterOption func(*converterSettings)
+
+// WithChangeType will inject the _CHANGE_TYPE pseudocolumn into the output
+// protobuf representation.
+//
+// More information can be found at https://cloud.google.com/bigquery/docs/change-data-capture
+func WithChangeType() ConverterOption {
+	return func(co *converterSettings) {
+		co.addChangeType = true
+	}
+}
+
+// WithSequenceNumber will inject the _CHANGE_SEQUENCE_NUMBER pseudocolumn into
+// the output protobuf representation.
+//
+// More information can be found at https://cloud.google.com/bigquery/docs/change-data-capture
+func WithSequenceNumber() ConverterOption {
+	return func(co *converterSettings) {
+		co.addSequenceNumber = true
+	}
+}
+
+// prepareSchema clones the input schema and potentially modifies it based on converter settings.
+func prepareSchema(inSchema *storagepb.TableSchema, settings *converterSettings) *storagepb.TableSchema {
+	schemaCopy := proto.Clone(inSchema).(*storagepb.TableSchema)
+	if settings.addChangeType {
+		schemaCopy.Fields = append(schemaCopy.Fields, &storagepb.TableFieldSchema{
+			Name: "_CHANGE_TYPE",
+			Type: storagepb.TableFieldSchema_STRING,
+			Mode: storagepb.TableFieldSchema_NULLABLE,
+		})
+	}
+	if settings.addSequenceNumber {
+		schemaCopy.Fields = append(schemaCopy.Fields, &storagepb.TableFieldSchema{
+			Name: "_CHANGE_SEQUENCE_NUMBER",
+			Type: storagepb.TableFieldSchema_STRING,
+			Mode: storagepb.TableFieldSchema_NULLABLE,
+		})
+	}
+	return schemaCopy
+}
+
 // StorageSchemaToProto2Descriptor builds a protoreflect.Descriptor for a given table schema using proto2 syntax.
-func StorageSchemaToProto2Descriptor(inSchema *storagepb.TableSchema, scope string) (protoreflect.Descriptor, error) {
+func StorageSchemaToProto2Descriptor(inSchema *storagepb.TableSchema, scope string, opts ...ConverterOption) (protoreflect.Descriptor, error) {
+	settings := &converterSettings{}
+	for _, o := range opts {
+		o(settings)
+	}
+	pSchema := prepareSchema(inSchema, settings)
+
 	dc := newDependencyCache()
 	// TODO: b/193064992 tracks support for wrapper types.  In the interim, disable wrapper usage.
-	return storageSchemaToDescriptorInternal(inSchema, scope, dc, false)
+	return storageSchemaToDescriptorInternal(pSchema, scope, dc, false)
 }
 
 // StorageSchemaToProto3Descriptor builds a protoreflect.Descriptor for a given table schema using proto3 syntax.
 //
 // NOTE: Currently the write API doesn't yet support proto3 behaviors (default value, wrapper types, etc), but this is provided for
 // completeness.
-func StorageSchemaToProto3Descriptor(inSchema *storagepb.TableSchema, scope string) (protoreflect.Descriptor, error) {
+func StorageSchemaToProto3Descriptor(inSchema *storagepb.TableSchema, scope string, opts ...ConverterOption) (protoreflect.Descriptor, error) {
+	settings := &converterSettings{}
+	for _, o := range opts {
+		o(settings)
+	}
+	pSchema := prepareSchema(inSchema, settings)
 	dc := newDependencyCache()
-	return storageSchemaToDescriptorInternal(inSchema, scope, dc, true)
+	return storageSchemaToDescriptorInternal(pSchema, scope, dc, true)
 }
 
 // Internal implementation of the conversion code.
