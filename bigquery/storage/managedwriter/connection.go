@@ -224,9 +224,9 @@ const (
 func evolveRequiresReconnect(mode connectionMode) bool {
 	switch mode {
 	case multiplexConnectionMode, defaultConnectionMode:
-		return true
+		return false
 	}
-	return false
+	return true
 }
 
 func newConnection(pool *connectionPool, mode connectionMode, settings *streamSettings) *connection {
