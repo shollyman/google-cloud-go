@@ -208,15 +208,26 @@ type connection struct {
 
 	loadBytesThreshold int
 	loadCountThreshold int
+
+	mode connectionMode
 }
 
 type connectionMode string
 
 const (
 	multiplexConnectionMode connectionMode = "MULTIPLEX"
-	simplexConnectionMode   connectionMode = "SIMPLEX"
+	exclusiveConnectionMode connectionMode = "EXCLUSIVE"
+	defaultConnectionMode   connectionMode = "DEFAULT"
 	verboseConnectionMode   connectionMode = "VERBOSE"
 )
+
+func evolveRequiresReconnect(mode connectionMode) bool {
+	switch mode {
+	case multiplexConnectionMode, defaultConnectionMode:
+		return true
+	}
+	return false
+}
 
 func newConnection(pool *connectionPool, mode connectionMode, settings *streamSettings) *connection {
 	if pool == nil {
@@ -256,6 +267,7 @@ func newConnection(pool *connectionPool, mode connectionMode, settings *streamSe
 		loadBytesThreshold: byteLimit,
 		loadCountThreshold: countLimit,
 		callOptions:        opts,
+		mode:               mode,
 	}
 }
 
@@ -284,7 +296,7 @@ func optimizer(mode connectionMode) sendOptimizer {
 		return &multiplexOptimizer{}
 	case verboseConnectionMode:
 		return &verboseOptimizer{}
-	case simplexConnectionMode:
+	case defaultConnectionMode:
 		return &simplexOptimizer{}
 	}
 	return nil
@@ -401,7 +413,7 @@ func (co *connection) lockingAppend(pw *pendingWrite) error {
 		if co.optimizer == nil {
 			forceReconnect = true
 		} else {
-			if !co.optimizer.isMultiplexing() {
+			if evolveRequiresReconnect(co.mode) {
 				forceReconnect = true
 			}
 		}

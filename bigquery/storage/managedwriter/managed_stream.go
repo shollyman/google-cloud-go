@@ -34,6 +34,11 @@ import (
 type StreamType string
 
 var (
+
+	// UnknownStream represents cases where the stream type cannot
+	// be determined or has not been declared.
+	UnknownStream StreamType = "UNKNOWN"
+
 	// DefaultStream most closely mimics the legacy bigquery
 	// tabledata.insertAll semantics.  Successful inserts are
 	// committed immediately, and there's no tracking offsets as
@@ -154,7 +159,10 @@ func (ms *ManagedStream) StreamName() string {
 
 // StreamType returns the configured type for this stream.
 func (ms *ManagedStream) StreamType() StreamType {
-	return ms.streamSettings.streamType
+	if ms.streamSettings != nil {
+		return ms.streamSettings.streamType
+	}
+	return UnknownStream
 }
 
 // FlushRows advances the offset at which rows in a BufferedStream are visible.  Calling

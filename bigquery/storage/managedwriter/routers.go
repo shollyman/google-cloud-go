@@ -206,7 +206,11 @@ func (sr *sharedRouter) writerAttach(writer *ManagedStream) error {
 	if pair := sr.exclusiveConns[writer.id]; pair != nil {
 		return fmt.Errorf("writer %q already attached", writer.id)
 	}
-	sr.exclusiveConns[writer.id] = newConnection(sr.pool, simplexConnectionMode, writer.streamSettings)
+	mode := exclusiveConnectionMode
+	if writer.StreamType() == DefaultStream {
+		mode = defaultConnectionMode
+	}
+	sr.exclusiveConns[writer.id] = newConnection(sr.pool, mode, writer.streamSettings)
 	return nil
 }
 
