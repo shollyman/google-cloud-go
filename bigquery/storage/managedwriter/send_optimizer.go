@@ -37,9 +37,6 @@ type sendOptimizer interface {
 
 	// optimizeSend handles possible manipulation of a request, and triggers the send.
 	optimizeSend(arc storagepb.BigQueryWrite_AppendRowsClient, pw *pendingWrite) error
-
-	// isMultiplexing tracks if we've actually sent writes to more than a single stream on this connection.
-	isMultiplexing() bool
 }
 
 // verboseOptimizer is a primarily a testing optimizer that always sends the full request.
@@ -60,112 +57,77 @@ func (vo *verboseOptimizer) isMultiplexing() bool {
 	return false
 }
 
-// simplexOptimizer is used for connections bearing AppendRowsRequest for only a single stream.
+// exclusiveOptimizer is used for connections that service only a since exclusive stream.
+// Exclusive streams are user-created (pending, committed, buffered).
 //
 // The optimizations here are straightforward:
 // * The first request on a connection is unmodified.
 // * Subsequent requests can redact WriteStream, WriterSchema, and TraceID.
-//
-// Behavior of schema evolution differs based on the type of stream.
-// * For an explicit stream, the connection must reconnect to signal schema change (handled in connection).
-// * For default streams, the new descriptor (inside WriterSchema) can simply be sent.
-type simplexOptimizer struct {
+type exclusiveOptimizer struct {
 	haveSent bool
 }
 
-func (so *simplexOptimizer) signalReset() {
-	so.haveSent = false
+func (eo *exclusiveOptimizer) signalReset() {
+	eo.haveSent = false
 }
 
-func (so *simplexOptimizer) optimizeSend(arc storagepb.BigQueryWrite_AppendRowsClient, pw *pendingWrite) error {
+func (eo *exclusiveOptimizer) optimizeSend(arc storagepb.BigQueryWrite_AppendRowsClient, pw *pendingWrite) error {
 	var err error
-	if so.haveSent {
+	if eo.haveSent {
 		// subsequent send, we can send the request unmodified.
 		err = arc.Send(pw.req)
 	} else {
 		// first request, build a full request.
 		err = arc.Send(pw.constructFullRequest(true))
 	}
-	so.haveSent = err == nil
+	eo.haveSent = err == nil
 	return err
 }
 
-func (so *simplexOptimizer) isMultiplexing() bool {
-	// A simplex optimizer is not designed for multiplexing.
-	return false
-}
-
-// multiplexOptimizer is used for connections where requests for multiple default streams are sent on a common
-// connection.  Only default streams can currently be multiplexed.
+// multiplexOpimizer is used for connections for default streams.
+// This optimizer supports connections that host one or more (aka multiplexed) default stream writes.
+//
+// The connection for servicing default streams will observe schema updates without reconnect.
 //
 // In this case, the optimizations are as follows:
-// * We must send the WriteStream on all requests.
+// * We send the WriteStream on all requests.
 // * For sequential requests to the same stream, schema can be redacted after the first request.
 // * Trace ID can be redacted from all requests after the first.
 //
 // Schema evolution is simply a case of sending the new WriterSchema as part of the request(s).  No explicit
 // reconnection is necessary.
 type multiplexOptimizer struct {
-	prevStream       string
-	prevTemplate     *versionedTemplate
-	multiplexStreams bool
+	// keyed by write stream.
+	streamMap map[string]*versionedTemplate
 }
 
 func (mo *multiplexOptimizer) signalReset() {
-	mo.prevStream = ""
-	mo.multiplexStreams = false
-	mo.prevTemplate = nil
+	mo.streamMap = make(map[string]*versionedTemplate)
 }
 
 func (mo *multiplexOptimizer) optimizeSend(arc storagepb.BigQueryWrite_AppendRowsClient, pw *pendingWrite) error {
-	var err error
-	if mo.prevStream == "" {
-		// startup case, send a full request (with traceID).
-		req := pw.constructFullRequest(true)
-		err = arc.Send(req)
-		if err == nil {
-			mo.prevStream = req.GetWriteStream()
-			mo.prevTemplate = pw.reqTmpl
+	streamID := pw.writeStreamID
+	req := pw.req
+	// Ensure WriteStream is set.
+	req.WriteStream = streamID
+	if tmpl, ok := mo.streamMap[streamID]; ok {
+		// We've sent writes to this stream before.  Check we're still compatible.
+		if !tmpl.Compatible(pw.reqTmpl) {
+			// There's been a change, send a full request.
+			req = pw.constructFullRequest(true)
+			// Update the template entry for this stream.
+			mo.streamMap[streamID] = pw.reqTmpl
 		}
 	} else {
-		// We have a previous send.  Determine if it's the same stream or a different one.
-		if mo.prevStream == pw.writeStreamID {
-			// add the stream ID to the optimized request, as multiplex-optimization wants it present.
-			if pw.req.GetWriteStream() == "" {
-				pw.req.WriteStream = pw.writeStreamID
-			}
-			// swapOnSuccess tracks if we need to update schema versions on successful send.
-			swapOnSuccess := false
-			req := pw.req
-			if mo.prevTemplate != nil {
-				if !mo.prevTemplate.Compatible(pw.reqTmpl) {
-					swapOnSuccess = true
-					req = pw.constructFullRequest(false) // full request minus traceID.
-				}
-			}
-			err = arc.Send(req)
-			if err == nil && swapOnSuccess {
-				mo.prevTemplate = pw.reqTmpl
-			}
-		} else {
-			// The previous send was for a different stream.  Send a full request, minus traceId.
-			req := pw.constructFullRequest(false)
-			err = arc.Send(req)
-			if err == nil {
-				// Send successful.  Update state to reflect this send is now the "previous" state.
-				mo.prevStream = pw.writeStreamID
-				mo.prevTemplate = pw.reqTmpl
-			}
-			// Also, note that we've sent traffic for multiple streams, which means the backend recognizes this
-			// is a multiplex stream as well.
-			mo.multiplexStreams = true
-		}
+		// Capture the template for subsequent sends.
+		mo.streamMap[streamID] = pw.reqTmpl
+	}
+
+	err := arc.Send(req)
+	if err != nil {
+		mo.signalReset()
 	}
 	return err
-}
-
-func (mo *multiplexOptimizer) isMultiplexing() bool {
-	return mo.multiplexStreams
 }
 
 // versionedTemplate is used for faster comparison of the templated part of

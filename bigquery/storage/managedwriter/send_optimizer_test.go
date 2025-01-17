@@ -81,8 +81,8 @@ func TestSendOptimizer(t *testing.T) {
 			},
 		},
 		{
-			description: "simplex no errors",
-			optimizer:   &simplexOptimizer{},
+			description: "exclusive no errors",
+			optimizer:   &exclusiveOptimizer{},
 			reqs: func() []*pendingWrite {
 				tmpl := newVersionedTemplate().revise(reviseProtoSchema(exampleDP))
 				return []*pendingWrite{
@@ -111,8 +111,8 @@ func TestSendOptimizer(t *testing.T) {
 			}(),
 		},
 		{
-			description: "simplex w/partial errors",
-			optimizer:   &simplexOptimizer{},
+			description: "exclusive w/partial errors",
+			optimizer:   &exclusiveOptimizer{},
 			reqs: func() []*pendingWrite {
 				tmpl := newVersionedTemplate().revise(reviseProtoSchema(exampleDP))
 				return []*pendingWrite{

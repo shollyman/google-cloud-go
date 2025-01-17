@@ -215,19 +215,15 @@ type connection struct {
 type connectionMode string
 
 const (
+	// A connection used by multiple default streams to send rows
 	multiplexConnectionMode connectionMode = "MULTIPLEX"
+	// A connection used by a single, user created stream
 	exclusiveConnectionMode connectionMode = "EXCLUSIVE"
-	defaultConnectionMode   connectionMode = "DEFAULT"
-	verboseConnectionMode   connectionMode = "VERBOSE"
+	// A connection used by a single, default stream
+	defaultConnectionMode connectionMode = "DEFAULT"
+	// a mode used for testing, that doesn't leverage special knowledge of the connection.
+	verboseConnectionMode connectionMode = "VERBOSE"
 )
-
-func evolveRequiresReconnect(mode connectionMode) bool {
-	switch mode {
-	case multiplexConnectionMode, defaultConnectionMode:
-		return false
-	}
-	return true
-}
 
 func newConnection(pool *connectionPool, mode connectionMode, settings *streamSettings) *connection {
 	if pool == nil {
@@ -292,12 +288,12 @@ func computeLoadThresholds(fc *flowController) (countLimit, byteLimit int) {
 
 func optimizer(mode connectionMode) sendOptimizer {
 	switch mode {
-	case multiplexConnectionMode:
+	case multiplexConnectionMode, defaultConnectionMode:
 		return &multiplexOptimizer{}
 	case verboseConnectionMode:
 		return &verboseOptimizer{}
-	case defaultConnectionMode:
-		return &simplexOptimizer{}
+	case exclusiveConnectionMode:
+		return &exclusiveOptimizer{}
 	}
 	return nil
 }
@@ -327,6 +323,18 @@ func (co *connection) curLoad() float64 {
 		load = load / 2
 	}
 	return load
+}
+
+// promoteWithoutReconnect encodes whether we can promote things like schema changes
+// without explicitly disconnecting and reconnecting the stream.
+func (co *connection) promoteWithoutReconnect() bool {
+	switch co.mode {
+	case multiplexConnectionMode, defaultConnectionMode:
+		// Connections that are exclusively used by default streams don't need reconnection.
+		return true
+	}
+	// Everything else, we reconnect.
+	return false
 }
 
 // close closes a connection.
@@ -410,12 +418,11 @@ func (co *connection) lockingAppend(pw *pendingWrite) error {
 		}
 	}
 	if promoted {
-		if co.optimizer == nil {
+		if !co.promoteWithoutReconnect() {
 			forceReconnect = true
-		} else {
-			if evolveRequiresReconnect(co.mode) {
-				forceReconnect = true
-			}
+		}
+		if co.optimizer != nil {
+			co.optimizer.signalReset()
 		}
 	}
 

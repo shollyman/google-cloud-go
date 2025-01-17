@@ -1280,6 +1280,9 @@ func testSchemaEvolution(ctx context.Context, t *testing.T, mwClient *Client, bq
 		}
 	}
 
+	// Ewwwww
+	time.Sleep(time.Minute)
+
 	// ready evolved message and descriptor
 	m2 := &testdata.SimpleMessageEvolvedProto2{
 		Name:  proto.String("evolved"),
