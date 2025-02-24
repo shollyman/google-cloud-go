@@ -1,4 +1,4 @@
-// Copyright 2024 Google LLC
+// Copyright 2025 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ type ListFormatDatasetIterator struct {
 	InternalFetch func(pageSize int, pageToken string) (results []*bigquerypb.ListFormatDataset, nextPageToken string, err error)
 }
 
-// PageInfo supports pagination. See the google.golang.org/api/iterator package for details.
+// PageInfo supports pagination. See the [google.golang.org/api/iterator] package for details.
 func (it *ListFormatDatasetIterator) PageInfo() *iterator.PageInfo {
 	return it.pageInfo
 }
@@ -88,7 +88,7 @@ type ListFormatJobIterator struct {
 	InternalFetch func(pageSize int, pageToken string) (results []*bigquerypb.ListFormatJob, nextPageToken string, err error)
 }
 
-// PageInfo supports pagination. See the google.golang.org/api/iterator package for details.
+// PageInfo supports pagination. See the [google.golang.org/api/iterator] package for details.
 func (it *ListFormatJobIterator) PageInfo() *iterator.PageInfo {
 	return it.pageInfo
 }
@@ -135,7 +135,7 @@ type ListFormatTableIterator struct {
 	InternalFetch func(pageSize int, pageToken string) (results []*bigquerypb.ListFormatTable, nextPageToken string, err error)
 }
 
-// PageInfo supports pagination. See the google.golang.org/api/iterator package for details.
+// PageInfo supports pagination. See the [google.golang.org/api/iterator] package for details.
 func (it *ListFormatTableIterator) PageInfo() *iterator.PageInfo {
 	return it.pageInfo
 }
@@ -182,7 +182,7 @@ type ModelIterator struct {
 	InternalFetch func(pageSize int, pageToken string) (results []*bigquerypb.Model, nextPageToken string, err error)
 }
 
-// PageInfo supports pagination. See the google.golang.org/api/iterator package for details.
+// PageInfo supports pagination. See the [google.golang.org/api/iterator] package for details.
 func (it *ModelIterator) PageInfo() *iterator.PageInfo {
 	return it.pageInfo
 }
@@ -229,7 +229,7 @@ type RoutineIterator struct {
 	InternalFetch func(pageSize int, pageToken string) (results []*bigquerypb.Routine, nextPageToken string, err error)
 }
 
-// PageInfo supports pagination. See the google.golang.org/api/iterator package for details.
+// PageInfo supports pagination. See the [google.golang.org/api/iterator] package for details.
 func (it *RoutineIterator) PageInfo() *iterator.PageInfo {
 	return it.pageInfo
 }
@@ -276,7 +276,7 @@ type RowAccessPolicyIterator struct {
 	InternalFetch func(pageSize int, pageToken string) (results []*bigquerypb.RowAccessPolicy, nextPageToken string, err error)
 }
 
-// PageInfo supports pagination. See the google.golang.org/api/iterator package for details.
+// PageInfo supports pagination. See the [google.golang.org/api/iterator] package for details.
 func (it *RowAccessPolicyIterator) PageInfo() *iterator.PageInfo {
 	return it.pageInfo
 }

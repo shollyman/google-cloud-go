@@ -330,9 +330,34 @@
         "grpc": {
           "libraryClient": "RowAccessPolicyClient",
           "rpcs": {
+            "BatchDeleteRowAccessPolicies": {
+              "methods": [
+                "BatchDeleteRowAccessPolicies"
+              ]
+            },
+            "CreateRowAccessPolicy": {
+              "methods": [
+                "CreateRowAccessPolicy"
+              ]
+            },
+            "DeleteRowAccessPolicy": {
+              "methods": [
+                "DeleteRowAccessPolicy"
+              ]
+            },
+            "GetRowAccessPolicy": {
+              "methods": [
+                "GetRowAccessPolicy"
+              ]
+            },
             "ListRowAccessPolicies": {
               "methods": [
                 "ListRowAccessPolicies"
+              ]
+            },
+            "UpdateRowAccessPolicy": {
+              "methods": [
+                "UpdateRowAccessPolicy"
               ]
             }
           }
@@ -340,9 +365,34 @@
         "rest": {
           "libraryClient": "RowAccessPolicyClient",
           "rpcs": {
+            "BatchDeleteRowAccessPolicies": {
+              "methods": [
+                "BatchDeleteRowAccessPolicies"
+              ]
+            },
+            "CreateRowAccessPolicy": {
+              "methods": [
+                "CreateRowAccessPolicy"
+              ]
+            },
+            "DeleteRowAccessPolicy": {
+              "methods": [
+                "DeleteRowAccessPolicy"
+              ]
+            },
+            "GetRowAccessPolicy": {
+              "methods": [
+                "GetRowAccessPolicy"
+              ]
+            },
             "ListRowAccessPolicies": {
               "methods": [
                 "ListRowAccessPolicies"
+              ]
+            },
+            "UpdateRowAccessPolicy": {
+              "methods": [
+                "UpdateRowAccessPolicy"
               ]
             }
           }

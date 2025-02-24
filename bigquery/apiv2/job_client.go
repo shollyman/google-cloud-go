@@ -1,4 +1,4 @@
-// Copyright 2024 Google LLC
+// Copyright 2025 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"io"
+	"log/slog"
 	"math"
 	"net/http"
 	"net/url"
@@ -28,7 +28,6 @@ import (
 
 	bigquerypb "cloud.google.com/go/bigquery/apiv2/bigquerypb"
 	gax "github.com/googleapis/gax-go/v2"
-	"google.golang.org/api/googleapi"
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 	"google.golang.org/api/option/internaloption"
@@ -284,11 +283,6 @@ type internalJobClient interface {
 
 // JobClient is a client for interacting with BigQuery API.
 // Methods, except Close, may be called concurrently. However, fields must not be modified concurrently with method calls.
-//
-// This is an experimental RPC service definition for the BigQuery
-// Job Service.
-//
-// It should not be relied on for production use cases at this time.
 type JobClient struct {
 	// The internal transport-dependent client.
 	internalClient internalJobClient
@@ -391,15 +385,12 @@ type jobGRPCClient struct {
 
 	// The x-goog-* metadata to be sent with each request.
 	xGoogHeaders []string
+
+	logger *slog.Logger
 }
 
 // NewJobClient creates a new job service client based on gRPC.
 // The returned client must be Closed when it is done being used to clean up its underlying connections.
-//
-// This is an experimental RPC service definition for the BigQuery
-// Job Service.
-//
-// It should not be relied on for production use cases at this time.
 func NewJobClient(ctx context.Context, opts ...option.ClientOption) (*JobClient, error) {
 	clientOpts := defaultJobGRPCClientOptions()
 	if newJobClientHook != nil {
@@ -420,6 +411,7 @@ func NewJobClient(ctx context.Context, opts ...option.ClientOption) (*JobClient,
 		connPool:    connPool,
 		jobClient:   bigquerypb.NewJobServiceClient(connPool),
 		CallOptions: &client.CallOptions,
+		logger:      internaloption.GetLogger(opts),
 	}
 	c.setGoogleClientInfo()
 
@@ -466,14 +458,11 @@ type jobRESTClient struct {
 
 	// Points back to the CallOptions field of the containing JobClient
 	CallOptions **JobCallOptions
+
+	logger *slog.Logger
 }
 
 // NewJobRESTClient creates a new job service rest client.
-//
-// This is an experimental RPC service definition for the BigQuery
-// Job Service.
-//
-// It should not be relied on for production use cases at this time.
 func NewJobRESTClient(ctx context.Context, opts ...option.ClientOption) (*JobClient, error) {
 	clientOpts := append(defaultJobRESTClientOptions(), opts...)
 	httpClient, endpoint, err := httptransport.NewClient(ctx, clientOpts...)
@@ -486,6 +475,7 @@ func NewJobRESTClient(ctx context.Context, opts ...option.ClientOption) (*JobCli
 		endpoint:    endpoint,
 		httpClient:  httpClient,
 		CallOptions: &callOpts,
+		logger:      internaloption.GetLogger(opts),
 	}
 	c.setGoogleClientInfo()
 
@@ -538,7 +528,7 @@ func (c *jobGRPCClient) CancelJob(ctx context.Context, req *bigquerypb.CancelJob
 	var resp *bigquerypb.JobCancelResponse
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-		resp, err = c.jobClient.CancelJob(ctx, req, settings.GRPC...)
+		resp, err = executeRPC(ctx, c.jobClient.CancelJob, req, settings.GRPC, c.logger, "CancelJob")
 		return err
 	}, opts...)
 	if err != nil {
@@ -556,7 +546,7 @@ func (c *jobGRPCClient) GetJob(ctx context.Context, req *bigquerypb.GetJobReques
 	var resp *bigquerypb.Job
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-		resp, err = c.jobClient.GetJob(ctx, req, settings.GRPC...)
+		resp, err = executeRPC(ctx, c.jobClient.GetJob, req, settings.GRPC, c.logger, "GetJob")
 		return err
 	}, opts...)
 	if err != nil {
@@ -574,7 +564,7 @@ func (c *jobGRPCClient) InsertJob(ctx context.Context, req *bigquerypb.InsertJob
 	var resp *bigquerypb.Job
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-		resp, err = c.jobClient.InsertJob(ctx, req, settings.GRPC...)
+		resp, err = executeRPC(ctx, c.jobClient.InsertJob, req, settings.GRPC, c.logger, "InsertJob")
 		return err
 	}, opts...)
 	if err != nil {
@@ -591,7 +581,7 @@ func (c *jobGRPCClient) DeleteJob(ctx context.Context, req *bigquerypb.DeleteJob
 	opts = append((*c.CallOptions).DeleteJob[0:len((*c.CallOptions).DeleteJob):len((*c.CallOptions).DeleteJob)], opts...)
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-		_, err = c.jobClient.DeleteJob(ctx, req, settings.GRPC...)
+		_, err = executeRPC(ctx, c.jobClient.DeleteJob, req, settings.GRPC, c.logger, "DeleteJob")
 		return err
 	}, opts...)
 	return err
@@ -617,7 +607,7 @@ func (c *jobGRPCClient) ListJobs(ctx context.Context, req *bigquerypb.ListJobsRe
 		}
 		err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 			var err error
-			resp, err = c.jobClient.ListJobs(ctx, req, settings.GRPC...)
+			resp, err = executeRPC(ctx, c.jobClient.ListJobs, req, settings.GRPC, c.logger, "ListJobs")
 			return err
 		}, opts...)
 		if err != nil {
@@ -654,7 +644,7 @@ func (c *jobGRPCClient) GetQueryResults(ctx context.Context, req *bigquerypb.Get
 	var resp *bigquerypb.GetQueryResultsResponse
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-		resp, err = c.jobClient.GetQueryResults(ctx, req, settings.GRPC...)
+		resp, err = executeRPC(ctx, c.jobClient.GetQueryResults, req, settings.GRPC, c.logger, "GetQueryResults")
 		return err
 	}, opts...)
 	if err != nil {
@@ -672,7 +662,7 @@ func (c *jobGRPCClient) Query(ctx context.Context, req *bigquerypb.PostQueryRequ
 	var resp *bigquerypb.QueryResponse
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-		resp, err = c.jobClient.Query(ctx, req, settings.GRPC...)
+		resp, err = executeRPC(ctx, c.jobClient.Query, req, settings.GRPC, c.logger, "Query")
 		return err
 	}, opts...)
 	if err != nil {
@@ -718,17 +708,7 @@ func (c *jobRESTClient) CancelJob(ctx context.Context, req *bigquerypb.CancelJob
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		if err = googleapi.CheckResponse(httpRsp); err != nil {
-			return err
-		}
-
-		buf, err := io.ReadAll(httpRsp.Body)
+		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, nil, "CancelJob")
 		if err != nil {
 			return err
 		}
@@ -782,17 +762,7 @@ func (c *jobRESTClient) GetJob(ctx context.Context, req *bigquerypb.GetJobReques
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		if err = googleapi.CheckResponse(httpRsp); err != nil {
-			return err
-		}
-
-		buf, err := io.ReadAll(httpRsp.Body)
+		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, nil, "GetJob")
 		if err != nil {
 			return err
 		}
@@ -855,17 +825,7 @@ func (c *jobRESTClient) InsertJob(ctx context.Context, req *bigquerypb.InsertJob
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		if err = googleapi.CheckResponse(httpRsp); err != nil {
-			return err
-		}
-
-		buf, err := io.ReadAll(httpRsp.Body)
+		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, jsonReq, "InsertJob")
 		if err != nil {
 			return err
 		}
@@ -915,15 +875,8 @@ func (c *jobRESTClient) DeleteJob(ctx context.Context, req *bigquerypb.DeleteJob
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		// Returns nil if there is no error, otherwise wraps
-		// the response code and body into a non-nil error
-		return googleapi.CheckResponse(httpRsp)
+		_, err = executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, nil, "DeleteJob")
+		return err
 	}, opts...)
 }
 
@@ -1003,21 +956,10 @@ func (c *jobRESTClient) ListJobs(ctx context.Context, req *bigquerypb.ListJobsRe
 			}
 			httpReq.Header = headers
 
-			httpRsp, err := c.httpClient.Do(httpReq)
+			buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, nil, "ListJobs")
 			if err != nil {
 				return err
 			}
-			defer httpRsp.Body.Close()
-
-			if err = googleapi.CheckResponse(httpRsp); err != nil {
-				return err
-			}
-
-			buf, err := io.ReadAll(httpRsp.Body)
-			if err != nil {
-				return err
-			}
-
 			if err := unm.Unmarshal(buf, resp); err != nil {
 				return err
 			}
@@ -1111,17 +1053,7 @@ func (c *jobRESTClient) GetQueryResults(ctx context.Context, req *bigquerypb.Get
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		if err = googleapi.CheckResponse(httpRsp); err != nil {
-			return err
-		}
-
-		buf, err := io.ReadAll(httpRsp.Body)
+		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, nil, "GetQueryResults")
 		if err != nil {
 			return err
 		}
@@ -1174,17 +1106,7 @@ func (c *jobRESTClient) Query(ctx context.Context, req *bigquerypb.PostQueryRequ
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		if err = googleapi.CheckResponse(httpRsp); err != nil {
-			return err
-		}
-
-		buf, err := io.ReadAll(httpRsp.Body)
+		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, jsonReq, "Query")
 		if err != nil {
 			return err
 		}

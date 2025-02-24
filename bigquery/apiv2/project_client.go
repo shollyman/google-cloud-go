@@ -1,4 +1,4 @@
-// Copyright 2024 Google LLC
+// Copyright 2025 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ package bigquery
 import (
 	"context"
 	"fmt"
-	"io"
+	"log/slog"
 	"math"
 	"net/http"
 	"net/url"
@@ -27,7 +27,6 @@ import (
 
 	bigquerypb "cloud.google.com/go/bigquery/apiv2/bigquerypb"
 	gax "github.com/googleapis/gax-go/v2"
-	"google.golang.org/api/googleapi"
 	"google.golang.org/api/option"
 	"google.golang.org/api/option/internaloption"
 	gtransport "google.golang.org/api/transport/grpc"
@@ -107,10 +106,7 @@ type internalProjectClient interface {
 // ProjectClient is a client for interacting with BigQuery API.
 // Methods, except Close, may be called concurrently. However, fields must not be modified concurrently with method calls.
 //
-// This is an experimental RPC service definition for the BigQuery
-// Project Service.
-//
-// It should not be relied on for production use cases at this time.
+// This service provides access to BigQuery functionality related to projects.
 type ProjectClient struct {
 	// The internal transport-dependent client.
 	internalClient internalProjectClient
@@ -163,15 +159,14 @@ type projectGRPCClient struct {
 
 	// The x-goog-* metadata to be sent with each request.
 	xGoogHeaders []string
+
+	logger *slog.Logger
 }
 
 // NewProjectClient creates a new project service client based on gRPC.
 // The returned client must be Closed when it is done being used to clean up its underlying connections.
 //
-// This is an experimental RPC service definition for the BigQuery
-// Project Service.
-//
-// It should not be relied on for production use cases at this time.
+// This service provides access to BigQuery functionality related to projects.
 func NewProjectClient(ctx context.Context, opts ...option.ClientOption) (*ProjectClient, error) {
 	clientOpts := defaultProjectGRPCClientOptions()
 	if newProjectClientHook != nil {
@@ -192,6 +187,7 @@ func NewProjectClient(ctx context.Context, opts ...option.ClientOption) (*Projec
 		connPool:      connPool,
 		projectClient: bigquerypb.NewProjectServiceClient(connPool),
 		CallOptions:   &client.CallOptions,
+		logger:        internaloption.GetLogger(opts),
 	}
 	c.setGoogleClientInfo()
 
@@ -238,14 +234,13 @@ type projectRESTClient struct {
 
 	// Points back to the CallOptions field of the containing ProjectClient
 	CallOptions **ProjectCallOptions
+
+	logger *slog.Logger
 }
 
 // NewProjectRESTClient creates a new project service rest client.
 //
-// This is an experimental RPC service definition for the BigQuery
-// Project Service.
-//
-// It should not be relied on for production use cases at this time.
+// This service provides access to BigQuery functionality related to projects.
 func NewProjectRESTClient(ctx context.Context, opts ...option.ClientOption) (*ProjectClient, error) {
 	clientOpts := append(defaultProjectRESTClientOptions(), opts...)
 	httpClient, endpoint, err := httptransport.NewClient(ctx, clientOpts...)
@@ -258,6 +253,7 @@ func NewProjectRESTClient(ctx context.Context, opts ...option.ClientOption) (*Pr
 		endpoint:    endpoint,
 		httpClient:  httpClient,
 		CallOptions: &callOpts,
+		logger:      internaloption.GetLogger(opts),
 	}
 	c.setGoogleClientInfo()
 
@@ -310,7 +306,7 @@ func (c *projectGRPCClient) GetServiceAccount(ctx context.Context, req *bigquery
 	var resp *bigquerypb.GetServiceAccountResponse
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-		resp, err = c.projectClient.GetServiceAccount(ctx, req, settings.GRPC...)
+		resp, err = executeRPC(ctx, c.projectClient.GetServiceAccount, req, settings.GRPC, c.logger, "GetServiceAccount")
 		return err
 	}, opts...)
 	if err != nil {
@@ -348,17 +344,7 @@ func (c *projectRESTClient) GetServiceAccount(ctx context.Context, req *bigquery
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		if err = googleapi.CheckResponse(httpRsp); err != nil {
-			return err
-		}
-
-		buf, err := io.ReadAll(httpRsp.Body)
+		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, nil, "GetServiceAccount")
 		if err != nil {
 			return err
 		}

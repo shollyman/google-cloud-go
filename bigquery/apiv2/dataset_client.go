@@ -1,4 +1,4 @@
-// Copyright 2024 Google LLC
+// Copyright 2025 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"io"
+	"log/slog"
 	"math"
 	"net/http"
 	"net/url"
@@ -28,7 +28,6 @@ import (
 
 	bigquerypb "cloud.google.com/go/bigquery/apiv2/bigquerypb"
 	gax "github.com/googleapis/gax-go/v2"
-	"google.golang.org/api/googleapi"
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 	"google.golang.org/api/option/internaloption"
@@ -285,10 +284,7 @@ type internalDatasetClient interface {
 // DatasetClient is a client for interacting with BigQuery API.
 // Methods, except Close, may be called concurrently. However, fields must not be modified concurrently with method calls.
 //
-// This is an experimental RPC service definition for the BigQuery
-// Dataset Service.
-//
-// It should not be relied on for production use cases at this time.
+// DatasetService provides methods for managing BigQuery datasets.
 type DatasetClient struct {
 	// The internal transport-dependent client.
 	internalClient internalDatasetClient
@@ -381,15 +377,14 @@ type datasetGRPCClient struct {
 
 	// The x-goog-* metadata to be sent with each request.
 	xGoogHeaders []string
+
+	logger *slog.Logger
 }
 
 // NewDatasetClient creates a new dataset service client based on gRPC.
 // The returned client must be Closed when it is done being used to clean up its underlying connections.
 //
-// This is an experimental RPC service definition for the BigQuery
-// Dataset Service.
-//
-// It should not be relied on for production use cases at this time.
+// DatasetService provides methods for managing BigQuery datasets.
 func NewDatasetClient(ctx context.Context, opts ...option.ClientOption) (*DatasetClient, error) {
 	clientOpts := defaultDatasetGRPCClientOptions()
 	if newDatasetClientHook != nil {
@@ -410,6 +405,7 @@ func NewDatasetClient(ctx context.Context, opts ...option.ClientOption) (*Datase
 		connPool:      connPool,
 		datasetClient: bigquerypb.NewDatasetServiceClient(connPool),
 		CallOptions:   &client.CallOptions,
+		logger:        internaloption.GetLogger(opts),
 	}
 	c.setGoogleClientInfo()
 
@@ -456,14 +452,13 @@ type datasetRESTClient struct {
 
 	// Points back to the CallOptions field of the containing DatasetClient
 	CallOptions **DatasetCallOptions
+
+	logger *slog.Logger
 }
 
 // NewDatasetRESTClient creates a new dataset service rest client.
 //
-// This is an experimental RPC service definition for the BigQuery
-// Dataset Service.
-//
-// It should not be relied on for production use cases at this time.
+// DatasetService provides methods for managing BigQuery datasets.
 func NewDatasetRESTClient(ctx context.Context, opts ...option.ClientOption) (*DatasetClient, error) {
 	clientOpts := append(defaultDatasetRESTClientOptions(), opts...)
 	httpClient, endpoint, err := httptransport.NewClient(ctx, clientOpts...)
@@ -476,6 +471,7 @@ func NewDatasetRESTClient(ctx context.Context, opts ...option.ClientOption) (*Da
 		endpoint:    endpoint,
 		httpClient:  httpClient,
 		CallOptions: &callOpts,
+		logger:      internaloption.GetLogger(opts),
 	}
 	c.setGoogleClientInfo()
 
@@ -528,7 +524,7 @@ func (c *datasetGRPCClient) GetDataset(ctx context.Context, req *bigquerypb.GetD
 	var resp *bigquerypb.Dataset
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-		resp, err = c.datasetClient.GetDataset(ctx, req, settings.GRPC...)
+		resp, err = executeRPC(ctx, c.datasetClient.GetDataset, req, settings.GRPC, c.logger, "GetDataset")
 		return err
 	}, opts...)
 	if err != nil {
@@ -546,7 +542,7 @@ func (c *datasetGRPCClient) InsertDataset(ctx context.Context, req *bigquerypb.I
 	var resp *bigquerypb.Dataset
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-		resp, err = c.datasetClient.InsertDataset(ctx, req, settings.GRPC...)
+		resp, err = executeRPC(ctx, c.datasetClient.InsertDataset, req, settings.GRPC, c.logger, "InsertDataset")
 		return err
 	}, opts...)
 	if err != nil {
@@ -564,7 +560,7 @@ func (c *datasetGRPCClient) PatchDataset(ctx context.Context, req *bigquerypb.Up
 	var resp *bigquerypb.Dataset
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-		resp, err = c.datasetClient.PatchDataset(ctx, req, settings.GRPC...)
+		resp, err = executeRPC(ctx, c.datasetClient.PatchDataset, req, settings.GRPC, c.logger, "PatchDataset")
 		return err
 	}, opts...)
 	if err != nil {
@@ -582,7 +578,7 @@ func (c *datasetGRPCClient) UpdateDataset(ctx context.Context, req *bigquerypb.U
 	var resp *bigquerypb.Dataset
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-		resp, err = c.datasetClient.UpdateDataset(ctx, req, settings.GRPC...)
+		resp, err = executeRPC(ctx, c.datasetClient.UpdateDataset, req, settings.GRPC, c.logger, "UpdateDataset")
 		return err
 	}, opts...)
 	if err != nil {
@@ -599,7 +595,7 @@ func (c *datasetGRPCClient) DeleteDataset(ctx context.Context, req *bigquerypb.D
 	opts = append((*c.CallOptions).DeleteDataset[0:len((*c.CallOptions).DeleteDataset):len((*c.CallOptions).DeleteDataset)], opts...)
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-		_, err = c.datasetClient.DeleteDataset(ctx, req, settings.GRPC...)
+		_, err = executeRPC(ctx, c.datasetClient.DeleteDataset, req, settings.GRPC, c.logger, "DeleteDataset")
 		return err
 	}, opts...)
 	return err
@@ -625,7 +621,7 @@ func (c *datasetGRPCClient) ListDatasets(ctx context.Context, req *bigquerypb.Li
 		}
 		err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 			var err error
-			resp, err = c.datasetClient.ListDatasets(ctx, req, settings.GRPC...)
+			resp, err = executeRPC(ctx, c.datasetClient.ListDatasets, req, settings.GRPC, c.logger, "ListDatasets")
 			return err
 		}, opts...)
 		if err != nil {
@@ -662,7 +658,7 @@ func (c *datasetGRPCClient) UndeleteDataset(ctx context.Context, req *bigquerypb
 	var resp *bigquerypb.Dataset
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-		resp, err = c.datasetClient.UndeleteDataset(ctx, req, settings.GRPC...)
+		resp, err = executeRPC(ctx, c.datasetClient.UndeleteDataset, req, settings.GRPC, c.logger, "UndeleteDataset")
 		return err
 	}, opts...)
 	if err != nil {
@@ -680,6 +676,9 @@ func (c *datasetRESTClient) GetDataset(ctx context.Context, req *bigquerypb.GetD
 	baseUrl.Path += fmt.Sprintf("/bigquery/v2/projects/%v/datasets/%v", req.GetProjectId(), req.GetDatasetId())
 
 	params := url.Values{}
+	if req.GetAccessPolicyVersion() != 0 {
+		params.Add("accessPolicyVersion", fmt.Sprintf("%v", req.GetAccessPolicyVersion()))
+	}
 	if req.GetDatasetView() != 0 {
 		params.Add("datasetView", fmt.Sprintf("%v", req.GetDatasetView()))
 	}
@@ -706,17 +705,7 @@ func (c *datasetRESTClient) GetDataset(ctx context.Context, req *bigquerypb.GetD
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		if err = googleapi.CheckResponse(httpRsp); err != nil {
-			return err
-		}
-
-		buf, err := io.ReadAll(httpRsp.Body)
+		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, nil, "GetDataset")
 		if err != nil {
 			return err
 		}
@@ -748,6 +737,13 @@ func (c *datasetRESTClient) InsertDataset(ctx context.Context, req *bigquerypb.I
 	}
 	baseUrl.Path += fmt.Sprintf("/bigquery/v2/projects/%v/datasets", req.GetProjectId())
 
+	params := url.Values{}
+	if req.GetAccessPolicyVersion() != 0 {
+		params.Add("accessPolicyVersion", fmt.Sprintf("%v", req.GetAccessPolicyVersion()))
+	}
+
+	baseUrl.RawQuery = params.Encode()
+
 	// Build HTTP headers from client and context metadata.
 	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v", "project_id", url.QueryEscape(req.GetProjectId()))}
 
@@ -768,17 +764,7 @@ func (c *datasetRESTClient) InsertDataset(ctx context.Context, req *bigquerypb.I
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		if err = googleapi.CheckResponse(httpRsp); err != nil {
-			return err
-		}
-
-		buf, err := io.ReadAll(httpRsp.Body)
+		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, jsonReq, "InsertDataset")
 		if err != nil {
 			return err
 		}
@@ -813,6 +799,13 @@ func (c *datasetRESTClient) PatchDataset(ctx context.Context, req *bigquerypb.Up
 	}
 	baseUrl.Path += fmt.Sprintf("/bigquery/v2/projects/%v/datasets/%v", req.GetProjectId(), req.GetDatasetId())
 
+	params := url.Values{}
+	if req.GetAccessPolicyVersion() != 0 {
+		params.Add("accessPolicyVersion", fmt.Sprintf("%v", req.GetAccessPolicyVersion()))
+	}
+
+	baseUrl.RawQuery = params.Encode()
+
 	// Build HTTP headers from client and context metadata.
 	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "dataset_id", url.QueryEscape(req.GetDatasetId()))}
 
@@ -833,17 +826,7 @@ func (c *datasetRESTClient) PatchDataset(ctx context.Context, req *bigquerypb.Up
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		if err = googleapi.CheckResponse(httpRsp); err != nil {
-			return err
-		}
-
-		buf, err := io.ReadAll(httpRsp.Body)
+		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, jsonReq, "PatchDataset")
 		if err != nil {
 			return err
 		}
@@ -877,6 +860,13 @@ func (c *datasetRESTClient) UpdateDataset(ctx context.Context, req *bigquerypb.U
 	}
 	baseUrl.Path += fmt.Sprintf("/bigquery/v2/projects/%v/datasets/%v", req.GetProjectId(), req.GetDatasetId())
 
+	params := url.Values{}
+	if req.GetAccessPolicyVersion() != 0 {
+		params.Add("accessPolicyVersion", fmt.Sprintf("%v", req.GetAccessPolicyVersion()))
+	}
+
+	baseUrl.RawQuery = params.Encode()
+
 	// Build HTTP headers from client and context metadata.
 	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "dataset_id", url.QueryEscape(req.GetDatasetId()))}
 
@@ -897,17 +887,7 @@ func (c *datasetRESTClient) UpdateDataset(ctx context.Context, req *bigquerypb.U
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		if err = googleapi.CheckResponse(httpRsp); err != nil {
-			return err
-		}
-
-		buf, err := io.ReadAll(httpRsp.Body)
+		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, jsonReq, "UpdateDataset")
 		if err != nil {
 			return err
 		}
@@ -959,15 +939,8 @@ func (c *datasetRESTClient) DeleteDataset(ctx context.Context, req *bigquerypb.D
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		// Returns nil if there is no error, otherwise wraps
-		// the response code and body into a non-nil error
-		return googleapi.CheckResponse(httpRsp)
+		_, err = executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, nil, "DeleteDataset")
+		return err
 	}, opts...)
 }
 
@@ -1026,21 +999,10 @@ func (c *datasetRESTClient) ListDatasets(ctx context.Context, req *bigquerypb.Li
 			}
 			httpReq.Header = headers
 
-			httpRsp, err := c.httpClient.Do(httpReq)
+			buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, nil, "ListDatasets")
 			if err != nil {
 				return err
 			}
-			defer httpRsp.Body.Close()
-
-			if err = googleapi.CheckResponse(httpRsp); err != nil {
-				return err
-			}
-
-			buf, err := io.ReadAll(httpRsp.Body)
-			if err != nil {
-				return err
-			}
-
 			if err := unm.Unmarshal(buf, resp); err != nil {
 				return err
 			}
@@ -1108,17 +1070,7 @@ func (c *datasetRESTClient) UndeleteDataset(ctx context.Context, req *bigquerypb
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		if err = googleapi.CheckResponse(httpRsp); err != nil {
-			return err
-		}
-
-		buf, err := io.ReadAll(httpRsp.Body)
+		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, jsonReq, "UndeleteDataset")
 		if err != nil {
 			return err
 		}

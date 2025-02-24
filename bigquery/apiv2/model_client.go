@@ -1,4 +1,4 @@
-// Copyright 2024 Google LLC
+// Copyright 2025 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"io"
+	"log/slog"
 	"math"
 	"net/http"
 	"net/url"
@@ -28,7 +28,6 @@ import (
 
 	bigquerypb "cloud.google.com/go/bigquery/apiv2/bigquerypb"
 	gax "github.com/googleapis/gax-go/v2"
-	"google.golang.org/api/googleapi"
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 	"google.golang.org/api/option/internaloption"
@@ -173,10 +172,7 @@ type internalModelClient interface {
 // ModelClient is a client for interacting with BigQuery API.
 // Methods, except Close, may be called concurrently. However, fields must not be modified concurrently with method calls.
 //
-// This is an experimental RPC service definition for the BigQuery
-// Model Service.
-//
-// It should not be relied on for production use cases at this time.
+// Model Service for BigQuery ML
 type ModelClient struct {
 	// The internal transport-dependent client.
 	internalClient internalModelClient
@@ -245,15 +241,14 @@ type modelGRPCClient struct {
 
 	// The x-goog-* metadata to be sent with each request.
 	xGoogHeaders []string
+
+	logger *slog.Logger
 }
 
 // NewModelClient creates a new model service client based on gRPC.
 // The returned client must be Closed when it is done being used to clean up its underlying connections.
 //
-// This is an experimental RPC service definition for the BigQuery
-// Model Service.
-//
-// It should not be relied on for production use cases at this time.
+// Model Service for BigQuery ML
 func NewModelClient(ctx context.Context, opts ...option.ClientOption) (*ModelClient, error) {
 	clientOpts := defaultModelGRPCClientOptions()
 	if newModelClientHook != nil {
@@ -274,6 +269,7 @@ func NewModelClient(ctx context.Context, opts ...option.ClientOption) (*ModelCli
 		connPool:    connPool,
 		modelClient: bigquerypb.NewModelServiceClient(connPool),
 		CallOptions: &client.CallOptions,
+		logger:      internaloption.GetLogger(opts),
 	}
 	c.setGoogleClientInfo()
 
@@ -320,14 +316,13 @@ type modelRESTClient struct {
 
 	// Points back to the CallOptions field of the containing ModelClient
 	CallOptions **ModelCallOptions
+
+	logger *slog.Logger
 }
 
 // NewModelRESTClient creates a new model service rest client.
 //
-// This is an experimental RPC service definition for the BigQuery
-// Model Service.
-//
-// It should not be relied on for production use cases at this time.
+// Model Service for BigQuery ML
 func NewModelRESTClient(ctx context.Context, opts ...option.ClientOption) (*ModelClient, error) {
 	clientOpts := append(defaultModelRESTClientOptions(), opts...)
 	httpClient, endpoint, err := httptransport.NewClient(ctx, clientOpts...)
@@ -340,6 +335,7 @@ func NewModelRESTClient(ctx context.Context, opts ...option.ClientOption) (*Mode
 		endpoint:    endpoint,
 		httpClient:  httpClient,
 		CallOptions: &callOpts,
+		logger:      internaloption.GetLogger(opts),
 	}
 	c.setGoogleClientInfo()
 
@@ -392,7 +388,7 @@ func (c *modelGRPCClient) GetModel(ctx context.Context, req *bigquerypb.GetModel
 	var resp *bigquerypb.Model
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-		resp, err = c.modelClient.GetModel(ctx, req, settings.GRPC...)
+		resp, err = executeRPC(ctx, c.modelClient.GetModel, req, settings.GRPC, c.logger, "GetModel")
 		return err
 	}, opts...)
 	if err != nil {
@@ -421,7 +417,7 @@ func (c *modelGRPCClient) ListModels(ctx context.Context, req *bigquerypb.ListMo
 		}
 		err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 			var err error
-			resp, err = c.modelClient.ListModels(ctx, req, settings.GRPC...)
+			resp, err = executeRPC(ctx, c.modelClient.ListModels, req, settings.GRPC, c.logger, "ListModels")
 			return err
 		}, opts...)
 		if err != nil {
@@ -458,7 +454,7 @@ func (c *modelGRPCClient) PatchModel(ctx context.Context, req *bigquerypb.PatchM
 	var resp *bigquerypb.Model
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-		resp, err = c.modelClient.PatchModel(ctx, req, settings.GRPC...)
+		resp, err = executeRPC(ctx, c.modelClient.PatchModel, req, settings.GRPC, c.logger, "PatchModel")
 		return err
 	}, opts...)
 	if err != nil {
@@ -475,7 +471,7 @@ func (c *modelGRPCClient) DeleteModel(ctx context.Context, req *bigquerypb.Delet
 	opts = append((*c.CallOptions).DeleteModel[0:len((*c.CallOptions).DeleteModel):len((*c.CallOptions).DeleteModel)], opts...)
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-		_, err = c.modelClient.DeleteModel(ctx, req, settings.GRPC...)
+		_, err = executeRPC(ctx, c.modelClient.DeleteModel, req, settings.GRPC, c.logger, "DeleteModel")
 		return err
 	}, opts...)
 	return err
@@ -509,17 +505,7 @@ func (c *modelRESTClient) GetModel(ctx context.Context, req *bigquerypb.GetModel
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		if err = googleapi.CheckResponse(httpRsp); err != nil {
-			return err
-		}
-
-		buf, err := io.ReadAll(httpRsp.Body)
+		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, nil, "GetModel")
 		if err != nil {
 			return err
 		}
@@ -586,21 +572,10 @@ func (c *modelRESTClient) ListModels(ctx context.Context, req *bigquerypb.ListMo
 			}
 			httpReq.Header = headers
 
-			httpRsp, err := c.httpClient.Do(httpReq)
+			buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, nil, "ListModels")
 			if err != nil {
 				return err
 			}
-			defer httpRsp.Body.Close()
-
-			if err = googleapi.CheckResponse(httpRsp); err != nil {
-				return err
-			}
-
-			buf, err := io.ReadAll(httpRsp.Body)
-			if err != nil {
-				return err
-			}
-
 			if err := unm.Unmarshal(buf, resp); err != nil {
 				return err
 			}
@@ -667,17 +642,7 @@ func (c *modelRESTClient) PatchModel(ctx context.Context, req *bigquerypb.PatchM
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		if err = googleapi.CheckResponse(httpRsp); err != nil {
-			return err
-		}
-
-		buf, err := io.ReadAll(httpRsp.Body)
+		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, jsonReq, "PatchModel")
 		if err != nil {
 			return err
 		}
@@ -719,14 +684,7 @@ func (c *modelRESTClient) DeleteModel(ctx context.Context, req *bigquerypb.Delet
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		// Returns nil if there is no error, otherwise wraps
-		// the response code and body into a non-nil error
-		return googleapi.CheckResponse(httpRsp)
+		_, err = executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, nil, "DeleteModel")
+		return err
 	}, opts...)
 }

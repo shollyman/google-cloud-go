@@ -1,4 +1,4 @@
-// Copyright 2024 Google LLC
+// Copyright 2025 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"io"
+	"log/slog"
 	"math"
 	"net/http"
 	"net/url"
@@ -28,7 +28,6 @@ import (
 
 	bigquerypb "cloud.google.com/go/bigquery/apiv2/bigquerypb"
 	gax "github.com/googleapis/gax-go/v2"
-	"google.golang.org/api/googleapi"
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 	"google.golang.org/api/option/internaloption"
@@ -256,10 +255,8 @@ type internalTableClient interface {
 // TableClient is a client for interacting with BigQuery API.
 // Methods, except Close, may be called concurrently. However, fields must not be modified concurrently with method calls.
 //
-// This is an experimental RPC service definition for the BigQuery
-// Table Service.
-//
-// It should not be relied on for production use cases at this time.
+// TableService provides methods for managing BigQuery tables and table-like
+// entities such as views and snapshots.
 type TableClient struct {
 	// The internal transport-dependent client.
 	internalClient internalTableClient
@@ -345,15 +342,15 @@ type tableGRPCClient struct {
 
 	// The x-goog-* metadata to be sent with each request.
 	xGoogHeaders []string
+
+	logger *slog.Logger
 }
 
 // NewTableClient creates a new table service client based on gRPC.
 // The returned client must be Closed when it is done being used to clean up its underlying connections.
 //
-// This is an experimental RPC service definition for the BigQuery
-// Table Service.
-//
-// It should not be relied on for production use cases at this time.
+// TableService provides methods for managing BigQuery tables and table-like
+// entities such as views and snapshots.
 func NewTableClient(ctx context.Context, opts ...option.ClientOption) (*TableClient, error) {
 	clientOpts := defaultTableGRPCClientOptions()
 	if newTableClientHook != nil {
@@ -374,6 +371,7 @@ func NewTableClient(ctx context.Context, opts ...option.ClientOption) (*TableCli
 		connPool:    connPool,
 		tableClient: bigquerypb.NewTableServiceClient(connPool),
 		CallOptions: &client.CallOptions,
+		logger:      internaloption.GetLogger(opts),
 	}
 	c.setGoogleClientInfo()
 
@@ -420,14 +418,14 @@ type tableRESTClient struct {
 
 	// Points back to the CallOptions field of the containing TableClient
 	CallOptions **TableCallOptions
+
+	logger *slog.Logger
 }
 
 // NewTableRESTClient creates a new table service rest client.
 //
-// This is an experimental RPC service definition for the BigQuery
-// Table Service.
-//
-// It should not be relied on for production use cases at this time.
+// TableService provides methods for managing BigQuery tables and table-like
+// entities such as views and snapshots.
 func NewTableRESTClient(ctx context.Context, opts ...option.ClientOption) (*TableClient, error) {
 	clientOpts := append(defaultTableRESTClientOptions(), opts...)
 	httpClient, endpoint, err := httptransport.NewClient(ctx, clientOpts...)
@@ -440,6 +438,7 @@ func NewTableRESTClient(ctx context.Context, opts ...option.ClientOption) (*Tabl
 		endpoint:    endpoint,
 		httpClient:  httpClient,
 		CallOptions: &callOpts,
+		logger:      internaloption.GetLogger(opts),
 	}
 	c.setGoogleClientInfo()
 
@@ -492,7 +491,7 @@ func (c *tableGRPCClient) GetTable(ctx context.Context, req *bigquerypb.GetTable
 	var resp *bigquerypb.Table
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-		resp, err = c.tableClient.GetTable(ctx, req, settings.GRPC...)
+		resp, err = executeRPC(ctx, c.tableClient.GetTable, req, settings.GRPC, c.logger, "GetTable")
 		return err
 	}, opts...)
 	if err != nil {
@@ -510,7 +509,7 @@ func (c *tableGRPCClient) InsertTable(ctx context.Context, req *bigquerypb.Inser
 	var resp *bigquerypb.Table
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-		resp, err = c.tableClient.InsertTable(ctx, req, settings.GRPC...)
+		resp, err = executeRPC(ctx, c.tableClient.InsertTable, req, settings.GRPC, c.logger, "InsertTable")
 		return err
 	}, opts...)
 	if err != nil {
@@ -528,7 +527,7 @@ func (c *tableGRPCClient) PatchTable(ctx context.Context, req *bigquerypb.Update
 	var resp *bigquerypb.Table
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-		resp, err = c.tableClient.PatchTable(ctx, req, settings.GRPC...)
+		resp, err = executeRPC(ctx, c.tableClient.PatchTable, req, settings.GRPC, c.logger, "PatchTable")
 		return err
 	}, opts...)
 	if err != nil {
@@ -546,7 +545,7 @@ func (c *tableGRPCClient) UpdateTable(ctx context.Context, req *bigquerypb.Updat
 	var resp *bigquerypb.Table
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-		resp, err = c.tableClient.UpdateTable(ctx, req, settings.GRPC...)
+		resp, err = executeRPC(ctx, c.tableClient.UpdateTable, req, settings.GRPC, c.logger, "UpdateTable")
 		return err
 	}, opts...)
 	if err != nil {
@@ -563,7 +562,7 @@ func (c *tableGRPCClient) DeleteTable(ctx context.Context, req *bigquerypb.Delet
 	opts = append((*c.CallOptions).DeleteTable[0:len((*c.CallOptions).DeleteTable):len((*c.CallOptions).DeleteTable)], opts...)
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-		_, err = c.tableClient.DeleteTable(ctx, req, settings.GRPC...)
+		_, err = executeRPC(ctx, c.tableClient.DeleteTable, req, settings.GRPC, c.logger, "DeleteTable")
 		return err
 	}, opts...)
 	return err
@@ -589,7 +588,7 @@ func (c *tableGRPCClient) ListTables(ctx context.Context, req *bigquerypb.ListTa
 		}
 		err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 			var err error
-			resp, err = c.tableClient.ListTables(ctx, req, settings.GRPC...)
+			resp, err = executeRPC(ctx, c.tableClient.ListTables, req, settings.GRPC, c.logger, "ListTables")
 			return err
 		}, opts...)
 		if err != nil {
@@ -657,17 +656,7 @@ func (c *tableRESTClient) GetTable(ctx context.Context, req *bigquerypb.GetTable
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		if err = googleapi.CheckResponse(httpRsp); err != nil {
-			return err
-		}
-
-		buf, err := io.ReadAll(httpRsp.Body)
+		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, nil, "GetTable")
 		if err != nil {
 			return err
 		}
@@ -719,17 +708,7 @@ func (c *tableRESTClient) InsertTable(ctx context.Context, req *bigquerypb.Inser
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		if err = googleapi.CheckResponse(httpRsp); err != nil {
-			return err
-		}
-
-		buf, err := io.ReadAll(httpRsp.Body)
+		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, jsonReq, "InsertTable")
 		if err != nil {
 			return err
 		}
@@ -791,17 +770,7 @@ func (c *tableRESTClient) PatchTable(ctx context.Context, req *bigquerypb.Update
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		if err = googleapi.CheckResponse(httpRsp); err != nil {
-			return err
-		}
-
-		buf, err := io.ReadAll(httpRsp.Body)
+		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, jsonReq, "PatchTable")
 		if err != nil {
 			return err
 		}
@@ -862,17 +831,7 @@ func (c *tableRESTClient) UpdateTable(ctx context.Context, req *bigquerypb.Updat
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		if err = googleapi.CheckResponse(httpRsp); err != nil {
-			return err
-		}
-
-		buf, err := io.ReadAll(httpRsp.Body)
+		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, jsonReq, "UpdateTable")
 		if err != nil {
 			return err
 		}
@@ -915,15 +874,8 @@ func (c *tableRESTClient) DeleteTable(ctx context.Context, req *bigquerypb.Delet
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		// Returns nil if there is no error, otherwise wraps
-		// the response code and body into a non-nil error
-		return googleapi.CheckResponse(httpRsp)
+		_, err = executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, nil, "DeleteTable")
+		return err
 	}, opts...)
 }
 
@@ -976,21 +928,10 @@ func (c *tableRESTClient) ListTables(ctx context.Context, req *bigquerypb.ListTa
 			}
 			httpReq.Header = headers
 
-			httpRsp, err := c.httpClient.Do(httpReq)
+			buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, nil, "ListTables")
 			if err != nil {
 				return err
 			}
-			defer httpRsp.Body.Close()
-
-			if err = googleapi.CheckResponse(httpRsp); err != nil {
-				return err
-			}
-
-			buf, err := io.ReadAll(httpRsp.Body)
-			if err != nil {
-				return err
-			}
-
 			if err := unm.Unmarshal(buf, resp); err != nil {
 				return err
 			}

@@ -1,4 +1,4 @@
-// Copyright 2024 Google LLC
+// Copyright 2025 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,9 +17,10 @@
 package bigquery
 
 import (
+	"bytes"
 	"context"
 	"fmt"
-	"io"
+	"log/slog"
 	"math"
 	"net/http"
 	"net/url"
@@ -27,7 +28,6 @@ import (
 
 	bigquerypb "cloud.google.com/go/bigquery/apiv2/bigquerypb"
 	gax "github.com/googleapis/gax-go/v2"
-	"google.golang.org/api/googleapi"
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 	"google.golang.org/api/option/internaloption"
@@ -43,7 +43,12 @@ var newRowAccessPolicyClientHook clientHook
 
 // RowAccessPolicyCallOptions contains the retry settings for each method of RowAccessPolicyClient.
 type RowAccessPolicyCallOptions struct {
-	ListRowAccessPolicies []gax.CallOption
+	ListRowAccessPolicies        []gax.CallOption
+	GetRowAccessPolicy           []gax.CallOption
+	CreateRowAccessPolicy        []gax.CallOption
+	UpdateRowAccessPolicy        []gax.CallOption
+	DeleteRowAccessPolicy        []gax.CallOption
+	BatchDeleteRowAccessPolicies []gax.CallOption
 }
 
 func defaultRowAccessPolicyGRPCClientOptions() []option.ClientOption {
@@ -77,12 +82,147 @@ func defaultRowAccessPolicyCallOptions() *RowAccessPolicyCallOptions {
 				})
 			}),
 		},
+		GetRowAccessPolicy: []gax.CallOption{
+			gax.WithTimeout(64000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnCodes([]codes.Code{
+					codes.DeadlineExceeded,
+					codes.Unavailable,
+					codes.ResourceExhausted,
+				}, gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				})
+			}),
+		},
+		CreateRowAccessPolicy: []gax.CallOption{
+			gax.WithTimeout(64000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnCodes([]codes.Code{
+					codes.DeadlineExceeded,
+					codes.Unavailable,
+					codes.ResourceExhausted,
+				}, gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				})
+			}),
+		},
+		UpdateRowAccessPolicy: []gax.CallOption{
+			gax.WithTimeout(64000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnCodes([]codes.Code{
+					codes.DeadlineExceeded,
+					codes.Unavailable,
+					codes.ResourceExhausted,
+				}, gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				})
+			}),
+		},
+		DeleteRowAccessPolicy: []gax.CallOption{
+			gax.WithTimeout(64000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnCodes([]codes.Code{
+					codes.DeadlineExceeded,
+					codes.Unavailable,
+					codes.ResourceExhausted,
+				}, gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				})
+			}),
+		},
+		BatchDeleteRowAccessPolicies: []gax.CallOption{
+			gax.WithTimeout(64000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnCodes([]codes.Code{
+					codes.DeadlineExceeded,
+					codes.Unavailable,
+					codes.ResourceExhausted,
+				}, gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				})
+			}),
+		},
 	}
 }
 
 func defaultRowAccessPolicyRESTCallOptions() *RowAccessPolicyCallOptions {
 	return &RowAccessPolicyCallOptions{
 		ListRowAccessPolicies: []gax.CallOption{
+			gax.WithTimeout(64000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnHTTPCodes(gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				},
+					http.StatusGatewayTimeout,
+					http.StatusServiceUnavailable,
+					http.StatusTooManyRequests)
+			}),
+		},
+		GetRowAccessPolicy: []gax.CallOption{
+			gax.WithTimeout(64000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnHTTPCodes(gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				},
+					http.StatusGatewayTimeout,
+					http.StatusServiceUnavailable,
+					http.StatusTooManyRequests)
+			}),
+		},
+		CreateRowAccessPolicy: []gax.CallOption{
+			gax.WithTimeout(64000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnHTTPCodes(gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				},
+					http.StatusGatewayTimeout,
+					http.StatusServiceUnavailable,
+					http.StatusTooManyRequests)
+			}),
+		},
+		UpdateRowAccessPolicy: []gax.CallOption{
+			gax.WithTimeout(64000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnHTTPCodes(gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				},
+					http.StatusGatewayTimeout,
+					http.StatusServiceUnavailable,
+					http.StatusTooManyRequests)
+			}),
+		},
+		DeleteRowAccessPolicy: []gax.CallOption{
+			gax.WithTimeout(64000 * time.Millisecond),
+			gax.WithRetry(func() gax.Retryer {
+				return gax.OnHTTPCodes(gax.Backoff{
+					Initial:    100 * time.Millisecond,
+					Max:        60000 * time.Millisecond,
+					Multiplier: 1.30,
+				},
+					http.StatusGatewayTimeout,
+					http.StatusServiceUnavailable,
+					http.StatusTooManyRequests)
+			}),
+		},
+		BatchDeleteRowAccessPolicies: []gax.CallOption{
 			gax.WithTimeout(64000 * time.Millisecond),
 			gax.WithRetry(func() gax.Retryer {
 				return gax.OnHTTPCodes(gax.Backoff{
@@ -104,6 +244,11 @@ type internalRowAccessPolicyClient interface {
 	setGoogleClientInfo(...string)
 	Connection() *grpc.ClientConn
 	ListRowAccessPolicies(context.Context, *bigquerypb.ListRowAccessPoliciesRequest, ...gax.CallOption) *RowAccessPolicyIterator
+	GetRowAccessPolicy(context.Context, *bigquerypb.GetRowAccessPolicyRequest, ...gax.CallOption) (*bigquerypb.RowAccessPolicy, error)
+	CreateRowAccessPolicy(context.Context, *bigquerypb.CreateRowAccessPolicyRequest, ...gax.CallOption) (*bigquerypb.RowAccessPolicy, error)
+	UpdateRowAccessPolicy(context.Context, *bigquerypb.UpdateRowAccessPolicyRequest, ...gax.CallOption) (*bigquerypb.RowAccessPolicy, error)
+	DeleteRowAccessPolicy(context.Context, *bigquerypb.DeleteRowAccessPolicyRequest, ...gax.CallOption) error
+	BatchDeleteRowAccessPolicies(context.Context, *bigquerypb.BatchDeleteRowAccessPoliciesRequest, ...gax.CallOption) error
 }
 
 // RowAccessPolicyClient is a client for interacting with BigQuery API.
@@ -146,6 +291,31 @@ func (c *RowAccessPolicyClient) ListRowAccessPolicies(ctx context.Context, req *
 	return c.internalClient.ListRowAccessPolicies(ctx, req, opts...)
 }
 
+// GetRowAccessPolicy gets the specified row access policy by policy ID.
+func (c *RowAccessPolicyClient) GetRowAccessPolicy(ctx context.Context, req *bigquerypb.GetRowAccessPolicyRequest, opts ...gax.CallOption) (*bigquerypb.RowAccessPolicy, error) {
+	return c.internalClient.GetRowAccessPolicy(ctx, req, opts...)
+}
+
+// CreateRowAccessPolicy creates a row access policy.
+func (c *RowAccessPolicyClient) CreateRowAccessPolicy(ctx context.Context, req *bigquerypb.CreateRowAccessPolicyRequest, opts ...gax.CallOption) (*bigquerypb.RowAccessPolicy, error) {
+	return c.internalClient.CreateRowAccessPolicy(ctx, req, opts...)
+}
+
+// UpdateRowAccessPolicy updates a row access policy.
+func (c *RowAccessPolicyClient) UpdateRowAccessPolicy(ctx context.Context, req *bigquerypb.UpdateRowAccessPolicyRequest, opts ...gax.CallOption) (*bigquerypb.RowAccessPolicy, error) {
+	return c.internalClient.UpdateRowAccessPolicy(ctx, req, opts...)
+}
+
+// DeleteRowAccessPolicy deletes a row access policy.
+func (c *RowAccessPolicyClient) DeleteRowAccessPolicy(ctx context.Context, req *bigquerypb.DeleteRowAccessPolicyRequest, opts ...gax.CallOption) error {
+	return c.internalClient.DeleteRowAccessPolicy(ctx, req, opts...)
+}
+
+// BatchDeleteRowAccessPolicies deletes provided row access policies.
+func (c *RowAccessPolicyClient) BatchDeleteRowAccessPolicies(ctx context.Context, req *bigquerypb.BatchDeleteRowAccessPoliciesRequest, opts ...gax.CallOption) error {
+	return c.internalClient.BatchDeleteRowAccessPolicies(ctx, req, opts...)
+}
+
 // rowAccessPolicyGRPCClient is a client for interacting with BigQuery API over gRPC transport.
 //
 // Methods, except Close, may be called concurrently. However, fields must not be modified concurrently with method calls.
@@ -161,6 +331,8 @@ type rowAccessPolicyGRPCClient struct {
 
 	// The x-goog-* metadata to be sent with each request.
 	xGoogHeaders []string
+
+	logger *slog.Logger
 }
 
 // NewRowAccessPolicyClient creates a new row access policy service client based on gRPC.
@@ -187,6 +359,7 @@ func NewRowAccessPolicyClient(ctx context.Context, opts ...option.ClientOption) 
 		connPool:              connPool,
 		rowAccessPolicyClient: bigquerypb.NewRowAccessPolicyServiceClient(connPool),
 		CallOptions:           &client.CallOptions,
+		logger:                internaloption.GetLogger(opts),
 	}
 	c.setGoogleClientInfo()
 
@@ -233,6 +406,8 @@ type rowAccessPolicyRESTClient struct {
 
 	// Points back to the CallOptions field of the containing RowAccessPolicyClient
 	CallOptions **RowAccessPolicyCallOptions
+
+	logger *slog.Logger
 }
 
 // NewRowAccessPolicyRESTClient creates a new row access policy service rest client.
@@ -250,6 +425,7 @@ func NewRowAccessPolicyRESTClient(ctx context.Context, opts ...option.ClientOpti
 		endpoint:    endpoint,
 		httpClient:  httpClient,
 		CallOptions: &callOpts,
+		logger:      internaloption.GetLogger(opts),
 	}
 	c.setGoogleClientInfo()
 
@@ -313,7 +489,7 @@ func (c *rowAccessPolicyGRPCClient) ListRowAccessPolicies(ctx context.Context, r
 		}
 		err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 			var err error
-			resp, err = c.rowAccessPolicyClient.ListRowAccessPolicies(ctx, req, settings.GRPC...)
+			resp, err = executeRPC(ctx, c.rowAccessPolicyClient.ListRowAccessPolicies, req, settings.GRPC, c.logger, "ListRowAccessPolicies")
 			return err
 		}, opts...)
 		if err != nil {
@@ -337,6 +513,88 @@ func (c *rowAccessPolicyGRPCClient) ListRowAccessPolicies(ctx context.Context, r
 	it.pageInfo.Token = req.GetPageToken()
 
 	return it
+}
+
+func (c *rowAccessPolicyGRPCClient) GetRowAccessPolicy(ctx context.Context, req *bigquerypb.GetRowAccessPolicyRequest, opts ...gax.CallOption) (*bigquerypb.RowAccessPolicy, error) {
+	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v&%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "dataset_id", url.QueryEscape(req.GetDatasetId()), "table_id", url.QueryEscape(req.GetTableId()), "policy_id", url.QueryEscape(req.GetPolicyId()))}
+
+	hds = append(c.xGoogHeaders, hds...)
+	ctx = gax.InsertMetadataIntoOutgoingContext(ctx, hds...)
+	opts = append((*c.CallOptions).GetRowAccessPolicy[0:len((*c.CallOptions).GetRowAccessPolicy):len((*c.CallOptions).GetRowAccessPolicy)], opts...)
+	var resp *bigquerypb.RowAccessPolicy
+	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
+		var err error
+		resp, err = executeRPC(ctx, c.rowAccessPolicyClient.GetRowAccessPolicy, req, settings.GRPC, c.logger, "GetRowAccessPolicy")
+		return err
+	}, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+func (c *rowAccessPolicyGRPCClient) CreateRowAccessPolicy(ctx context.Context, req *bigquerypb.CreateRowAccessPolicyRequest, opts ...gax.CallOption) (*bigquerypb.RowAccessPolicy, error) {
+	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "dataset_id", url.QueryEscape(req.GetDatasetId()), "table_id", url.QueryEscape(req.GetTableId()))}
+
+	hds = append(c.xGoogHeaders, hds...)
+	ctx = gax.InsertMetadataIntoOutgoingContext(ctx, hds...)
+	opts = append((*c.CallOptions).CreateRowAccessPolicy[0:len((*c.CallOptions).CreateRowAccessPolicy):len((*c.CallOptions).CreateRowAccessPolicy)], opts...)
+	var resp *bigquerypb.RowAccessPolicy
+	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
+		var err error
+		resp, err = executeRPC(ctx, c.rowAccessPolicyClient.CreateRowAccessPolicy, req, settings.GRPC, c.logger, "CreateRowAccessPolicy")
+		return err
+	}, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+func (c *rowAccessPolicyGRPCClient) UpdateRowAccessPolicy(ctx context.Context, req *bigquerypb.UpdateRowAccessPolicyRequest, opts ...gax.CallOption) (*bigquerypb.RowAccessPolicy, error) {
+	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v&%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "dataset_id", url.QueryEscape(req.GetDatasetId()), "table_id", url.QueryEscape(req.GetTableId()), "policy_id", url.QueryEscape(req.GetPolicyId()))}
+
+	hds = append(c.xGoogHeaders, hds...)
+	ctx = gax.InsertMetadataIntoOutgoingContext(ctx, hds...)
+	opts = append((*c.CallOptions).UpdateRowAccessPolicy[0:len((*c.CallOptions).UpdateRowAccessPolicy):len((*c.CallOptions).UpdateRowAccessPolicy)], opts...)
+	var resp *bigquerypb.RowAccessPolicy
+	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
+		var err error
+		resp, err = executeRPC(ctx, c.rowAccessPolicyClient.UpdateRowAccessPolicy, req, settings.GRPC, c.logger, "UpdateRowAccessPolicy")
+		return err
+	}, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+func (c *rowAccessPolicyGRPCClient) DeleteRowAccessPolicy(ctx context.Context, req *bigquerypb.DeleteRowAccessPolicyRequest, opts ...gax.CallOption) error {
+	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v&%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "dataset_id", url.QueryEscape(req.GetDatasetId()), "table_id", url.QueryEscape(req.GetTableId()), "policy_id", url.QueryEscape(req.GetPolicyId()))}
+
+	hds = append(c.xGoogHeaders, hds...)
+	ctx = gax.InsertMetadataIntoOutgoingContext(ctx, hds...)
+	opts = append((*c.CallOptions).DeleteRowAccessPolicy[0:len((*c.CallOptions).DeleteRowAccessPolicy):len((*c.CallOptions).DeleteRowAccessPolicy)], opts...)
+	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
+		var err error
+		_, err = executeRPC(ctx, c.rowAccessPolicyClient.DeleteRowAccessPolicy, req, settings.GRPC, c.logger, "DeleteRowAccessPolicy")
+		return err
+	}, opts...)
+	return err
+}
+
+func (c *rowAccessPolicyGRPCClient) BatchDeleteRowAccessPolicies(ctx context.Context, req *bigquerypb.BatchDeleteRowAccessPoliciesRequest, opts ...gax.CallOption) error {
+	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "dataset_id", url.QueryEscape(req.GetDatasetId()), "table_id", url.QueryEscape(req.GetTableId()))}
+
+	hds = append(c.xGoogHeaders, hds...)
+	ctx = gax.InsertMetadataIntoOutgoingContext(ctx, hds...)
+	opts = append((*c.CallOptions).BatchDeleteRowAccessPolicies[0:len((*c.CallOptions).BatchDeleteRowAccessPolicies):len((*c.CallOptions).BatchDeleteRowAccessPolicies)], opts...)
+	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
+		var err error
+		_, err = executeRPC(ctx, c.rowAccessPolicyClient.BatchDeleteRowAccessPolicies, req, settings.GRPC, c.logger, "BatchDeleteRowAccessPolicies")
+		return err
+	}, opts...)
+	return err
 }
 
 // ListRowAccessPolicies lists all row access policies on the specified table.
@@ -383,21 +641,10 @@ func (c *rowAccessPolicyRESTClient) ListRowAccessPolicies(ctx context.Context, r
 			}
 			httpReq.Header = headers
 
-			httpRsp, err := c.httpClient.Do(httpReq)
+			buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, nil, "ListRowAccessPolicies")
 			if err != nil {
 				return err
 			}
-			defer httpRsp.Body.Close()
-
-			if err = googleapi.CheckResponse(httpRsp); err != nil {
-				return err
-			}
-
-			buf, err := io.ReadAll(httpRsp.Body)
-			if err != nil {
-				return err
-			}
-
 			if err := unm.Unmarshal(buf, resp); err != nil {
 				return err
 			}
@@ -425,4 +672,226 @@ func (c *rowAccessPolicyRESTClient) ListRowAccessPolicies(ctx context.Context, r
 	it.pageInfo.Token = req.GetPageToken()
 
 	return it
+}
+
+// GetRowAccessPolicy gets the specified row access policy by policy ID.
+func (c *rowAccessPolicyRESTClient) GetRowAccessPolicy(ctx context.Context, req *bigquerypb.GetRowAccessPolicyRequest, opts ...gax.CallOption) (*bigquerypb.RowAccessPolicy, error) {
+	baseUrl, err := url.Parse(c.endpoint)
+	if err != nil {
+		return nil, err
+	}
+	baseUrl.Path += fmt.Sprintf("/bigquery/v2/projects/%v/datasets/%v/tables/%v/rowAccessPolicies/%v", req.GetProjectId(), req.GetDatasetId(), req.GetTableId(), req.GetPolicyId())
+
+	// Build HTTP headers from client and context metadata.
+	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v&%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "dataset_id", url.QueryEscape(req.GetDatasetId()), "table_id", url.QueryEscape(req.GetTableId()), "policy_id", url.QueryEscape(req.GetPolicyId()))}
+
+	hds = append(c.xGoogHeaders, hds...)
+	hds = append(hds, "Content-Type", "application/json")
+	headers := gax.BuildHeaders(ctx, hds...)
+	opts = append((*c.CallOptions).GetRowAccessPolicy[0:len((*c.CallOptions).GetRowAccessPolicy):len((*c.CallOptions).GetRowAccessPolicy)], opts...)
+	unm := protojson.UnmarshalOptions{AllowPartial: true, DiscardUnknown: true}
+	resp := &bigquerypb.RowAccessPolicy{}
+	e := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
+		if settings.Path != "" {
+			baseUrl.Path = settings.Path
+		}
+		httpReq, err := http.NewRequest("GET", baseUrl.String(), nil)
+		if err != nil {
+			return err
+		}
+		httpReq = httpReq.WithContext(ctx)
+		httpReq.Header = headers
+
+		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, nil, "GetRowAccessPolicy")
+		if err != nil {
+			return err
+		}
+
+		if err := unm.Unmarshal(buf, resp); err != nil {
+			return err
+		}
+
+		return nil
+	}, opts...)
+	if e != nil {
+		return nil, e
+	}
+	return resp, nil
+}
+
+// CreateRowAccessPolicy creates a row access policy.
+func (c *rowAccessPolicyRESTClient) CreateRowAccessPolicy(ctx context.Context, req *bigquerypb.CreateRowAccessPolicyRequest, opts ...gax.CallOption) (*bigquerypb.RowAccessPolicy, error) {
+	m := protojson.MarshalOptions{AllowPartial: true, UseEnumNumbers: true}
+	body := req.GetRowAccessPolicy()
+	jsonReq, err := m.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+
+	baseUrl, err := url.Parse(c.endpoint)
+	if err != nil {
+		return nil, err
+	}
+	baseUrl.Path += fmt.Sprintf("/bigquery/v2/projects/%v/datasets/%v/tables/%v/rowAccessPolicies", req.GetProjectId(), req.GetDatasetId(), req.GetTableId())
+
+	// Build HTTP headers from client and context metadata.
+	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "dataset_id", url.QueryEscape(req.GetDatasetId()), "table_id", url.QueryEscape(req.GetTableId()))}
+
+	hds = append(c.xGoogHeaders, hds...)
+	hds = append(hds, "Content-Type", "application/json")
+	headers := gax.BuildHeaders(ctx, hds...)
+	opts = append((*c.CallOptions).CreateRowAccessPolicy[0:len((*c.CallOptions).CreateRowAccessPolicy):len((*c.CallOptions).CreateRowAccessPolicy)], opts...)
+	unm := protojson.UnmarshalOptions{AllowPartial: true, DiscardUnknown: true}
+	resp := &bigquerypb.RowAccessPolicy{}
+	e := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
+		if settings.Path != "" {
+			baseUrl.Path = settings.Path
+		}
+		httpReq, err := http.NewRequest("POST", baseUrl.String(), bytes.NewReader(jsonReq))
+		if err != nil {
+			return err
+		}
+		httpReq = httpReq.WithContext(ctx)
+		httpReq.Header = headers
+
+		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, jsonReq, "CreateRowAccessPolicy")
+		if err != nil {
+			return err
+		}
+
+		if err := unm.Unmarshal(buf, resp); err != nil {
+			return err
+		}
+
+		return nil
+	}, opts...)
+	if e != nil {
+		return nil, e
+	}
+	return resp, nil
+}
+
+// UpdateRowAccessPolicy updates a row access policy.
+func (c *rowAccessPolicyRESTClient) UpdateRowAccessPolicy(ctx context.Context, req *bigquerypb.UpdateRowAccessPolicyRequest, opts ...gax.CallOption) (*bigquerypb.RowAccessPolicy, error) {
+	m := protojson.MarshalOptions{AllowPartial: true, UseEnumNumbers: true}
+	body := req.GetRowAccessPolicy()
+	jsonReq, err := m.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+
+	baseUrl, err := url.Parse(c.endpoint)
+	if err != nil {
+		return nil, err
+	}
+	baseUrl.Path += fmt.Sprintf("/bigquery/v2/projects/%v/datasets/%v/tables/%v/rowAccessPolicies/%v", req.GetProjectId(), req.GetDatasetId(), req.GetTableId(), req.GetPolicyId())
+
+	// Build HTTP headers from client and context metadata.
+	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v&%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "dataset_id", url.QueryEscape(req.GetDatasetId()), "table_id", url.QueryEscape(req.GetTableId()), "policy_id", url.QueryEscape(req.GetPolicyId()))}
+
+	hds = append(c.xGoogHeaders, hds...)
+	hds = append(hds, "Content-Type", "application/json")
+	headers := gax.BuildHeaders(ctx, hds...)
+	opts = append((*c.CallOptions).UpdateRowAccessPolicy[0:len((*c.CallOptions).UpdateRowAccessPolicy):len((*c.CallOptions).UpdateRowAccessPolicy)], opts...)
+	unm := protojson.UnmarshalOptions{AllowPartial: true, DiscardUnknown: true}
+	resp := &bigquerypb.RowAccessPolicy{}
+	e := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
+		if settings.Path != "" {
+			baseUrl.Path = settings.Path
+		}
+		httpReq, err := http.NewRequest("PUT", baseUrl.String(), bytes.NewReader(jsonReq))
+		if err != nil {
+			return err
+		}
+		httpReq = httpReq.WithContext(ctx)
+		httpReq.Header = headers
+
+		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, jsonReq, "UpdateRowAccessPolicy")
+		if err != nil {
+			return err
+		}
+
+		if err := unm.Unmarshal(buf, resp); err != nil {
+			return err
+		}
+
+		return nil
+	}, opts...)
+	if e != nil {
+		return nil, e
+	}
+	return resp, nil
+}
+
+// DeleteRowAccessPolicy deletes a row access policy.
+func (c *rowAccessPolicyRESTClient) DeleteRowAccessPolicy(ctx context.Context, req *bigquerypb.DeleteRowAccessPolicyRequest, opts ...gax.CallOption) error {
+	baseUrl, err := url.Parse(c.endpoint)
+	if err != nil {
+		return err
+	}
+	baseUrl.Path += fmt.Sprintf("/bigquery/v2/projects/%v/datasets/%v/tables/%v/rowAccessPolicies/%v", req.GetProjectId(), req.GetDatasetId(), req.GetTableId(), req.GetPolicyId())
+
+	params := url.Values{}
+	if req != nil && req.Force != nil {
+		params.Add("force", fmt.Sprintf("%v", req.GetForce()))
+	}
+
+	baseUrl.RawQuery = params.Encode()
+
+	// Build HTTP headers from client and context metadata.
+	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v&%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "dataset_id", url.QueryEscape(req.GetDatasetId()), "table_id", url.QueryEscape(req.GetTableId()), "policy_id", url.QueryEscape(req.GetPolicyId()))}
+
+	hds = append(c.xGoogHeaders, hds...)
+	hds = append(hds, "Content-Type", "application/json")
+	headers := gax.BuildHeaders(ctx, hds...)
+	return gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
+		if settings.Path != "" {
+			baseUrl.Path = settings.Path
+		}
+		httpReq, err := http.NewRequest("DELETE", baseUrl.String(), nil)
+		if err != nil {
+			return err
+		}
+		httpReq = httpReq.WithContext(ctx)
+		httpReq.Header = headers
+
+		_, err = executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, nil, "DeleteRowAccessPolicy")
+		return err
+	}, opts...)
+}
+
+// BatchDeleteRowAccessPolicies deletes provided row access policies.
+func (c *rowAccessPolicyRESTClient) BatchDeleteRowAccessPolicies(ctx context.Context, req *bigquerypb.BatchDeleteRowAccessPoliciesRequest, opts ...gax.CallOption) error {
+	m := protojson.MarshalOptions{AllowPartial: true, UseEnumNumbers: true}
+	jsonReq, err := m.Marshal(req)
+	if err != nil {
+		return err
+	}
+
+	baseUrl, err := url.Parse(c.endpoint)
+	if err != nil {
+		return err
+	}
+	baseUrl.Path += fmt.Sprintf("/bigquery/v2/projects/%v/datasets/%v/tables/%v/rowAccessPolicies:batchDelete", req.GetProjectId(), req.GetDatasetId(), req.GetTableId())
+
+	// Build HTTP headers from client and context metadata.
+	hds := []string{"x-goog-request-params", fmt.Sprintf("%s=%v&%s=%v&%s=%v", "project_id", url.QueryEscape(req.GetProjectId()), "dataset_id", url.QueryEscape(req.GetDatasetId()), "table_id", url.QueryEscape(req.GetTableId()))}
+
+	hds = append(c.xGoogHeaders, hds...)
+	hds = append(hds, "Content-Type", "application/json")
+	headers := gax.BuildHeaders(ctx, hds...)
+	return gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
+		if settings.Path != "" {
+			baseUrl.Path = settings.Path
+		}
+		httpReq, err := http.NewRequest("POST", baseUrl.String(), bytes.NewReader(jsonReq))
+		if err != nil {
+			return err
+		}
+		httpReq = httpReq.WithContext(ctx)
+		httpReq.Header = headers
+
+		_, err = executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, jsonReq, "BatchDeleteRowAccessPolicies")
+		return err
+	}, opts...)
 }

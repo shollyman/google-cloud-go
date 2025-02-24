@@ -1,4 +1,4 @@
-// Copyright 2024 Google LLC
+// Copyright 2025 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"io"
+	"log/slog"
 	"math"
 	"net/http"
 	"net/url"
@@ -28,7 +28,6 @@ import (
 
 	bigquerypb "cloud.google.com/go/bigquery/apiv2/bigquerypb"
 	gax "github.com/googleapis/gax-go/v2"
-	"google.golang.org/api/googleapi"
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 	"google.golang.org/api/option/internaloption"
@@ -256,10 +255,7 @@ type internalRoutineClient interface {
 // RoutineClient is a client for interacting with BigQuery API.
 // Methods, except Close, may be called concurrently. However, fields must not be modified concurrently with method calls.
 //
-// This is an experimental RPC service definition for the BigQuery
-// Routine Service.
-//
-// It should not be relied on for production use cases at this time.
+// RoutineService provides management access to BigQuery routines.
 type RoutineClient struct {
 	// The internal transport-dependent client.
 	internalClient internalRoutineClient
@@ -339,15 +335,14 @@ type routineGRPCClient struct {
 
 	// The x-goog-* metadata to be sent with each request.
 	xGoogHeaders []string
+
+	logger *slog.Logger
 }
 
 // NewRoutineClient creates a new routine service client based on gRPC.
 // The returned client must be Closed when it is done being used to clean up its underlying connections.
 //
-// This is an experimental RPC service definition for the BigQuery
-// Routine Service.
-//
-// It should not be relied on for production use cases at this time.
+// RoutineService provides management access to BigQuery routines.
 func NewRoutineClient(ctx context.Context, opts ...option.ClientOption) (*RoutineClient, error) {
 	clientOpts := defaultRoutineGRPCClientOptions()
 	if newRoutineClientHook != nil {
@@ -368,6 +363,7 @@ func NewRoutineClient(ctx context.Context, opts ...option.ClientOption) (*Routin
 		connPool:      connPool,
 		routineClient: bigquerypb.NewRoutineServiceClient(connPool),
 		CallOptions:   &client.CallOptions,
+		logger:        internaloption.GetLogger(opts),
 	}
 	c.setGoogleClientInfo()
 
@@ -414,14 +410,13 @@ type routineRESTClient struct {
 
 	// Points back to the CallOptions field of the containing RoutineClient
 	CallOptions **RoutineCallOptions
+
+	logger *slog.Logger
 }
 
 // NewRoutineRESTClient creates a new routine service rest client.
 //
-// This is an experimental RPC service definition for the BigQuery
-// Routine Service.
-//
-// It should not be relied on for production use cases at this time.
+// RoutineService provides management access to BigQuery routines.
 func NewRoutineRESTClient(ctx context.Context, opts ...option.ClientOption) (*RoutineClient, error) {
 	clientOpts := append(defaultRoutineRESTClientOptions(), opts...)
 	httpClient, endpoint, err := httptransport.NewClient(ctx, clientOpts...)
@@ -434,6 +429,7 @@ func NewRoutineRESTClient(ctx context.Context, opts ...option.ClientOption) (*Ro
 		endpoint:    endpoint,
 		httpClient:  httpClient,
 		CallOptions: &callOpts,
+		logger:      internaloption.GetLogger(opts),
 	}
 	c.setGoogleClientInfo()
 
@@ -486,7 +482,7 @@ func (c *routineGRPCClient) GetRoutine(ctx context.Context, req *bigquerypb.GetR
 	var resp *bigquerypb.Routine
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-		resp, err = c.routineClient.GetRoutine(ctx, req, settings.GRPC...)
+		resp, err = executeRPC(ctx, c.routineClient.GetRoutine, req, settings.GRPC, c.logger, "GetRoutine")
 		return err
 	}, opts...)
 	if err != nil {
@@ -504,7 +500,7 @@ func (c *routineGRPCClient) InsertRoutine(ctx context.Context, req *bigquerypb.I
 	var resp *bigquerypb.Routine
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-		resp, err = c.routineClient.InsertRoutine(ctx, req, settings.GRPC...)
+		resp, err = executeRPC(ctx, c.routineClient.InsertRoutine, req, settings.GRPC, c.logger, "InsertRoutine")
 		return err
 	}, opts...)
 	if err != nil {
@@ -522,7 +518,7 @@ func (c *routineGRPCClient) UpdateRoutine(ctx context.Context, req *bigquerypb.U
 	var resp *bigquerypb.Routine
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-		resp, err = c.routineClient.UpdateRoutine(ctx, req, settings.GRPC...)
+		resp, err = executeRPC(ctx, c.routineClient.UpdateRoutine, req, settings.GRPC, c.logger, "UpdateRoutine")
 		return err
 	}, opts...)
 	if err != nil {
@@ -537,7 +533,7 @@ func (c *routineGRPCClient) PatchRoutine(ctx context.Context, req *bigquerypb.Pa
 	var resp *bigquerypb.Routine
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-		resp, err = c.routineClient.PatchRoutine(ctx, req, settings.GRPC...)
+		resp, err = executeRPC(ctx, c.routineClient.PatchRoutine, req, settings.GRPC, c.logger, "PatchRoutine")
 		return err
 	}, opts...)
 	if err != nil {
@@ -554,7 +550,7 @@ func (c *routineGRPCClient) DeleteRoutine(ctx context.Context, req *bigquerypb.D
 	opts = append((*c.CallOptions).DeleteRoutine[0:len((*c.CallOptions).DeleteRoutine):len((*c.CallOptions).DeleteRoutine)], opts...)
 	err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 		var err error
-		_, err = c.routineClient.DeleteRoutine(ctx, req, settings.GRPC...)
+		_, err = executeRPC(ctx, c.routineClient.DeleteRoutine, req, settings.GRPC, c.logger, "DeleteRoutine")
 		return err
 	}, opts...)
 	return err
@@ -580,7 +576,7 @@ func (c *routineGRPCClient) ListRoutines(ctx context.Context, req *bigquerypb.Li
 		}
 		err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 			var err error
-			resp, err = c.routineClient.ListRoutines(ctx, req, settings.GRPC...)
+			resp, err = executeRPC(ctx, c.routineClient.ListRoutines, req, settings.GRPC, c.logger, "ListRoutines")
 			return err
 		}, opts...)
 		if err != nil {
@@ -636,17 +632,7 @@ func (c *routineRESTClient) GetRoutine(ctx context.Context, req *bigquerypb.GetR
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		if err = googleapi.CheckResponse(httpRsp); err != nil {
-			return err
-		}
-
-		buf, err := io.ReadAll(httpRsp.Body)
+		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, nil, "GetRoutine")
 		if err != nil {
 			return err
 		}
@@ -698,17 +684,7 @@ func (c *routineRESTClient) InsertRoutine(ctx context.Context, req *bigquerypb.I
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		if err = googleapi.CheckResponse(httpRsp); err != nil {
-			return err
-		}
-
-		buf, err := io.ReadAll(httpRsp.Body)
+		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, jsonReq, "InsertRoutine")
 		if err != nil {
 			return err
 		}
@@ -761,17 +737,7 @@ func (c *routineRESTClient) UpdateRoutine(ctx context.Context, req *bigquerypb.U
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		if err = googleapi.CheckResponse(httpRsp); err != nil {
-			return err
-		}
-
-		buf, err := io.ReadAll(httpRsp.Body)
+		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, jsonReq, "UpdateRoutine")
 		if err != nil {
 			return err
 		}
@@ -920,17 +886,7 @@ func (c *routineRESTClient) PatchRoutine(ctx context.Context, req *bigquerypb.Pa
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		if err = googleapi.CheckResponse(httpRsp); err != nil {
-			return err
-		}
-
-		buf, err := io.ReadAll(httpRsp.Body)
+		buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, nil, "PatchRoutine")
 		if err != nil {
 			return err
 		}
@@ -972,15 +928,8 @@ func (c *routineRESTClient) DeleteRoutine(ctx context.Context, req *bigquerypb.D
 		httpReq = httpReq.WithContext(ctx)
 		httpReq.Header = headers
 
-		httpRsp, err := c.httpClient.Do(httpReq)
-		if err != nil {
-			return err
-		}
-		defer httpRsp.Body.Close()
-
-		// Returns nil if there is no error, otherwise wraps
-		// the response code and body into a non-nil error
-		return googleapi.CheckResponse(httpRsp)
+		_, err = executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, nil, "DeleteRoutine")
+		return err
 	}, opts...)
 }
 
@@ -1036,21 +985,10 @@ func (c *routineRESTClient) ListRoutines(ctx context.Context, req *bigquerypb.Li
 			}
 			httpReq.Header = headers
 
-			httpRsp, err := c.httpClient.Do(httpReq)
+			buf, err := executeHTTPRequest(ctx, c.httpClient, httpReq, c.logger, nil, "ListRoutines")
 			if err != nil {
 				return err
 			}
-			defer httpRsp.Body.Close()
-
-			if err = googleapi.CheckResponse(httpRsp); err != nil {
-				return err
-			}
-
-			buf, err := io.ReadAll(httpRsp.Body)
-			if err != nil {
-				return err
-			}
-
 			if err := unm.Unmarshal(buf, resp); err != nil {
 				return err
 			}
