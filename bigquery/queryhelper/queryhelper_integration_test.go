@@ -75,7 +75,7 @@ func TestQueryRunner(t *testing.T) {
 				if gotErr == nil {
 					t.Errorf("expected error but got success")
 				} else {
-					t.Logf("got error as expected: %v", err)
+					t.Logf("got error as expected: %v", gotErr)
 				}
 			} else {
 				if gotErr != nil {
@@ -88,7 +88,16 @@ func TestQueryRunner(t *testing.T) {
 			if err != nil {
 				t.Errorf("Schema() error: %v", err)
 			}
-			t.Logf("schema: %s", protojson.Format(schema))
+			if schema != nil {
+				t.Logf("schema: %s", protojson.Format(schema))
+			}
+			// TODO: sort out row iterator
+			if rows := runner.cachedRows; rows != nil {
+				t.Logf("cached %d rows", len(rows))
+				for k, r := range runner.cachedRows {
+					t.Logf("row %d: %q", k, protojson.Format(r))
+				}
+			}
 		})
 	}
 }
