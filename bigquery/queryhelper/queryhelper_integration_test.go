@@ -32,9 +32,11 @@ func TestQueryRunner(t *testing.T) {
 	if err != nil {
 		t.Fatalf("NewJobClient: %v", err)
 	}
-	queryHelper := &QueryHelperClient{
-		project:   "shollyman-testing",
-		jobClient: jc,
+	queryHelper, err := NewQueryHelperClient(jc,
+		WithQueryProject("shollyman-testing"),
+	)
+	if err != nil {
+		t.Fatalf("NewQueryHelperClient: %v", err)
 	}
 
 	for _, tc := range []struct {

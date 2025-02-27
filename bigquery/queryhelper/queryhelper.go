@@ -37,10 +37,58 @@ type QueryHelperClient struct {
 	readClient *bigquerystorage.BigQueryReadClient
 }
 
+type queryHelperSettings struct {
+	readClient   *bigquerystorage.BigQueryReadClient
+	queryProject string
+}
+
+// QueryHelperOption is an option used for configuring a QueryHelperClient.
+type QueryHelperOption func(*queryHelperSettings)
+
+func WithQueryProject(projectID string) QueryHelperOption {
+	return func(s *queryHelperSettings) {
+		s.queryProject = projectID
+	}
+}
+
+// WithReadClient can be used to provide a BigQueryStorage Read Client stub
+// to the Query Helper.  It's use is to accelerate queries.
+func WithReadClient(client *bigquerystorage.BigQueryReadClient) QueryHelperOption {
+	return func(s *queryHelperSettings) {
+		s.readClient = client
+	}
+}
+
 // TODO: add options pattern
-func NewQueryHelperClient(ctx context.Context) (*QueryHelperClient, error) {
-	// Do we need context for the client itself, or only for operations on the client?
-	return nil, fmt.Errorf("Unimplemented")
+func NewQueryHelperClient(jobClient *bigquery.JobClient, opts ...QueryHelperOption) (*QueryHelperClient, error) {
+	if jobClient == nil {
+		return nil, fmt.Errorf("must provide a valid job client")
+	}
+	settings := &queryHelperSettings{}
+	for _, o := range opts {
+		o(settings)
+	}
+
+	qhc := &QueryHelperClient{
+		jobClient: jobClient,
+	}
+	if err := qhc.mergeSettings(settings); err != nil {
+		return nil, err
+	}
+	return qhc, nil
+}
+
+// TODO: will we support any settings that can actually cause errors at instantiation?
+func (qhc *QueryHelperClient) mergeSettings(s *queryHelperSettings) error {
+	if s.readClient != nil {
+		qhc.readClient = s.readClient
+	}
+	if s.queryProject != "" {
+		qhc.project = s.queryProject
+	} else {
+		// TODO: project detection from creds?
+	}
+	return nil
 }
 
 // StartQueryRequest will start a query based on an input PostQueryRequest,
