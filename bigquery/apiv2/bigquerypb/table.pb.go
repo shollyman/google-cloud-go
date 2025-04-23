@@ -1,4 +1,4 @@
-// Copyright 2024 Google LLC
+// Copyright 2025 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -840,7 +840,8 @@ type Table struct {
 	// a table stored outside of BigQuery. By defining these properties, the data
 	// source can then be queried as if it were a standard BigQuery table.
 	ExternalDataConfiguration *ExternalDataConfiguration `protobuf:"bytes,19,opt,name=external_data_configuration,json=externalDataConfiguration,proto3" json:"external_data_configuration,omitempty"`
-	// Optional. Specifies the configuration of a BigLake managed table.
+	// Optional. Specifies the configuration of a BigQuery table for Apache
+	// Iceberg.
 	BiglakeConfiguration *BigLakeConfiguration `protobuf:"bytes,45,opt,name=biglake_configuration,json=biglakeConfiguration,proto3" json:"biglake_configuration,omitempty"`
 	// Optional. If set, overrides the default managed table type configured in
 	// the dataset.

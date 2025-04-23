@@ -1,4 +1,4 @@
-// Copyright 2024 Google LLC
+// Copyright 2025 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Supported file formats for BigLake tables.
+// Supported file formats for BigQuery tables for Apache Iceberg.
 type BigLakeConfiguration_FileFormat int32
 
 const (
@@ -84,7 +84,7 @@ func (BigLakeConfiguration_FileFormat) EnumDescriptor() ([]byte, []int) {
 	return file_google_cloud_bigquery_v2_biglake_config_proto_rawDescGZIP(), []int{0, 0}
 }
 
-// Supported table formats for BigLake tables.
+// Supported table formats for BigQuery tables for Apache Iceberg.
 type BigLakeConfiguration_TableFormat int32
 
 const (
@@ -133,7 +133,8 @@ func (BigLakeConfiguration_TableFormat) EnumDescriptor() ([]byte, []int) {
 	return file_google_cloud_bigquery_v2_biglake_config_proto_rawDescGZIP(), []int{0, 1}
 }
 
-// Configuration for BigLake managed tables.
+// Configuration for BigQuery tables for Apache Iceberg (formerly BigLake
+// managed tables.)
 type BigLakeConfiguration struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

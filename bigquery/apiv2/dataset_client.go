@@ -803,6 +803,9 @@ func (c *datasetRESTClient) PatchDataset(ctx context.Context, req *bigquerypb.Up
 	if req.GetAccessPolicyVersion() != 0 {
 		params.Add("accessPolicyVersion", fmt.Sprintf("%v", req.GetAccessPolicyVersion()))
 	}
+	if req.GetUpdateMode() != 0 {
+		params.Add("updateMode", fmt.Sprintf("%v", req.GetUpdateMode()))
+	}
 
 	baseUrl.RawQuery = params.Encode()
 
@@ -863,6 +866,9 @@ func (c *datasetRESTClient) UpdateDataset(ctx context.Context, req *bigquerypb.U
 	params := url.Values{}
 	if req.GetAccessPolicyVersion() != 0 {
 		params.Add("accessPolicyVersion", fmt.Sprintf("%v", req.GetAccessPolicyVersion()))
+	}
+	if req.GetUpdateMode() != 0 {
+		params.Add("updateMode", fmt.Sprintf("%v", req.GetUpdateMode()))
 	}
 
 	baseUrl.RawQuery = params.Encode()
