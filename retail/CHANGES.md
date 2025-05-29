@@ -1,5 +1,41 @@
 # Changes
 
+## [1.21.0](https://github.com/googleapis/google-cloud-go/compare/retail/v1.20.0...retail/v1.21.0) (2025-05-29)
+
+
+### Features
+
+* **retail:** Add a model_scores field in SearchResponse.results to expose model quality signals ([8189e33](https://github.com/googleapis/google-cloud-go/commit/8189e3313ed62b99cc238c421ae9acfa32aaf9af))
+* **retail:** Add a user_attributes field in SearchRequest that can be used for personalization ([8189e33](https://github.com/googleapis/google-cloud-go/commit/8189e3313ed62b99cc238c421ae9acfa32aaf9af))
+* **retail:** Data_source_id replaces primary_feed_id in MerchantCenterFeedFilter ([8189e33](https://github.com/googleapis/google-cloud-go/commit/8189e3313ed62b99cc238c421ae9acfa32aaf9af))
+
+## [1.20.0](https://github.com/googleapis/google-cloud-go/compare/retail/v1.19.4...retail/v1.20.0) (2025-04-30)
+
+
+### Features
+
+* **retail:** Add availability field to Localnventory ([a95a0bf](https://github.com/googleapis/google-cloud-go/commit/a95a0bf4172b8a227955a0353fd9c845f4502411))
+* **retail:** Add conversational search API ([73bd9a8](https://github.com/googleapis/google-cloud-go/commit/73bd9a8de74a3c71e81888cab98dcc489ba3302b))
+* **retail:** Add language_code, region_code and place_id to SearchRequest ([73bd9a8](https://github.com/googleapis/google-cloud-go/commit/73bd9a8de74a3c71e81888cab98dcc489ba3302b))
+* **retail:** Add language_code, region_code and place_id to SearchRequest ([#12069](https://github.com/googleapis/google-cloud-go/issues/12069)) ([8f6067c](https://github.com/googleapis/google-cloud-go/commit/8f6067c000833caa338a8cab15ec6fd0ea39f849))
+* **retail:** Add new fields including language_code, region_code and place_id to SearchRequest. ([a95a0bf](https://github.com/googleapis/google-cloud-go/commit/a95a0bf4172b8a227955a0353fd9c845f4502411))
+* **retail:** Add pin_control_metadata to SearchResponse ([8f6067c](https://github.com/googleapis/google-cloud-go/commit/8f6067c000833caa338a8cab15ec6fd0ea39f849))
+* **retail:** Add pin_control_metadata to SearchResponse ([73bd9a8](https://github.com/googleapis/google-cloud-go/commit/73bd9a8de74a3c71e81888cab98dcc489ba3302b))
+* **retail:** Add pin_control_metadata to SearchResponse. ([a95a0bf](https://github.com/googleapis/google-cloud-go/commit/a95a0bf4172b8a227955a0353fd9c845f4502411))
+
+
+### Bug Fixes
+
+* **retail:** An existing field `llm_embedding_config` is removed from message `.google.cloud.retail.v2alpha.Model` ([a95a0bf](https://github.com/googleapis/google-cloud-go/commit/a95a0bf4172b8a227955a0353fd9c845f4502411))
+* **retail:** An existing message `LlmEmbeddingConfig` is removed. ([a95a0bf](https://github.com/googleapis/google-cloud-go/commit/a95a0bf4172b8a227955a0353fd9c845f4502411))
+
+
+### Documentation
+
+* **retail:** Keep the API doc up-to-date with recent changes ([8f6067c](https://github.com/googleapis/google-cloud-go/commit/8f6067c000833caa338a8cab15ec6fd0ea39f849))
+* **retail:** Keep the API doc up-to-date with recent changes ([73bd9a8](https://github.com/googleapis/google-cloud-go/commit/73bd9a8de74a3c71e81888cab98dcc489ba3302b))
+* **retail:** Keep the API doc up-to-date with recent changes ([a95a0bf](https://github.com/googleapis/google-cloud-go/commit/a95a0bf4172b8a227955a0353fd9c845f4502411))
+
 ## [1.19.4](https://github.com/googleapis/google-cloud-go/compare/retail/v1.19.3...retail/v1.19.4) (2025-04-15)
 
 
