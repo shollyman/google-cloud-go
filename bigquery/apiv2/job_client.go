@@ -106,9 +106,9 @@ func defaultJobCallOptions() *JobCallOptions {
 					codes.Unavailable,
 					codes.ResourceExhausted,
 				}, gax.Backoff{
-					Initial:    100 * time.Millisecond,
+					Initial:    400 * time.Millisecond,
 					Max:        60000 * time.Millisecond,
-					Multiplier: 1.30,
+					Multiplier: 2.00,
 				})
 			}),
 		},
@@ -134,9 +134,9 @@ func defaultJobCallOptions() *JobCallOptions {
 					codes.Unavailable,
 					codes.ResourceExhausted,
 				}, gax.Backoff{
-					Initial:    100 * time.Millisecond,
+					Initial:    400 * time.Millisecond,
 					Max:        60000 * time.Millisecond,
-					Multiplier: 1.30,
+					Multiplier: 2.00,
 				})
 			}),
 		},
@@ -148,9 +148,9 @@ func defaultJobCallOptions() *JobCallOptions {
 					codes.Unavailable,
 					codes.ResourceExhausted,
 				}, gax.Backoff{
-					Initial:    100 * time.Millisecond,
+					Initial:    400 * time.Millisecond,
 					Max:        60000 * time.Millisecond,
-					Multiplier: 1.30,
+					Multiplier: 2.00,
 				})
 			}),
 		},
@@ -162,9 +162,9 @@ func defaultJobCallOptions() *JobCallOptions {
 					codes.Unavailable,
 					codes.ResourceExhausted,
 				}, gax.Backoff{
-					Initial:    100 * time.Millisecond,
+					Initial:    400 * time.Millisecond,
 					Max:        60000 * time.Millisecond,
-					Multiplier: 1.30,
+					Multiplier: 2.00,
 				})
 			}),
 		},
@@ -203,9 +203,9 @@ func defaultJobRESTCallOptions() *JobCallOptions {
 			gax.WithTimeout(240000 * time.Millisecond),
 			gax.WithRetry(func() gax.Retryer {
 				return gax.OnHTTPCodes(gax.Backoff{
-					Initial:    100 * time.Millisecond,
+					Initial:    400 * time.Millisecond,
 					Max:        60000 * time.Millisecond,
-					Multiplier: 1.30,
+					Multiplier: 2.00,
 				},
 					http.StatusGatewayTimeout,
 					http.StatusServiceUnavailable,
@@ -229,9 +229,9 @@ func defaultJobRESTCallOptions() *JobCallOptions {
 			gax.WithTimeout(240000 * time.Millisecond),
 			gax.WithRetry(func() gax.Retryer {
 				return gax.OnHTTPCodes(gax.Backoff{
-					Initial:    100 * time.Millisecond,
+					Initial:    400 * time.Millisecond,
 					Max:        60000 * time.Millisecond,
-					Multiplier: 1.30,
+					Multiplier: 2.00,
 				},
 					http.StatusGatewayTimeout,
 					http.StatusServiceUnavailable,
@@ -242,9 +242,9 @@ func defaultJobRESTCallOptions() *JobCallOptions {
 			gax.WithTimeout(240000 * time.Millisecond),
 			gax.WithRetry(func() gax.Retryer {
 				return gax.OnHTTPCodes(gax.Backoff{
-					Initial:    100 * time.Millisecond,
+					Initial:    400 * time.Millisecond,
 					Max:        60000 * time.Millisecond,
-					Multiplier: 1.30,
+					Multiplier: 2.00,
 				},
 					http.StatusGatewayTimeout,
 					http.StatusServiceUnavailable,
@@ -255,9 +255,9 @@ func defaultJobRESTCallOptions() *JobCallOptions {
 			gax.WithTimeout(240000 * time.Millisecond),
 			gax.WithRetry(func() gax.Retryer {
 				return gax.OnHTTPCodes(gax.Backoff{
-					Initial:    100 * time.Millisecond,
+					Initial:    400 * time.Millisecond,
 					Max:        60000 * time.Millisecond,
-					Multiplier: 1.30,
+					Multiplier: 2.00,
 				},
 					http.StatusGatewayTimeout,
 					http.StatusServiceUnavailable,
@@ -433,7 +433,7 @@ func (c *jobGRPCClient) Connection() *grpc.ClientConn {
 // use by Google-written clients.
 func (c *jobGRPCClient) setGoogleClientInfo(keyval ...string) {
 	kv := append([]string{"gl-go", gax.GoVersion}, keyval...)
-	kv = append(kv, "gapic", getVersionClient(), "gax", gax.Version, "grpc", grpc.Version)
+	kv = append(kv, "gapic", getVersionClient(), "gax", gax.Version, "grpc", grpc.Version, "pb", protoVersion)
 	c.xGoogHeaders = []string{
 		"x-goog-api-client", gax.XGoogHeader(kv...),
 	}
@@ -499,7 +499,7 @@ func defaultJobRESTClientOptions() []option.ClientOption {
 // use by Google-written clients.
 func (c *jobRESTClient) setGoogleClientInfo(keyval ...string) {
 	kv := append([]string{"gl-go", gax.GoVersion}, keyval...)
-	kv = append(kv, "gapic", getVersionClient(), "gax", gax.Version, "rest", "UNKNOWN")
+	kv = append(kv, "gapic", getVersionClient(), "gax", gax.Version, "rest", "UNKNOWN", "pb", protoVersion)
 	c.xGoogHeaders = []string{
 		"x-goog-api-client", gax.XGoogHeader(kv...),
 	}
