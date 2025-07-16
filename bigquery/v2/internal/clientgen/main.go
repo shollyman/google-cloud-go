@@ -17,9 +17,11 @@
 package main
 
 import (
+	"bytes"
 	"flag"
 	"fmt"
 	"go/ast"
+	"go/format"
 	"go/parser"
 	"go/token"
 	"io/fs"
@@ -34,6 +36,10 @@ var (
 	destDir   = flag.String("destdir", "", "output directory for aggregate client")
 )
 
+const (
+	clientFieldPrefix = "int"
+)
+
 func main() {
 	flag.Parse()
 	log.Printf("enumerating files in %q", *sourceDir)
@@ -42,13 +48,19 @@ func main() {
 		log.Fatalf("listClientFiles: %v", err)
 	}
 
-	fset := token.NewFileSet()
+	// contains the inputs from the generated source files.
+	sourceFset := token.NewFileSet()
+	// keyed by the public RPC name, value is the slice of methods that are RPCs
+	rpcMap := make(map[string][]*ast.FuncDecl)
+
+	// contains the output aggregated client.
+	destFset := token.NewFileSet()
+
 	for _, f := range files {
 		path := filepath.Join(*sourceDir, f)
 		log.Printf("processing %q", path)
-		rpcMap, err := getRPCMap(fset, path)
-		if err != nil {
-			log.Fatalf("getRPCMap(%q): %v", path, err)
+		if err := collectClientsAndRPCs(sourceFset, rpcMap, path); err != nil {
+			log.Fatalf("collectClientsAndRPCs(%q): %v", path, err)
 		}
 		for typ, funcs := range rpcMap {
 			for _, fn := range funcs {
@@ -56,16 +68,112 @@ func main() {
 			}
 		}
 	}
-}
 
-func getRPCMap(fset *token.FileSet, fileName string) (map[string][]*ast.FuncDecl, error) {
-	astF, err := parser.ParseFile(fset, fileName, nil, 0)
+	destFile, err := parser.ParseFile(destFset, "client.tmpl", nil, 0)
 	if err != nil {
-		return nil, fmt.Errorf("parser.ParseFile: %w", err)
+		log.Fatalf("failed to parse output template: %v", err)
+	}
+	// manipulate the destination AST.
+	if err := augmentClientWithFields(destFile, rpcMap); err != nil {
+		log.Fatalf("augmentClientWithFields: %v", err)
 	}
 
-	// keyed by exported Client name.
-	rpcMap := make(map[string][]*ast.FuncDecl)
+	// Now, format and print.
+	var buf bytes.Buffer
+	if err := format.Node(&buf, destFset, destFile); err != nil {
+		log.Fatalf("formatting failed: %v", err)
+	}
+	log.Printf("output source:\n%s", buf.String())
+
+}
+
+// augmentClient modifies the destination client with internal fields
+// and adds the methods.
+//
+// new fields bear the "base" prefix
+func augmentClientWithFields(dest *ast.File, rpcMap map[string][]*ast.FuncDecl) error {
+	log.Printf("rpcMap has %d clients", len(rpcMap))
+	// reference to the aggregate client Type.
+	var clientStruct *ast.StructType
+	ast.Inspect(dest, func(n ast.Node) bool {
+		if gn, ok := n.(*ast.GenDecl); ok {
+			if ts, ok := gn.Specs[0].(*ast.TypeSpec); ok {
+				log.Printf("found %q", ts.Name.Name)
+				if ts.Name.Name == "Client" {
+					// Ensure it's also a struct type.
+					if stType, ok := ts.Type.(*ast.StructType); ok {
+						clientStruct = stType
+						return false
+					}
+				}
+			}
+		}
+		return true
+	})
+	if clientStruct == nil {
+		return fmt.Errorf("couldn't find client type in dest")
+	}
+	for clientName, rpcs := range rpcMap {
+		// construct a new field
+		fieldName := fmt.Sprintf("%s%s", clientFieldPrefix, clientName)
+		log.Printf("trying to add %q", fieldName)
+		newField := &ast.Field{
+			Names: []*ast.Ident{ast.NewIdent(fieldName)},
+			Type:  ast.NewIdent(fmt.Sprintf("*bigquery.%s", clientName)),
+		}
+		clientStruct.Fields.List = append(clientStruct.Fields.List, newField)
+		// now add the RPCs as methods wired to the internal field.
+		recvField := &ast.Field{
+			Names: []*ast.Ident{ast.NewIdent("c")},
+			Type: &ast.StarExpr{
+				X: ast.NewIdent("Client"),
+			},
+		}
+		for _, rpc := range rpcs {
+			newFuncDecl := &ast.FuncDecl{
+				Name: ast.NewIdent(rpc.Name.Name),
+				Recv: &ast.FieldList{
+					List: []*ast.Field{
+						recvField,
+					},
+				},
+				Type: &ast.FuncType{
+					// TODO: params
+					// TODO: results
+					Results: &ast.FieldList{
+						List: []*ast.Field{
+							{
+								Type: ast.NewIdent("error"),
+							},
+						},
+					},
+				},
+				Body: &ast.BlockStmt{
+					List: []ast.Stmt{
+						&ast.ReturnStmt{
+							Results: []ast.Expr{
+								ast.NewIdent("nil"),
+							},
+						},
+					},
+				},
+			}
+			dest.Decls = append(dest.Decls, newFuncDecl)
+		}
+	}
+	return nil
+}
+
+// collectClientsAndRPCs scans a generated source file looking for clients with RPC
+// methods.  Our detection heuristic is simple:
+//
+// * client must be an exported type that ends with "Client" in the name.
+// * the last argument to the method must be the variadic gax.CallOption.
+func collectClientsAndRPCs(fset *token.FileSet, clientMap map[string][]*ast.FuncDecl, fileName string) error {
+	astF, err := parser.ParseFile(fset, fileName, nil, 0)
+	if err != nil {
+		return fmt.Errorf("parser.ParseFile: %w", err)
+	}
 
 	// Walk the parsed file, look for methods with a public client receiver
 	ast.Inspect(astF, func(n ast.Node) bool {
@@ -94,10 +202,11 @@ func getRPCMap(fset *token.FileSet, fileName string) (map[string][]*ast.FuncDecl
 					if recvType, ok := fn.Recv.List[0].Type.(*ast.StarExpr); ok {
 						if id, ok := recvType.X.(*ast.Ident); ok {
 							if id.IsExported() && isRPCFunc {
-								if sl, ok := rpcMap[id.Name]; ok {
-									rpcMap[id.Name] = append(sl, fn)
+								log.Printf("collecting client %q having RPC %q", id.Name, fn.Name)
+								if sl, ok := clientMap[id.Name]; ok {
+									clientMap[id.Name] = append(sl, fn)
 								} else {
-									rpcMap[id.Name] = []*ast.FuncDecl{fn}
+									clientMap[id.Name] = []*ast.FuncDecl{fn}
 								}
 							}
 						}
@@ -108,11 +217,8 @@ func getRPCMap(fset *token.FileSet, fileName string) (map[string][]*ast.FuncDecl
 		}
 		return true // Continue traversal
 	})
-	// validate our expectations are correct re: single exported type with RPCs
-	if mapLen := len(rpcMap); mapLen > 1 {
-		return nil, fmt.Errorf("validation: expected only a single exported type, found %d", mapLen)
-	}
-	return rpcMap, nil
+
+	return nil
 }
 
 func listClientFiles(sourceDir string) ([]string, error) {
