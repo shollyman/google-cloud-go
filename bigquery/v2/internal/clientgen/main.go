@@ -138,15 +138,9 @@ func augmentClientWithFields(dest *ast.File, rpcMap map[string][]*ast.FuncDecl) 
 					},
 				},
 				Type: &ast.FuncType{
-					// TODO: params
-					// TODO: results
-					Results: &ast.FieldList{
-						List: []*ast.Field{
-							{
-								Type: ast.NewIdent("error"),
-							},
-						},
-					},
+					Params: normalizeRPCParams(rpc.Type.Params),
+					// TODO: fix results resolution to be scoped to bigquery.
+					Results: normalizeRPCResults(rpc.Type.Results),
 				},
 				Body: &ast.BlockStmt{
 					List: []ast.Stmt{
@@ -157,11 +151,35 @@ func augmentClientWithFields(dest *ast.File, rpcMap map[string][]*ast.FuncDecl) 
 						},
 					},
 				},
+				Doc: rpc.Doc,
 			}
 			dest.Decls = append(dest.Decls, newFuncDecl)
 		}
 	}
 	return nil
+}
+
+func normalizeRPCParams(in *ast.FieldList) *ast.FieldList {
+	return in
+}
+
+// normalize starExpr to selectorexpr
+func normalizeRPCResults(in *ast.FieldList) *ast.FieldList {
+	out := &ast.FieldList{}
+	for _, inField := range in.List {
+		if star, ok := inField.Type.(*ast.StarExpr); ok {
+			if id, ok := star.X.(*ast.Ident); ok {
+				// refactor to selectorExpr
+				newSelector := &ast.SelectorExpr{
+					X:   ast.NewIdent("bigquery"),
+					Sel: ast.NewIdent(id.Name),
+				}
+				star.X = newSelector
+			}
+		}
+		out.List = append(out.List, inField)
+	}
+	return out
 }
 
 // collectClientsAndRPCs scans a generated source file looking for clients with RPC
@@ -170,7 +188,7 @@ func augmentClientWithFields(dest *ast.File, rpcMap map[string][]*ast.FuncDecl) 
 // * client must be an exported type that ends with "Client" in the name.
 // * the last argument to the method must be the variadic gax.CallOption.
 func collectClientsAndRPCs(fset *token.FileSet, clientMap map[string][]*ast.FuncDecl, fileName string) error {
-	astF, err := parser.ParseFile(fset, fileName, nil, 0)
+	astF, err := parser.ParseFile(fset, fileName, nil, parser.ParseComments)
 	if err != nil {
 		return fmt.Errorf("parser.ParseFile: %w", err)
 	}
