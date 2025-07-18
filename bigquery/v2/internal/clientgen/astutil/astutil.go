@@ -196,6 +196,8 @@ func AugmentClientMethods(dest *ast.File, clientStruct *ast.StructType, rpcMap m
 	return nil
 }
 
+// buildMethodReturnBlock populates the RPC func impl in the generated client.  Its a
+// single return statement of the form: return c.<memberclientField>.<RPCName>(arg names)
 func buildMethodReturnBlock(clientName string, rpc *ast.FuncDecl) *ast.BlockStmt {
 	var args []ast.Expr
 	for _, arg := range rpc.Type.Params.List {
