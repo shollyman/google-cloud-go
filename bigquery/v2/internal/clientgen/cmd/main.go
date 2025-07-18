@@ -38,11 +38,12 @@ var (
 
 func main() {
 	flag.Parse()
-	log.Printf("enumerating files in %q", *sourceDir)
+	log.Printf("listing files in %q", *sourceDir)
 	files, err := listClientFiles(*sourceDir)
 	if err != nil {
 		log.Fatalf("listClientFiles: %v", err)
 	}
+	log.Printf("found %d source files", len(files))
 
 	// contains the inputs from the generated source files.
 	sourceFset := token.NewFileSet()
@@ -54,19 +55,17 @@ func main() {
 
 	for _, f := range files {
 		path := filepath.Join(*sourceDir, f)
-		log.Printf("processing %q", path)
 		if err := astutil.CollectClientsAndRPCs(sourceFset, rpcMap, path); err != nil {
-			log.Fatalf("collectClientsAndRPCs(%q): %v", path, err)
-		}
-		for typ, funcs := range rpcMap {
-			for _, fn := range funcs {
-				log.Printf("type %q exposes func %q with calloptions", typ, fn.Name)
-				log.Printf("doc: %v", fn.Doc)
-			}
+			log.Fatalf("CollectClientsAndRPCs(%q): %v", path, err)
 		}
 	}
+	totalRPCs := 0
+	for _, funcs := range rpcMap {
+		totalRPCs = totalRPCs + len(funcs)
+	}
+	log.Printf("Collected %d clients and %d total RPCs", len(rpcMap), totalRPCs)
 
-	destFile, err := parser.ParseFile(destFset, "../client.tmpl", nil, 0)
+	destFile, err := parser.ParseFile(destFset, "../client.tmpl", nil, parser.ParseComments)
 	if err != nil {
 		log.Fatalf("failed to parse output template: %v", err)
 	}
@@ -85,12 +84,12 @@ func main() {
 		log.Fatalf("augmentClientMethods: %v", err)
 	}
 
-	// Now, format and print.
+	// TODO: write this to an actual output.  In the interim, just log it.
 	var buf bytes.Buffer
 	if err := format.Node(&buf, destFset, destFile); err != nil {
 		log.Fatalf("formatting failed: %v", err)
 	}
-	log.Printf("output source:\n%s", buf.String())
+	log.Printf("\noutput source:\n\n%s", buf.String())
 
 }
 
@@ -98,7 +97,6 @@ func listClientFiles(sourceDir string) ([]string, error) {
 	var files []string
 
 	err := filepath.Walk(sourceDir, func(path string, info fs.FileInfo, err error) error {
-		log.Printf("Walk: %q %q", path, info.Name())
 		if err != nil {
 			return err
 		}

@@ -21,7 +21,6 @@ import (
 	"go/ast"
 	"go/parser"
 	"go/token"
-	"log"
 	"strings"
 )
 
@@ -71,7 +70,6 @@ func CollectClientsAndRPCs(fset *token.FileSet, clientMap map[string][]*ast.Func
 						if id, ok := recvType.X.(*ast.Ident); ok {
 							if id.IsExported() && isRPCFunc {
 								if strings.HasSuffix(id.Name, "Client") {
-									log.Printf("collecting client %q having RPC %q in file %q", id.Name, fn.Name, fileName)
 									if sl, ok := clientMap[id.Name]; ok {
 										clientMap[id.Name] = append(sl, fn)
 									} else {
@@ -168,7 +166,6 @@ func AugmentClientFields(dest *ast.File, clientStruct *ast.StructType, rpcMap ma
 // AugmentClientMethods adds the proxied RPC FuncDecls to the aggregate client type.
 func AugmentClientMethods(dest *ast.File, clientStruct *ast.StructType, rpcMap map[string][]*ast.FuncDecl) error {
 	for clientname, rpcs := range rpcMap {
-		log.Printf("augmentClientMethods: %q", clientname)
 		for _, rpc := range rpcs {
 			newFuncDecl := &ast.FuncDecl{
 				Name: ast.NewIdent(rpc.Name.Name),
@@ -186,8 +183,7 @@ func AugmentClientMethods(dest *ast.File, clientStruct *ast.StructType, rpcMap m
 					Params:  NormalizeRPCParams(rpc.Type.Params),
 					Results: NormalizeRPCResults(rpc.Type.Results),
 				},
-				// define func impl.  Basically, just return c.ClientField.RPCName(args)
-				Body: buildMethodReturnBlock(clientname, rpc),
+				Body: buildRPCReturnBlock(clientname, rpc),
 				// TODO: normalize docstring for the new function.
 			}
 			dest.Decls = append(dest.Decls, newFuncDecl)
@@ -198,7 +194,7 @@ func AugmentClientMethods(dest *ast.File, clientStruct *ast.StructType, rpcMap m
 
 // buildMethodReturnBlock populates the RPC func impl in the generated client.  Its a
 // single return statement of the form: return c.<memberclientField>.<RPCName>(arg names)
-func buildMethodReturnBlock(clientName string, rpc *ast.FuncDecl) *ast.BlockStmt {
+func buildRPCReturnBlock(clientName string, rpc *ast.FuncDecl) *ast.BlockStmt {
 	var args []ast.Expr
 	for _, arg := range rpc.Type.Params.List {
 		args = append(args, ast.NewIdent(arg.Names[0].Name))
