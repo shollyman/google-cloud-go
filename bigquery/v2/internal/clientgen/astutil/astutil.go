@@ -21,6 +21,8 @@ import (
 	"go/ast"
 	"go/parser"
 	"go/token"
+	"maps"
+	"slices"
 	"strings"
 )
 
@@ -151,7 +153,8 @@ func AugmentClientFields(dest *ast.File, clientStruct *ast.StructType, rpcMap ma
 	if len(rpcMap) == 0 {
 		return fmt.Errorf("no entries present in the rpcMap")
 	}
-	for clientName, _ := range rpcMap {
+	// traverse the map in order to avoid jitter in the output.
+	for _, clientName := range slices.Sorted(maps.Keys(rpcMap)) {
 		// construct a new field
 		fieldName := fmt.Sprintf("%s%s", clientFieldPrefix, clientName)
 		newField := &ast.Field{
@@ -165,8 +168,12 @@ func AugmentClientFields(dest *ast.File, clientStruct *ast.StructType, rpcMap ma
 
 // AugmentClientMethods adds the proxied RPC FuncDecls to the aggregate client type.
 func AugmentClientMethods(dest *ast.File, clientStruct *ast.StructType, rpcMap map[string][]*ast.FuncDecl) error {
-	for clientname, rpcs := range rpcMap {
-		for _, rpc := range rpcs {
+	for _, clientName := range slices.Sorted(maps.Keys(rpcMap)) {
+		rpcSlice := rpcMap[clientName]
+		slices.SortFunc(rpcSlice, func(a, b *ast.FuncDecl) int {
+			return strings.Compare(a.Name.Name, b.Name.Name)
+		})
+		for _, rpc := range rpcSlice {
 			newFuncDecl := &ast.FuncDecl{
 				Name: ast.NewIdent(rpc.Name.Name),
 				Recv: &ast.FieldList{
@@ -183,7 +190,7 @@ func AugmentClientMethods(dest *ast.File, clientStruct *ast.StructType, rpcMap m
 					Params:  NormalizeRPCParams(rpc.Type.Params),
 					Results: NormalizeRPCResults(rpc.Type.Results),
 				},
-				Body: buildRPCReturnBlock(clientname, rpc),
+				Body: buildRPCReturnBlock(clientName, rpc),
 				// TODO: normalize docstring for the new function.
 			}
 			dest.Decls = append(dest.Decls, newFuncDecl)
