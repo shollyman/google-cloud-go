@@ -12,6 +12,8 @@ require (
 	google.golang.org/protobuf v1.36.6
 )
 
+replace cloud.google.com/go/bigquery/v2 => /usr/local/google/home/shollyman/gorepos/google-cloud-go/bigquery/v2
+
 require (
 	cloud.google.com/go/auth v0.16.2 // indirect
 	cloud.google.com/go/auth/oauth2adapt v0.2.8 // indirect
