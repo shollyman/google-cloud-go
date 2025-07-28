@@ -243,6 +243,13 @@ func AddCommonFuncs(dest *ast.File, rpcMap map[string][]*ast.FuncDecl) error {
 	}
 	fn.Body = addCreationFuncBlock(false, clientSlice)
 
+	// Close
+	fn, err = locateClientFunc(dest, "Close")
+	if err != nil {
+		return err
+	}
+	fn.Body = genCloseFuncBlock(clientSlice)
+
 	return nil
 }
 
@@ -398,6 +405,144 @@ func addCreationFuncBlock(isGRPC bool, clientNames []string) *ast.BlockStmt {
 				&ast.ReturnStmt{
 					Results: []ast.Expr{
 						ast.NewIdent("nil"),
+						&ast.CallExpr{
+							Fun: &ast.SelectorExpr{
+								X:   ast.NewIdent("errors"),
+								Sel: ast.NewIdent("Join"),
+							},
+							Args: []ast.Expr{
+								ast.NewIdent("errs"),
+							},
+						},
+					},
+				},
+			},
+		},
+	})
+	stmts = append(stmts, &ast.ReturnStmt{
+		Results: []ast.Expr{
+			ast.NewIdent("c"),
+			ast.NewIdent("nil"),
+		},
+	})
+	return &ast.BlockStmt{
+		List: stmts,
+	}
+}
+
+func genCloseFuncBlock(clientNames []string) *ast.BlockStmt {
+	stmts := []ast.Stmt{
+		&ast.DeclStmt{
+			Decl: &ast.GenDecl{
+				Tok: token.VAR,
+				Specs: []ast.Spec{
+					&ast.ValueSpec{
+						Names: []*ast.Ident{
+							ast.NewIdent("errs"),
+						},
+						Type: &ast.ArrayType{
+							Elt: ast.NewIdent("error"),
+						},
+					},
+				},
+			},
+		},
+
+		&ast.DeclStmt{
+			Decl: &ast.GenDecl{
+				Tok: token.VAR,
+				Specs: []ast.Spec{
+					&ast.ValueSpec{
+						Names: []*ast.Ident{
+							ast.NewIdent("errs"),
+						},
+						Type: ast.NewIdent("error"),
+					},
+				},
+			},
+		},
+	}
+
+	for _, client := range clientNames {
+		targetClient := fmt.Sprintf("%s%s", clientFieldPrefix, client)
+
+		stmts = append(stmts,
+			&ast.AssignStmt{
+				Tok: token.ASSIGN,
+				Lhs: []ast.Expr{
+					ast.NewIdent("err"),
+				},
+				Rhs: []ast.Expr{
+					&ast.CallExpr{
+						Fun: &ast.SelectorExpr{
+							X: &ast.SelectorExpr{
+								X:   ast.NewIdent("c"),
+								Sel: ast.NewIdent(targetClient),
+							},
+							Sel: ast.NewIdent("Close"),
+						},
+					},
+				},
+			})
+		stmts = append(stmts, &ast.IfStmt{
+			Cond: &ast.BinaryExpr{
+				Op: token.NEQ,
+				X:  ast.NewIdent("err"),
+				Y:  ast.NewIdent("nil"),
+			},
+			Body: &ast.BlockStmt{
+				List: []ast.Stmt{
+					&ast.AssignStmt{
+						Tok: token.ASSIGN,
+						Lhs: []ast.Expr{
+							ast.NewIdent("errs"),
+						},
+						Rhs: []ast.Expr{
+							&ast.CallExpr{
+								Fun: ast.NewIdent("append"),
+								Args: []ast.Expr{
+									ast.NewIdent("errs"),
+									&ast.CallExpr{
+										Fun: &ast.SelectorExpr{
+											X:   ast.NewIdent("fmt"),
+											Sel: ast.NewIdent("Errorf"),
+										},
+										Args: []ast.Expr{
+											&ast.BasicLit{
+												Kind:  token.STRING,
+												Value: fmt.Sprintf("\"%s.Close(): %%w\"", client),
+											},
+											ast.NewIdent("err"),
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		})
+	}
+
+	// Final error checks.
+	stmts = append(stmts, &ast.IfStmt{
+		Cond: &ast.BinaryExpr{
+			Op: token.GTR,
+			X: &ast.CallExpr{
+				Fun: ast.NewIdent("len"),
+				Args: []ast.Expr{
+					ast.NewIdent("errs"),
+				},
+			},
+			Y: &ast.BasicLit{
+				Kind:  token.INT,
+				Value: "0",
+			},
+		},
+		Body: &ast.BlockStmt{
+			List: []ast.Stmt{
+				&ast.ReturnStmt{
+					Results: []ast.Expr{
 						&ast.CallExpr{
 							Fun: &ast.SelectorExpr{
 								X:   ast.NewIdent("errors"),

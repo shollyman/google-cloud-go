@@ -83,7 +83,7 @@ func main() {
 	if err := astutil.AugmentClientMethods(destFile, clientStruct, rpcMap); err != nil {
 		log.Fatalf("AugmentClientMethods: %v", err)
 	}
-	// Add instantiation funcs (NewClient/NewRESTClient)
+	// Add instantiation/close funcs (NewClient/NewRESTClient)
 	if err := astutil.AddCommonFuncs(destFile, rpcMap); err != nil {
 		log.Fatalf("AddCommonFuncs: %v", err)
 	}

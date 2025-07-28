@@ -39,3 +39,9 @@ func NewClient(ctx context.Context, opts ...ClientOption) (*Client, error) {
 func NewRESTClient(ctx context.Context, opts ...ClientOption) (*Client, error) {
     return nil, fmt.Errorf("unimplemented")
 }
+
+func (c *Client) Close() error {
+  return fmt.Errorf("unimplemented")
+}
+
+
