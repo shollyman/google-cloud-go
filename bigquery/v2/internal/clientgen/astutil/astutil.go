@@ -226,7 +226,199 @@ func buildRPCReturnBlock(clientName string, rpc *ast.FuncDecl) *ast.BlockStmt {
 	}
 	return block
 }
-func addCommonFuncs(dest *ast.File, clientStruct *ast.StructType, rpcMap map[string][]*ast.FuncDecl) error {
-	// TODO: NewClient, NewRESTClient, Close, setGoogleClientInfo
+func AddCommonFuncs(dest *ast.File, rpcMap map[string][]*ast.FuncDecl) error {
+
+	clientSlice := slices.Sorted(maps.Keys(rpcMap))
+
+	// NewClient
+	fn, err := locateClientFunc(dest, "NewClient")
+	if err != nil {
+		return err
+	}
+	fn.Body = addCreationFuncBlock(true, clientSlice)
+	// NewRESTClient
+	fn, err = locateClientFunc(dest, "NewRESTClient")
+	if err != nil {
+		return err
+	}
+	fn.Body = addCreationFuncBlock(false, clientSlice)
+
 	return nil
+}
+
+func locateClientFunc(dest *ast.File, funcName string) (*ast.FuncDecl, error) {
+	var fn *ast.FuncDecl
+	ast.Inspect(dest, func(n ast.Node) bool {
+		if foundFn, ok := n.(*ast.FuncDecl); ok {
+			if foundFn.Name.Name == funcName {
+				fn = foundFn
+				return false
+			}
+		}
+		return true
+	})
+	if fn == nil {
+		return nil, fmt.Errorf("couldn't find function %q in destination", funcName)
+	}
+	return fn, nil
+}
+
+func addCreationFuncBlock(isGRPC bool, clientNames []string) *ast.BlockStmt {
+	stmts := []ast.Stmt{
+		&ast.DeclStmt{
+			Decl: &ast.GenDecl{
+				Tok: token.VAR,
+				Specs: []ast.Spec{
+					&ast.ValueSpec{
+						Names: []*ast.Ident{
+							ast.NewIdent("errs"),
+						},
+						Type: &ast.ArrayType{
+							Elt: ast.NewIdent("error"),
+						},
+					},
+				},
+			},
+		},
+		&ast.DeclStmt{
+			Decl: &ast.GenDecl{
+				Tok: token.VAR,
+				Specs: []ast.Spec{
+					&ast.ValueSpec{
+						Names: []*ast.Ident{
+							ast.NewIdent("errs"),
+						},
+						Type: ast.NewIdent("error"),
+					},
+				},
+			},
+		},
+		&ast.AssignStmt{
+			Tok: token.DEFINE,
+			Lhs: []ast.Expr{
+				ast.NewIdent("c"),
+			},
+			Rhs: []ast.Expr{
+				&ast.UnaryExpr{
+					Op: token.AND,
+					X: &ast.CompositeLit{
+						Type: ast.NewIdent("Client"),
+					},
+				},
+			},
+		},
+	}
+
+	for _, client := range clientNames {
+		targetClient := fmt.Sprintf("%s%s", clientFieldPrefix, client)
+		targetNewFnName := fmt.Sprintf("New%s", client)
+		if !isGRPC {
+			targetNewFnName = strings.Replace(targetNewFnName, "Client", "RESTClient", 1)
+		}
+		stmts = append(stmts,
+			&ast.AssignStmt{
+				Tok: token.ASSIGN,
+				Lhs: []ast.Expr{
+					&ast.SelectorExpr{
+						X:   ast.NewIdent("c"),
+						Sel: ast.NewIdent(targetClient),
+					},
+					ast.NewIdent("err"),
+				},
+				Rhs: []ast.Expr{
+					&ast.CallExpr{
+						Fun: &ast.SelectorExpr{
+							X:   ast.NewIdent("bigquery"),
+							Sel: ast.NewIdent(targetNewFnName),
+						},
+						Args: []ast.Expr{
+							ast.NewIdent("ctx"),
+							ast.NewIdent("opts"),
+						},
+					},
+				},
+			})
+		stmts = append(stmts, &ast.IfStmt{
+			Cond: &ast.BinaryExpr{
+				Op: token.NEQ,
+				X:  ast.NewIdent("err"),
+				Y:  ast.NewIdent("nil"),
+			},
+			Body: &ast.BlockStmt{
+				List: []ast.Stmt{
+					&ast.AssignStmt{
+						Tok: token.ASSIGN,
+						Lhs: []ast.Expr{
+							ast.NewIdent("errs"),
+						},
+						Rhs: []ast.Expr{
+							&ast.CallExpr{
+								Fun: ast.NewIdent("append"),
+								Args: []ast.Expr{
+									ast.NewIdent("errs"),
+									&ast.CallExpr{
+										Fun: &ast.SelectorExpr{
+											X:   ast.NewIdent("fmt"),
+											Sel: ast.NewIdent("Errorf"),
+										},
+										Args: []ast.Expr{
+											&ast.BasicLit{
+												Kind:  token.STRING,
+												Value: fmt.Sprintf("\"%s: %%w\"", targetNewFnName),
+											},
+											ast.NewIdent("err"),
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		})
+	}
+
+	// Final error checks.
+	stmts = append(stmts, &ast.IfStmt{
+		Cond: &ast.BinaryExpr{
+			Op: token.GTR,
+			X: &ast.CallExpr{
+				Fun: ast.NewIdent("len"),
+				Args: []ast.Expr{
+					ast.NewIdent("errs"),
+				},
+			},
+			Y: &ast.BasicLit{
+				Kind:  token.INT,
+				Value: "0",
+			},
+		},
+		Body: &ast.BlockStmt{
+			List: []ast.Stmt{
+				&ast.ReturnStmt{
+					Results: []ast.Expr{
+						ast.NewIdent("nil"),
+						&ast.CallExpr{
+							Fun: &ast.SelectorExpr{
+								X:   ast.NewIdent("errors"),
+								Sel: ast.NewIdent("Join"),
+							},
+							Args: []ast.Expr{
+								ast.NewIdent("errs"),
+							},
+						},
+					},
+				},
+			},
+		},
+	})
+	stmts = append(stmts, &ast.ReturnStmt{
+		Results: []ast.Expr{
+			ast.NewIdent("c"),
+			ast.NewIdent("nil"),
+		},
+	})
+	return &ast.BlockStmt{
+		List: stmts,
+	}
 }

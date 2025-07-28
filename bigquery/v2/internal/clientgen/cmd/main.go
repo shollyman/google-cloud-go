@@ -77,11 +77,15 @@ func main() {
 	}
 	// add fields to the client.
 	if err := astutil.AugmentClientFields(destFile, clientStruct, rpcMap); err != nil {
-		log.Fatalf("augmentClientFields: %v", err)
+		log.Fatalf("AugmentClientFields: %v", err)
 	}
 	// add RPCs to the client.
 	if err := astutil.AugmentClientMethods(destFile, clientStruct, rpcMap); err != nil {
-		log.Fatalf("augmentClientMethods: %v", err)
+		log.Fatalf("AugmentClientMethods: %v", err)
+	}
+	// Add instantiation funcs (NewClient/NewRESTClient)
+	if err := astutil.AddCommonFuncs(destFile, rpcMap); err != nil {
+		log.Fatalf("AddCommonFuncs: %v", err)
 	}
 
 	// TODO: write this to an actual output.  In the interim, just log it.
