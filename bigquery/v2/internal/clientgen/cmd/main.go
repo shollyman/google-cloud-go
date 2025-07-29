@@ -20,7 +20,6 @@ import (
 	"flag"
 	"go/ast"
 	"go/format"
-	"go/parser"
 	"go/token"
 	"io/fs"
 	"log"
@@ -34,6 +33,7 @@ var (
 	// directory containing generated client sources.
 	sourceDir = flag.String("sourcedir", "/usr/local/google/home/shollyman/gorepos/google-cloud-go/bigquery/v2/apiv2/", "directory containing generated client sources")
 	destDir   = flag.String("destdir", "", "output directory for aggregate client")
+	pkgName   = flag.String("package_name", "apiv2_client", "package name in the generated client")
 )
 
 func main() {
@@ -65,9 +65,9 @@ func main() {
 	}
 	log.Printf("Collected %d clients and %d total RPCs", len(rpcMap), totalRPCs)
 
-	destFile, err := parser.ParseFile(destFset, "../client.tmpl", nil, parser.ParseComments)
+	destFile, err := astutil.SetupOutputFile(destFset, *pkgName)
 	if err != nil {
-		log.Fatalf("failed to parse output template: %v", err)
+		log.Fatalf("astutil.SetupDest: %v", err)
 	}
 
 	// Locate our new Client.

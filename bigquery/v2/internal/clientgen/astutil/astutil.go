@@ -24,11 +24,131 @@ import (
 	"maps"
 	"slices"
 	"strings"
+
+	"golang.org/x/tools/go/ast/astutil"
 )
 
 const (
 	clientFieldPrefix = "int"
 )
+
+// SetupOutputFile handles the initial setup of the output file.
+// It defines the new ast.File, sets up package name, imports, and stubs
+// both the Client type and the necessary exported functions.
+func SetupOutputFile(fset *token.FileSet, pkgName string) (*ast.File, error) {
+	f, err := parser.ParseFile(fset, "client.go", fmt.Sprintf("package %s", pkgName), 0)
+	if err != nil {
+		return nil, fmt.Errorf("ParseFile: %w", err)
+	}
+	f.Name = ast.NewIdent(pkgName)
+	astutil.AddImport(fset, f, "context")
+	astutil.AddImport(fset, f, "google.golang.org/api/option")
+	astutil.AddNamedImport(fset, f, "gax", "github.com/googleapis/gax-go/v2")
+	astutil.AddNamedImport(fset, f, "bigquery", "cloud.google.com/go/bigquery/v2/apiv2")
+	astutil.AddImport(fset, f, "cloud.google.com/go/bigquery/v2/apiv2/bigquerypb")
+	// Declare our "Client" struct type.
+	f.Decls = append(f.Decls, &ast.GenDecl{
+		Tok: token.TYPE,
+		Specs: []ast.Spec{
+			&ast.TypeSpec{
+				Name: ast.NewIdent("Client"),
+				Type: &ast.StructType{
+					Fields: &ast.FieldList{},
+				},
+			},
+		},
+	})
+	// Declare our three exported funcs: NewClient, NewRESTClient, Close.
+	f.Decls = append(f.Decls, &ast.FuncDecl{
+		Name: ast.NewIdent("NewClient"),
+		Type: &ast.FuncType{
+			Params: &ast.FieldList{
+				List: []*ast.Field{
+					{
+						Names: []*ast.Ident{ast.NewIdent("ctx")},
+						Type: &ast.SelectorExpr{
+							X:   ast.NewIdent("context"),
+							Sel: ast.NewIdent("Context"),
+						},
+					},
+					{
+						Names: []*ast.Ident{ast.NewIdent("opts")},
+						Type: &ast.Ellipsis{
+							Elt: &ast.SelectorExpr{
+								X:   ast.NewIdent("option"),
+								Sel: ast.NewIdent("ClientOption"),
+							},
+						},
+					},
+				},
+			},
+			Results: &ast.FieldList{
+				List: []*ast.Field{
+					{
+						Type: &ast.StarExpr{
+							X: ast.NewIdent("Client"),
+						},
+					},
+					{
+						Type: ast.NewIdent("error"),
+					},
+				},
+			},
+		},
+	})
+	f.Decls = append(f.Decls, &ast.FuncDecl{
+		Name: ast.NewIdent("NewRESTClient"),
+		Type: &ast.FuncType{
+			Params: &ast.FieldList{
+				List: []*ast.Field{
+					{
+						Names: []*ast.Ident{ast.NewIdent("ctx")},
+						Type: &ast.SelectorExpr{
+							X:   ast.NewIdent("context"),
+							Sel: ast.NewIdent("Context"),
+						},
+					},
+					{
+						Names: []*ast.Ident{ast.NewIdent("opts")},
+						Type: &ast.Ellipsis{
+							Elt: &ast.SelectorExpr{
+								X:   ast.NewIdent("option"),
+								Sel: ast.NewIdent("ClientOption"),
+							},
+						},
+					},
+				},
+			},
+			Results: &ast.FieldList{
+				List: []*ast.Field{
+					{
+						Type: &ast.StarExpr{
+							X: ast.NewIdent("Client"),
+						},
+					},
+					{
+						Type: ast.NewIdent("error"),
+					},
+				},
+			},
+		},
+	})
+	f.Decls = append(f.Decls, &ast.FuncDecl{
+		Name: ast.NewIdent("Close"),
+		Type: &ast.FuncType{
+			Results: &ast.FieldList{
+				List: []*ast.Field{
+					{
+						Type: ast.NewIdent("error"),
+					},
+				},
+			},
+		},
+	})
+
+	return f, nil
+
+}
 
 // CollectClientRPCs is used to find the set of exported clients and their associated
 // RPCs.  It records them in the provided clientMap, keying the public Client name to
@@ -97,12 +217,14 @@ func LocateClientType(dest *ast.File) (*ast.StructType, error) {
 	var clientStruct *ast.StructType
 	ast.Inspect(dest, func(n ast.Node) bool {
 		if gn, ok := n.(*ast.GenDecl); ok {
-			if ts, ok := gn.Specs[0].(*ast.TypeSpec); ok {
-				if ts.Name.Name == "Client" {
-					// Ensure it's also a struct type.
-					if stType, ok := ts.Type.(*ast.StructType); ok {
-						clientStruct = stType
-						return false
+			if len(gn.Specs) == 1 {
+				if ts, ok := gn.Specs[0].(*ast.TypeSpec); ok {
+					if ts.Name.Name == "Client" {
+						// Ensure it's also a struct type.
+						if stType, ok := ts.Type.(*ast.StructType); ok {
+							clientStruct = stType
+							return false
+						}
 					}
 				}
 			}
@@ -559,7 +681,6 @@ func genCloseFuncBlock(clientNames []string) *ast.BlockStmt {
 	})
 	stmts = append(stmts, &ast.ReturnStmt{
 		Results: []ast.Expr{
-			ast.NewIdent("c"),
 			ast.NewIdent("nil"),
 		},
 	})
