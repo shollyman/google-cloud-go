@@ -41,6 +41,7 @@ func SetupOutputFile(fset *token.FileSet, pkgName string) (*ast.File, error) {
 		return nil, fmt.Errorf("ParseFile: %w", err)
 	}
 	f.Name = ast.NewIdent(pkgName)
+	astutil.AddImport(fset, f, "fmt")
 	astutil.AddImport(fset, f, "context")
 	astutil.AddImport(fset, f, "google.golang.org/api/option")
 	astutil.AddNamedImport(fset, f, "gax", "github.com/googleapis/gax-go/v2")
@@ -415,7 +416,7 @@ func addCreationFuncBlock(isGRPC bool, clientNames []string) *ast.BlockStmt {
 				Specs: []ast.Spec{
 					&ast.ValueSpec{
 						Names: []*ast.Ident{
-							ast.NewIdent("errs"),
+							ast.NewIdent("err"),
 						},
 						Type: ast.NewIdent("error"),
 					},

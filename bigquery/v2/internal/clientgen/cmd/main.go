@@ -18,6 +18,7 @@ package main
 import (
 	"bytes"
 	"flag"
+	"fmt"
 	"go/ast"
 	"go/format"
 	"go/token"
@@ -88,12 +89,12 @@ func main() {
 		log.Fatalf("AddCommonFuncs: %v", err)
 	}
 
-	// TODO: write this to an actual output.  In the interim, just log it.
+	// TODO: write this to an actual output.  In the interim, just print it to stdout.
 	var buf bytes.Buffer
 	if err := format.Node(&buf, destFset, destFile); err != nil {
 		log.Fatalf("formatting failed: %v", err)
 	}
-	log.Printf("\noutput source:\n\n%s", buf.String())
+	fmt.Printf("output source:\n\n%s", buf.String())
 
 }
 
