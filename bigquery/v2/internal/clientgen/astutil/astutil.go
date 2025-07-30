@@ -43,6 +43,7 @@ func SetupOutputFile(fset *token.FileSet, pkgName string) (*ast.File, error) {
 	f.Name = ast.NewIdent(pkgName)
 	astutil.AddImport(fset, f, "fmt")
 	astutil.AddImport(fset, f, "context")
+	astutil.AddImport(fset, f, "errors")
 	astutil.AddImport(fset, f, "google.golang.org/api/option")
 	astutil.AddNamedImport(fset, f, "gax", "github.com/googleapis/gax-go/v2")
 	astutil.AddNamedImport(fset, f, "bigquery", "cloud.google.com/go/bigquery/v2/apiv2")
@@ -136,6 +137,16 @@ func SetupOutputFile(fset *token.FileSet, pkgName string) (*ast.File, error) {
 	})
 	f.Decls = append(f.Decls, &ast.FuncDecl{
 		Name: ast.NewIdent("Close"),
+		Recv: &ast.FieldList{
+			List: []*ast.Field{
+				{
+					Names: []*ast.Ident{ast.NewIdent("c")},
+					Type: &ast.StarExpr{
+						X: ast.NewIdent("Client"),
+					},
+				},
+			},
+		},
 		Type: &ast.FuncType{
 			Results: &ast.FieldList{
 				List: []*ast.Field{
@@ -326,8 +337,13 @@ func AugmentClientMethods(dest *ast.File, clientStruct *ast.StructType, rpcMap m
 // single return statement of the form: return c.<memberclientField>.<RPCName>(arg names)
 func buildRPCReturnBlock(clientName string, rpc *ast.FuncDecl) *ast.BlockStmt {
 	var args []ast.Expr
-	for _, arg := range rpc.Type.Params.List {
-		args = append(args, ast.NewIdent(arg.Names[0].Name))
+	for k, arg := range rpc.Type.Params.List {
+		ident := arg.Names[0].Name
+		// Rather than doing pos match to find ellipsis, edit the ident
+		if k == len(rpc.Type.Params.List)-1 && arg.Names[0].Name == "opts" {
+			ident = "opts..."
+		}
+		args = append(args, ast.NewIdent(ident))
 	}
 	block := &ast.BlockStmt{
 		List: []ast.Stmt{
@@ -463,7 +479,7 @@ func addCreationFuncBlock(isGRPC bool, clientNames []string) *ast.BlockStmt {
 						},
 						Args: []ast.Expr{
 							ast.NewIdent("ctx"),
-							ast.NewIdent("opts"),
+							ast.NewIdent("opts..."),
 						},
 					},
 				},
@@ -534,7 +550,7 @@ func addCreationFuncBlock(isGRPC bool, clientNames []string) *ast.BlockStmt {
 								Sel: ast.NewIdent("Join"),
 							},
 							Args: []ast.Expr{
-								ast.NewIdent("errs"),
+								ast.NewIdent("errs..."),
 							},
 						},
 					},
@@ -577,7 +593,7 @@ func genCloseFuncBlock(clientNames []string) *ast.BlockStmt {
 				Specs: []ast.Spec{
 					&ast.ValueSpec{
 						Names: []*ast.Ident{
-							ast.NewIdent("errs"),
+							ast.NewIdent("err"),
 						},
 						Type: ast.NewIdent("error"),
 					},
@@ -672,7 +688,7 @@ func genCloseFuncBlock(clientNames []string) *ast.BlockStmt {
 								Sel: ast.NewIdent("Join"),
 							},
 							Args: []ast.Expr{
-								ast.NewIdent("errs"),
+								ast.NewIdent("errs..."),
 							},
 						},
 					},

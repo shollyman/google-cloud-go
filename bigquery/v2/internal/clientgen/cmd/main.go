@@ -94,7 +94,7 @@ func main() {
 	if err := format.Node(&buf, destFset, destFile); err != nil {
 		log.Fatalf("formatting failed: %v", err)
 	}
-	fmt.Printf("output source:\n\n%s", buf.String())
+	fmt.Printf(buf.String())
 
 }
 
