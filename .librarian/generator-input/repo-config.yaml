@@ -71,8 +71,8 @@ modules:
 
   - name: firestore
     enabled_generator_features:
-    - F_ordered_routing_headers
     - F_mtls_hard_bound_tokens
+    - F_ordered_routing_headers
     apis:
       - path: google/firestore/admin/v1
         client_directory: apiv1/admin
