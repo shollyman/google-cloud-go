@@ -640,10 +640,12 @@ libraries:
       go_apis:
         - enabled_generator_features:
             - F_open_telemetry_attributes
+            - F_proto_cloneof
           import_path: cloudbuild/apiv1/v2
           path: google/devtools/cloudbuild/v1
         - enabled_generator_features:
             - F_open_telemetry_attributes
+            - F_proto_cloneof
           import_path: cloudbuild/apiv2
           path: google/devtools/cloudbuild/v2
   - name: cloudcontrolspartner
@@ -655,9 +657,11 @@ libraries:
       go_apis:
         - enabled_generator_features:
             - F_open_telemetry_attributes
+            - F_proto_cloneof
           path: google/cloud/cloudcontrolspartner/v1
         - enabled_generator_features:
             - F_open_telemetry_attributes
+            - F_proto_cloneof
           path: google/cloud/cloudcontrolspartner/v1beta
   - name: clouddms
     version: 1.11.0
@@ -667,6 +671,7 @@ libraries:
       go_apis:
         - enabled_generator_features:
             - F_open_telemetry_attributes
+            - F_proto_cloneof
           path: google/cloud/clouddms/v1
   - name: cloudprofiler
     version: 0.7.0
@@ -676,6 +681,7 @@ libraries:
       go_apis:
         - enabled_generator_features:
             - F_open_telemetry_attributes
+            - F_proto_cloneof
           import_path: cloudprofiler/apiv2
           path: google/devtools/cloudprofiler/v2
   - name: cloudquotas
