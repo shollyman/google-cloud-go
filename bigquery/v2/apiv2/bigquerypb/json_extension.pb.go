@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/json_extension.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -83,11 +84,6 @@ func (x JsonExtension) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use JsonExtension.Descriptor instead.
-func (JsonExtension) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_json_extension_proto_rawDescGZIP(), []int{0}
-}
-
 var File_google_cloud_bigquery_v2_json_extension_proto protoreflect.FileDescriptor
 
 const file_google_cloud_bigquery_v2_json_extension_proto_rawDesc = "" +
@@ -97,18 +93,6 @@ const file_google_cloud_bigquery_v2_json_extension_proto_rawDesc = "" +
 	"\x1aJSON_EXTENSION_UNSPECIFIED\x10\x00\x12\v\n" +
 	"\aGEOJSON\x10\x01Bq\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\x12JsonExtensionProtoP\x01Z;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_json_extension_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_json_extension_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_json_extension_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_json_extension_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_json_extension_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_json_extension_proto_rawDesc), len(file_google_cloud_bigquery_v2_json_extension_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_json_extension_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_json_extension_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_google_cloud_bigquery_v2_json_extension_proto_goTypes = []any{

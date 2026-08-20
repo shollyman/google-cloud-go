@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/arrow.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -84,11 +85,6 @@ func (x ArrowSerializationOptions_CompressionCodec) Number() protoreflect.EnumNu
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use ArrowSerializationOptions_CompressionCodec.Descriptor instead.
-func (ArrowSerializationOptions_CompressionCodec) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_arrow_proto_rawDescGZIP(), []int{2, 0}
-}
-
 // The precision of the timestamp value in the Avro message. This precision
 // will **only** be applied to the column(s) with the `TIMESTAMP_PICOS` type.
 type ArrowSerializationOptions_PicosTimestampPrecision int32
@@ -148,11 +144,6 @@ func (x ArrowSerializationOptions_PicosTimestampPrecision) Number() protoreflect
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use ArrowSerializationOptions_PicosTimestampPrecision.Descriptor instead.
-func (ArrowSerializationOptions_PicosTimestampPrecision) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_arrow_proto_rawDescGZIP(), []int{2, 1}
-}
-
 // Arrow schema as specified
 // in https://arrow.apache.org/docs/python/api/datatypes.html and serialized to
 // bytes using IPC:
@@ -162,7 +153,7 @@ func (ArrowSerializationOptions_PicosTimestampPrecision) EnumDescriptor() ([]byt
 //
 // This feature is not yet available.
 type ArrowSchema struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// IPC serialized Arrow schema.
 	SerializedSchema []byte `protobuf:"bytes,1,opt,name=serialized_schema,json=serializedSchema,proto3" json:"serialized_schema,omitempty"`
 	unknownFields    protoimpl.UnknownFields
@@ -194,11 +185,6 @@ func (x *ArrowSchema) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ArrowSchema.ProtoReflect.Descriptor instead.
-func (*ArrowSchema) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_arrow_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *ArrowSchema) GetSerializedSchema() []byte {
 	if x != nil {
 		return x.SerializedSchema
@@ -206,11 +192,33 @@ func (x *ArrowSchema) GetSerializedSchema() []byte {
 	return nil
 }
 
+func (x *ArrowSchema) SetSerializedSchema(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.SerializedSchema = v
+}
+
+type ArrowSchema_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// IPC serialized Arrow schema.
+	SerializedSchema []byte
+}
+
+func (b0 ArrowSchema_builder) Build() *ArrowSchema {
+	m0 := &ArrowSchema{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.SerializedSchema = b.SerializedSchema
+	return m0
+}
+
 // Arrow RecordBatch.
 //
 // This feature is not yet available.
 type ArrowRecordBatch struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// IPC-serialized Arrow RecordBatch.
 	SerializedRecordBatch []byte `protobuf:"bytes,1,opt,name=serialized_record_batch,json=serializedRecordBatch,proto3" json:"serialized_record_batch,omitempty"`
 	unknownFields         protoimpl.UnknownFields
@@ -242,11 +250,6 @@ func (x *ArrowRecordBatch) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ArrowRecordBatch.ProtoReflect.Descriptor instead.
-func (*ArrowRecordBatch) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_arrow_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *ArrowRecordBatch) GetSerializedRecordBatch() []byte {
 	if x != nil {
 		return x.SerializedRecordBatch
@@ -254,11 +257,33 @@ func (x *ArrowRecordBatch) GetSerializedRecordBatch() []byte {
 	return nil
 }
 
+func (x *ArrowRecordBatch) SetSerializedRecordBatch(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.SerializedRecordBatch = v
+}
+
+type ArrowRecordBatch_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// IPC-serialized Arrow RecordBatch.
+	SerializedRecordBatch []byte
+}
+
+func (b0 ArrowRecordBatch_builder) Build() *ArrowRecordBatch {
+	m0 := &ArrowRecordBatch{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.SerializedRecordBatch = b.SerializedRecordBatch
+	return m0
+}
+
 // Contains options specific to Arrow Serialization.
 //
 // This feature is not yet available.
 type ArrowSerializationOptions struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The compression codec to use for Arrow buffers in serialized record
 	// batches.
 	BufferCompression ArrowSerializationOptions_CompressionCodec `protobuf:"varint,2,opt,name=buffer_compression,json=bufferCompression,proto3,enum=google.cloud.bigquery.v2.ArrowSerializationOptions_CompressionCodec" json:"buffer_compression,omitempty"`
@@ -294,11 +319,6 @@ func (x *ArrowSerializationOptions) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ArrowSerializationOptions.ProtoReflect.Descriptor instead.
-func (*ArrowSerializationOptions) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_arrow_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *ArrowSerializationOptions) GetBufferCompression() ArrowSerializationOptions_CompressionCodec {
 	if x != nil {
 		return x.BufferCompression
@@ -311,6 +331,34 @@ func (x *ArrowSerializationOptions) GetPicosTimestampPrecision() ArrowSerializat
 		return x.PicosTimestampPrecision
 	}
 	return ArrowSerializationOptions_PICOS_TIMESTAMP_PRECISION_UNSPECIFIED
+}
+
+func (x *ArrowSerializationOptions) SetBufferCompression(v ArrowSerializationOptions_CompressionCodec) {
+	x.BufferCompression = v
+}
+
+func (x *ArrowSerializationOptions) SetPicosTimestampPrecision(v ArrowSerializationOptions_PicosTimestampPrecision) {
+	x.PicosTimestampPrecision = v
+}
+
+type ArrowSerializationOptions_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The compression codec to use for Arrow buffers in serialized record
+	// batches.
+	BufferCompression ArrowSerializationOptions_CompressionCodec
+	// Optional. Set timestamp precision option. If not set, the default precision
+	// is microseconds.
+	PicosTimestampPrecision ArrowSerializationOptions_PicosTimestampPrecision
+}
+
+func (b0 ArrowSerializationOptions_builder) Build() *ArrowSerializationOptions {
+	m0 := &ArrowSerializationOptions{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.BufferCompression = b.BufferCompression
+	x.PicosTimestampPrecision = b.PicosTimestampPrecision
+	return m0
 }
 
 var File_google_cloud_bigquery_v2_arrow_proto protoreflect.FileDescriptor
@@ -336,18 +384,6 @@ const file_google_cloud_bigquery_v2_arrow_proto_rawDesc = "" +
 	"\x19TIMESTAMP_PRECISION_PICOS\x10\x03Bi\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\n" +
 	"ArrowProtoP\x01Z;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_arrow_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_arrow_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_arrow_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_arrow_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_arrow_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_arrow_proto_rawDesc), len(file_google_cloud_bigquery_v2_arrow_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_arrow_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_arrow_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_google_cloud_bigquery_v2_arrow_proto_msgTypes = make([]protoimpl.MessageInfo, 3)

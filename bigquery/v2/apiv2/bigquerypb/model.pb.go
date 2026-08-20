@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/model.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -99,11 +100,6 @@ func (RemoteModelInfo_RemoteServiceType) Type() protoreflect.EnumType {
 
 func (x RemoteModelInfo_RemoteServiceType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use RemoteModelInfo_RemoteServiceType.Descriptor instead.
-func (RemoteModelInfo_RemoteServiceType) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{0, 0}
 }
 
 // Indicates the type of the Model.
@@ -247,11 +243,6 @@ func (x Model_ModelType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use Model_ModelType.Descriptor instead.
-func (Model_ModelType) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 0}
-}
-
 // Loss metric to evaluate model training performance.
 type Model_LossType int32
 
@@ -300,11 +291,6 @@ func (x Model_LossType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use Model_LossType.Descriptor instead.
-func (Model_LossType) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 1}
-}
-
 // Distance metric used to compute the distance between two points.
 type Model_DistanceType int32
 
@@ -351,11 +337,6 @@ func (Model_DistanceType) Type() protoreflect.EnumType {
 
 func (x Model_DistanceType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Model_DistanceType.Descriptor instead.
-func (Model_DistanceType) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 2}
 }
 
 // Indicates the method to split input data into multiple tables.
@@ -417,11 +398,6 @@ func (Model_DataSplitMethod) Type() protoreflect.EnumType {
 
 func (x Model_DataSplitMethod) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Model_DataSplitMethod.Descriptor instead.
-func (Model_DataSplitMethod) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 3}
 }
 
 // Type of supported data frequency for time series forecasting models.
@@ -494,11 +470,6 @@ func (Model_DataFrequency) Type() protoreflect.EnumType {
 
 func (x Model_DataFrequency) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Model_DataFrequency.Descriptor instead.
-func (Model_DataFrequency) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 4}
 }
 
 // Type of supported holiday regions for time series forecasting models.
@@ -814,11 +785,6 @@ func (x Model_HolidayRegion) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use Model_HolidayRegion.Descriptor instead.
-func (Model_HolidayRegion) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 5}
-}
-
 // Enums for color space, used for processing images in Object Table.
 // See more details at
 // https://www.tensorflow.org/io/tutorials/colorspace.
@@ -881,11 +847,6 @@ func (x Model_ColorSpace) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use Model_ColorSpace.Descriptor instead.
-func (Model_ColorSpace) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 6}
-}
-
 // Indicates the learning rate optimization strategy to use.
 type Model_LearnRateStrategy int32
 
@@ -932,11 +893,6 @@ func (Model_LearnRateStrategy) Type() protoreflect.EnumType {
 
 func (x Model_LearnRateStrategy) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Model_LearnRateStrategy.Descriptor instead.
-func (Model_LearnRateStrategy) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 7}
 }
 
 // Indicates the optimization strategy used for training.
@@ -987,11 +943,6 @@ func (x Model_OptimizationStrategy) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use Model_OptimizationStrategy.Descriptor instead.
-func (Model_OptimizationStrategy) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 8}
-}
-
 // Indicates the training algorithm to use for matrix factorization models.
 type Model_FeedbackType int32
 
@@ -1038,11 +989,6 @@ func (Model_FeedbackType) Type() protoreflect.EnumType {
 
 func (x Model_FeedbackType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Model_FeedbackType.Descriptor instead.
-func (Model_FeedbackType) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 9}
 }
 
 // Seasonal period type.
@@ -1113,11 +1059,6 @@ func (x Model_SeasonalPeriod_SeasonalPeriodType) Number() protoreflect.EnumNumbe
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use Model_SeasonalPeriod_SeasonalPeriodType.Descriptor instead.
-func (Model_SeasonalPeriod_SeasonalPeriodType) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 0, 0}
-}
-
 // Indicates the method used to initialize the centroids for KMeans
 // clustering algorithm.
 type Model_KmeansEnums_KmeansInitializationMethod int32
@@ -1172,11 +1113,6 @@ func (x Model_KmeansEnums_KmeansInitializationMethod) Number() protoreflect.Enum
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use Model_KmeansEnums_KmeansInitializationMethod.Descriptor instead.
-func (Model_KmeansEnums_KmeansInitializationMethod) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 1, 0}
-}
-
 // Booster types supported. Refer to booster parameter in XGBoost.
 type Model_BoostedTreeOptionEnums_BoosterType int32
 
@@ -1223,11 +1159,6 @@ func (Model_BoostedTreeOptionEnums_BoosterType) Type() protoreflect.EnumType {
 
 func (x Model_BoostedTreeOptionEnums_BoosterType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Model_BoostedTreeOptionEnums_BoosterType.Descriptor instead.
-func (Model_BoostedTreeOptionEnums_BoosterType) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 2, 0}
 }
 
 // Type of normalization algorithm for boosted tree models using dart
@@ -1277,11 +1208,6 @@ func (Model_BoostedTreeOptionEnums_DartNormalizeType) Type() protoreflect.EnumTy
 
 func (x Model_BoostedTreeOptionEnums_DartNormalizeType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Model_BoostedTreeOptionEnums_DartNormalizeType.Descriptor instead.
-func (Model_BoostedTreeOptionEnums_DartNormalizeType) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 2, 1}
 }
 
 // Tree construction algorithm used in boosted tree models.
@@ -1340,11 +1266,6 @@ func (Model_BoostedTreeOptionEnums_TreeMethod) Type() protoreflect.EnumType {
 
 func (x Model_BoostedTreeOptionEnums_TreeMethod) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Model_BoostedTreeOptionEnums_TreeMethod.Descriptor instead.
-func (Model_BoostedTreeOptionEnums_TreeMethod) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 2, 2}
 }
 
 // Available evaluation metrics used as hyperparameter tuning objectives.
@@ -1463,11 +1384,6 @@ func (x Model_HparamTuningEnums_HparamTuningObjective) Number() protoreflect.Enu
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use Model_HparamTuningEnums_HparamTuningObjective.Descriptor instead.
-func (Model_HparamTuningEnums_HparamTuningObjective) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 3, 0}
-}
-
 // Supported encoding methods for categorical features.
 type Model_CategoryEncodingMethod_EncodingMethod int32
 
@@ -1518,11 +1434,6 @@ func (Model_CategoryEncodingMethod_EncodingMethod) Type() protoreflect.EnumType 
 
 func (x Model_CategoryEncodingMethod_EncodingMethod) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Model_CategoryEncodingMethod_EncodingMethod.Descriptor instead.
-func (Model_CategoryEncodingMethod_EncodingMethod) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 17, 0}
 }
 
 // Enums for supported PCA solvers.
@@ -1577,11 +1488,6 @@ func (x Model_PcaSolverOptionEnums_PcaSolver) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use Model_PcaSolverOptionEnums_PcaSolver.Descriptor instead.
-func (Model_PcaSolverOptionEnums_PcaSolver) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 18, 0}
-}
-
 // Enums for supported model registries.
 type Model_ModelRegistryOptionEnums_ModelRegistry int32
 
@@ -1624,11 +1530,6 @@ func (Model_ModelRegistryOptionEnums_ModelRegistry) Type() protoreflect.EnumType
 
 func (x Model_ModelRegistryOptionEnums_ModelRegistry) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Model_ModelRegistryOptionEnums_ModelRegistry.Descriptor instead.
-func (Model_ModelRegistryOptionEnums_ModelRegistry) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 19, 0}
 }
 
 // Supported reservation affinity types to configure a Vertex AI
@@ -1682,11 +1583,6 @@ func (Model_TrainingRun_TrainingOptions_ReservationAffinityType) Type() protoref
 
 func (x Model_TrainingRun_TrainingOptions_ReservationAffinityType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Model_TrainingRun_TrainingOptions_ReservationAffinityType.Descriptor instead.
-func (Model_TrainingRun_TrainingOptions_ReservationAffinityType) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 20, 0, 0}
 }
 
 // Current status of the trial.
@@ -1753,14 +1649,9 @@ func (x Model_HparamTuningTrial_TrialStatus) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use Model_HparamTuningTrial_TrialStatus.Descriptor instead.
-func (Model_HparamTuningTrial_TrialStatus) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 26, 0}
-}
-
 // Remote Model Info
 type RemoteModelInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Remote services are services outside of BigQuery used by remote models for
 	// predictions. A remote service is backed by either an arbitrary endpoint or
 	// a selected remote service type, but not both.
@@ -1816,11 +1707,6 @@ func (x *RemoteModelInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RemoteModelInfo.ProtoReflect.Descriptor instead.
-func (*RemoteModelInfo) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *RemoteModelInfo) GetRemoteService() isRemoteModelInfo_RemoteService {
 	if x != nil {
 		return x.RemoteService
@@ -1874,6 +1760,146 @@ func (x *RemoteModelInfo) GetSpeechRecognizer() string {
 	return ""
 }
 
+func (x *RemoteModelInfo) SetEndpoint(v string) {
+	x.RemoteService = &RemoteModelInfo_Endpoint{v}
+}
+
+func (x *RemoteModelInfo) SetRemoteServiceType(v RemoteModelInfo_RemoteServiceType) {
+	x.RemoteService = &RemoteModelInfo_RemoteServiceType_{v}
+}
+
+func (x *RemoteModelInfo) SetConnection(v string) {
+	x.Connection = v
+}
+
+func (x *RemoteModelInfo) SetMaxBatchingRows(v int64) {
+	x.MaxBatchingRows = v
+}
+
+func (x *RemoteModelInfo) SetRemoteModelVersion(v string) {
+	x.RemoteModelVersion = v
+}
+
+func (x *RemoteModelInfo) SetSpeechRecognizer(v string) {
+	x.SpeechRecognizer = v
+}
+
+func (x *RemoteModelInfo) HasRemoteService() bool {
+	if x == nil {
+		return false
+	}
+	return x.RemoteService != nil
+}
+
+func (x *RemoteModelInfo) HasEndpoint() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.RemoteService.(*RemoteModelInfo_Endpoint)
+	return ok
+}
+
+func (x *RemoteModelInfo) HasRemoteServiceType() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.RemoteService.(*RemoteModelInfo_RemoteServiceType_)
+	return ok
+}
+
+func (x *RemoteModelInfo) ClearRemoteService() {
+	x.RemoteService = nil
+}
+
+func (x *RemoteModelInfo) ClearEndpoint() {
+	if _, ok := x.RemoteService.(*RemoteModelInfo_Endpoint); ok {
+		x.RemoteService = nil
+	}
+}
+
+func (x *RemoteModelInfo) ClearRemoteServiceType() {
+	if _, ok := x.RemoteService.(*RemoteModelInfo_RemoteServiceType_); ok {
+		x.RemoteService = nil
+	}
+}
+
+const RemoteModelInfo_RemoteService_not_set_case case_RemoteModelInfo_RemoteService = 0
+const RemoteModelInfo_Endpoint_case case_RemoteModelInfo_RemoteService = 1
+const RemoteModelInfo_RemoteServiceType_case case_RemoteModelInfo_RemoteService = 2
+
+func (x *RemoteModelInfo) WhichRemoteService() case_RemoteModelInfo_RemoteService {
+	if x == nil {
+		return RemoteModelInfo_RemoteService_not_set_case
+	}
+	switch x.RemoteService.(type) {
+	case *RemoteModelInfo_Endpoint:
+		return RemoteModelInfo_Endpoint_case
+	case *RemoteModelInfo_RemoteServiceType_:
+		return RemoteModelInfo_RemoteServiceType_case
+	default:
+		return RemoteModelInfo_RemoteService_not_set_case
+	}
+}
+
+type RemoteModelInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Remote services are services outside of BigQuery used by remote models for
+	// predictions. A remote service is backed by either an arbitrary endpoint or
+	// a selected remote service type, but not both.
+
+	// Fields of oneof RemoteService:
+	// Output only. The endpoint for remote model.
+	Endpoint *string
+	// Output only. The remote service type for remote model.
+	RemoteServiceType *RemoteModelInfo_RemoteServiceType
+	// -- end of RemoteService
+	// Output only. Fully qualified name of the user-provided connection object of
+	// the remote model. Format:
+	// ```"projects/{project_id}/locations/{location_id}/connections/{connection_id}"```
+	Connection string
+	// Output only. Max number of rows in each batch sent to the remote service.
+	// If unset, the number of rows in each batch is set dynamically.
+	MaxBatchingRows int64
+	// Output only. The model version for LLM.
+	RemoteModelVersion string
+	// Output only. The name of the speech recognizer to use for speech
+	// recognition. The expected format is
+	// `projects/{project}/locations/{location}/recognizers/{recognizer}`.
+	// Customers can specify this field at model creation. If not specified, a
+	// default recognizer `projects/{model
+	// project}/locations/global/recognizers/_` will be used. See more details at
+	// [recognizers](https://cloud.google.com/speech-to-text/v2/docs/reference/rest/v2/projects.locations.recognizers)
+	SpeechRecognizer string
+}
+
+func (b0 RemoteModelInfo_builder) Build() *RemoteModelInfo {
+	m0 := &RemoteModelInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.Endpoint != nil {
+		x.RemoteService = &RemoteModelInfo_Endpoint{*b.Endpoint}
+	}
+	if b.RemoteServiceType != nil {
+		x.RemoteService = &RemoteModelInfo_RemoteServiceType_{*b.RemoteServiceType}
+	}
+	x.Connection = b.Connection
+	x.MaxBatchingRows = b.MaxBatchingRows
+	x.RemoteModelVersion = b.RemoteModelVersion
+	x.SpeechRecognizer = b.SpeechRecognizer
+	return m0
+}
+
+type case_RemoteModelInfo_RemoteService protoreflect.FieldNumber
+
+func (x case_RemoteModelInfo_RemoteService) String() string {
+	md := file_google_cloud_bigquery_v2_model_proto_msgTypes[0].Descriptor()
+	if x == 0 {
+		return "not set"
+	}
+	return protoimpl.X.MessageFieldStringOf(md, protoreflect.FieldNumber(x))
+}
+
 type isRemoteModelInfo_RemoteService interface {
 	isRemoteModelInfo_RemoteService()
 }
@@ -1894,7 +1920,7 @@ func (*RemoteModelInfo_RemoteServiceType_) isRemoteModelInfo_RemoteService() {}
 
 // Information about a single transform column.
 type TransformColumn struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. Name of the column.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Output only. Data type of the column after the transform.
@@ -1930,11 +1956,6 @@ func (x *TransformColumn) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TransformColumn.ProtoReflect.Descriptor instead.
-func (*TransformColumn) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *TransformColumn) GetName() string {
 	if x != nil {
 		return x.Name
@@ -1956,8 +1977,52 @@ func (x *TransformColumn) GetTransformSql() string {
 	return ""
 }
 
+func (x *TransformColumn) SetName(v string) {
+	x.Name = v
+}
+
+func (x *TransformColumn) SetType(v *StandardSqlDataType) {
+	x.Type = v
+}
+
+func (x *TransformColumn) SetTransformSql(v string) {
+	x.TransformSql = v
+}
+
+func (x *TransformColumn) HasType() bool {
+	if x == nil {
+		return false
+	}
+	return x.Type != nil
+}
+
+func (x *TransformColumn) ClearType() {
+	x.Type = nil
+}
+
+type TransformColumn_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. Name of the column.
+	Name string
+	// Output only. Data type of the column after the transform.
+	Type *StandardSqlDataType
+	// Output only. The SQL expression used in the column transform.
+	TransformSql string
+}
+
+func (b0 TransformColumn_builder) Build() *TransformColumn {
+	m0 := &TransformColumn{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Name = b.Name
+	x.Type = b.Type
+	x.TransformSql = b.TransformSql
+	return m0
+}
+
 type Model struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. A hash of this resource.
 	Etag string `protobuf:"bytes,1,opt,name=etag,proto3" json:"etag,omitempty"`
 	// Required. Unique identifier for this model.
@@ -2057,11 +2122,6 @@ func (x *Model) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Model.ProtoReflect.Descriptor instead.
-func (*Model) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *Model) GetEtag() string {
@@ -2204,9 +2264,237 @@ func (x *Model) GetRemoteModelInfo() *RemoteModelInfo {
 	return nil
 }
 
+func (x *Model) SetEtag(v string) {
+	x.Etag = v
+}
+
+func (x *Model) SetModelReference(v *ModelReference) {
+	x.ModelReference = v
+}
+
+func (x *Model) SetCreationTime(v int64) {
+	x.CreationTime = v
+}
+
+func (x *Model) SetLastModifiedTime(v int64) {
+	x.LastModifiedTime = v
+}
+
+func (x *Model) SetDescription(v string) {
+	x.Description = v
+}
+
+func (x *Model) SetFriendlyName(v string) {
+	x.FriendlyName = v
+}
+
+func (x *Model) SetLabels(v map[string]string) {
+	x.Labels = v
+}
+
+func (x *Model) SetExpirationTime(v int64) {
+	x.ExpirationTime = v
+}
+
+func (x *Model) SetLocation(v string) {
+	x.Location = v
+}
+
+func (x *Model) SetEncryptionConfiguration(v *EncryptionConfiguration) {
+	x.EncryptionConfiguration = v
+}
+
+func (x *Model) SetModelType(v Model_ModelType) {
+	x.ModelType = v
+}
+
+func (x *Model) SetTrainingRuns(v []*Model_TrainingRun) {
+	x.TrainingRuns = v
+}
+
+func (x *Model) SetFeatureColumns(v []*StandardSqlField) {
+	x.FeatureColumns = v
+}
+
+func (x *Model) SetLabelColumns(v []*StandardSqlField) {
+	x.LabelColumns = v
+}
+
+func (x *Model) SetTransformColumns(v []*TransformColumn) {
+	x.TransformColumns = v
+}
+
+func (x *Model) SetHparamSearchSpaces(v *Model_HparamSearchSpaces) {
+	x.HparamSearchSpaces = v
+}
+
+func (x *Model) SetDefaultTrialId(v int64) {
+	x.DefaultTrialId = v
+}
+
+func (x *Model) SetHparamTrials(v []*Model_HparamTuningTrial) {
+	x.HparamTrials = v
+}
+
+func (x *Model) SetOptimalTrialIds(v []int64) {
+	x.OptimalTrialIds = v
+}
+
+func (x *Model) SetRemoteModelInfo(v *RemoteModelInfo) {
+	x.RemoteModelInfo = v
+}
+
+func (x *Model) HasModelReference() bool {
+	if x == nil {
+		return false
+	}
+	return x.ModelReference != nil
+}
+
+func (x *Model) HasEncryptionConfiguration() bool {
+	if x == nil {
+		return false
+	}
+	return x.EncryptionConfiguration != nil
+}
+
+func (x *Model) HasHparamSearchSpaces() bool {
+	if x == nil {
+		return false
+	}
+	return x.HparamSearchSpaces != nil
+}
+
+func (x *Model) HasRemoteModelInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.RemoteModelInfo != nil
+}
+
+func (x *Model) ClearModelReference() {
+	x.ModelReference = nil
+}
+
+func (x *Model) ClearEncryptionConfiguration() {
+	x.EncryptionConfiguration = nil
+}
+
+func (x *Model) ClearHparamSearchSpaces() {
+	x.HparamSearchSpaces = nil
+}
+
+func (x *Model) ClearRemoteModelInfo() {
+	x.RemoteModelInfo = nil
+}
+
+type Model_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. A hash of this resource.
+	Etag string
+	// Required. Unique identifier for this model.
+	ModelReference *ModelReference
+	// Output only. The time when this model was created, in millisecs since the
+	// epoch.
+	CreationTime int64
+	// Output only. The time when this model was last modified, in millisecs since
+	// the epoch.
+	LastModifiedTime int64
+	// Optional. A user-friendly description of this model.
+	Description string
+	// Optional. A descriptive name for this model.
+	FriendlyName string
+	// The labels associated with this model. You can use these to organize
+	// and group your models. Label keys and values can be no longer
+	// than 63 characters, can only contain lowercase letters, numeric
+	// characters, underscores and dashes. International characters are allowed.
+	// Label values are optional. Label keys must start with a letter and each
+	// label in the list must have a different key.
+	Labels map[string]string
+	// Optional. The time when this model expires, in milliseconds since the
+	// epoch. If not present, the model will persist indefinitely. Expired models
+	// will be deleted and their storage reclaimed.  The defaultTableExpirationMs
+	// property of the encapsulating dataset can be used to set a default
+	// expirationTime on newly created models.
+	ExpirationTime int64
+	// Output only. The geographic location where the model resides. This value
+	// is inherited from the dataset.
+	Location string
+	// Custom encryption configuration (e.g., Cloud KMS keys). This shows the
+	// encryption configuration of the model data while stored in BigQuery
+	// storage. This field can be used with PatchModel to update encryption key
+	// for an already encrypted model.
+	EncryptionConfiguration *EncryptionConfiguration
+	// Output only. Type of the model resource.
+	ModelType Model_ModelType
+	// Information for all training runs in increasing order of start_time.
+	TrainingRuns []*Model_TrainingRun
+	// Output only. Input feature columns for the model inference. If the model is
+	// trained with TRANSFORM clause, these are the input of the TRANSFORM clause.
+	FeatureColumns []*StandardSqlField
+	// Output only. Label columns that were used to train this model.
+	// The output of the model will have a "predicted_" prefix to these columns.
+	LabelColumns []*StandardSqlField
+	// Output only. This field will be populated if a TRANSFORM clause was used to
+	// train a model. TRANSFORM clause (if used) takes feature_columns as input
+	// and outputs transform_columns. transform_columns then are used to train the
+	// model.
+	TransformColumns []*TransformColumn
+	// Output only. All hyperparameter search spaces in this model.
+	HparamSearchSpaces *Model_HparamSearchSpaces
+	// Output only. The default trial_id to use in TVFs when the trial_id is not
+	// passed in. For single-objective [hyperparameter
+	// tuning](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview)
+	// models, this is the best trial ID. For multi-objective [hyperparameter
+	// tuning](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview)
+	// models, this is the smallest trial ID among all Pareto optimal trials.
+	DefaultTrialId int64
+	// Output only. Trials of a [hyperparameter
+	// tuning](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview)
+	// model sorted by trial_id.
+	HparamTrials []*Model_HparamTuningTrial
+	// Output only. For single-objective [hyperparameter
+	// tuning](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview)
+	// models, it only contains the best trial. For multi-objective
+	// [hyperparameter
+	// tuning](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview)
+	// models, it contains all Pareto optimal trials sorted by trial_id.
+	OptimalTrialIds []int64
+	// Output only. Remote model info
+	RemoteModelInfo *RemoteModelInfo
+}
+
+func (b0 Model_builder) Build() *Model {
+	m0 := &Model{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Etag = b.Etag
+	x.ModelReference = b.ModelReference
+	x.CreationTime = b.CreationTime
+	x.LastModifiedTime = b.LastModifiedTime
+	x.Description = b.Description
+	x.FriendlyName = b.FriendlyName
+	x.Labels = b.Labels
+	x.ExpirationTime = b.ExpirationTime
+	x.Location = b.Location
+	x.EncryptionConfiguration = b.EncryptionConfiguration
+	x.ModelType = b.ModelType
+	x.TrainingRuns = b.TrainingRuns
+	x.FeatureColumns = b.FeatureColumns
+	x.LabelColumns = b.LabelColumns
+	x.TransformColumns = b.TransformColumns
+	x.HparamSearchSpaces = b.HparamSearchSpaces
+	x.DefaultTrialId = b.DefaultTrialId
+	x.HparamTrials = b.HparamTrials
+	x.OptimalTrialIds = b.OptimalTrialIds
+	x.RemoteModelInfo = b.RemoteModelInfo
+	return m0
+}
+
 // Request format for getting information about a BigQuery ML model.
 type GetModelRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the requested model.
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. Dataset ID of the requested model.
@@ -2242,11 +2530,6 @@ func (x *GetModelRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetModelRequest.ProtoReflect.Descriptor instead.
-func (*GetModelRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{3}
-}
-
 func (x *GetModelRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -2268,8 +2551,41 @@ func (x *GetModelRequest) GetModelId() string {
 	return ""
 }
 
+func (x *GetModelRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *GetModelRequest) SetDatasetId(v string) {
+	x.DatasetId = v
+}
+
+func (x *GetModelRequest) SetModelId(v string) {
+	x.ModelId = v
+}
+
+type GetModelRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the requested model.
+	ProjectId string
+	// Required. Dataset ID of the requested model.
+	DatasetId string
+	// Required. Model ID of the requested model.
+	ModelId string
+}
+
+func (b0 GetModelRequest_builder) Build() *GetModelRequest {
+	m0 := &GetModelRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.DatasetId = b.DatasetId
+	x.ModelId = b.ModelId
+	return m0
+}
+
 type PatchModelRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the model to patch.
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. Dataset ID of the model to patch.
@@ -2309,11 +2625,6 @@ func (x *PatchModelRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PatchModelRequest.ProtoReflect.Descriptor instead.
-func (*PatchModelRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{4}
-}
-
 func (x *PatchModelRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -2342,9 +2653,62 @@ func (x *PatchModelRequest) GetModel() *Model {
 	return nil
 }
 
+func (x *PatchModelRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *PatchModelRequest) SetDatasetId(v string) {
+	x.DatasetId = v
+}
+
+func (x *PatchModelRequest) SetModelId(v string) {
+	x.ModelId = v
+}
+
+func (x *PatchModelRequest) SetModel(v *Model) {
+	x.Model = v
+}
+
+func (x *PatchModelRequest) HasModel() bool {
+	if x == nil {
+		return false
+	}
+	return x.Model != nil
+}
+
+func (x *PatchModelRequest) ClearModel() {
+	x.Model = nil
+}
+
+type PatchModelRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the model to patch.
+	ProjectId string
+	// Required. Dataset ID of the model to patch.
+	DatasetId string
+	// Required. Model ID of the model to patch.
+	ModelId string
+	// Required. Patched model.
+	// Follows RFC5789 patch semantics. Missing fields are not updated.
+	// To clear a field, explicitly set to default value.
+	Model *Model
+}
+
+func (b0 PatchModelRequest_builder) Build() *PatchModelRequest {
+	m0 := &PatchModelRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.DatasetId = b.DatasetId
+	x.ModelId = b.ModelId
+	x.Model = b.Model
+	return m0
+}
+
 // Request format for deleting BigQuery ML models.
 type DeleteModelRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the model to delete.
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. Dataset ID of the model to delete.
@@ -2380,11 +2744,6 @@ func (x *DeleteModelRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteModelRequest.ProtoReflect.Descriptor instead.
-func (*DeleteModelRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{5}
-}
-
 func (x *DeleteModelRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -2406,9 +2765,42 @@ func (x *DeleteModelRequest) GetModelId() string {
 	return ""
 }
 
+func (x *DeleteModelRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *DeleteModelRequest) SetDatasetId(v string) {
+	x.DatasetId = v
+}
+
+func (x *DeleteModelRequest) SetModelId(v string) {
+	x.ModelId = v
+}
+
+type DeleteModelRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the model to delete.
+	ProjectId string
+	// Required. Dataset ID of the model to delete.
+	DatasetId string
+	// Required. Model ID of the model to delete.
+	ModelId string
+}
+
+func (b0 DeleteModelRequest_builder) Build() *DeleteModelRequest {
+	m0 := &DeleteModelRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.DatasetId = b.DatasetId
+	x.ModelId = b.ModelId
+	return m0
+}
+
 // Request format for listing BigQuery ML models.
 type ListModelsRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the models to list.
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. Dataset ID of the models to list.
@@ -2448,11 +2840,6 @@ func (x *ListModelsRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListModelsRequest.ProtoReflect.Descriptor instead.
-func (*ListModelsRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{6}
-}
-
 func (x *ListModelsRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -2481,9 +2868,62 @@ func (x *ListModelsRequest) GetPageToken() string {
 	return ""
 }
 
+func (x *ListModelsRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *ListModelsRequest) SetDatasetId(v string) {
+	x.DatasetId = v
+}
+
+func (x *ListModelsRequest) SetMaxResults(v *wrapperspb.UInt32Value) {
+	x.MaxResults = v
+}
+
+func (x *ListModelsRequest) SetPageToken(v string) {
+	x.PageToken = v
+}
+
+func (x *ListModelsRequest) HasMaxResults() bool {
+	if x == nil {
+		return false
+	}
+	return x.MaxResults != nil
+}
+
+func (x *ListModelsRequest) ClearMaxResults() {
+	x.MaxResults = nil
+}
+
+type ListModelsRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the models to list.
+	ProjectId string
+	// Required. Dataset ID of the models to list.
+	DatasetId string
+	// The maximum number of results to return in a single response page.
+	// Leverage the page tokens to iterate through the entire collection.
+	MaxResults *wrapperspb.UInt32Value
+	// Page token, returned by a previous call to request the next page of
+	// results
+	PageToken string
+}
+
+func (b0 ListModelsRequest_builder) Build() *ListModelsRequest {
+	m0 := &ListModelsRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.DatasetId = b.DatasetId
+	x.MaxResults = b.MaxResults
+	x.PageToken = b.PageToken
+	return m0
+}
+
 // Response format for a single page when listing BigQuery ML models.
 type ListModelsResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Models in the requested dataset. Only the following fields are populated:
 	// model_reference, model_type, creation_time, last_modified_time and
 	// labels.
@@ -2519,11 +2959,6 @@ func (x *ListModelsResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListModelsResponse.ProtoReflect.Descriptor instead.
-func (*ListModelsResponse) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{7}
-}
-
 func (x *ListModelsResponse) GetModels() []*Model {
 	if x != nil {
 		return x.Models
@@ -2538,9 +2973,37 @@ func (x *ListModelsResponse) GetNextPageToken() string {
 	return ""
 }
 
+func (x *ListModelsResponse) SetModels(v []*Model) {
+	x.Models = v
+}
+
+func (x *ListModelsResponse) SetNextPageToken(v string) {
+	x.NextPageToken = v
+}
+
+type ListModelsResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Models in the requested dataset. Only the following fields are populated:
+	// model_reference, model_type, creation_time, last_modified_time and
+	// labels.
+	Models []*Model
+	// A token to request the next page of results.
+	NextPageToken string
+}
+
+func (b0 ListModelsResponse_builder) Build() *ListModelsResponse {
+	m0 := &ListModelsResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Models = b.Models
+	x.NextPageToken = b.NextPageToken
+	return m0
+}
+
 // Enums for seasonal period.
 type Model_SeasonalPeriod struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2570,14 +3033,21 @@ func (x *Model_SeasonalPeriod) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_SeasonalPeriod.ProtoReflect.Descriptor instead.
-func (*Model_SeasonalPeriod) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 0}
+type Model_SeasonalPeriod_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 Model_SeasonalPeriod_builder) Build() *Model_SeasonalPeriod {
+	m0 := &Model_SeasonalPeriod{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 // Enums for kmeans model type.
 type Model_KmeansEnums struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2607,14 +3077,21 @@ func (x *Model_KmeansEnums) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_KmeansEnums.ProtoReflect.Descriptor instead.
-func (*Model_KmeansEnums) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 1}
+type Model_KmeansEnums_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 Model_KmeansEnums_builder) Build() *Model_KmeansEnums {
+	m0 := &Model_KmeansEnums{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 // Enums for XGBoost model type.
 type Model_BoostedTreeOptionEnums struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2644,14 +3121,21 @@ func (x *Model_BoostedTreeOptionEnums) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_BoostedTreeOptionEnums.ProtoReflect.Descriptor instead.
-func (*Model_BoostedTreeOptionEnums) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 2}
+type Model_BoostedTreeOptionEnums_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 Model_BoostedTreeOptionEnums_builder) Build() *Model_BoostedTreeOptionEnums {
+	m0 := &Model_BoostedTreeOptionEnums{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 // Enums for hyperparameter tuning.
 type Model_HparamTuningEnums struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2681,15 +3165,22 @@ func (x *Model_HparamTuningEnums) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_HparamTuningEnums.ProtoReflect.Descriptor instead.
-func (*Model_HparamTuningEnums) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 3}
+type Model_HparamTuningEnums_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 Model_HparamTuningEnums_builder) Build() *Model_HparamTuningEnums {
+	m0 := &Model_HparamTuningEnums{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 // Evaluation metrics for regression and explicit feedback type matrix
 // factorization models.
 type Model_RegressionMetrics struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Mean absolute error.
 	MeanAbsoluteError *wrapperspb.DoubleValue `protobuf:"bytes,1,opt,name=mean_absolute_error,json=meanAbsoluteError,proto3" json:"mean_absolute_error,omitempty"`
 	// Mean squared error.
@@ -2729,11 +3220,6 @@ func (x *Model_RegressionMetrics) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_RegressionMetrics.ProtoReflect.Descriptor instead.
-func (*Model_RegressionMetrics) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 4}
-}
-
 func (x *Model_RegressionMetrics) GetMeanAbsoluteError() *wrapperspb.DoubleValue {
 	if x != nil {
 		return x.MeanAbsoluteError
@@ -2769,6 +3255,108 @@ func (x *Model_RegressionMetrics) GetRSquared() *wrapperspb.DoubleValue {
 	return nil
 }
 
+func (x *Model_RegressionMetrics) SetMeanAbsoluteError(v *wrapperspb.DoubleValue) {
+	x.MeanAbsoluteError = v
+}
+
+func (x *Model_RegressionMetrics) SetMeanSquaredError(v *wrapperspb.DoubleValue) {
+	x.MeanSquaredError = v
+}
+
+func (x *Model_RegressionMetrics) SetMeanSquaredLogError(v *wrapperspb.DoubleValue) {
+	x.MeanSquaredLogError = v
+}
+
+func (x *Model_RegressionMetrics) SetMedianAbsoluteError(v *wrapperspb.DoubleValue) {
+	x.MedianAbsoluteError = v
+}
+
+func (x *Model_RegressionMetrics) SetRSquared(v *wrapperspb.DoubleValue) {
+	x.RSquared = v
+}
+
+func (x *Model_RegressionMetrics) HasMeanAbsoluteError() bool {
+	if x == nil {
+		return false
+	}
+	return x.MeanAbsoluteError != nil
+}
+
+func (x *Model_RegressionMetrics) HasMeanSquaredError() bool {
+	if x == nil {
+		return false
+	}
+	return x.MeanSquaredError != nil
+}
+
+func (x *Model_RegressionMetrics) HasMeanSquaredLogError() bool {
+	if x == nil {
+		return false
+	}
+	return x.MeanSquaredLogError != nil
+}
+
+func (x *Model_RegressionMetrics) HasMedianAbsoluteError() bool {
+	if x == nil {
+		return false
+	}
+	return x.MedianAbsoluteError != nil
+}
+
+func (x *Model_RegressionMetrics) HasRSquared() bool {
+	if x == nil {
+		return false
+	}
+	return x.RSquared != nil
+}
+
+func (x *Model_RegressionMetrics) ClearMeanAbsoluteError() {
+	x.MeanAbsoluteError = nil
+}
+
+func (x *Model_RegressionMetrics) ClearMeanSquaredError() {
+	x.MeanSquaredError = nil
+}
+
+func (x *Model_RegressionMetrics) ClearMeanSquaredLogError() {
+	x.MeanSquaredLogError = nil
+}
+
+func (x *Model_RegressionMetrics) ClearMedianAbsoluteError() {
+	x.MedianAbsoluteError = nil
+}
+
+func (x *Model_RegressionMetrics) ClearRSquared() {
+	x.RSquared = nil
+}
+
+type Model_RegressionMetrics_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Mean absolute error.
+	MeanAbsoluteError *wrapperspb.DoubleValue
+	// Mean squared error.
+	MeanSquaredError *wrapperspb.DoubleValue
+	// Mean squared log error.
+	MeanSquaredLogError *wrapperspb.DoubleValue
+	// Median absolute error.
+	MedianAbsoluteError *wrapperspb.DoubleValue
+	// R^2 score. This corresponds to r2_score in ML.EVALUATE.
+	RSquared *wrapperspb.DoubleValue
+}
+
+func (b0 Model_RegressionMetrics_builder) Build() *Model_RegressionMetrics {
+	m0 := &Model_RegressionMetrics{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.MeanAbsoluteError = b.MeanAbsoluteError
+	x.MeanSquaredError = b.MeanSquaredError
+	x.MeanSquaredLogError = b.MeanSquaredLogError
+	x.MedianAbsoluteError = b.MedianAbsoluteError
+	x.RSquared = b.RSquared
+	return m0
+}
+
 // Aggregate metrics for classification/classifier models. For multi-class
 // models, the metrics are either macro-averaged or micro-averaged. When
 // macro-averaged, the metrics are calculated for each label and then an
@@ -2776,7 +3364,7 @@ func (x *Model_RegressionMetrics) GetRSquared() *wrapperspb.DoubleValue {
 // metric is calculated globally by counting the total number of correctly
 // predicted rows.
 type Model_AggregateClassificationMetrics struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Precision is the fraction of actual positive predictions that had
 	// positive actual labels. For multiclass this is a macro-averaged
 	// metric treating each class as a binary classifier.
@@ -2829,11 +3417,6 @@ func (x *Model_AggregateClassificationMetrics) ProtoReflect() protoreflect.Messa
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_AggregateClassificationMetrics.ProtoReflect.Descriptor instead.
-func (*Model_AggregateClassificationMetrics) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 5}
-}
-
 func (x *Model_AggregateClassificationMetrics) GetPrecision() *wrapperspb.DoubleValue {
 	if x != nil {
 		return x.Precision
@@ -2883,9 +3466,156 @@ func (x *Model_AggregateClassificationMetrics) GetRocAuc() *wrapperspb.DoubleVal
 	return nil
 }
 
+func (x *Model_AggregateClassificationMetrics) SetPrecision(v *wrapperspb.DoubleValue) {
+	x.Precision = v
+}
+
+func (x *Model_AggregateClassificationMetrics) SetRecall(v *wrapperspb.DoubleValue) {
+	x.Recall = v
+}
+
+func (x *Model_AggregateClassificationMetrics) SetAccuracy(v *wrapperspb.DoubleValue) {
+	x.Accuracy = v
+}
+
+func (x *Model_AggregateClassificationMetrics) SetThreshold(v *wrapperspb.DoubleValue) {
+	x.Threshold = v
+}
+
+func (x *Model_AggregateClassificationMetrics) SetF1Score(v *wrapperspb.DoubleValue) {
+	x.F1Score = v
+}
+
+func (x *Model_AggregateClassificationMetrics) SetLogLoss(v *wrapperspb.DoubleValue) {
+	x.LogLoss = v
+}
+
+func (x *Model_AggregateClassificationMetrics) SetRocAuc(v *wrapperspb.DoubleValue) {
+	x.RocAuc = v
+}
+
+func (x *Model_AggregateClassificationMetrics) HasPrecision() bool {
+	if x == nil {
+		return false
+	}
+	return x.Precision != nil
+}
+
+func (x *Model_AggregateClassificationMetrics) HasRecall() bool {
+	if x == nil {
+		return false
+	}
+	return x.Recall != nil
+}
+
+func (x *Model_AggregateClassificationMetrics) HasAccuracy() bool {
+	if x == nil {
+		return false
+	}
+	return x.Accuracy != nil
+}
+
+func (x *Model_AggregateClassificationMetrics) HasThreshold() bool {
+	if x == nil {
+		return false
+	}
+	return x.Threshold != nil
+}
+
+func (x *Model_AggregateClassificationMetrics) HasF1Score() bool {
+	if x == nil {
+		return false
+	}
+	return x.F1Score != nil
+}
+
+func (x *Model_AggregateClassificationMetrics) HasLogLoss() bool {
+	if x == nil {
+		return false
+	}
+	return x.LogLoss != nil
+}
+
+func (x *Model_AggregateClassificationMetrics) HasRocAuc() bool {
+	if x == nil {
+		return false
+	}
+	return x.RocAuc != nil
+}
+
+func (x *Model_AggregateClassificationMetrics) ClearPrecision() {
+	x.Precision = nil
+}
+
+func (x *Model_AggregateClassificationMetrics) ClearRecall() {
+	x.Recall = nil
+}
+
+func (x *Model_AggregateClassificationMetrics) ClearAccuracy() {
+	x.Accuracy = nil
+}
+
+func (x *Model_AggregateClassificationMetrics) ClearThreshold() {
+	x.Threshold = nil
+}
+
+func (x *Model_AggregateClassificationMetrics) ClearF1Score() {
+	x.F1Score = nil
+}
+
+func (x *Model_AggregateClassificationMetrics) ClearLogLoss() {
+	x.LogLoss = nil
+}
+
+func (x *Model_AggregateClassificationMetrics) ClearRocAuc() {
+	x.RocAuc = nil
+}
+
+type Model_AggregateClassificationMetrics_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Precision is the fraction of actual positive predictions that had
+	// positive actual labels. For multiclass this is a macro-averaged
+	// metric treating each class as a binary classifier.
+	Precision *wrapperspb.DoubleValue
+	// Recall is the fraction of actual positive labels that were given a
+	// positive prediction. For multiclass this is a macro-averaged metric.
+	Recall *wrapperspb.DoubleValue
+	// Accuracy is the fraction of predictions given the correct label. For
+	// multiclass this is a micro-averaged metric.
+	Accuracy *wrapperspb.DoubleValue
+	// Threshold at which the metrics are computed. For binary
+	// classification models this is the positive class threshold.
+	// For multi-class classification models this is the confidence
+	// threshold.
+	Threshold *wrapperspb.DoubleValue
+	// The F1 score is an average of recall and precision. For multiclass
+	// this is a macro-averaged metric.
+	F1Score *wrapperspb.DoubleValue
+	// Logarithmic Loss. For multiclass this is a macro-averaged metric.
+	LogLoss *wrapperspb.DoubleValue
+	// Area Under a ROC Curve. For multiclass this is a macro-averaged
+	// metric.
+	RocAuc *wrapperspb.DoubleValue
+}
+
+func (b0 Model_AggregateClassificationMetrics_builder) Build() *Model_AggregateClassificationMetrics {
+	m0 := &Model_AggregateClassificationMetrics{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Precision = b.Precision
+	x.Recall = b.Recall
+	x.Accuracy = b.Accuracy
+	x.Threshold = b.Threshold
+	x.F1Score = b.F1Score
+	x.LogLoss = b.LogLoss
+	x.RocAuc = b.RocAuc
+	return m0
+}
+
 // Evaluation metrics for binary classification/classifier models.
 type Model_BinaryClassificationMetrics struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Aggregate classification metrics.
 	AggregateClassificationMetrics *Model_AggregateClassificationMetrics `protobuf:"bytes,1,opt,name=aggregate_classification_metrics,json=aggregateClassificationMetrics,proto3" json:"aggregate_classification_metrics,omitempty"`
 	// Binary confusion matrix at multiple thresholds.
@@ -2923,11 +3653,6 @@ func (x *Model_BinaryClassificationMetrics) ProtoReflect() protoreflect.Message 
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_BinaryClassificationMetrics.ProtoReflect.Descriptor instead.
-func (*Model_BinaryClassificationMetrics) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 6}
-}
-
 func (x *Model_BinaryClassificationMetrics) GetAggregateClassificationMetrics() *Model_AggregateClassificationMetrics {
 	if x != nil {
 		return x.AggregateClassificationMetrics
@@ -2956,9 +3681,60 @@ func (x *Model_BinaryClassificationMetrics) GetNegativeLabel() string {
 	return ""
 }
 
+func (x *Model_BinaryClassificationMetrics) SetAggregateClassificationMetrics(v *Model_AggregateClassificationMetrics) {
+	x.AggregateClassificationMetrics = v
+}
+
+func (x *Model_BinaryClassificationMetrics) SetBinaryConfusionMatrixList(v []*Model_BinaryClassificationMetrics_BinaryConfusionMatrix) {
+	x.BinaryConfusionMatrixList = v
+}
+
+func (x *Model_BinaryClassificationMetrics) SetPositiveLabel(v string) {
+	x.PositiveLabel = v
+}
+
+func (x *Model_BinaryClassificationMetrics) SetNegativeLabel(v string) {
+	x.NegativeLabel = v
+}
+
+func (x *Model_BinaryClassificationMetrics) HasAggregateClassificationMetrics() bool {
+	if x == nil {
+		return false
+	}
+	return x.AggregateClassificationMetrics != nil
+}
+
+func (x *Model_BinaryClassificationMetrics) ClearAggregateClassificationMetrics() {
+	x.AggregateClassificationMetrics = nil
+}
+
+type Model_BinaryClassificationMetrics_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Aggregate classification metrics.
+	AggregateClassificationMetrics *Model_AggregateClassificationMetrics
+	// Binary confusion matrix at multiple thresholds.
+	BinaryConfusionMatrixList []*Model_BinaryClassificationMetrics_BinaryConfusionMatrix
+	// Label representing the positive class.
+	PositiveLabel string
+	// Label representing the negative class.
+	NegativeLabel string
+}
+
+func (b0 Model_BinaryClassificationMetrics_builder) Build() *Model_BinaryClassificationMetrics {
+	m0 := &Model_BinaryClassificationMetrics{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.AggregateClassificationMetrics = b.AggregateClassificationMetrics
+	x.BinaryConfusionMatrixList = b.BinaryConfusionMatrixList
+	x.PositiveLabel = b.PositiveLabel
+	x.NegativeLabel = b.NegativeLabel
+	return m0
+}
+
 // Evaluation metrics for multi-class classification/classifier models.
 type Model_MultiClassClassificationMetrics struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Aggregate classification metrics.
 	AggregateClassificationMetrics *Model_AggregateClassificationMetrics `protobuf:"bytes,1,opt,name=aggregate_classification_metrics,json=aggregateClassificationMetrics,proto3" json:"aggregate_classification_metrics,omitempty"`
 	// Confusion matrix at different thresholds.
@@ -2992,11 +3768,6 @@ func (x *Model_MultiClassClassificationMetrics) ProtoReflect() protoreflect.Mess
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_MultiClassClassificationMetrics.ProtoReflect.Descriptor instead.
-func (*Model_MultiClassClassificationMetrics) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 7}
-}
-
 func (x *Model_MultiClassClassificationMetrics) GetAggregateClassificationMetrics() *Model_AggregateClassificationMetrics {
 	if x != nil {
 		return x.AggregateClassificationMetrics
@@ -3011,9 +3782,46 @@ func (x *Model_MultiClassClassificationMetrics) GetConfusionMatrixList() []*Mode
 	return nil
 }
 
+func (x *Model_MultiClassClassificationMetrics) SetAggregateClassificationMetrics(v *Model_AggregateClassificationMetrics) {
+	x.AggregateClassificationMetrics = v
+}
+
+func (x *Model_MultiClassClassificationMetrics) SetConfusionMatrixList(v []*Model_MultiClassClassificationMetrics_ConfusionMatrix) {
+	x.ConfusionMatrixList = v
+}
+
+func (x *Model_MultiClassClassificationMetrics) HasAggregateClassificationMetrics() bool {
+	if x == nil {
+		return false
+	}
+	return x.AggregateClassificationMetrics != nil
+}
+
+func (x *Model_MultiClassClassificationMetrics) ClearAggregateClassificationMetrics() {
+	x.AggregateClassificationMetrics = nil
+}
+
+type Model_MultiClassClassificationMetrics_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Aggregate classification metrics.
+	AggregateClassificationMetrics *Model_AggregateClassificationMetrics
+	// Confusion matrix at different thresholds.
+	ConfusionMatrixList []*Model_MultiClassClassificationMetrics_ConfusionMatrix
+}
+
+func (b0 Model_MultiClassClassificationMetrics_builder) Build() *Model_MultiClassClassificationMetrics {
+	m0 := &Model_MultiClassClassificationMetrics{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.AggregateClassificationMetrics = b.AggregateClassificationMetrics
+	x.ConfusionMatrixList = b.ConfusionMatrixList
+	return m0
+}
+
 // Evaluation metrics for clustering models.
 type Model_ClusteringMetrics struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Davies-Bouldin index.
 	DaviesBouldinIndex *wrapperspb.DoubleValue `protobuf:"bytes,1,opt,name=davies_bouldin_index,json=daviesBouldinIndex,proto3" json:"davies_bouldin_index,omitempty"`
 	// Mean of squared distances between each sample to its cluster centroid.
@@ -3049,11 +3857,6 @@ func (x *Model_ClusteringMetrics) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_ClusteringMetrics.ProtoReflect.Descriptor instead.
-func (*Model_ClusteringMetrics) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 8}
-}
-
 func (x *Model_ClusteringMetrics) GetDaviesBouldinIndex() *wrapperspb.DoubleValue {
 	if x != nil {
 		return x.DaviesBouldinIndex
@@ -3075,10 +3878,65 @@ func (x *Model_ClusteringMetrics) GetClusters() []*Model_ClusteringMetrics_Clust
 	return nil
 }
 
+func (x *Model_ClusteringMetrics) SetDaviesBouldinIndex(v *wrapperspb.DoubleValue) {
+	x.DaviesBouldinIndex = v
+}
+
+func (x *Model_ClusteringMetrics) SetMeanSquaredDistance(v *wrapperspb.DoubleValue) {
+	x.MeanSquaredDistance = v
+}
+
+func (x *Model_ClusteringMetrics) SetClusters(v []*Model_ClusteringMetrics_Cluster) {
+	x.Clusters = v
+}
+
+func (x *Model_ClusteringMetrics) HasDaviesBouldinIndex() bool {
+	if x == nil {
+		return false
+	}
+	return x.DaviesBouldinIndex != nil
+}
+
+func (x *Model_ClusteringMetrics) HasMeanSquaredDistance() bool {
+	if x == nil {
+		return false
+	}
+	return x.MeanSquaredDistance != nil
+}
+
+func (x *Model_ClusteringMetrics) ClearDaviesBouldinIndex() {
+	x.DaviesBouldinIndex = nil
+}
+
+func (x *Model_ClusteringMetrics) ClearMeanSquaredDistance() {
+	x.MeanSquaredDistance = nil
+}
+
+type Model_ClusteringMetrics_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Davies-Bouldin index.
+	DaviesBouldinIndex *wrapperspb.DoubleValue
+	// Mean of squared distances between each sample to its cluster centroid.
+	MeanSquaredDistance *wrapperspb.DoubleValue
+	// Information for all clusters.
+	Clusters []*Model_ClusteringMetrics_Cluster
+}
+
+func (b0 Model_ClusteringMetrics_builder) Build() *Model_ClusteringMetrics {
+	m0 := &Model_ClusteringMetrics{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.DaviesBouldinIndex = b.DaviesBouldinIndex
+	x.MeanSquaredDistance = b.MeanSquaredDistance
+	x.Clusters = b.Clusters
+	return m0
+}
+
 // Evaluation metrics used by weighted-ALS models specified by
 // feedback_type=implicit.
 type Model_RankingMetrics struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Calculates a precision per user for all the items by ranking them and
 	// then averages all the precisions across all the users.
 	MeanAveragePrecision *wrapperspb.DoubleValue `protobuf:"bytes,1,opt,name=mean_average_precision,json=meanAveragePrecision,proto3" json:"mean_average_precision,omitempty"`
@@ -3123,11 +3981,6 @@ func (x *Model_RankingMetrics) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_RankingMetrics.ProtoReflect.Descriptor instead.
-func (*Model_RankingMetrics) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 9}
-}
-
 func (x *Model_RankingMetrics) GetMeanAveragePrecision() *wrapperspb.DoubleValue {
 	if x != nil {
 		return x.MeanAveragePrecision
@@ -3156,9 +4009,100 @@ func (x *Model_RankingMetrics) GetAverageRank() *wrapperspb.DoubleValue {
 	return nil
 }
 
+func (x *Model_RankingMetrics) SetMeanAveragePrecision(v *wrapperspb.DoubleValue) {
+	x.MeanAveragePrecision = v
+}
+
+func (x *Model_RankingMetrics) SetMeanSquaredError(v *wrapperspb.DoubleValue) {
+	x.MeanSquaredError = v
+}
+
+func (x *Model_RankingMetrics) SetNormalizedDiscountedCumulativeGain(v *wrapperspb.DoubleValue) {
+	x.NormalizedDiscountedCumulativeGain = v
+}
+
+func (x *Model_RankingMetrics) SetAverageRank(v *wrapperspb.DoubleValue) {
+	x.AverageRank = v
+}
+
+func (x *Model_RankingMetrics) HasMeanAveragePrecision() bool {
+	if x == nil {
+		return false
+	}
+	return x.MeanAveragePrecision != nil
+}
+
+func (x *Model_RankingMetrics) HasMeanSquaredError() bool {
+	if x == nil {
+		return false
+	}
+	return x.MeanSquaredError != nil
+}
+
+func (x *Model_RankingMetrics) HasNormalizedDiscountedCumulativeGain() bool {
+	if x == nil {
+		return false
+	}
+	return x.NormalizedDiscountedCumulativeGain != nil
+}
+
+func (x *Model_RankingMetrics) HasAverageRank() bool {
+	if x == nil {
+		return false
+	}
+	return x.AverageRank != nil
+}
+
+func (x *Model_RankingMetrics) ClearMeanAveragePrecision() {
+	x.MeanAveragePrecision = nil
+}
+
+func (x *Model_RankingMetrics) ClearMeanSquaredError() {
+	x.MeanSquaredError = nil
+}
+
+func (x *Model_RankingMetrics) ClearNormalizedDiscountedCumulativeGain() {
+	x.NormalizedDiscountedCumulativeGain = nil
+}
+
+func (x *Model_RankingMetrics) ClearAverageRank() {
+	x.AverageRank = nil
+}
+
+type Model_RankingMetrics_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Calculates a precision per user for all the items by ranking them and
+	// then averages all the precisions across all the users.
+	MeanAveragePrecision *wrapperspb.DoubleValue
+	// Similar to the mean squared error computed in regression and explicit
+	// recommendation models except instead of computing the rating directly,
+	// the output from evaluate is computed against a preference which is 1 or 0
+	// depending on if the rating exists or not.
+	MeanSquaredError *wrapperspb.DoubleValue
+	// A metric to determine the goodness of a ranking calculated from the
+	// predicted confidence by comparing it to an ideal rank measured by the
+	// original ratings.
+	NormalizedDiscountedCumulativeGain *wrapperspb.DoubleValue
+	// Determines the goodness of a ranking by computing the percentile rank
+	// from the predicted confidence and dividing it by the original rank.
+	AverageRank *wrapperspb.DoubleValue
+}
+
+func (b0 Model_RankingMetrics_builder) Build() *Model_RankingMetrics {
+	m0 := &Model_RankingMetrics{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.MeanAveragePrecision = b.MeanAveragePrecision
+	x.MeanSquaredError = b.MeanSquaredError
+	x.NormalizedDiscountedCumulativeGain = b.NormalizedDiscountedCumulativeGain
+	x.AverageRank = b.AverageRank
+	return m0
+}
+
 // Model evaluation metrics for ARIMA forecasting models.
 type Model_ArimaForecastingMetrics struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Repeated as there can be many metric sets (one for each model) in
 	// auto-arima and the large-scale case.
 	ArimaSingleModelForecastingMetrics []*Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics `protobuf:"bytes,6,rep,name=arima_single_model_forecasting_metrics,json=arimaSingleModelForecastingMetrics,proto3" json:"arima_single_model_forecasting_metrics,omitempty"`
@@ -3191,11 +4135,6 @@ func (x *Model_ArimaForecastingMetrics) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_ArimaForecastingMetrics.ProtoReflect.Descriptor instead.
-func (*Model_ArimaForecastingMetrics) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 10}
-}
-
 func (x *Model_ArimaForecastingMetrics) GetArimaSingleModelForecastingMetrics() []*Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics {
 	if x != nil {
 		return x.ArimaSingleModelForecastingMetrics
@@ -3203,9 +4142,29 @@ func (x *Model_ArimaForecastingMetrics) GetArimaSingleModelForecastingMetrics() 
 	return nil
 }
 
+func (x *Model_ArimaForecastingMetrics) SetArimaSingleModelForecastingMetrics(v []*Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics) {
+	x.ArimaSingleModelForecastingMetrics = v
+}
+
+type Model_ArimaForecastingMetrics_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Repeated as there can be many metric sets (one for each model) in
+	// auto-arima and the large-scale case.
+	ArimaSingleModelForecastingMetrics []*Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics
+}
+
+func (b0 Model_ArimaForecastingMetrics_builder) Build() *Model_ArimaForecastingMetrics {
+	m0 := &Model_ArimaForecastingMetrics{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ArimaSingleModelForecastingMetrics = b.ArimaSingleModelForecastingMetrics
+	return m0
+}
+
 // Model evaluation metrics for dimensionality reduction models.
 type Model_DimensionalityReductionMetrics struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Total percentage of variance explained by the selected principal
 	// components.
 	TotalExplainedVarianceRatio *wrapperspb.DoubleValue `protobuf:"bytes,1,opt,name=total_explained_variance_ratio,json=totalExplainedVarianceRatio,proto3" json:"total_explained_variance_ratio,omitempty"`
@@ -3238,11 +4197,6 @@ func (x *Model_DimensionalityReductionMetrics) ProtoReflect() protoreflect.Messa
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_DimensionalityReductionMetrics.ProtoReflect.Descriptor instead.
-func (*Model_DimensionalityReductionMetrics) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 11}
-}
-
 func (x *Model_DimensionalityReductionMetrics) GetTotalExplainedVarianceRatio() *wrapperspb.DoubleValue {
 	if x != nil {
 		return x.TotalExplainedVarianceRatio
@@ -3250,11 +4204,42 @@ func (x *Model_DimensionalityReductionMetrics) GetTotalExplainedVarianceRatio() 
 	return nil
 }
 
+func (x *Model_DimensionalityReductionMetrics) SetTotalExplainedVarianceRatio(v *wrapperspb.DoubleValue) {
+	x.TotalExplainedVarianceRatio = v
+}
+
+func (x *Model_DimensionalityReductionMetrics) HasTotalExplainedVarianceRatio() bool {
+	if x == nil {
+		return false
+	}
+	return x.TotalExplainedVarianceRatio != nil
+}
+
+func (x *Model_DimensionalityReductionMetrics) ClearTotalExplainedVarianceRatio() {
+	x.TotalExplainedVarianceRatio = nil
+}
+
+type Model_DimensionalityReductionMetrics_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Total percentage of variance explained by the selected principal
+	// components.
+	TotalExplainedVarianceRatio *wrapperspb.DoubleValue
+}
+
+func (b0 Model_DimensionalityReductionMetrics_builder) Build() *Model_DimensionalityReductionMetrics {
+	m0 := &Model_DimensionalityReductionMetrics{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TotalExplainedVarianceRatio = b.TotalExplainedVarianceRatio
+	return m0
+}
+
 // Evaluation metrics of a model. These are either computed on all training
 // data or just the eval data based on whether eval data was used during
 // training. These are not present for imported models.
 type Model_EvaluationMetrics struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Metrics.
 	//
 	// Types that are valid to be assigned to Metrics:
@@ -3294,11 +4279,6 @@ func (x *Model_EvaluationMetrics) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Model_EvaluationMetrics.ProtoReflect.Descriptor instead.
-func (*Model_EvaluationMetrics) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 12}
 }
 
 func (x *Model_EvaluationMetrics) GetMetrics() isModel_EvaluationMetrics_Metrics {
@@ -3371,6 +4351,267 @@ func (x *Model_EvaluationMetrics) GetDimensionalityReductionMetrics() *Model_Dim
 	return nil
 }
 
+func (x *Model_EvaluationMetrics) SetRegressionMetrics(v *Model_RegressionMetrics) {
+	if v == nil {
+		x.Metrics = nil
+		return
+	}
+	x.Metrics = &Model_EvaluationMetrics_RegressionMetrics{v}
+}
+
+func (x *Model_EvaluationMetrics) SetBinaryClassificationMetrics(v *Model_BinaryClassificationMetrics) {
+	if v == nil {
+		x.Metrics = nil
+		return
+	}
+	x.Metrics = &Model_EvaluationMetrics_BinaryClassificationMetrics{v}
+}
+
+func (x *Model_EvaluationMetrics) SetMultiClassClassificationMetrics(v *Model_MultiClassClassificationMetrics) {
+	if v == nil {
+		x.Metrics = nil
+		return
+	}
+	x.Metrics = &Model_EvaluationMetrics_MultiClassClassificationMetrics{v}
+}
+
+func (x *Model_EvaluationMetrics) SetClusteringMetrics(v *Model_ClusteringMetrics) {
+	if v == nil {
+		x.Metrics = nil
+		return
+	}
+	x.Metrics = &Model_EvaluationMetrics_ClusteringMetrics{v}
+}
+
+func (x *Model_EvaluationMetrics) SetRankingMetrics(v *Model_RankingMetrics) {
+	if v == nil {
+		x.Metrics = nil
+		return
+	}
+	x.Metrics = &Model_EvaluationMetrics_RankingMetrics{v}
+}
+
+func (x *Model_EvaluationMetrics) SetArimaForecastingMetrics(v *Model_ArimaForecastingMetrics) {
+	if v == nil {
+		x.Metrics = nil
+		return
+	}
+	x.Metrics = &Model_EvaluationMetrics_ArimaForecastingMetrics{v}
+}
+
+func (x *Model_EvaluationMetrics) SetDimensionalityReductionMetrics(v *Model_DimensionalityReductionMetrics) {
+	if v == nil {
+		x.Metrics = nil
+		return
+	}
+	x.Metrics = &Model_EvaluationMetrics_DimensionalityReductionMetrics{v}
+}
+
+func (x *Model_EvaluationMetrics) HasMetrics() bool {
+	if x == nil {
+		return false
+	}
+	return x.Metrics != nil
+}
+
+func (x *Model_EvaluationMetrics) HasRegressionMetrics() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Metrics.(*Model_EvaluationMetrics_RegressionMetrics)
+	return ok
+}
+
+func (x *Model_EvaluationMetrics) HasBinaryClassificationMetrics() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Metrics.(*Model_EvaluationMetrics_BinaryClassificationMetrics)
+	return ok
+}
+
+func (x *Model_EvaluationMetrics) HasMultiClassClassificationMetrics() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Metrics.(*Model_EvaluationMetrics_MultiClassClassificationMetrics)
+	return ok
+}
+
+func (x *Model_EvaluationMetrics) HasClusteringMetrics() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Metrics.(*Model_EvaluationMetrics_ClusteringMetrics)
+	return ok
+}
+
+func (x *Model_EvaluationMetrics) HasRankingMetrics() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Metrics.(*Model_EvaluationMetrics_RankingMetrics)
+	return ok
+}
+
+func (x *Model_EvaluationMetrics) HasArimaForecastingMetrics() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Metrics.(*Model_EvaluationMetrics_ArimaForecastingMetrics)
+	return ok
+}
+
+func (x *Model_EvaluationMetrics) HasDimensionalityReductionMetrics() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Metrics.(*Model_EvaluationMetrics_DimensionalityReductionMetrics)
+	return ok
+}
+
+func (x *Model_EvaluationMetrics) ClearMetrics() {
+	x.Metrics = nil
+}
+
+func (x *Model_EvaluationMetrics) ClearRegressionMetrics() {
+	if _, ok := x.Metrics.(*Model_EvaluationMetrics_RegressionMetrics); ok {
+		x.Metrics = nil
+	}
+}
+
+func (x *Model_EvaluationMetrics) ClearBinaryClassificationMetrics() {
+	if _, ok := x.Metrics.(*Model_EvaluationMetrics_BinaryClassificationMetrics); ok {
+		x.Metrics = nil
+	}
+}
+
+func (x *Model_EvaluationMetrics) ClearMultiClassClassificationMetrics() {
+	if _, ok := x.Metrics.(*Model_EvaluationMetrics_MultiClassClassificationMetrics); ok {
+		x.Metrics = nil
+	}
+}
+
+func (x *Model_EvaluationMetrics) ClearClusteringMetrics() {
+	if _, ok := x.Metrics.(*Model_EvaluationMetrics_ClusteringMetrics); ok {
+		x.Metrics = nil
+	}
+}
+
+func (x *Model_EvaluationMetrics) ClearRankingMetrics() {
+	if _, ok := x.Metrics.(*Model_EvaluationMetrics_RankingMetrics); ok {
+		x.Metrics = nil
+	}
+}
+
+func (x *Model_EvaluationMetrics) ClearArimaForecastingMetrics() {
+	if _, ok := x.Metrics.(*Model_EvaluationMetrics_ArimaForecastingMetrics); ok {
+		x.Metrics = nil
+	}
+}
+
+func (x *Model_EvaluationMetrics) ClearDimensionalityReductionMetrics() {
+	if _, ok := x.Metrics.(*Model_EvaluationMetrics_DimensionalityReductionMetrics); ok {
+		x.Metrics = nil
+	}
+}
+
+const Model_EvaluationMetrics_Metrics_not_set_case case_Model_EvaluationMetrics_Metrics = 0
+const Model_EvaluationMetrics_RegressionMetrics_case case_Model_EvaluationMetrics_Metrics = 1
+const Model_EvaluationMetrics_BinaryClassificationMetrics_case case_Model_EvaluationMetrics_Metrics = 2
+const Model_EvaluationMetrics_MultiClassClassificationMetrics_case case_Model_EvaluationMetrics_Metrics = 3
+const Model_EvaluationMetrics_ClusteringMetrics_case case_Model_EvaluationMetrics_Metrics = 4
+const Model_EvaluationMetrics_RankingMetrics_case case_Model_EvaluationMetrics_Metrics = 5
+const Model_EvaluationMetrics_ArimaForecastingMetrics_case case_Model_EvaluationMetrics_Metrics = 6
+const Model_EvaluationMetrics_DimensionalityReductionMetrics_case case_Model_EvaluationMetrics_Metrics = 7
+
+func (x *Model_EvaluationMetrics) WhichMetrics() case_Model_EvaluationMetrics_Metrics {
+	if x == nil {
+		return Model_EvaluationMetrics_Metrics_not_set_case
+	}
+	switch x.Metrics.(type) {
+	case *Model_EvaluationMetrics_RegressionMetrics:
+		return Model_EvaluationMetrics_RegressionMetrics_case
+	case *Model_EvaluationMetrics_BinaryClassificationMetrics:
+		return Model_EvaluationMetrics_BinaryClassificationMetrics_case
+	case *Model_EvaluationMetrics_MultiClassClassificationMetrics:
+		return Model_EvaluationMetrics_MultiClassClassificationMetrics_case
+	case *Model_EvaluationMetrics_ClusteringMetrics:
+		return Model_EvaluationMetrics_ClusteringMetrics_case
+	case *Model_EvaluationMetrics_RankingMetrics:
+		return Model_EvaluationMetrics_RankingMetrics_case
+	case *Model_EvaluationMetrics_ArimaForecastingMetrics:
+		return Model_EvaluationMetrics_ArimaForecastingMetrics_case
+	case *Model_EvaluationMetrics_DimensionalityReductionMetrics:
+		return Model_EvaluationMetrics_DimensionalityReductionMetrics_case
+	default:
+		return Model_EvaluationMetrics_Metrics_not_set_case
+	}
+}
+
+type Model_EvaluationMetrics_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Metrics.
+
+	// Fields of oneof Metrics:
+	// Populated for regression models and explicit feedback type matrix
+	// factorization models.
+	RegressionMetrics *Model_RegressionMetrics
+	// Populated for binary classification/classifier models.
+	BinaryClassificationMetrics *Model_BinaryClassificationMetrics
+	// Populated for multi-class classification/classifier models.
+	MultiClassClassificationMetrics *Model_MultiClassClassificationMetrics
+	// Populated for clustering models.
+	ClusteringMetrics *Model_ClusteringMetrics
+	// Populated for implicit feedback type matrix factorization models.
+	RankingMetrics *Model_RankingMetrics
+	// Populated for ARIMA models.
+	ArimaForecastingMetrics *Model_ArimaForecastingMetrics
+	// Evaluation metrics when the model is a dimensionality reduction model,
+	// which currently includes PCA.
+	DimensionalityReductionMetrics *Model_DimensionalityReductionMetrics
+	// -- end of Metrics
+}
+
+func (b0 Model_EvaluationMetrics_builder) Build() *Model_EvaluationMetrics {
+	m0 := &Model_EvaluationMetrics{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.RegressionMetrics != nil {
+		x.Metrics = &Model_EvaluationMetrics_RegressionMetrics{b.RegressionMetrics}
+	}
+	if b.BinaryClassificationMetrics != nil {
+		x.Metrics = &Model_EvaluationMetrics_BinaryClassificationMetrics{b.BinaryClassificationMetrics}
+	}
+	if b.MultiClassClassificationMetrics != nil {
+		x.Metrics = &Model_EvaluationMetrics_MultiClassClassificationMetrics{b.MultiClassClassificationMetrics}
+	}
+	if b.ClusteringMetrics != nil {
+		x.Metrics = &Model_EvaluationMetrics_ClusteringMetrics{b.ClusteringMetrics}
+	}
+	if b.RankingMetrics != nil {
+		x.Metrics = &Model_EvaluationMetrics_RankingMetrics{b.RankingMetrics}
+	}
+	if b.ArimaForecastingMetrics != nil {
+		x.Metrics = &Model_EvaluationMetrics_ArimaForecastingMetrics{b.ArimaForecastingMetrics}
+	}
+	if b.DimensionalityReductionMetrics != nil {
+		x.Metrics = &Model_EvaluationMetrics_DimensionalityReductionMetrics{b.DimensionalityReductionMetrics}
+	}
+	return m0
+}
+
+type case_Model_EvaluationMetrics_Metrics protoreflect.FieldNumber
+
+func (x case_Model_EvaluationMetrics_Metrics) String() string {
+	md := file_google_cloud_bigquery_v2_model_proto_msgTypes[20].Descriptor()
+	if x == 0 {
+		return "not set"
+	}
+	return protoimpl.X.MessageFieldStringOf(md, protoreflect.FieldNumber(x))
+}
+
 type isModel_EvaluationMetrics_Metrics interface {
 	isModel_EvaluationMetrics_Metrics()
 }
@@ -3429,7 +4670,7 @@ func (*Model_EvaluationMetrics_DimensionalityReductionMetrics) isModel_Evaluatio
 // Data split result. This contains references to the training and evaluation
 // data tables that were used to train the model.
 type Model_DataSplitResult struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Table reference of the training data after split.
 	TrainingTable *TableReference `protobuf:"bytes,1,opt,name=training_table,json=trainingTable,proto3" json:"training_table,omitempty"`
 	// Table reference of the evaluation data after split.
@@ -3465,11 +4706,6 @@ func (x *Model_DataSplitResult) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_DataSplitResult.ProtoReflect.Descriptor instead.
-func (*Model_DataSplitResult) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 13}
-}
-
 func (x *Model_DataSplitResult) GetTrainingTable() *TableReference {
 	if x != nil {
 		return x.TrainingTable
@@ -3491,9 +4727,75 @@ func (x *Model_DataSplitResult) GetTestTable() *TableReference {
 	return nil
 }
 
+func (x *Model_DataSplitResult) SetTrainingTable(v *TableReference) {
+	x.TrainingTable = v
+}
+
+func (x *Model_DataSplitResult) SetEvaluationTable(v *TableReference) {
+	x.EvaluationTable = v
+}
+
+func (x *Model_DataSplitResult) SetTestTable(v *TableReference) {
+	x.TestTable = v
+}
+
+func (x *Model_DataSplitResult) HasTrainingTable() bool {
+	if x == nil {
+		return false
+	}
+	return x.TrainingTable != nil
+}
+
+func (x *Model_DataSplitResult) HasEvaluationTable() bool {
+	if x == nil {
+		return false
+	}
+	return x.EvaluationTable != nil
+}
+
+func (x *Model_DataSplitResult) HasTestTable() bool {
+	if x == nil {
+		return false
+	}
+	return x.TestTable != nil
+}
+
+func (x *Model_DataSplitResult) ClearTrainingTable() {
+	x.TrainingTable = nil
+}
+
+func (x *Model_DataSplitResult) ClearEvaluationTable() {
+	x.EvaluationTable = nil
+}
+
+func (x *Model_DataSplitResult) ClearTestTable() {
+	x.TestTable = nil
+}
+
+type Model_DataSplitResult_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Table reference of the training data after split.
+	TrainingTable *TableReference
+	// Table reference of the evaluation data after split.
+	EvaluationTable *TableReference
+	// Table reference of the test data after split.
+	TestTable *TableReference
+}
+
+func (b0 Model_DataSplitResult_builder) Build() *Model_DataSplitResult {
+	m0 := &Model_DataSplitResult{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TrainingTable = b.TrainingTable
+	x.EvaluationTable = b.EvaluationTable
+	x.TestTable = b.TestTable
+	return m0
+}
+
 // Arima order, can be used for both non-seasonal and seasonal parts.
 type Model_ArimaOrder struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Order of the autoregressive part.
 	P *wrapperspb.Int64Value `protobuf:"bytes,1,opt,name=p,proto3" json:"p,omitempty"`
 	// Order of the differencing part.
@@ -3529,11 +4831,6 @@ func (x *Model_ArimaOrder) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_ArimaOrder.ProtoReflect.Descriptor instead.
-func (*Model_ArimaOrder) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 14}
-}
-
 func (x *Model_ArimaOrder) GetP() *wrapperspb.Int64Value {
 	if x != nil {
 		return x.P
@@ -3555,9 +4852,75 @@ func (x *Model_ArimaOrder) GetQ() *wrapperspb.Int64Value {
 	return nil
 }
 
+func (x *Model_ArimaOrder) SetP(v *wrapperspb.Int64Value) {
+	x.P = v
+}
+
+func (x *Model_ArimaOrder) SetD(v *wrapperspb.Int64Value) {
+	x.D = v
+}
+
+func (x *Model_ArimaOrder) SetQ(v *wrapperspb.Int64Value) {
+	x.Q = v
+}
+
+func (x *Model_ArimaOrder) HasP() bool {
+	if x == nil {
+		return false
+	}
+	return x.P != nil
+}
+
+func (x *Model_ArimaOrder) HasD() bool {
+	if x == nil {
+		return false
+	}
+	return x.D != nil
+}
+
+func (x *Model_ArimaOrder) HasQ() bool {
+	if x == nil {
+		return false
+	}
+	return x.Q != nil
+}
+
+func (x *Model_ArimaOrder) ClearP() {
+	x.P = nil
+}
+
+func (x *Model_ArimaOrder) ClearD() {
+	x.D = nil
+}
+
+func (x *Model_ArimaOrder) ClearQ() {
+	x.Q = nil
+}
+
+type Model_ArimaOrder_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Order of the autoregressive part.
+	P *wrapperspb.Int64Value
+	// Order of the differencing part.
+	D *wrapperspb.Int64Value
+	// Order of the moving-average part.
+	Q *wrapperspb.Int64Value
+}
+
+func (b0 Model_ArimaOrder_builder) Build() *Model_ArimaOrder {
+	m0 := &Model_ArimaOrder{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.P = b.P
+	x.D = b.D
+	x.Q = b.Q
+	return m0
+}
+
 // ARIMA model fitting metrics.
 type Model_ArimaFittingMetrics struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Log-likelihood.
 	LogLikelihood *wrapperspb.DoubleValue `protobuf:"bytes,1,opt,name=log_likelihood,json=logLikelihood,proto3" json:"log_likelihood,omitempty"`
 	// AIC.
@@ -3593,11 +4956,6 @@ func (x *Model_ArimaFittingMetrics) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_ArimaFittingMetrics.ProtoReflect.Descriptor instead.
-func (*Model_ArimaFittingMetrics) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 15}
-}
-
 func (x *Model_ArimaFittingMetrics) GetLogLikelihood() *wrapperspb.DoubleValue {
 	if x != nil {
 		return x.LogLikelihood
@@ -3619,10 +4977,76 @@ func (x *Model_ArimaFittingMetrics) GetVariance() *wrapperspb.DoubleValue {
 	return nil
 }
 
+func (x *Model_ArimaFittingMetrics) SetLogLikelihood(v *wrapperspb.DoubleValue) {
+	x.LogLikelihood = v
+}
+
+func (x *Model_ArimaFittingMetrics) SetAic(v *wrapperspb.DoubleValue) {
+	x.Aic = v
+}
+
+func (x *Model_ArimaFittingMetrics) SetVariance(v *wrapperspb.DoubleValue) {
+	x.Variance = v
+}
+
+func (x *Model_ArimaFittingMetrics) HasLogLikelihood() bool {
+	if x == nil {
+		return false
+	}
+	return x.LogLikelihood != nil
+}
+
+func (x *Model_ArimaFittingMetrics) HasAic() bool {
+	if x == nil {
+		return false
+	}
+	return x.Aic != nil
+}
+
+func (x *Model_ArimaFittingMetrics) HasVariance() bool {
+	if x == nil {
+		return false
+	}
+	return x.Variance != nil
+}
+
+func (x *Model_ArimaFittingMetrics) ClearLogLikelihood() {
+	x.LogLikelihood = nil
+}
+
+func (x *Model_ArimaFittingMetrics) ClearAic() {
+	x.Aic = nil
+}
+
+func (x *Model_ArimaFittingMetrics) ClearVariance() {
+	x.Variance = nil
+}
+
+type Model_ArimaFittingMetrics_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Log-likelihood.
+	LogLikelihood *wrapperspb.DoubleValue
+	// AIC.
+	Aic *wrapperspb.DoubleValue
+	// Variance.
+	Variance *wrapperspb.DoubleValue
+}
+
+func (b0 Model_ArimaFittingMetrics_builder) Build() *Model_ArimaFittingMetrics {
+	m0 := &Model_ArimaFittingMetrics{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.LogLikelihood = b.LogLikelihood
+	x.Aic = b.Aic
+	x.Variance = b.Variance
+	return m0
+}
+
 // Global explanations containing the top most important features
 // after training.
 type Model_GlobalExplanation struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// A list of the top global explanations. Sorted by absolute value of
 	// attribution in descending order.
 	Explanations []*Model_GlobalExplanation_Explanation `protobuf:"bytes,1,rep,name=explanations,proto3" json:"explanations,omitempty"`
@@ -3659,11 +5083,6 @@ func (x *Model_GlobalExplanation) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_GlobalExplanation.ProtoReflect.Descriptor instead.
-func (*Model_GlobalExplanation) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 16}
-}
-
 func (x *Model_GlobalExplanation) GetExplanations() []*Model_GlobalExplanation_Explanation {
 	if x != nil {
 		return x.Explanations
@@ -3678,9 +5097,38 @@ func (x *Model_GlobalExplanation) GetClassLabel() string {
 	return ""
 }
 
+func (x *Model_GlobalExplanation) SetExplanations(v []*Model_GlobalExplanation_Explanation) {
+	x.Explanations = v
+}
+
+func (x *Model_GlobalExplanation) SetClassLabel(v string) {
+	x.ClassLabel = v
+}
+
+type Model_GlobalExplanation_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// A list of the top global explanations. Sorted by absolute value of
+	// attribution in descending order.
+	Explanations []*Model_GlobalExplanation_Explanation
+	// Class label for this set of global explanations. Will be empty/null for
+	// binary logistic and linear regression models. Sorted alphabetically in
+	// descending order.
+	ClassLabel string
+}
+
+func (b0 Model_GlobalExplanation_builder) Build() *Model_GlobalExplanation {
+	m0 := &Model_GlobalExplanation{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Explanations = b.Explanations
+	x.ClassLabel = b.ClassLabel
+	return m0
+}
+
 // Encoding methods for categorical features.
 type Model_CategoryEncodingMethod struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3710,14 +5158,21 @@ func (x *Model_CategoryEncodingMethod) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_CategoryEncodingMethod.ProtoReflect.Descriptor instead.
-func (*Model_CategoryEncodingMethod) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 17}
+type Model_CategoryEncodingMethod_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 Model_CategoryEncodingMethod_builder) Build() *Model_CategoryEncodingMethod {
+	m0 := &Model_CategoryEncodingMethod{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 // PCA solver options.
 type Model_PcaSolverOptionEnums struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3747,14 +5202,21 @@ func (x *Model_PcaSolverOptionEnums) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_PcaSolverOptionEnums.ProtoReflect.Descriptor instead.
-func (*Model_PcaSolverOptionEnums) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 18}
+type Model_PcaSolverOptionEnums_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 Model_PcaSolverOptionEnums_builder) Build() *Model_PcaSolverOptionEnums {
+	m0 := &Model_PcaSolverOptionEnums{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 // Model registry options.
 type Model_ModelRegistryOptionEnums struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3784,14 +5246,21 @@ func (x *Model_ModelRegistryOptionEnums) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_ModelRegistryOptionEnums.ProtoReflect.Descriptor instead.
-func (*Model_ModelRegistryOptionEnums) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 19}
+type Model_ModelRegistryOptionEnums_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 Model_ModelRegistryOptionEnums_builder) Build() *Model_ModelRegistryOptionEnums {
+	m0 := &Model_ModelRegistryOptionEnums{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 // Information about a single training query run for the model.
 type Model_TrainingRun struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. Options that were used for this training run, includes
 	// user specified and default options that were used.
 	TrainingOptions *Model_TrainingRun_TrainingOptions `protobuf:"bytes,1,opt,name=training_options,json=trainingOptions,proto3" json:"training_options,omitempty"`
@@ -3847,11 +5316,6 @@ func (x *Model_TrainingRun) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Model_TrainingRun.ProtoReflect.Descriptor instead.
-func (*Model_TrainingRun) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 20}
 }
 
 func (x *Model_TrainingRun) GetTrainingOptions() *Model_TrainingRun_TrainingOptions {
@@ -3917,9 +5381,149 @@ func (x *Model_TrainingRun) GetVertexAiModelVersion() string {
 	return ""
 }
 
+func (x *Model_TrainingRun) SetTrainingOptions(v *Model_TrainingRun_TrainingOptions) {
+	x.TrainingOptions = v
+}
+
+func (x *Model_TrainingRun) SetStartTime(v *timestamppb.Timestamp) {
+	x.StartTime = v
+}
+
+func (x *Model_TrainingRun) SetResults(v []*Model_TrainingRun_IterationResult) {
+	x.Results = v
+}
+
+func (x *Model_TrainingRun) SetEvaluationMetrics(v *Model_EvaluationMetrics) {
+	x.EvaluationMetrics = v
+}
+
+func (x *Model_TrainingRun) SetDataSplitResult(v *Model_DataSplitResult) {
+	x.DataSplitResult = v
+}
+
+func (x *Model_TrainingRun) SetModelLevelGlobalExplanation(v *Model_GlobalExplanation) {
+	x.ModelLevelGlobalExplanation = v
+}
+
+func (x *Model_TrainingRun) SetClassLevelGlobalExplanations(v []*Model_GlobalExplanation) {
+	x.ClassLevelGlobalExplanations = v
+}
+
+func (x *Model_TrainingRun) SetVertexAiModelId(v string) {
+	x.VertexAiModelId = v
+}
+
+func (x *Model_TrainingRun) SetVertexAiModelVersion(v string) {
+	x.VertexAiModelVersion = v
+}
+
+func (x *Model_TrainingRun) HasTrainingOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.TrainingOptions != nil
+}
+
+func (x *Model_TrainingRun) HasStartTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.StartTime != nil
+}
+
+func (x *Model_TrainingRun) HasEvaluationMetrics() bool {
+	if x == nil {
+		return false
+	}
+	return x.EvaluationMetrics != nil
+}
+
+func (x *Model_TrainingRun) HasDataSplitResult() bool {
+	if x == nil {
+		return false
+	}
+	return x.DataSplitResult != nil
+}
+
+func (x *Model_TrainingRun) HasModelLevelGlobalExplanation() bool {
+	if x == nil {
+		return false
+	}
+	return x.ModelLevelGlobalExplanation != nil
+}
+
+func (x *Model_TrainingRun) ClearTrainingOptions() {
+	x.TrainingOptions = nil
+}
+
+func (x *Model_TrainingRun) ClearStartTime() {
+	x.StartTime = nil
+}
+
+func (x *Model_TrainingRun) ClearEvaluationMetrics() {
+	x.EvaluationMetrics = nil
+}
+
+func (x *Model_TrainingRun) ClearDataSplitResult() {
+	x.DataSplitResult = nil
+}
+
+func (x *Model_TrainingRun) ClearModelLevelGlobalExplanation() {
+	x.ModelLevelGlobalExplanation = nil
+}
+
+type Model_TrainingRun_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. Options that were used for this training run, includes
+	// user specified and default options that were used.
+	TrainingOptions *Model_TrainingRun_TrainingOptions
+	// Output only. The start time of this training run.
+	StartTime *timestamppb.Timestamp
+	// Output only. Output of each iteration run, results.size() <=
+	// max_iterations.
+	Results []*Model_TrainingRun_IterationResult
+	// Output only. The evaluation metrics over training/eval data that were
+	// computed at the end of training.
+	EvaluationMetrics *Model_EvaluationMetrics
+	// Output only. Data split result of the training run. Only set when the
+	// input data is actually split.
+	DataSplitResult *Model_DataSplitResult
+	// Output only. Global explanation contains the explanation of top features
+	// on the model level. Applies to both regression and classification models.
+	ModelLevelGlobalExplanation *Model_GlobalExplanation
+	// Output only. Global explanation contains the explanation of top features
+	// on the class level. Applies to classification models only.
+	ClassLevelGlobalExplanations []*Model_GlobalExplanation
+	// The model id in the [Vertex AI Model
+	// Registry](https://cloud.google.com/vertex-ai/docs/model-registry/introduction)
+	// for this training run.
+	VertexAiModelId string
+	// Output only. The model version in the [Vertex AI Model
+	// Registry](https://cloud.google.com/vertex-ai/docs/model-registry/introduction)
+	// for this training run.
+	VertexAiModelVersion string
+}
+
+func (b0 Model_TrainingRun_builder) Build() *Model_TrainingRun {
+	m0 := &Model_TrainingRun{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TrainingOptions = b.TrainingOptions
+	x.StartTime = b.StartTime
+	x.Results = b.Results
+	x.EvaluationMetrics = b.EvaluationMetrics
+	x.DataSplitResult = b.DataSplitResult
+	x.ModelLevelGlobalExplanation = b.ModelLevelGlobalExplanation
+	x.ClassLevelGlobalExplanations = b.ClassLevelGlobalExplanations
+	x.VertexAiModelId = b.VertexAiModelId
+	x.VertexAiModelVersion = b.VertexAiModelVersion
+	return m0
+}
+
 // Search space for a double hyperparameter.
 type Model_DoubleHparamSearchSpace struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Search space.
 	//
 	// Types that are valid to be assigned to SearchSpace:
@@ -3956,11 +5560,6 @@ func (x *Model_DoubleHparamSearchSpace) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_DoubleHparamSearchSpace.ProtoReflect.Descriptor instead.
-func (*Model_DoubleHparamSearchSpace) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 21}
-}
-
 func (x *Model_DoubleHparamSearchSpace) GetSearchSpace() isModel_DoubleHparamSearchSpace_SearchSpace {
 	if x != nil {
 		return x.SearchSpace
@@ -3986,6 +5585,115 @@ func (x *Model_DoubleHparamSearchSpace) GetCandidates() *Model_DoubleHparamSearc
 	return nil
 }
 
+func (x *Model_DoubleHparamSearchSpace) SetRange(v *Model_DoubleHparamSearchSpace_DoubleRange) {
+	if v == nil {
+		x.SearchSpace = nil
+		return
+	}
+	x.SearchSpace = &Model_DoubleHparamSearchSpace_Range{v}
+}
+
+func (x *Model_DoubleHparamSearchSpace) SetCandidates(v *Model_DoubleHparamSearchSpace_DoubleCandidates) {
+	if v == nil {
+		x.SearchSpace = nil
+		return
+	}
+	x.SearchSpace = &Model_DoubleHparamSearchSpace_Candidates{v}
+}
+
+func (x *Model_DoubleHparamSearchSpace) HasSearchSpace() bool {
+	if x == nil {
+		return false
+	}
+	return x.SearchSpace != nil
+}
+
+func (x *Model_DoubleHparamSearchSpace) HasRange() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.SearchSpace.(*Model_DoubleHparamSearchSpace_Range)
+	return ok
+}
+
+func (x *Model_DoubleHparamSearchSpace) HasCandidates() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.SearchSpace.(*Model_DoubleHparamSearchSpace_Candidates)
+	return ok
+}
+
+func (x *Model_DoubleHparamSearchSpace) ClearSearchSpace() {
+	x.SearchSpace = nil
+}
+
+func (x *Model_DoubleHparamSearchSpace) ClearRange() {
+	if _, ok := x.SearchSpace.(*Model_DoubleHparamSearchSpace_Range); ok {
+		x.SearchSpace = nil
+	}
+}
+
+func (x *Model_DoubleHparamSearchSpace) ClearCandidates() {
+	if _, ok := x.SearchSpace.(*Model_DoubleHparamSearchSpace_Candidates); ok {
+		x.SearchSpace = nil
+	}
+}
+
+const Model_DoubleHparamSearchSpace_SearchSpace_not_set_case case_Model_DoubleHparamSearchSpace_SearchSpace = 0
+const Model_DoubleHparamSearchSpace_Range_case case_Model_DoubleHparamSearchSpace_SearchSpace = 1
+const Model_DoubleHparamSearchSpace_Candidates_case case_Model_DoubleHparamSearchSpace_SearchSpace = 2
+
+func (x *Model_DoubleHparamSearchSpace) WhichSearchSpace() case_Model_DoubleHparamSearchSpace_SearchSpace {
+	if x == nil {
+		return Model_DoubleHparamSearchSpace_SearchSpace_not_set_case
+	}
+	switch x.SearchSpace.(type) {
+	case *Model_DoubleHparamSearchSpace_Range:
+		return Model_DoubleHparamSearchSpace_Range_case
+	case *Model_DoubleHparamSearchSpace_Candidates:
+		return Model_DoubleHparamSearchSpace_Candidates_case
+	default:
+		return Model_DoubleHparamSearchSpace_SearchSpace_not_set_case
+	}
+}
+
+type Model_DoubleHparamSearchSpace_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Search space.
+
+	// Fields of oneof SearchSpace:
+	// Range of the double hyperparameter.
+	Range *Model_DoubleHparamSearchSpace_DoubleRange
+	// Candidates of the double hyperparameter.
+	Candidates *Model_DoubleHparamSearchSpace_DoubleCandidates
+	// -- end of SearchSpace
+}
+
+func (b0 Model_DoubleHparamSearchSpace_builder) Build() *Model_DoubleHparamSearchSpace {
+	m0 := &Model_DoubleHparamSearchSpace{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.Range != nil {
+		x.SearchSpace = &Model_DoubleHparamSearchSpace_Range{b.Range}
+	}
+	if b.Candidates != nil {
+		x.SearchSpace = &Model_DoubleHparamSearchSpace_Candidates{b.Candidates}
+	}
+	return m0
+}
+
+type case_Model_DoubleHparamSearchSpace_SearchSpace protoreflect.FieldNumber
+
+func (x case_Model_DoubleHparamSearchSpace_SearchSpace) String() string {
+	md := file_google_cloud_bigquery_v2_model_proto_msgTypes[29].Descriptor()
+	if x == 0 {
+		return "not set"
+	}
+	return protoimpl.X.MessageFieldStringOf(md, protoreflect.FieldNumber(x))
+}
+
 type isModel_DoubleHparamSearchSpace_SearchSpace interface {
 	isModel_DoubleHparamSearchSpace_SearchSpace()
 }
@@ -4006,7 +5714,7 @@ func (*Model_DoubleHparamSearchSpace_Candidates) isModel_DoubleHparamSearchSpace
 
 // Search space for an int hyperparameter.
 type Model_IntHparamSearchSpace struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Search space.
 	//
 	// Types that are valid to be assigned to SearchSpace:
@@ -4043,11 +5751,6 @@ func (x *Model_IntHparamSearchSpace) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_IntHparamSearchSpace.ProtoReflect.Descriptor instead.
-func (*Model_IntHparamSearchSpace) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 22}
-}
-
 func (x *Model_IntHparamSearchSpace) GetSearchSpace() isModel_IntHparamSearchSpace_SearchSpace {
 	if x != nil {
 		return x.SearchSpace
@@ -4073,6 +5776,115 @@ func (x *Model_IntHparamSearchSpace) GetCandidates() *Model_IntHparamSearchSpace
 	return nil
 }
 
+func (x *Model_IntHparamSearchSpace) SetRange(v *Model_IntHparamSearchSpace_IntRange) {
+	if v == nil {
+		x.SearchSpace = nil
+		return
+	}
+	x.SearchSpace = &Model_IntHparamSearchSpace_Range{v}
+}
+
+func (x *Model_IntHparamSearchSpace) SetCandidates(v *Model_IntHparamSearchSpace_IntCandidates) {
+	if v == nil {
+		x.SearchSpace = nil
+		return
+	}
+	x.SearchSpace = &Model_IntHparamSearchSpace_Candidates{v}
+}
+
+func (x *Model_IntHparamSearchSpace) HasSearchSpace() bool {
+	if x == nil {
+		return false
+	}
+	return x.SearchSpace != nil
+}
+
+func (x *Model_IntHparamSearchSpace) HasRange() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.SearchSpace.(*Model_IntHparamSearchSpace_Range)
+	return ok
+}
+
+func (x *Model_IntHparamSearchSpace) HasCandidates() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.SearchSpace.(*Model_IntHparamSearchSpace_Candidates)
+	return ok
+}
+
+func (x *Model_IntHparamSearchSpace) ClearSearchSpace() {
+	x.SearchSpace = nil
+}
+
+func (x *Model_IntHparamSearchSpace) ClearRange() {
+	if _, ok := x.SearchSpace.(*Model_IntHparamSearchSpace_Range); ok {
+		x.SearchSpace = nil
+	}
+}
+
+func (x *Model_IntHparamSearchSpace) ClearCandidates() {
+	if _, ok := x.SearchSpace.(*Model_IntHparamSearchSpace_Candidates); ok {
+		x.SearchSpace = nil
+	}
+}
+
+const Model_IntHparamSearchSpace_SearchSpace_not_set_case case_Model_IntHparamSearchSpace_SearchSpace = 0
+const Model_IntHparamSearchSpace_Range_case case_Model_IntHparamSearchSpace_SearchSpace = 1
+const Model_IntHparamSearchSpace_Candidates_case case_Model_IntHparamSearchSpace_SearchSpace = 2
+
+func (x *Model_IntHparamSearchSpace) WhichSearchSpace() case_Model_IntHparamSearchSpace_SearchSpace {
+	if x == nil {
+		return Model_IntHparamSearchSpace_SearchSpace_not_set_case
+	}
+	switch x.SearchSpace.(type) {
+	case *Model_IntHparamSearchSpace_Range:
+		return Model_IntHparamSearchSpace_Range_case
+	case *Model_IntHparamSearchSpace_Candidates:
+		return Model_IntHparamSearchSpace_Candidates_case
+	default:
+		return Model_IntHparamSearchSpace_SearchSpace_not_set_case
+	}
+}
+
+type Model_IntHparamSearchSpace_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Search space.
+
+	// Fields of oneof SearchSpace:
+	// Range of the int hyperparameter.
+	Range *Model_IntHparamSearchSpace_IntRange
+	// Candidates of the int hyperparameter.
+	Candidates *Model_IntHparamSearchSpace_IntCandidates
+	// -- end of SearchSpace
+}
+
+func (b0 Model_IntHparamSearchSpace_builder) Build() *Model_IntHparamSearchSpace {
+	m0 := &Model_IntHparamSearchSpace{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.Range != nil {
+		x.SearchSpace = &Model_IntHparamSearchSpace_Range{b.Range}
+	}
+	if b.Candidates != nil {
+		x.SearchSpace = &Model_IntHparamSearchSpace_Candidates{b.Candidates}
+	}
+	return m0
+}
+
+type case_Model_IntHparamSearchSpace_SearchSpace protoreflect.FieldNumber
+
+func (x case_Model_IntHparamSearchSpace_SearchSpace) String() string {
+	md := file_google_cloud_bigquery_v2_model_proto_msgTypes[30].Descriptor()
+	if x == 0 {
+		return "not set"
+	}
+	return protoimpl.X.MessageFieldStringOf(md, protoreflect.FieldNumber(x))
+}
+
 type isModel_IntHparamSearchSpace_SearchSpace interface {
 	isModel_IntHparamSearchSpace_SearchSpace()
 }
@@ -4093,7 +5905,7 @@ func (*Model_IntHparamSearchSpace_Candidates) isModel_IntHparamSearchSpace_Searc
 
 // Search space for string and enum.
 type Model_StringHparamSearchSpace struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Canididates for the string or enum parameter in lower case.
 	Candidates    []string `protobuf:"bytes,1,rep,name=candidates,proto3" json:"candidates,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -4125,11 +5937,6 @@ func (x *Model_StringHparamSearchSpace) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_StringHparamSearchSpace.ProtoReflect.Descriptor instead.
-func (*Model_StringHparamSearchSpace) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 23}
-}
-
 func (x *Model_StringHparamSearchSpace) GetCandidates() []string {
 	if x != nil {
 		return x.Candidates
@@ -4137,9 +5944,28 @@ func (x *Model_StringHparamSearchSpace) GetCandidates() []string {
 	return nil
 }
 
+func (x *Model_StringHparamSearchSpace) SetCandidates(v []string) {
+	x.Candidates = v
+}
+
+type Model_StringHparamSearchSpace_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Canididates for the string or enum parameter in lower case.
+	Candidates []string
+}
+
+func (b0 Model_StringHparamSearchSpace_builder) Build() *Model_StringHparamSearchSpace {
+	m0 := &Model_StringHparamSearchSpace{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Candidates = b.Candidates
+	return m0
+}
+
 // Search space for int array.
 type Model_IntArrayHparamSearchSpace struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Candidates for the int array parameter.
 	Candidates    []*Model_IntArrayHparamSearchSpace_IntArray `protobuf:"bytes,1,rep,name=candidates,proto3" json:"candidates,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -4171,11 +5997,6 @@ func (x *Model_IntArrayHparamSearchSpace) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_IntArrayHparamSearchSpace.ProtoReflect.Descriptor instead.
-func (*Model_IntArrayHparamSearchSpace) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 24}
-}
-
 func (x *Model_IntArrayHparamSearchSpace) GetCandidates() []*Model_IntArrayHparamSearchSpace_IntArray {
 	if x != nil {
 		return x.Candidates
@@ -4183,10 +6004,29 @@ func (x *Model_IntArrayHparamSearchSpace) GetCandidates() []*Model_IntArrayHpara
 	return nil
 }
 
+func (x *Model_IntArrayHparamSearchSpace) SetCandidates(v []*Model_IntArrayHparamSearchSpace_IntArray) {
+	x.Candidates = v
+}
+
+type Model_IntArrayHparamSearchSpace_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Candidates for the int array parameter.
+	Candidates []*Model_IntArrayHparamSearchSpace_IntArray
+}
+
+func (b0 Model_IntArrayHparamSearchSpace_builder) Build() *Model_IntArrayHparamSearchSpace {
+	m0 := &Model_IntArrayHparamSearchSpace{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Candidates = b.Candidates
+	return m0
+}
+
 // Hyperparameter search spaces.
 // These should be a subset of training_options.
 type Model_HparamSearchSpaces struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Learning rate of training jobs.
 	LearnRate *Model_DoubleHparamSearchSpace `protobuf:"bytes,2,opt,name=learn_rate,json=learnRate,proto3" json:"learn_rate,omitempty"`
 	// L1 regularization coefficient.
@@ -4262,11 +6102,6 @@ func (x *Model_HparamSearchSpaces) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Model_HparamSearchSpaces.ProtoReflect.Descriptor instead.
-func (*Model_HparamSearchSpaces) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 25}
 }
 
 func (x *Model_HparamSearchSpaces) GetLearnRate() *Model_DoubleHparamSearchSpace {
@@ -4423,11 +6258,423 @@ func (x *Model_HparamSearchSpaces) GetOptimizer() *Model_StringHparamSearchSpace
 	return nil
 }
 
+func (x *Model_HparamSearchSpaces) SetLearnRate(v *Model_DoubleHparamSearchSpace) {
+	x.LearnRate = v
+}
+
+func (x *Model_HparamSearchSpaces) SetL1Reg(v *Model_DoubleHparamSearchSpace) {
+	x.L1Reg = v
+}
+
+func (x *Model_HparamSearchSpaces) SetL2Reg(v *Model_DoubleHparamSearchSpace) {
+	x.L2Reg = v
+}
+
+func (x *Model_HparamSearchSpaces) SetNumClusters(v *Model_IntHparamSearchSpace) {
+	x.NumClusters = v
+}
+
+func (x *Model_HparamSearchSpaces) SetNumFactors(v *Model_IntHparamSearchSpace) {
+	x.NumFactors = v
+}
+
+func (x *Model_HparamSearchSpaces) SetHiddenUnits(v *Model_IntArrayHparamSearchSpace) {
+	x.HiddenUnits = v
+}
+
+func (x *Model_HparamSearchSpaces) SetBatchSize(v *Model_IntHparamSearchSpace) {
+	x.BatchSize = v
+}
+
+func (x *Model_HparamSearchSpaces) SetDropout(v *Model_DoubleHparamSearchSpace) {
+	x.Dropout = v
+}
+
+func (x *Model_HparamSearchSpaces) SetMaxTreeDepth(v *Model_IntHparamSearchSpace) {
+	x.MaxTreeDepth = v
+}
+
+func (x *Model_HparamSearchSpaces) SetSubsample(v *Model_DoubleHparamSearchSpace) {
+	x.Subsample = v
+}
+
+func (x *Model_HparamSearchSpaces) SetMinSplitLoss(v *Model_DoubleHparamSearchSpace) {
+	x.MinSplitLoss = v
+}
+
+func (x *Model_HparamSearchSpaces) SetWalsAlpha(v *Model_DoubleHparamSearchSpace) {
+	x.WalsAlpha = v
+}
+
+func (x *Model_HparamSearchSpaces) SetBoosterType(v *Model_StringHparamSearchSpace) {
+	x.BoosterType = v
+}
+
+func (x *Model_HparamSearchSpaces) SetNumParallelTree(v *Model_IntHparamSearchSpace) {
+	x.NumParallelTree = v
+}
+
+func (x *Model_HparamSearchSpaces) SetDartNormalizeType(v *Model_StringHparamSearchSpace) {
+	x.DartNormalizeType = v
+}
+
+func (x *Model_HparamSearchSpaces) SetTreeMethod(v *Model_StringHparamSearchSpace) {
+	x.TreeMethod = v
+}
+
+func (x *Model_HparamSearchSpaces) SetMinTreeChildWeight(v *Model_IntHparamSearchSpace) {
+	x.MinTreeChildWeight = v
+}
+
+func (x *Model_HparamSearchSpaces) SetColsampleBytree(v *Model_DoubleHparamSearchSpace) {
+	x.ColsampleBytree = v
+}
+
+func (x *Model_HparamSearchSpaces) SetColsampleBylevel(v *Model_DoubleHparamSearchSpace) {
+	x.ColsampleBylevel = v
+}
+
+func (x *Model_HparamSearchSpaces) SetColsampleBynode(v *Model_DoubleHparamSearchSpace) {
+	x.ColsampleBynode = v
+}
+
+func (x *Model_HparamSearchSpaces) SetActivationFn(v *Model_StringHparamSearchSpace) {
+	x.ActivationFn = v
+}
+
+func (x *Model_HparamSearchSpaces) SetOptimizer(v *Model_StringHparamSearchSpace) {
+	x.Optimizer = v
+}
+
+func (x *Model_HparamSearchSpaces) HasLearnRate() bool {
+	if x == nil {
+		return false
+	}
+	return x.LearnRate != nil
+}
+
+func (x *Model_HparamSearchSpaces) HasL1Reg() bool {
+	if x == nil {
+		return false
+	}
+	return x.L1Reg != nil
+}
+
+func (x *Model_HparamSearchSpaces) HasL2Reg() bool {
+	if x == nil {
+		return false
+	}
+	return x.L2Reg != nil
+}
+
+func (x *Model_HparamSearchSpaces) HasNumClusters() bool {
+	if x == nil {
+		return false
+	}
+	return x.NumClusters != nil
+}
+
+func (x *Model_HparamSearchSpaces) HasNumFactors() bool {
+	if x == nil {
+		return false
+	}
+	return x.NumFactors != nil
+}
+
+func (x *Model_HparamSearchSpaces) HasHiddenUnits() bool {
+	if x == nil {
+		return false
+	}
+	return x.HiddenUnits != nil
+}
+
+func (x *Model_HparamSearchSpaces) HasBatchSize() bool {
+	if x == nil {
+		return false
+	}
+	return x.BatchSize != nil
+}
+
+func (x *Model_HparamSearchSpaces) HasDropout() bool {
+	if x == nil {
+		return false
+	}
+	return x.Dropout != nil
+}
+
+func (x *Model_HparamSearchSpaces) HasMaxTreeDepth() bool {
+	if x == nil {
+		return false
+	}
+	return x.MaxTreeDepth != nil
+}
+
+func (x *Model_HparamSearchSpaces) HasSubsample() bool {
+	if x == nil {
+		return false
+	}
+	return x.Subsample != nil
+}
+
+func (x *Model_HparamSearchSpaces) HasMinSplitLoss() bool {
+	if x == nil {
+		return false
+	}
+	return x.MinSplitLoss != nil
+}
+
+func (x *Model_HparamSearchSpaces) HasWalsAlpha() bool {
+	if x == nil {
+		return false
+	}
+	return x.WalsAlpha != nil
+}
+
+func (x *Model_HparamSearchSpaces) HasBoosterType() bool {
+	if x == nil {
+		return false
+	}
+	return x.BoosterType != nil
+}
+
+func (x *Model_HparamSearchSpaces) HasNumParallelTree() bool {
+	if x == nil {
+		return false
+	}
+	return x.NumParallelTree != nil
+}
+
+func (x *Model_HparamSearchSpaces) HasDartNormalizeType() bool {
+	if x == nil {
+		return false
+	}
+	return x.DartNormalizeType != nil
+}
+
+func (x *Model_HparamSearchSpaces) HasTreeMethod() bool {
+	if x == nil {
+		return false
+	}
+	return x.TreeMethod != nil
+}
+
+func (x *Model_HparamSearchSpaces) HasMinTreeChildWeight() bool {
+	if x == nil {
+		return false
+	}
+	return x.MinTreeChildWeight != nil
+}
+
+func (x *Model_HparamSearchSpaces) HasColsampleBytree() bool {
+	if x == nil {
+		return false
+	}
+	return x.ColsampleBytree != nil
+}
+
+func (x *Model_HparamSearchSpaces) HasColsampleBylevel() bool {
+	if x == nil {
+		return false
+	}
+	return x.ColsampleBylevel != nil
+}
+
+func (x *Model_HparamSearchSpaces) HasColsampleBynode() bool {
+	if x == nil {
+		return false
+	}
+	return x.ColsampleBynode != nil
+}
+
+func (x *Model_HparamSearchSpaces) HasActivationFn() bool {
+	if x == nil {
+		return false
+	}
+	return x.ActivationFn != nil
+}
+
+func (x *Model_HparamSearchSpaces) HasOptimizer() bool {
+	if x == nil {
+		return false
+	}
+	return x.Optimizer != nil
+}
+
+func (x *Model_HparamSearchSpaces) ClearLearnRate() {
+	x.LearnRate = nil
+}
+
+func (x *Model_HparamSearchSpaces) ClearL1Reg() {
+	x.L1Reg = nil
+}
+
+func (x *Model_HparamSearchSpaces) ClearL2Reg() {
+	x.L2Reg = nil
+}
+
+func (x *Model_HparamSearchSpaces) ClearNumClusters() {
+	x.NumClusters = nil
+}
+
+func (x *Model_HparamSearchSpaces) ClearNumFactors() {
+	x.NumFactors = nil
+}
+
+func (x *Model_HparamSearchSpaces) ClearHiddenUnits() {
+	x.HiddenUnits = nil
+}
+
+func (x *Model_HparamSearchSpaces) ClearBatchSize() {
+	x.BatchSize = nil
+}
+
+func (x *Model_HparamSearchSpaces) ClearDropout() {
+	x.Dropout = nil
+}
+
+func (x *Model_HparamSearchSpaces) ClearMaxTreeDepth() {
+	x.MaxTreeDepth = nil
+}
+
+func (x *Model_HparamSearchSpaces) ClearSubsample() {
+	x.Subsample = nil
+}
+
+func (x *Model_HparamSearchSpaces) ClearMinSplitLoss() {
+	x.MinSplitLoss = nil
+}
+
+func (x *Model_HparamSearchSpaces) ClearWalsAlpha() {
+	x.WalsAlpha = nil
+}
+
+func (x *Model_HparamSearchSpaces) ClearBoosterType() {
+	x.BoosterType = nil
+}
+
+func (x *Model_HparamSearchSpaces) ClearNumParallelTree() {
+	x.NumParallelTree = nil
+}
+
+func (x *Model_HparamSearchSpaces) ClearDartNormalizeType() {
+	x.DartNormalizeType = nil
+}
+
+func (x *Model_HparamSearchSpaces) ClearTreeMethod() {
+	x.TreeMethod = nil
+}
+
+func (x *Model_HparamSearchSpaces) ClearMinTreeChildWeight() {
+	x.MinTreeChildWeight = nil
+}
+
+func (x *Model_HparamSearchSpaces) ClearColsampleBytree() {
+	x.ColsampleBytree = nil
+}
+
+func (x *Model_HparamSearchSpaces) ClearColsampleBylevel() {
+	x.ColsampleBylevel = nil
+}
+
+func (x *Model_HparamSearchSpaces) ClearColsampleBynode() {
+	x.ColsampleBynode = nil
+}
+
+func (x *Model_HparamSearchSpaces) ClearActivationFn() {
+	x.ActivationFn = nil
+}
+
+func (x *Model_HparamSearchSpaces) ClearOptimizer() {
+	x.Optimizer = nil
+}
+
+type Model_HparamSearchSpaces_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Learning rate of training jobs.
+	LearnRate *Model_DoubleHparamSearchSpace
+	// L1 regularization coefficient.
+	L1Reg *Model_DoubleHparamSearchSpace
+	// L2 regularization coefficient.
+	L2Reg *Model_DoubleHparamSearchSpace
+	// Number of clusters for k-means.
+	NumClusters *Model_IntHparamSearchSpace
+	// Number of latent factors to train on.
+	NumFactors *Model_IntHparamSearchSpace
+	// Hidden units for neural network models.
+	HiddenUnits *Model_IntArrayHparamSearchSpace
+	// Mini batch sample size.
+	BatchSize *Model_IntHparamSearchSpace
+	// Dropout probability for dnn model training and boosted tree models
+	// using dart booster.
+	Dropout *Model_DoubleHparamSearchSpace
+	// Maximum depth of a tree for boosted tree models.
+	MaxTreeDepth *Model_IntHparamSearchSpace
+	// Subsample the training data to grow tree to prevent overfitting for
+	// boosted tree models.
+	Subsample *Model_DoubleHparamSearchSpace
+	// Minimum split loss for boosted tree models.
+	MinSplitLoss *Model_DoubleHparamSearchSpace
+	// Hyperparameter for matrix factoration when implicit feedback type is
+	// specified.
+	WalsAlpha *Model_DoubleHparamSearchSpace
+	// Booster type for boosted tree models.
+	BoosterType *Model_StringHparamSearchSpace
+	// Number of parallel trees for boosted tree models.
+	NumParallelTree *Model_IntHparamSearchSpace
+	// Dart normalization type for boosted tree models.
+	DartNormalizeType *Model_StringHparamSearchSpace
+	// Tree construction algorithm for boosted tree models.
+	TreeMethod *Model_StringHparamSearchSpace
+	// Minimum sum of instance weight needed in a child for boosted tree models.
+	MinTreeChildWeight *Model_IntHparamSearchSpace
+	// Subsample ratio of columns when constructing each tree for boosted tree
+	// models.
+	ColsampleBytree *Model_DoubleHparamSearchSpace
+	// Subsample ratio of columns for each level for boosted tree models.
+	ColsampleBylevel *Model_DoubleHparamSearchSpace
+	// Subsample ratio of columns for each node(split) for boosted tree models.
+	ColsampleBynode *Model_DoubleHparamSearchSpace
+	// Activation functions of neural network models.
+	ActivationFn *Model_StringHparamSearchSpace
+	// Optimizer of TF models.
+	Optimizer *Model_StringHparamSearchSpace
+}
+
+func (b0 Model_HparamSearchSpaces_builder) Build() *Model_HparamSearchSpaces {
+	m0 := &Model_HparamSearchSpaces{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.LearnRate = b.LearnRate
+	x.L1Reg = b.L1Reg
+	x.L2Reg = b.L2Reg
+	x.NumClusters = b.NumClusters
+	x.NumFactors = b.NumFactors
+	x.HiddenUnits = b.HiddenUnits
+	x.BatchSize = b.BatchSize
+	x.Dropout = b.Dropout
+	x.MaxTreeDepth = b.MaxTreeDepth
+	x.Subsample = b.Subsample
+	x.MinSplitLoss = b.MinSplitLoss
+	x.WalsAlpha = b.WalsAlpha
+	x.BoosterType = b.BoosterType
+	x.NumParallelTree = b.NumParallelTree
+	x.DartNormalizeType = b.DartNormalizeType
+	x.TreeMethod = b.TreeMethod
+	x.MinTreeChildWeight = b.MinTreeChildWeight
+	x.ColsampleBytree = b.ColsampleBytree
+	x.ColsampleBylevel = b.ColsampleBylevel
+	x.ColsampleBynode = b.ColsampleBynode
+	x.ActivationFn = b.ActivationFn
+	x.Optimizer = b.Optimizer
+	return m0
+}
+
 // Training info of a trial in [hyperparameter
 // tuning](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview)
 // models.
 type Model_HparamTuningTrial struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// 1-based index of the trial.
 	TrialId int64 `protobuf:"varint,1,opt,name=trial_id,json=trialId,proto3" json:"trial_id,omitempty"`
 	// Starting time of the trial.
@@ -4478,11 +6725,6 @@ func (x *Model_HparamTuningTrial) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Model_HparamTuningTrial.ProtoReflect.Descriptor instead.
-func (*Model_HparamTuningTrial) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 26}
 }
 
 func (x *Model_HparamTuningTrial) GetTrialId() int64 {
@@ -4555,9 +6797,149 @@ func (x *Model_HparamTuningTrial) GetHparamTuningEvaluationMetrics() *Model_Eval
 	return nil
 }
 
+func (x *Model_HparamTuningTrial) SetTrialId(v int64) {
+	x.TrialId = v
+}
+
+func (x *Model_HparamTuningTrial) SetStartTimeMs(v int64) {
+	x.StartTimeMs = v
+}
+
+func (x *Model_HparamTuningTrial) SetEndTimeMs(v int64) {
+	x.EndTimeMs = v
+}
+
+func (x *Model_HparamTuningTrial) SetHparams(v *Model_TrainingRun_TrainingOptions) {
+	x.Hparams = v
+}
+
+func (x *Model_HparamTuningTrial) SetEvaluationMetrics(v *Model_EvaluationMetrics) {
+	x.EvaluationMetrics = v
+}
+
+func (x *Model_HparamTuningTrial) SetStatus(v Model_HparamTuningTrial_TrialStatus) {
+	x.Status = v
+}
+
+func (x *Model_HparamTuningTrial) SetErrorMessage(v string) {
+	x.ErrorMessage = v
+}
+
+func (x *Model_HparamTuningTrial) SetTrainingLoss(v *wrapperspb.DoubleValue) {
+	x.TrainingLoss = v
+}
+
+func (x *Model_HparamTuningTrial) SetEvalLoss(v *wrapperspb.DoubleValue) {
+	x.EvalLoss = v
+}
+
+func (x *Model_HparamTuningTrial) SetHparamTuningEvaluationMetrics(v *Model_EvaluationMetrics) {
+	x.HparamTuningEvaluationMetrics = v
+}
+
+func (x *Model_HparamTuningTrial) HasHparams() bool {
+	if x == nil {
+		return false
+	}
+	return x.Hparams != nil
+}
+
+func (x *Model_HparamTuningTrial) HasEvaluationMetrics() bool {
+	if x == nil {
+		return false
+	}
+	return x.EvaluationMetrics != nil
+}
+
+func (x *Model_HparamTuningTrial) HasTrainingLoss() bool {
+	if x == nil {
+		return false
+	}
+	return x.TrainingLoss != nil
+}
+
+func (x *Model_HparamTuningTrial) HasEvalLoss() bool {
+	if x == nil {
+		return false
+	}
+	return x.EvalLoss != nil
+}
+
+func (x *Model_HparamTuningTrial) HasHparamTuningEvaluationMetrics() bool {
+	if x == nil {
+		return false
+	}
+	return x.HparamTuningEvaluationMetrics != nil
+}
+
+func (x *Model_HparamTuningTrial) ClearHparams() {
+	x.Hparams = nil
+}
+
+func (x *Model_HparamTuningTrial) ClearEvaluationMetrics() {
+	x.EvaluationMetrics = nil
+}
+
+func (x *Model_HparamTuningTrial) ClearTrainingLoss() {
+	x.TrainingLoss = nil
+}
+
+func (x *Model_HparamTuningTrial) ClearEvalLoss() {
+	x.EvalLoss = nil
+}
+
+func (x *Model_HparamTuningTrial) ClearHparamTuningEvaluationMetrics() {
+	x.HparamTuningEvaluationMetrics = nil
+}
+
+type Model_HparamTuningTrial_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// 1-based index of the trial.
+	TrialId int64
+	// Starting time of the trial.
+	StartTimeMs int64
+	// Ending time of the trial.
+	EndTimeMs int64
+	// The hyperprameters selected for this trial.
+	Hparams *Model_TrainingRun_TrainingOptions
+	// Evaluation metrics of this trial calculated on the test data.
+	// Empty in Job API.
+	EvaluationMetrics *Model_EvaluationMetrics
+	// The status of the trial.
+	Status Model_HparamTuningTrial_TrialStatus
+	// Error message for FAILED and INFEASIBLE trial.
+	ErrorMessage string
+	// Loss computed on the training data at the end of trial.
+	TrainingLoss *wrapperspb.DoubleValue
+	// Loss computed on the eval data at the end of trial.
+	EvalLoss *wrapperspb.DoubleValue
+	// Hyperparameter tuning evaluation metrics of this trial calculated on the
+	// eval data. Unlike evaluation_metrics, only the fields corresponding to
+	// the hparam_tuning_objectives are set.
+	HparamTuningEvaluationMetrics *Model_EvaluationMetrics
+}
+
+func (b0 Model_HparamTuningTrial_builder) Build() *Model_HparamTuningTrial {
+	m0 := &Model_HparamTuningTrial{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TrialId = b.TrialId
+	x.StartTimeMs = b.StartTimeMs
+	x.EndTimeMs = b.EndTimeMs
+	x.Hparams = b.Hparams
+	x.EvaluationMetrics = b.EvaluationMetrics
+	x.Status = b.Status
+	x.ErrorMessage = b.ErrorMessage
+	x.TrainingLoss = b.TrainingLoss
+	x.EvalLoss = b.EvalLoss
+	x.HparamTuningEvaluationMetrics = b.HparamTuningEvaluationMetrics
+	return m0
+}
+
 // Confusion matrix for binary classification models.
 type Model_BinaryClassificationMetrics_BinaryConfusionMatrix struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Threshold value used when computing each of the following metric.
 	PositiveClassThreshold *wrapperspb.DoubleValue `protobuf:"bytes,1,opt,name=positive_class_threshold,json=positiveClassThreshold,proto3" json:"positive_class_threshold,omitempty"`
 	// Number of true samples predicted as true.
@@ -4605,11 +6987,6 @@ func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) ProtoReflect()
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Model_BinaryClassificationMetrics_BinaryConfusionMatrix.ProtoReflect.Descriptor instead.
-func (*Model_BinaryClassificationMetrics_BinaryConfusionMatrix) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 6, 0}
 }
 
 func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) GetPositiveClassThreshold() *wrapperspb.DoubleValue {
@@ -4675,9 +7052,185 @@ func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) GetAccuracy() 
 	return nil
 }
 
+func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) SetPositiveClassThreshold(v *wrapperspb.DoubleValue) {
+	x.PositiveClassThreshold = v
+}
+
+func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) SetTruePositives(v *wrapperspb.Int64Value) {
+	x.TruePositives = v
+}
+
+func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) SetFalsePositives(v *wrapperspb.Int64Value) {
+	x.FalsePositives = v
+}
+
+func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) SetTrueNegatives(v *wrapperspb.Int64Value) {
+	x.TrueNegatives = v
+}
+
+func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) SetFalseNegatives(v *wrapperspb.Int64Value) {
+	x.FalseNegatives = v
+}
+
+func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) SetPrecision(v *wrapperspb.DoubleValue) {
+	x.Precision = v
+}
+
+func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) SetRecall(v *wrapperspb.DoubleValue) {
+	x.Recall = v
+}
+
+func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) SetF1Score(v *wrapperspb.DoubleValue) {
+	x.F1Score = v
+}
+
+func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) SetAccuracy(v *wrapperspb.DoubleValue) {
+	x.Accuracy = v
+}
+
+func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) HasPositiveClassThreshold() bool {
+	if x == nil {
+		return false
+	}
+	return x.PositiveClassThreshold != nil
+}
+
+func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) HasTruePositives() bool {
+	if x == nil {
+		return false
+	}
+	return x.TruePositives != nil
+}
+
+func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) HasFalsePositives() bool {
+	if x == nil {
+		return false
+	}
+	return x.FalsePositives != nil
+}
+
+func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) HasTrueNegatives() bool {
+	if x == nil {
+		return false
+	}
+	return x.TrueNegatives != nil
+}
+
+func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) HasFalseNegatives() bool {
+	if x == nil {
+		return false
+	}
+	return x.FalseNegatives != nil
+}
+
+func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) HasPrecision() bool {
+	if x == nil {
+		return false
+	}
+	return x.Precision != nil
+}
+
+func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) HasRecall() bool {
+	if x == nil {
+		return false
+	}
+	return x.Recall != nil
+}
+
+func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) HasF1Score() bool {
+	if x == nil {
+		return false
+	}
+	return x.F1Score != nil
+}
+
+func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) HasAccuracy() bool {
+	if x == nil {
+		return false
+	}
+	return x.Accuracy != nil
+}
+
+func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) ClearPositiveClassThreshold() {
+	x.PositiveClassThreshold = nil
+}
+
+func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) ClearTruePositives() {
+	x.TruePositives = nil
+}
+
+func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) ClearFalsePositives() {
+	x.FalsePositives = nil
+}
+
+func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) ClearTrueNegatives() {
+	x.TrueNegatives = nil
+}
+
+func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) ClearFalseNegatives() {
+	x.FalseNegatives = nil
+}
+
+func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) ClearPrecision() {
+	x.Precision = nil
+}
+
+func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) ClearRecall() {
+	x.Recall = nil
+}
+
+func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) ClearF1Score() {
+	x.F1Score = nil
+}
+
+func (x *Model_BinaryClassificationMetrics_BinaryConfusionMatrix) ClearAccuracy() {
+	x.Accuracy = nil
+}
+
+type Model_BinaryClassificationMetrics_BinaryConfusionMatrix_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Threshold value used when computing each of the following metric.
+	PositiveClassThreshold *wrapperspb.DoubleValue
+	// Number of true samples predicted as true.
+	TruePositives *wrapperspb.Int64Value
+	// Number of false samples predicted as true.
+	FalsePositives *wrapperspb.Int64Value
+	// Number of true samples predicted as false.
+	TrueNegatives *wrapperspb.Int64Value
+	// Number of false samples predicted as false.
+	FalseNegatives *wrapperspb.Int64Value
+	// The fraction of actual positive predictions that had positive actual
+	// labels.
+	Precision *wrapperspb.DoubleValue
+	// The fraction of actual positive labels that were given a positive
+	// prediction.
+	Recall *wrapperspb.DoubleValue
+	// The equally weighted average of recall and precision.
+	F1Score *wrapperspb.DoubleValue
+	// The fraction of predictions given the correct label.
+	Accuracy *wrapperspb.DoubleValue
+}
+
+func (b0 Model_BinaryClassificationMetrics_BinaryConfusionMatrix_builder) Build() *Model_BinaryClassificationMetrics_BinaryConfusionMatrix {
+	m0 := &Model_BinaryClassificationMetrics_BinaryConfusionMatrix{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.PositiveClassThreshold = b.PositiveClassThreshold
+	x.TruePositives = b.TruePositives
+	x.FalsePositives = b.FalsePositives
+	x.TrueNegatives = b.TrueNegatives
+	x.FalseNegatives = b.FalseNegatives
+	x.Precision = b.Precision
+	x.Recall = b.Recall
+	x.F1Score = b.F1Score
+	x.Accuracy = b.Accuracy
+	return m0
+}
+
 // Confusion matrix for multi-class classification models.
 type Model_MultiClassClassificationMetrics_ConfusionMatrix struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Confidence threshold used when computing the entries of the
 	// confusion matrix.
 	ConfidenceThreshold *wrapperspb.DoubleValue `protobuf:"bytes,1,opt,name=confidence_threshold,json=confidenceThreshold,proto3" json:"confidence_threshold,omitempty"`
@@ -4712,11 +7265,6 @@ func (x *Model_MultiClassClassificationMetrics_ConfusionMatrix) ProtoReflect() p
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_MultiClassClassificationMetrics_ConfusionMatrix.ProtoReflect.Descriptor instead.
-func (*Model_MultiClassClassificationMetrics_ConfusionMatrix) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 7, 0}
-}
-
 func (x *Model_MultiClassClassificationMetrics_ConfusionMatrix) GetConfidenceThreshold() *wrapperspb.DoubleValue {
 	if x != nil {
 		return x.ConfidenceThreshold
@@ -4731,9 +7279,47 @@ func (x *Model_MultiClassClassificationMetrics_ConfusionMatrix) GetRows() []*Mod
 	return nil
 }
 
+func (x *Model_MultiClassClassificationMetrics_ConfusionMatrix) SetConfidenceThreshold(v *wrapperspb.DoubleValue) {
+	x.ConfidenceThreshold = v
+}
+
+func (x *Model_MultiClassClassificationMetrics_ConfusionMatrix) SetRows(v []*Model_MultiClassClassificationMetrics_ConfusionMatrix_Row) {
+	x.Rows = v
+}
+
+func (x *Model_MultiClassClassificationMetrics_ConfusionMatrix) HasConfidenceThreshold() bool {
+	if x == nil {
+		return false
+	}
+	return x.ConfidenceThreshold != nil
+}
+
+func (x *Model_MultiClassClassificationMetrics_ConfusionMatrix) ClearConfidenceThreshold() {
+	x.ConfidenceThreshold = nil
+}
+
+type Model_MultiClassClassificationMetrics_ConfusionMatrix_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Confidence threshold used when computing the entries of the
+	// confusion matrix.
+	ConfidenceThreshold *wrapperspb.DoubleValue
+	// One row per actual label.
+	Rows []*Model_MultiClassClassificationMetrics_ConfusionMatrix_Row
+}
+
+func (b0 Model_MultiClassClassificationMetrics_ConfusionMatrix_builder) Build() *Model_MultiClassClassificationMetrics_ConfusionMatrix {
+	m0 := &Model_MultiClassClassificationMetrics_ConfusionMatrix{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ConfidenceThreshold = b.ConfidenceThreshold
+	x.Rows = b.Rows
+	return m0
+}
+
 // A single entry in the confusion matrix.
 type Model_MultiClassClassificationMetrics_ConfusionMatrix_Entry struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The predicted label. For confidence_threshold > 0, we will
 	// also add an entry indicating the number of items under the
 	// confidence threshold.
@@ -4769,11 +7355,6 @@ func (x *Model_MultiClassClassificationMetrics_ConfusionMatrix_Entry) ProtoRefle
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_MultiClassClassificationMetrics_ConfusionMatrix_Entry.ProtoReflect.Descriptor instead.
-func (*Model_MultiClassClassificationMetrics_ConfusionMatrix_Entry) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 7, 0, 0}
-}
-
 func (x *Model_MultiClassClassificationMetrics_ConfusionMatrix_Entry) GetPredictedLabel() string {
 	if x != nil {
 		return x.PredictedLabel
@@ -4788,9 +7369,48 @@ func (x *Model_MultiClassClassificationMetrics_ConfusionMatrix_Entry) GetItemCou
 	return nil
 }
 
+func (x *Model_MultiClassClassificationMetrics_ConfusionMatrix_Entry) SetPredictedLabel(v string) {
+	x.PredictedLabel = v
+}
+
+func (x *Model_MultiClassClassificationMetrics_ConfusionMatrix_Entry) SetItemCount(v *wrapperspb.Int64Value) {
+	x.ItemCount = v
+}
+
+func (x *Model_MultiClassClassificationMetrics_ConfusionMatrix_Entry) HasItemCount() bool {
+	if x == nil {
+		return false
+	}
+	return x.ItemCount != nil
+}
+
+func (x *Model_MultiClassClassificationMetrics_ConfusionMatrix_Entry) ClearItemCount() {
+	x.ItemCount = nil
+}
+
+type Model_MultiClassClassificationMetrics_ConfusionMatrix_Entry_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The predicted label. For confidence_threshold > 0, we will
+	// also add an entry indicating the number of items under the
+	// confidence threshold.
+	PredictedLabel string
+	// Number of items being predicted as this label.
+	ItemCount *wrapperspb.Int64Value
+}
+
+func (b0 Model_MultiClassClassificationMetrics_ConfusionMatrix_Entry_builder) Build() *Model_MultiClassClassificationMetrics_ConfusionMatrix_Entry {
+	m0 := &Model_MultiClassClassificationMetrics_ConfusionMatrix_Entry{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.PredictedLabel = b.PredictedLabel
+	x.ItemCount = b.ItemCount
+	return m0
+}
+
 // A single row in the confusion matrix.
 type Model_MultiClassClassificationMetrics_ConfusionMatrix_Row struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The original label of this row.
 	ActualLabel string `protobuf:"bytes,1,opt,name=actual_label,json=actualLabel,proto3" json:"actual_label,omitempty"`
 	// Info describing predicted label distribution.
@@ -4824,11 +7444,6 @@ func (x *Model_MultiClassClassificationMetrics_ConfusionMatrix_Row) ProtoReflect
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_MultiClassClassificationMetrics_ConfusionMatrix_Row.ProtoReflect.Descriptor instead.
-func (*Model_MultiClassClassificationMetrics_ConfusionMatrix_Row) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 7, 0, 1}
-}
-
 func (x *Model_MultiClassClassificationMetrics_ConfusionMatrix_Row) GetActualLabel() string {
 	if x != nil {
 		return x.ActualLabel
@@ -4843,9 +7458,35 @@ func (x *Model_MultiClassClassificationMetrics_ConfusionMatrix_Row) GetEntries()
 	return nil
 }
 
+func (x *Model_MultiClassClassificationMetrics_ConfusionMatrix_Row) SetActualLabel(v string) {
+	x.ActualLabel = v
+}
+
+func (x *Model_MultiClassClassificationMetrics_ConfusionMatrix_Row) SetEntries(v []*Model_MultiClassClassificationMetrics_ConfusionMatrix_Entry) {
+	x.Entries = v
+}
+
+type Model_MultiClassClassificationMetrics_ConfusionMatrix_Row_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The original label of this row.
+	ActualLabel string
+	// Info describing predicted label distribution.
+	Entries []*Model_MultiClassClassificationMetrics_ConfusionMatrix_Entry
+}
+
+func (b0 Model_MultiClassClassificationMetrics_ConfusionMatrix_Row_builder) Build() *Model_MultiClassClassificationMetrics_ConfusionMatrix_Row {
+	m0 := &Model_MultiClassClassificationMetrics_ConfusionMatrix_Row{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ActualLabel = b.ActualLabel
+	x.Entries = b.Entries
+	return m0
+}
+
 // Message containing the information about one cluster.
 type Model_ClusteringMetrics_Cluster struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Centroid id.
 	CentroidId int64 `protobuf:"varint,1,opt,name=centroid_id,json=centroidId,proto3" json:"centroid_id,omitempty"`
 	// Values of highly variant features for this cluster.
@@ -4881,11 +7522,6 @@ func (x *Model_ClusteringMetrics_Cluster) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_ClusteringMetrics_Cluster.ProtoReflect.Descriptor instead.
-func (*Model_ClusteringMetrics_Cluster) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 8, 0}
-}
-
 func (x *Model_ClusteringMetrics_Cluster) GetCentroidId() int64 {
 	if x != nil {
 		return x.CentroidId
@@ -4907,9 +7543,53 @@ func (x *Model_ClusteringMetrics_Cluster) GetCount() *wrapperspb.Int64Value {
 	return nil
 }
 
+func (x *Model_ClusteringMetrics_Cluster) SetCentroidId(v int64) {
+	x.CentroidId = v
+}
+
+func (x *Model_ClusteringMetrics_Cluster) SetFeatureValues(v []*Model_ClusteringMetrics_Cluster_FeatureValue) {
+	x.FeatureValues = v
+}
+
+func (x *Model_ClusteringMetrics_Cluster) SetCount(v *wrapperspb.Int64Value) {
+	x.Count = v
+}
+
+func (x *Model_ClusteringMetrics_Cluster) HasCount() bool {
+	if x == nil {
+		return false
+	}
+	return x.Count != nil
+}
+
+func (x *Model_ClusteringMetrics_Cluster) ClearCount() {
+	x.Count = nil
+}
+
+type Model_ClusteringMetrics_Cluster_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Centroid id.
+	CentroidId int64
+	// Values of highly variant features for this cluster.
+	FeatureValues []*Model_ClusteringMetrics_Cluster_FeatureValue
+	// Count of training data rows that were assigned to this cluster.
+	Count *wrapperspb.Int64Value
+}
+
+func (b0 Model_ClusteringMetrics_Cluster_builder) Build() *Model_ClusteringMetrics_Cluster {
+	m0 := &Model_ClusteringMetrics_Cluster{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.CentroidId = b.CentroidId
+	x.FeatureValues = b.FeatureValues
+	x.Count = b.Count
+	return m0
+}
+
 // Representative value of a single feature within the cluster.
 type Model_ClusteringMetrics_Cluster_FeatureValue struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The feature column name.
 	FeatureColumn string `protobuf:"bytes,1,opt,name=feature_column,json=featureColumn,proto3" json:"feature_column,omitempty"`
 	// Value.
@@ -4948,11 +7628,6 @@ func (x *Model_ClusteringMetrics_Cluster_FeatureValue) ProtoReflect() protorefle
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_ClusteringMetrics_Cluster_FeatureValue.ProtoReflect.Descriptor instead.
-func (*Model_ClusteringMetrics_Cluster_FeatureValue) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 8, 0, 0}
-}
-
 func (x *Model_ClusteringMetrics_Cluster_FeatureValue) GetFeatureColumn() string {
 	if x != nil {
 		return x.FeatureColumn
@@ -4985,6 +7660,123 @@ func (x *Model_ClusteringMetrics_Cluster_FeatureValue) GetCategoricalValue() *Mo
 	return nil
 }
 
+func (x *Model_ClusteringMetrics_Cluster_FeatureValue) SetFeatureColumn(v string) {
+	x.FeatureColumn = v
+}
+
+func (x *Model_ClusteringMetrics_Cluster_FeatureValue) SetNumericalValue(v *wrapperspb.DoubleValue) {
+	if v == nil {
+		x.Value = nil
+		return
+	}
+	x.Value = &Model_ClusteringMetrics_Cluster_FeatureValue_NumericalValue{v}
+}
+
+func (x *Model_ClusteringMetrics_Cluster_FeatureValue) SetCategoricalValue(v *Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue) {
+	if v == nil {
+		x.Value = nil
+		return
+	}
+	x.Value = &Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue_{v}
+}
+
+func (x *Model_ClusteringMetrics_Cluster_FeatureValue) HasValue() bool {
+	if x == nil {
+		return false
+	}
+	return x.Value != nil
+}
+
+func (x *Model_ClusteringMetrics_Cluster_FeatureValue) HasNumericalValue() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Value.(*Model_ClusteringMetrics_Cluster_FeatureValue_NumericalValue)
+	return ok
+}
+
+func (x *Model_ClusteringMetrics_Cluster_FeatureValue) HasCategoricalValue() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Value.(*Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue_)
+	return ok
+}
+
+func (x *Model_ClusteringMetrics_Cluster_FeatureValue) ClearValue() {
+	x.Value = nil
+}
+
+func (x *Model_ClusteringMetrics_Cluster_FeatureValue) ClearNumericalValue() {
+	if _, ok := x.Value.(*Model_ClusteringMetrics_Cluster_FeatureValue_NumericalValue); ok {
+		x.Value = nil
+	}
+}
+
+func (x *Model_ClusteringMetrics_Cluster_FeatureValue) ClearCategoricalValue() {
+	if _, ok := x.Value.(*Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue_); ok {
+		x.Value = nil
+	}
+}
+
+const Model_ClusteringMetrics_Cluster_FeatureValue_Value_not_set_case case_Model_ClusteringMetrics_Cluster_FeatureValue_Value = 0
+const Model_ClusteringMetrics_Cluster_FeatureValue_NumericalValue_case case_Model_ClusteringMetrics_Cluster_FeatureValue_Value = 2
+const Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue_case case_Model_ClusteringMetrics_Cluster_FeatureValue_Value = 3
+
+func (x *Model_ClusteringMetrics_Cluster_FeatureValue) WhichValue() case_Model_ClusteringMetrics_Cluster_FeatureValue_Value {
+	if x == nil {
+		return Model_ClusteringMetrics_Cluster_FeatureValue_Value_not_set_case
+	}
+	switch x.Value.(type) {
+	case *Model_ClusteringMetrics_Cluster_FeatureValue_NumericalValue:
+		return Model_ClusteringMetrics_Cluster_FeatureValue_NumericalValue_case
+	case *Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue_:
+		return Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue_case
+	default:
+		return Model_ClusteringMetrics_Cluster_FeatureValue_Value_not_set_case
+	}
+}
+
+type Model_ClusteringMetrics_Cluster_FeatureValue_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The feature column name.
+	FeatureColumn string
+	// Value.
+
+	// Fields of oneof Value:
+	// The numerical feature value. This is the centroid value for this
+	// feature.
+	NumericalValue *wrapperspb.DoubleValue
+	// The categorical feature value.
+	CategoricalValue *Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue
+	// -- end of Value
+}
+
+func (b0 Model_ClusteringMetrics_Cluster_FeatureValue_builder) Build() *Model_ClusteringMetrics_Cluster_FeatureValue {
+	m0 := &Model_ClusteringMetrics_Cluster_FeatureValue{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.FeatureColumn = b.FeatureColumn
+	if b.NumericalValue != nil {
+		x.Value = &Model_ClusteringMetrics_Cluster_FeatureValue_NumericalValue{b.NumericalValue}
+	}
+	if b.CategoricalValue != nil {
+		x.Value = &Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue_{b.CategoricalValue}
+	}
+	return m0
+}
+
+type case_Model_ClusteringMetrics_Cluster_FeatureValue_Value protoreflect.FieldNumber
+
+func (x case_Model_ClusteringMetrics_Cluster_FeatureValue_Value) String() string {
+	md := file_google_cloud_bigquery_v2_model_proto_msgTypes[41].Descriptor()
+	if x == 0 {
+		return "not set"
+	}
+	return protoimpl.X.MessageFieldStringOf(md, protoreflect.FieldNumber(x))
+}
+
 type isModel_ClusteringMetrics_Cluster_FeatureValue_Value interface {
 	isModel_ClusteringMetrics_Cluster_FeatureValue_Value()
 }
@@ -5008,7 +7800,7 @@ func (*Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue_) isModel_C
 
 // Representative value of a categorical feature.
 type Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Counts of all categories for the categorical feature. If there are
 	// more than ten categories, we return top ten (by count) and return
 	// one more CategoryCount with category "_OTHER_" and count as
@@ -5043,11 +7835,6 @@ func (x *Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue) ProtoRef
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue.ProtoReflect.Descriptor instead.
-func (*Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 8, 0, 0, 0}
-}
-
 func (x *Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue) GetCategoryCounts() []*Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue_CategoryCount {
 	if x != nil {
 		return x.CategoryCounts
@@ -5055,9 +7842,31 @@ func (x *Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue) GetCateg
 	return nil
 }
 
+func (x *Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue) SetCategoryCounts(v []*Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue_CategoryCount) {
+	x.CategoryCounts = v
+}
+
+type Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Counts of all categories for the categorical feature. If there are
+	// more than ten categories, we return top ten (by count) and return
+	// one more CategoryCount with category "_OTHER_" and count as
+	// aggregate counts of remaining categories.
+	CategoryCounts []*Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue_CategoryCount
+}
+
+func (b0 Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue_builder) Build() *Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue {
+	m0 := &Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.CategoryCounts = b.CategoryCounts
+	return m0
+}
+
 // Represents the count of a single category within the cluster.
 type Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue_CategoryCount struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The name of category.
 	Category string `protobuf:"bytes,1,opt,name=category,proto3" json:"category,omitempty"`
 	// The count of training samples matching the category within the
@@ -5092,11 +7901,6 @@ func (x *Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue_CategoryC
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue_CategoryCount.ProtoReflect.Descriptor instead.
-func (*Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue_CategoryCount) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 8, 0, 0, 0, 0}
-}
-
 func (x *Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue_CategoryCount) GetCategory() string {
 	if x != nil {
 		return x.Category
@@ -5111,9 +7915,47 @@ func (x *Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue_CategoryC
 	return nil
 }
 
+func (x *Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue_CategoryCount) SetCategory(v string) {
+	x.Category = v
+}
+
+func (x *Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue_CategoryCount) SetCount(v *wrapperspb.Int64Value) {
+	x.Count = v
+}
+
+func (x *Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue_CategoryCount) HasCount() bool {
+	if x == nil {
+		return false
+	}
+	return x.Count != nil
+}
+
+func (x *Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue_CategoryCount) ClearCount() {
+	x.Count = nil
+}
+
+type Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue_CategoryCount_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The name of category.
+	Category string
+	// The count of training samples matching the category within the
+	// cluster.
+	Count *wrapperspb.Int64Value
+}
+
+func (b0 Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue_CategoryCount_builder) Build() *Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue_CategoryCount {
+	m0 := &Model_ClusteringMetrics_Cluster_FeatureValue_CategoricalValue_CategoryCount{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Category = b.Category
+	x.Count = b.Count
+	return m0
+}
+
 // Model evaluation metrics for a single ARIMA forecasting model.
 type Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Non-seasonal order.
 	NonSeasonalOrder *Model_ArimaOrder `protobuf:"bytes,1,opt,name=non_seasonal_order,json=nonSeasonalOrder,proto3" json:"non_seasonal_order,omitempty"`
 	// Arima fitting metrics.
@@ -5169,11 +8011,6 @@ func (x *Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics) Proto
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics.ProtoReflect.Descriptor instead.
-func (*Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 10, 0}
 }
 
 func (x *Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics) GetNonSeasonalOrder() *Model_ArimaOrder {
@@ -5239,9 +8076,160 @@ func (x *Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics) GetHa
 	return nil
 }
 
+func (x *Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics) SetNonSeasonalOrder(v *Model_ArimaOrder) {
+	x.NonSeasonalOrder = v
+}
+
+func (x *Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics) SetArimaFittingMetrics(v *Model_ArimaFittingMetrics) {
+	x.ArimaFittingMetrics = v
+}
+
+func (x *Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics) SetHasDrift(v *wrapperspb.BoolValue) {
+	x.HasDrift = v
+}
+
+func (x *Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics) SetTimeSeriesId(v string) {
+	x.TimeSeriesId = v
+}
+
+func (x *Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics) SetTimeSeriesIds(v []string) {
+	x.TimeSeriesIds = v
+}
+
+func (x *Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics) SetSeasonalPeriods(v []Model_SeasonalPeriod_SeasonalPeriodType) {
+	x.SeasonalPeriods = v
+}
+
+func (x *Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics) SetHasHolidayEffect(v *wrapperspb.BoolValue) {
+	x.HasHolidayEffect = v
+}
+
+func (x *Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics) SetHasSpikesAndDips(v *wrapperspb.BoolValue) {
+	x.HasSpikesAndDips = v
+}
+
+func (x *Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics) SetHasStepChanges(v *wrapperspb.BoolValue) {
+	x.HasStepChanges = v
+}
+
+func (x *Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics) HasNonSeasonalOrder() bool {
+	if x == nil {
+		return false
+	}
+	return x.NonSeasonalOrder != nil
+}
+
+func (x *Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics) HasArimaFittingMetrics() bool {
+	if x == nil {
+		return false
+	}
+	return x.ArimaFittingMetrics != nil
+}
+
+func (x *Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics) HasHasDrift() bool {
+	if x == nil {
+		return false
+	}
+	return x.HasDrift != nil
+}
+
+func (x *Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics) HasHasHolidayEffect() bool {
+	if x == nil {
+		return false
+	}
+	return x.HasHolidayEffect != nil
+}
+
+func (x *Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics) HasHasSpikesAndDips() bool {
+	if x == nil {
+		return false
+	}
+	return x.HasSpikesAndDips != nil
+}
+
+func (x *Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics) HasHasStepChanges() bool {
+	if x == nil {
+		return false
+	}
+	return x.HasStepChanges != nil
+}
+
+func (x *Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics) ClearNonSeasonalOrder() {
+	x.NonSeasonalOrder = nil
+}
+
+func (x *Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics) ClearArimaFittingMetrics() {
+	x.ArimaFittingMetrics = nil
+}
+
+func (x *Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics) ClearHasDrift() {
+	x.HasDrift = nil
+}
+
+func (x *Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics) ClearHasHolidayEffect() {
+	x.HasHolidayEffect = nil
+}
+
+func (x *Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics) ClearHasSpikesAndDips() {
+	x.HasSpikesAndDips = nil
+}
+
+func (x *Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics) ClearHasStepChanges() {
+	x.HasStepChanges = nil
+}
+
+type Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Non-seasonal order.
+	NonSeasonalOrder *Model_ArimaOrder
+	// Arima fitting metrics.
+	ArimaFittingMetrics *Model_ArimaFittingMetrics
+	// Is arima model fitted with drift or not. It is always false when d
+	// is not 1.
+	HasDrift *wrapperspb.BoolValue
+	// The time_series_id value for this time series. It will be one of
+	// the unique values from the time_series_id_column specified during
+	// ARIMA model training. Only present when time_series_id_column
+	// training option was used.
+	TimeSeriesId string
+	// The tuple of time_series_ids identifying this time series. It will
+	// be one of the unique tuples of values present in the
+	// time_series_id_columns specified during ARIMA model training. Only
+	// present when time_series_id_columns training option was used and
+	// the order of values here are same as the order of
+	// time_series_id_columns.
+	TimeSeriesIds []string
+	// Seasonal periods. Repeated because multiple periods are supported
+	// for one time series.
+	SeasonalPeriods []Model_SeasonalPeriod_SeasonalPeriodType
+	// If true, holiday_effect is a part of time series decomposition result.
+	HasHolidayEffect *wrapperspb.BoolValue
+	// If true, spikes_and_dips is a part of time series decomposition result.
+	HasSpikesAndDips *wrapperspb.BoolValue
+	// If true, step_changes is a part of time series decomposition result.
+	HasStepChanges *wrapperspb.BoolValue
+}
+
+func (b0 Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics_builder) Build() *Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics {
+	m0 := &Model_ArimaForecastingMetrics_ArimaSingleModelForecastingMetrics{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.NonSeasonalOrder = b.NonSeasonalOrder
+	x.ArimaFittingMetrics = b.ArimaFittingMetrics
+	x.HasDrift = b.HasDrift
+	x.TimeSeriesId = b.TimeSeriesId
+	x.TimeSeriesIds = b.TimeSeriesIds
+	x.SeasonalPeriods = b.SeasonalPeriods
+	x.HasHolidayEffect = b.HasHolidayEffect
+	x.HasSpikesAndDips = b.HasSpikesAndDips
+	x.HasStepChanges = b.HasStepChanges
+	return m0
+}
+
 // Explanation for a single feature.
 type Model_GlobalExplanation_Explanation struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The full feature name. For non-numerical features, will be formatted
 	// like `<column_name>.<encoded_feature_name>`. Overall size of feature
 	// name will always be truncated to first 120 characters.
@@ -5277,11 +8265,6 @@ func (x *Model_GlobalExplanation_Explanation) ProtoReflect() protoreflect.Messag
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_GlobalExplanation_Explanation.ProtoReflect.Descriptor instead.
-func (*Model_GlobalExplanation_Explanation) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 16, 0}
-}
-
 func (x *Model_GlobalExplanation_Explanation) GetFeatureName() string {
 	if x != nil {
 		return x.FeatureName
@@ -5296,9 +8279,48 @@ func (x *Model_GlobalExplanation_Explanation) GetAttribution() *wrapperspb.Doubl
 	return nil
 }
 
+func (x *Model_GlobalExplanation_Explanation) SetFeatureName(v string) {
+	x.FeatureName = v
+}
+
+func (x *Model_GlobalExplanation_Explanation) SetAttribution(v *wrapperspb.DoubleValue) {
+	x.Attribution = v
+}
+
+func (x *Model_GlobalExplanation_Explanation) HasAttribution() bool {
+	if x == nil {
+		return false
+	}
+	return x.Attribution != nil
+}
+
+func (x *Model_GlobalExplanation_Explanation) ClearAttribution() {
+	x.Attribution = nil
+}
+
+type Model_GlobalExplanation_Explanation_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The full feature name. For non-numerical features, will be formatted
+	// like `<column_name>.<encoded_feature_name>`. Overall size of feature
+	// name will always be truncated to first 120 characters.
+	FeatureName string
+	// Attribution of feature.
+	Attribution *wrapperspb.DoubleValue
+}
+
+func (b0 Model_GlobalExplanation_Explanation_builder) Build() *Model_GlobalExplanation_Explanation {
+	m0 := &Model_GlobalExplanation_Explanation{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.FeatureName = b.FeatureName
+	x.Attribution = b.Attribution
+	return m0
+}
+
 // Options used in model training.
 type Model_TrainingRun_TrainingOptions struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The maximum number of iterations in training. Used only for iterative
 	// training algorithms.
 	MaxIterations int64 `protobuf:"varint,1,opt,name=max_iterations,json=maxIterations,proto3" json:"max_iterations,omitempty"`
@@ -5614,11 +8636,6 @@ func (x *Model_TrainingRun_TrainingOptions) ProtoReflect() protoreflect.Message 
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Model_TrainingRun_TrainingOptions.ProtoReflect.Descriptor instead.
-func (*Model_TrainingRun_TrainingOptions) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 20, 0}
 }
 
 func (x *Model_TrainingRun_TrainingOptions) GetMaxIterations() int64 {
@@ -6339,6 +9356,1269 @@ func (x *Model_TrainingRun_TrainingOptions) GetReservationAffinityValues() []str
 	return nil
 }
 
+func (x *Model_TrainingRun_TrainingOptions) SetMaxIterations(v int64) {
+	x.MaxIterations = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetLossType(v Model_LossType) {
+	x.LossType = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetLearnRate(v float64) {
+	x.LearnRate = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetL1Regularization(v *wrapperspb.DoubleValue) {
+	x.L1Regularization = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetL2Regularization(v *wrapperspb.DoubleValue) {
+	x.L2Regularization = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetMinRelativeProgress(v *wrapperspb.DoubleValue) {
+	x.MinRelativeProgress = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetWarmStart(v *wrapperspb.BoolValue) {
+	x.WarmStart = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetEarlyStop(v *wrapperspb.BoolValue) {
+	x.EarlyStop = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetInputLabelColumns(v []string) {
+	x.InputLabelColumns = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetDataSplitMethod(v Model_DataSplitMethod) {
+	x.DataSplitMethod = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetDataSplitEvalFraction(v float64) {
+	x.DataSplitEvalFraction = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetDataSplitColumn(v string) {
+	x.DataSplitColumn = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetLearnRateStrategy(v Model_LearnRateStrategy) {
+	x.LearnRateStrategy = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetInitialLearnRate(v float64) {
+	x.InitialLearnRate = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetLabelClassWeights(v map[string]float64) {
+	x.LabelClassWeights = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetUserColumn(v string) {
+	x.UserColumn = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetItemColumn(v string) {
+	x.ItemColumn = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetDistanceType(v Model_DistanceType) {
+	x.DistanceType = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetNumClusters(v int64) {
+	x.NumClusters = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetModelUri(v string) {
+	x.ModelUri = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetOptimizationStrategy(v Model_OptimizationStrategy) {
+	x.OptimizationStrategy = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetHiddenUnits(v []int64) {
+	x.HiddenUnits = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetBatchSize(v int64) {
+	x.BatchSize = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetDropout(v *wrapperspb.DoubleValue) {
+	x.Dropout = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetMaxTreeDepth(v int64) {
+	x.MaxTreeDepth = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetSubsample(v float64) {
+	x.Subsample = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetMinSplitLoss(v *wrapperspb.DoubleValue) {
+	x.MinSplitLoss = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetBoosterType(v Model_BoostedTreeOptionEnums_BoosterType) {
+	x.BoosterType = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetNumParallelTree(v *wrapperspb.Int64Value) {
+	x.NumParallelTree = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetDartNormalizeType(v Model_BoostedTreeOptionEnums_DartNormalizeType) {
+	x.DartNormalizeType = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetTreeMethod(v Model_BoostedTreeOptionEnums_TreeMethod) {
+	x.TreeMethod = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetMinTreeChildWeight(v *wrapperspb.Int64Value) {
+	x.MinTreeChildWeight = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetColsampleBytree(v *wrapperspb.DoubleValue) {
+	x.ColsampleBytree = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetColsampleBylevel(v *wrapperspb.DoubleValue) {
+	x.ColsampleBylevel = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetColsampleBynode(v *wrapperspb.DoubleValue) {
+	x.ColsampleBynode = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetNumFactors(v int64) {
+	x.NumFactors = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetFeedbackType(v Model_FeedbackType) {
+	x.FeedbackType = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetWalsAlpha(v *wrapperspb.DoubleValue) {
+	x.WalsAlpha = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetKmeansInitializationMethod(v Model_KmeansEnums_KmeansInitializationMethod) {
+	x.KmeansInitializationMethod = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetKmeansInitializationColumn(v string) {
+	x.KmeansInitializationColumn = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetTimeSeriesTimestampColumn(v string) {
+	x.TimeSeriesTimestampColumn = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetTimeSeriesDataColumn(v string) {
+	x.TimeSeriesDataColumn = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetAutoArima(v *wrapperspb.BoolValue) {
+	x.AutoArima = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetNonSeasonalOrder(v *Model_ArimaOrder) {
+	x.NonSeasonalOrder = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetDataFrequency(v Model_DataFrequency) {
+	x.DataFrequency = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetCalculatePValues(v *wrapperspb.BoolValue) {
+	x.CalculatePValues = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetIncludeDrift(v *wrapperspb.BoolValue) {
+	x.IncludeDrift = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetHolidayRegion(v Model_HolidayRegion) {
+	x.HolidayRegion = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetHolidayRegions(v []Model_HolidayRegion) {
+	x.HolidayRegions = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetTimeSeriesIdColumn(v string) {
+	x.TimeSeriesIdColumn = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetTimeSeriesIdColumns(v []string) {
+	x.TimeSeriesIdColumns = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetForecastLimitLowerBound(v float64) {
+	x.ForecastLimitLowerBound = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetForecastLimitUpperBound(v float64) {
+	x.ForecastLimitUpperBound = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetHorizon(v int64) {
+	x.Horizon = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetAutoArimaMaxOrder(v int64) {
+	x.AutoArimaMaxOrder = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetAutoArimaMinOrder(v int64) {
+	x.AutoArimaMinOrder = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetNumTrials(v int64) {
+	x.NumTrials = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetMaxParallelTrials(v int64) {
+	x.MaxParallelTrials = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetHparamTuningObjectives(v []Model_HparamTuningEnums_HparamTuningObjective) {
+	x.HparamTuningObjectives = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetDecomposeTimeSeries(v *wrapperspb.BoolValue) {
+	x.DecomposeTimeSeries = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetCleanSpikesAndDips(v *wrapperspb.BoolValue) {
+	x.CleanSpikesAndDips = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetAdjustStepChanges(v *wrapperspb.BoolValue) {
+	x.AdjustStepChanges = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetEnableGlobalExplain(v *wrapperspb.BoolValue) {
+	x.EnableGlobalExplain = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetSampledShapleyNumPaths(v int64) {
+	x.SampledShapleyNumPaths = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetIntegratedGradientsNumSteps(v int64) {
+	x.IntegratedGradientsNumSteps = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetCategoryEncodingMethod(v Model_CategoryEncodingMethod_EncodingMethod) {
+	x.CategoryEncodingMethod = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetTfVersion(v string) {
+	x.TfVersion = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetColorSpace(v Model_ColorSpace) {
+	x.ColorSpace = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetInstanceWeightColumn(v string) {
+	x.InstanceWeightColumn = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetTrendSmoothingWindowSize(v int64) {
+	x.TrendSmoothingWindowSize = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetTimeSeriesLengthFraction(v float64) {
+	x.TimeSeriesLengthFraction = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetMinTimeSeriesLength(v int64) {
+	x.MinTimeSeriesLength = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetMaxTimeSeriesLength(v int64) {
+	x.MaxTimeSeriesLength = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetXgboostVersion(v string) {
+	x.XgboostVersion = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetApproxGlobalFeatureContrib(v *wrapperspb.BoolValue) {
+	x.ApproxGlobalFeatureContrib = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetFitIntercept(v *wrapperspb.BoolValue) {
+	x.FitIntercept = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetNumPrincipalComponents(v int64) {
+	x.NumPrincipalComponents = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetPcaExplainedVarianceRatio(v float64) {
+	x.PcaExplainedVarianceRatio = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetScaleFeatures(v *wrapperspb.BoolValue) {
+	x.ScaleFeatures = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetPcaSolver(v Model_PcaSolverOptionEnums_PcaSolver) {
+	x.PcaSolver = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetAutoClassWeights(v *wrapperspb.BoolValue) {
+	x.AutoClassWeights = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetActivationFn(v string) {
+	x.ActivationFn = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetOptimizer(v string) {
+	x.Optimizer = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetBudgetHours(v float64) {
+	x.BudgetHours = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetStandardizeFeatures(v *wrapperspb.BoolValue) {
+	x.StandardizeFeatures = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetL1RegActivation(v float64) {
+	x.L1RegActivation = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetModelRegistry(v Model_ModelRegistryOptionEnums_ModelRegistry) {
+	x.ModelRegistry = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetVertexAiModelVersionAliases(v []string) {
+	x.VertexAiModelVersionAliases = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetDimensionIdColumns(v []string) {
+	x.DimensionIdColumns = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetContributionMetric(v string) {
+	x.ContributionMetric = &v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetIsTestColumn(v string) {
+	x.IsTestColumn = &v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetMinAprioriSupport(v float64) {
+	x.MinAprioriSupport = &v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetHuggingFaceModelId(v string) {
+	x.ExternalModelId = &Model_TrainingRun_TrainingOptions_HuggingFaceModelId{v}
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetModelGardenModelName(v string) {
+	x.ExternalModelId = &Model_TrainingRun_TrainingOptions_ModelGardenModelName{v}
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetEndpointIdleTtl(v *durationpb.Duration) {
+	x.EndpointIdleTtl = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetMachineType(v string) {
+	x.MachineType = &v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetMinReplicaCount(v int64) {
+	x.MinReplicaCount = &v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetMaxReplicaCount(v int64) {
+	x.MaxReplicaCount = &v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetReservationAffinityType(v Model_TrainingRun_TrainingOptions_ReservationAffinityType) {
+	x.ReservationAffinityType = &v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetReservationAffinityKey(v string) {
+	x.ReservationAffinityKey = &v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) SetReservationAffinityValues(v []string) {
+	x.ReservationAffinityValues = v
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasL1Regularization() bool {
+	if x == nil {
+		return false
+	}
+	return x.L1Regularization != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasL2Regularization() bool {
+	if x == nil {
+		return false
+	}
+	return x.L2Regularization != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasMinRelativeProgress() bool {
+	if x == nil {
+		return false
+	}
+	return x.MinRelativeProgress != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasWarmStart() bool {
+	if x == nil {
+		return false
+	}
+	return x.WarmStart != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasEarlyStop() bool {
+	if x == nil {
+		return false
+	}
+	return x.EarlyStop != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasDropout() bool {
+	if x == nil {
+		return false
+	}
+	return x.Dropout != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasMinSplitLoss() bool {
+	if x == nil {
+		return false
+	}
+	return x.MinSplitLoss != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasNumParallelTree() bool {
+	if x == nil {
+		return false
+	}
+	return x.NumParallelTree != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasMinTreeChildWeight() bool {
+	if x == nil {
+		return false
+	}
+	return x.MinTreeChildWeight != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasColsampleBytree() bool {
+	if x == nil {
+		return false
+	}
+	return x.ColsampleBytree != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasColsampleBylevel() bool {
+	if x == nil {
+		return false
+	}
+	return x.ColsampleBylevel != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasColsampleBynode() bool {
+	if x == nil {
+		return false
+	}
+	return x.ColsampleBynode != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasWalsAlpha() bool {
+	if x == nil {
+		return false
+	}
+	return x.WalsAlpha != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasAutoArima() bool {
+	if x == nil {
+		return false
+	}
+	return x.AutoArima != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasNonSeasonalOrder() bool {
+	if x == nil {
+		return false
+	}
+	return x.NonSeasonalOrder != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasCalculatePValues() bool {
+	if x == nil {
+		return false
+	}
+	return x.CalculatePValues != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasIncludeDrift() bool {
+	if x == nil {
+		return false
+	}
+	return x.IncludeDrift != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasDecomposeTimeSeries() bool {
+	if x == nil {
+		return false
+	}
+	return x.DecomposeTimeSeries != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasCleanSpikesAndDips() bool {
+	if x == nil {
+		return false
+	}
+	return x.CleanSpikesAndDips != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasAdjustStepChanges() bool {
+	if x == nil {
+		return false
+	}
+	return x.AdjustStepChanges != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasEnableGlobalExplain() bool {
+	if x == nil {
+		return false
+	}
+	return x.EnableGlobalExplain != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasApproxGlobalFeatureContrib() bool {
+	if x == nil {
+		return false
+	}
+	return x.ApproxGlobalFeatureContrib != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasFitIntercept() bool {
+	if x == nil {
+		return false
+	}
+	return x.FitIntercept != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasScaleFeatures() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScaleFeatures != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasAutoClassWeights() bool {
+	if x == nil {
+		return false
+	}
+	return x.AutoClassWeights != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasStandardizeFeatures() bool {
+	if x == nil {
+		return false
+	}
+	return x.StandardizeFeatures != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasContributionMetric() bool {
+	if x == nil {
+		return false
+	}
+	return x.ContributionMetric != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasIsTestColumn() bool {
+	if x == nil {
+		return false
+	}
+	return x.IsTestColumn != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasMinAprioriSupport() bool {
+	if x == nil {
+		return false
+	}
+	return x.MinAprioriSupport != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasExternalModelId() bool {
+	if x == nil {
+		return false
+	}
+	return x.ExternalModelId != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasHuggingFaceModelId() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.ExternalModelId.(*Model_TrainingRun_TrainingOptions_HuggingFaceModelId)
+	return ok
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasModelGardenModelName() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.ExternalModelId.(*Model_TrainingRun_TrainingOptions_ModelGardenModelName)
+	return ok
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasEndpointIdleTtl() bool {
+	if x == nil {
+		return false
+	}
+	return x.EndpointIdleTtl != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasMachineType() bool {
+	if x == nil {
+		return false
+	}
+	return x.MachineType != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasMinReplicaCount() bool {
+	if x == nil {
+		return false
+	}
+	return x.MinReplicaCount != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasMaxReplicaCount() bool {
+	if x == nil {
+		return false
+	}
+	return x.MaxReplicaCount != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasReservationAffinityType() bool {
+	if x == nil {
+		return false
+	}
+	return x.ReservationAffinityType != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) HasReservationAffinityKey() bool {
+	if x == nil {
+		return false
+	}
+	return x.ReservationAffinityKey != nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearL1Regularization() {
+	x.L1Regularization = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearL2Regularization() {
+	x.L2Regularization = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearMinRelativeProgress() {
+	x.MinRelativeProgress = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearWarmStart() {
+	x.WarmStart = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearEarlyStop() {
+	x.EarlyStop = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearDropout() {
+	x.Dropout = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearMinSplitLoss() {
+	x.MinSplitLoss = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearNumParallelTree() {
+	x.NumParallelTree = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearMinTreeChildWeight() {
+	x.MinTreeChildWeight = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearColsampleBytree() {
+	x.ColsampleBytree = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearColsampleBylevel() {
+	x.ColsampleBylevel = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearColsampleBynode() {
+	x.ColsampleBynode = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearWalsAlpha() {
+	x.WalsAlpha = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearAutoArima() {
+	x.AutoArima = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearNonSeasonalOrder() {
+	x.NonSeasonalOrder = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearCalculatePValues() {
+	x.CalculatePValues = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearIncludeDrift() {
+	x.IncludeDrift = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearDecomposeTimeSeries() {
+	x.DecomposeTimeSeries = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearCleanSpikesAndDips() {
+	x.CleanSpikesAndDips = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearAdjustStepChanges() {
+	x.AdjustStepChanges = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearEnableGlobalExplain() {
+	x.EnableGlobalExplain = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearApproxGlobalFeatureContrib() {
+	x.ApproxGlobalFeatureContrib = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearFitIntercept() {
+	x.FitIntercept = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearScaleFeatures() {
+	x.ScaleFeatures = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearAutoClassWeights() {
+	x.AutoClassWeights = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearStandardizeFeatures() {
+	x.StandardizeFeatures = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearContributionMetric() {
+	x.ContributionMetric = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearIsTestColumn() {
+	x.IsTestColumn = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearMinAprioriSupport() {
+	x.MinAprioriSupport = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearExternalModelId() {
+	x.ExternalModelId = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearHuggingFaceModelId() {
+	if _, ok := x.ExternalModelId.(*Model_TrainingRun_TrainingOptions_HuggingFaceModelId); ok {
+		x.ExternalModelId = nil
+	}
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearModelGardenModelName() {
+	if _, ok := x.ExternalModelId.(*Model_TrainingRun_TrainingOptions_ModelGardenModelName); ok {
+		x.ExternalModelId = nil
+	}
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearEndpointIdleTtl() {
+	x.EndpointIdleTtl = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearMachineType() {
+	x.MachineType = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearMinReplicaCount() {
+	x.MinReplicaCount = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearMaxReplicaCount() {
+	x.MaxReplicaCount = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearReservationAffinityType() {
+	x.ReservationAffinityType = nil
+}
+
+func (x *Model_TrainingRun_TrainingOptions) ClearReservationAffinityKey() {
+	x.ReservationAffinityKey = nil
+}
+
+const Model_TrainingRun_TrainingOptions_ExternalModelId_not_set_case case_Model_TrainingRun_TrainingOptions_ExternalModelId = 0
+const Model_TrainingRun_TrainingOptions_HuggingFaceModelId_case case_Model_TrainingRun_TrainingOptions_ExternalModelId = 113
+const Model_TrainingRun_TrainingOptions_ModelGardenModelName_case case_Model_TrainingRun_TrainingOptions_ExternalModelId = 114
+
+func (x *Model_TrainingRun_TrainingOptions) WhichExternalModelId() case_Model_TrainingRun_TrainingOptions_ExternalModelId {
+	if x == nil {
+		return Model_TrainingRun_TrainingOptions_ExternalModelId_not_set_case
+	}
+	switch x.ExternalModelId.(type) {
+	case *Model_TrainingRun_TrainingOptions_HuggingFaceModelId:
+		return Model_TrainingRun_TrainingOptions_HuggingFaceModelId_case
+	case *Model_TrainingRun_TrainingOptions_ModelGardenModelName:
+		return Model_TrainingRun_TrainingOptions_ModelGardenModelName_case
+	default:
+		return Model_TrainingRun_TrainingOptions_ExternalModelId_not_set_case
+	}
+}
+
+type Model_TrainingRun_TrainingOptions_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The maximum number of iterations in training. Used only for iterative
+	// training algorithms.
+	MaxIterations int64
+	// Type of loss function used during training run.
+	LossType Model_LossType
+	// Learning rate in training. Used only for iterative training algorithms.
+	LearnRate float64
+	// L1 regularization coefficient.
+	L1Regularization *wrapperspb.DoubleValue
+	// L2 regularization coefficient.
+	L2Regularization *wrapperspb.DoubleValue
+	// When early_stop is true, stops training when accuracy improvement is
+	// less than 'min_relative_progress'. Used only for iterative training
+	// algorithms.
+	MinRelativeProgress *wrapperspb.DoubleValue
+	// Whether to train a model from the last checkpoint.
+	WarmStart *wrapperspb.BoolValue
+	// Whether to stop early when the loss doesn't improve significantly
+	// any more (compared to min_relative_progress). Used only for iterative
+	// training algorithms.
+	EarlyStop *wrapperspb.BoolValue
+	// Name of input label columns in training data.
+	InputLabelColumns []string
+	// The data split type for training and evaluation, e.g. RANDOM.
+	DataSplitMethod Model_DataSplitMethod
+	// The fraction of evaluation data over the whole input data. The rest
+	// of data will be used as training data. The format should be double.
+	// Accurate to two decimal places.
+	// Default value is 0.2.
+	DataSplitEvalFraction float64
+	// The column to split data with. This column won't be used as a
+	// feature.
+	// 1. When data_split_method is CUSTOM, the corresponding column should
+	// be boolean. The rows with true value tag are eval data, and the false
+	// are training data.
+	// 2. When data_split_method is SEQ, the first DATA_SPLIT_EVAL_FRACTION
+	// rows (from smallest to largest) in the corresponding column are used
+	// as training data, and the rest are eval data. It respects the order
+	// in Orderable data types:
+	// https://cloud.google.com/bigquery/docs/reference/standard-sql/data-types#data_type_properties
+	DataSplitColumn string
+	// The strategy to determine learn rate for the current iteration.
+	LearnRateStrategy Model_LearnRateStrategy
+	// Specifies the initial learning rate for the line search learn rate
+	// strategy.
+	InitialLearnRate float64
+	// Weights associated with each label class, for rebalancing the
+	// training data. Only applicable for classification models.
+	LabelClassWeights map[string]float64
+	// User column specified for matrix factorization models.
+	UserColumn string
+	// Item column specified for matrix factorization models.
+	ItemColumn string
+	// Distance type for clustering models.
+	DistanceType Model_DistanceType
+	// Number of clusters for clustering models.
+	NumClusters int64
+	// Google Cloud Storage URI from which the model was imported. Only
+	// applicable for imported models.
+	ModelUri string
+	// Optimization strategy for training linear regression models.
+	OptimizationStrategy Model_OptimizationStrategy
+	// Hidden units for dnn models.
+	HiddenUnits []int64
+	// Batch size for dnn models.
+	BatchSize int64
+	// Dropout probability for dnn models.
+	Dropout *wrapperspb.DoubleValue
+	// Maximum depth of a tree for boosted tree models.
+	MaxTreeDepth int64
+	// Subsample fraction of the training data to grow tree to prevent
+	// overfitting for boosted tree models.
+	Subsample float64
+	// Minimum split loss for boosted tree models.
+	MinSplitLoss *wrapperspb.DoubleValue
+	// Booster type for boosted tree models.
+	BoosterType Model_BoostedTreeOptionEnums_BoosterType
+	// Number of parallel trees constructed during each iteration for boosted
+	// tree models.
+	NumParallelTree *wrapperspb.Int64Value
+	// Type of normalization algorithm for boosted tree models using
+	// dart booster.
+	DartNormalizeType Model_BoostedTreeOptionEnums_DartNormalizeType
+	// Tree construction algorithm for boosted tree models.
+	TreeMethod Model_BoostedTreeOptionEnums_TreeMethod
+	// Minimum sum of instance weight needed in a child for boosted tree
+	// models.
+	MinTreeChildWeight *wrapperspb.Int64Value
+	// Subsample ratio of columns when constructing each tree for boosted tree
+	// models.
+	ColsampleBytree *wrapperspb.DoubleValue
+	// Subsample ratio of columns for each level for boosted tree models.
+	ColsampleBylevel *wrapperspb.DoubleValue
+	// Subsample ratio of columns for each node(split) for boosted tree
+	// models.
+	ColsampleBynode *wrapperspb.DoubleValue
+	// Num factors specified for matrix factorization models.
+	NumFactors int64
+	// Feedback type that specifies which algorithm to run for matrix
+	// factorization.
+	FeedbackType Model_FeedbackType
+	// Hyperparameter for matrix factoration when implicit feedback type is
+	// specified.
+	WalsAlpha *wrapperspb.DoubleValue
+	// The method used to initialize the centroids for kmeans algorithm.
+	KmeansInitializationMethod Model_KmeansEnums_KmeansInitializationMethod
+	// The column used to provide the initial centroids for kmeans algorithm
+	// when kmeans_initialization_method is CUSTOM.
+	KmeansInitializationColumn string
+	// Column to be designated as time series timestamp for ARIMA model.
+	TimeSeriesTimestampColumn string
+	// Column to be designated as time series data for ARIMA model.
+	TimeSeriesDataColumn string
+	// Whether to enable auto ARIMA or not.
+	AutoArima *wrapperspb.BoolValue
+	// A specification of the non-seasonal part of the ARIMA model: the three
+	// components (p, d, q) are the AR order, the degree of differencing, and
+	// the MA order.
+	NonSeasonalOrder *Model_ArimaOrder
+	// The data frequency of a time series.
+	DataFrequency Model_DataFrequency
+	// Whether or not p-value test should be computed for this model. Only
+	// available for linear and logistic regression models.
+	CalculatePValues *wrapperspb.BoolValue
+	// Include drift when fitting an ARIMA model.
+	IncludeDrift *wrapperspb.BoolValue
+	// The geographical region based on which the holidays are considered in
+	// time series modeling. If a valid value is specified, then holiday
+	// effects modeling is enabled.
+	HolidayRegion Model_HolidayRegion
+	// A list of geographical regions that are used for time series modeling.
+	HolidayRegions []Model_HolidayRegion
+	// The time series id column that was used during ARIMA model training.
+	TimeSeriesIdColumn string
+	// The time series id columns that were used during ARIMA model training.
+	TimeSeriesIdColumns []string
+	// The forecast limit lower bound that was used during ARIMA model
+	// training with limits. To see more details of the algorithm:
+	// https://otexts.com/fpp2/limits.html
+	ForecastLimitLowerBound float64
+	// The forecast limit upper bound that was used during ARIMA model
+	// training with limits.
+	ForecastLimitUpperBound float64
+	// The number of periods ahead that need to be forecasted.
+	Horizon int64
+	// The max value of the sum of non-seasonal p and q.
+	AutoArimaMaxOrder int64
+	// The min value of the sum of non-seasonal p and q.
+	AutoArimaMinOrder int64
+	// Number of trials to run this hyperparameter tuning job.
+	NumTrials int64
+	// Maximum number of trials to run in parallel.
+	MaxParallelTrials int64
+	// The target evaluation metrics to optimize the hyperparameters for.
+	HparamTuningObjectives []Model_HparamTuningEnums_HparamTuningObjective
+	// If true, perform decompose time series and save the results.
+	DecomposeTimeSeries *wrapperspb.BoolValue
+	// If true, clean spikes and dips in the input time series.
+	CleanSpikesAndDips *wrapperspb.BoolValue
+	// If true, detect step changes and make data adjustment in the input time
+	// series.
+	AdjustStepChanges *wrapperspb.BoolValue
+	// If true, enable global explanation during training.
+	EnableGlobalExplain *wrapperspb.BoolValue
+	// Number of paths for the sampled Shapley explain method.
+	SampledShapleyNumPaths int64
+	// Number of integral steps for the integrated gradients explain method.
+	IntegratedGradientsNumSteps int64
+	// Categorical feature encoding method.
+	CategoryEncodingMethod Model_CategoryEncodingMethod_EncodingMethod
+	// Based on the selected TF version, the corresponding docker image is
+	// used to train external models.
+	TfVersion string
+	// Enums for color space, used for processing images in Object Table.
+	// See more details at
+	// https://www.tensorflow.org/io/tutorials/colorspace.
+	ColorSpace Model_ColorSpace
+	// Name of the instance weight column for training data.
+	// This column isn't be used as a feature.
+	InstanceWeightColumn string
+	// Smoothing window size for the trend component. When a positive value is
+	// specified, a center moving average smoothing is applied on the history
+	// trend. When the smoothing window is out of the boundary at the
+	// beginning or the end of the trend, the first element or the last
+	// element is padded to fill the smoothing window before the average is
+	// applied.
+	TrendSmoothingWindowSize int64
+	// The fraction of the interpolated length of the time series that's used
+	// to model the time series trend component. All of the time points of the
+	// time series are used to model the non-trend component. This training
+	// option accelerates modeling training without sacrificing much
+	// forecasting accuracy. You can use this option with
+	// `minTimeSeriesLength` but not with `maxTimeSeriesLength`.
+	TimeSeriesLengthFraction float64
+	// The minimum number of time points in a time series that are used in
+	// modeling the trend component of the time series. If you use this option
+	// you must also set the `timeSeriesLengthFraction` option. This training
+	// option ensures that enough time points are available when you use
+	// `timeSeriesLengthFraction` in trend modeling. This is particularly
+	// important when forecasting multiple time series in a single query using
+	// `timeSeriesIdColumn`. If the total number of time points is less than
+	// the `minTimeSeriesLength` value, then the query uses all available time
+	// points.
+	MinTimeSeriesLength int64
+	// The maximum number of time points in a time series that can be used in
+	// modeling the trend component of the time series. Don't use this option
+	// with the `timeSeriesLengthFraction` or `minTimeSeriesLength` options.
+	MaxTimeSeriesLength int64
+	// User-selected XGBoost versions for training of XGBoost models.
+	XgboostVersion string
+	// Whether to use approximate feature contribution method in XGBoost model
+	// explanation for global explain.
+	ApproxGlobalFeatureContrib *wrapperspb.BoolValue
+	// Whether the model should include intercept during model training.
+	FitIntercept *wrapperspb.BoolValue
+	// Number of principal components to keep in the PCA model. Must be <= the
+	// number of features.
+	NumPrincipalComponents int64
+	// The minimum ratio of cumulative explained variance that needs to be
+	// given by the PCA model.
+	PcaExplainedVarianceRatio float64
+	// If true, scale the feature values by dividing the feature standard
+	// deviation. Currently only apply to PCA.
+	ScaleFeatures *wrapperspb.BoolValue
+	// The solver for PCA.
+	PcaSolver Model_PcaSolverOptionEnums_PcaSolver
+	// Whether to calculate class weights automatically based on the
+	// popularity of each label.
+	AutoClassWeights *wrapperspb.BoolValue
+	// Activation function of the neural nets.
+	ActivationFn string
+	// Optimizer used for training the neural nets.
+	Optimizer string
+	// Budget in hours for AutoML training.
+	BudgetHours float64
+	// Whether to standardize numerical features. Default to true.
+	StandardizeFeatures *wrapperspb.BoolValue
+	// L1 regularization coefficient to activations.
+	L1RegActivation float64
+	// The model registry.
+	ModelRegistry Model_ModelRegistryOptionEnums_ModelRegistry
+	// The version aliases to apply in Vertex AI model registry. Always
+	// overwrite if the version aliases exists in a existing model.
+	VertexAiModelVersionAliases []string
+	// Optional. Names of the columns to slice on. Applies to contribution
+	// analysis models.
+	DimensionIdColumns []string
+	// The contribution metric. Applies to contribution analysis models.
+	// Allowed formats supported are for summable and summable ratio
+	// contribution metrics. These include expressions such as `SUM(x)` or
+	// `SUM(x)/SUM(y)`, where x and y are column names from the base table.
+	ContributionMetric *string
+	// Name of the column used to determine the rows corresponding to control
+	// and test. Applies to contribution analysis models.
+	IsTestColumn *string
+	// The apriori support minimum. Applies to contribution analysis models.
+	MinAprioriSupport *float64
+	// The id that uniquely identifies an external model.
+
+	// Fields of oneof ExternalModelId:
+	// The id of a Hugging Face model. For example, `google/gemma-2-2b-it`.
+	HuggingFaceModelId *string
+	// The name of a Vertex model garden publisher model. Format is
+	// `publishers/{publisher}/models/{model}@{optional_version_id}`.
+	ModelGardenModelName *string
+	// -- end of ExternalModelId
+	// The idle TTL of the endpoint before the resources get destroyed. The
+	// default value is 6.5 hours.
+	EndpointIdleTtl *durationpb.Duration
+	// The type of the machine used to deploy and serve the model.
+	MachineType *string
+	// The minimum number of machine replicas that will be always deployed on
+	// an endpoint. This value must be greater than or equal to 1. The default
+	// value is 1.
+	MinReplicaCount *int64
+	// The maximum number of machine replicas that will be deployed on an
+	// endpoint. The default value is equal to min_replica_count.
+	MaxReplicaCount *int64
+	// Specifies the reservation affinity type used to configure a Vertex AI
+	// resource. The default value is `NO_RESERVATION`.
+	ReservationAffinityType *Model_TrainingRun_TrainingOptions_ReservationAffinityType
+	// Corresponds to the label key of a reservation resource used by Vertex
+	// AI. To target a SPECIFIC_RESERVATION by name, use
+	// `compute.googleapis.com/reservation-name` as the key and specify the
+	// name of your reservation as its value.
+	ReservationAffinityKey *string
+	// Corresponds to the label values of a reservation resource used by
+	// Vertex AI. This must be the full resource name of the reservation or
+	// reservation block.
+	ReservationAffinityValues []string
+}
+
+func (b0 Model_TrainingRun_TrainingOptions_builder) Build() *Model_TrainingRun_TrainingOptions {
+	m0 := &Model_TrainingRun_TrainingOptions{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.MaxIterations = b.MaxIterations
+	x.LossType = b.LossType
+	x.LearnRate = b.LearnRate
+	x.L1Regularization = b.L1Regularization
+	x.L2Regularization = b.L2Regularization
+	x.MinRelativeProgress = b.MinRelativeProgress
+	x.WarmStart = b.WarmStart
+	x.EarlyStop = b.EarlyStop
+	x.InputLabelColumns = b.InputLabelColumns
+	x.DataSplitMethod = b.DataSplitMethod
+	x.DataSplitEvalFraction = b.DataSplitEvalFraction
+	x.DataSplitColumn = b.DataSplitColumn
+	x.LearnRateStrategy = b.LearnRateStrategy
+	x.InitialLearnRate = b.InitialLearnRate
+	x.LabelClassWeights = b.LabelClassWeights
+	x.UserColumn = b.UserColumn
+	x.ItemColumn = b.ItemColumn
+	x.DistanceType = b.DistanceType
+	x.NumClusters = b.NumClusters
+	x.ModelUri = b.ModelUri
+	x.OptimizationStrategy = b.OptimizationStrategy
+	x.HiddenUnits = b.HiddenUnits
+	x.BatchSize = b.BatchSize
+	x.Dropout = b.Dropout
+	x.MaxTreeDepth = b.MaxTreeDepth
+	x.Subsample = b.Subsample
+	x.MinSplitLoss = b.MinSplitLoss
+	x.BoosterType = b.BoosterType
+	x.NumParallelTree = b.NumParallelTree
+	x.DartNormalizeType = b.DartNormalizeType
+	x.TreeMethod = b.TreeMethod
+	x.MinTreeChildWeight = b.MinTreeChildWeight
+	x.ColsampleBytree = b.ColsampleBytree
+	x.ColsampleBylevel = b.ColsampleBylevel
+	x.ColsampleBynode = b.ColsampleBynode
+	x.NumFactors = b.NumFactors
+	x.FeedbackType = b.FeedbackType
+	x.WalsAlpha = b.WalsAlpha
+	x.KmeansInitializationMethod = b.KmeansInitializationMethod
+	x.KmeansInitializationColumn = b.KmeansInitializationColumn
+	x.TimeSeriesTimestampColumn = b.TimeSeriesTimestampColumn
+	x.TimeSeriesDataColumn = b.TimeSeriesDataColumn
+	x.AutoArima = b.AutoArima
+	x.NonSeasonalOrder = b.NonSeasonalOrder
+	x.DataFrequency = b.DataFrequency
+	x.CalculatePValues = b.CalculatePValues
+	x.IncludeDrift = b.IncludeDrift
+	x.HolidayRegion = b.HolidayRegion
+	x.HolidayRegions = b.HolidayRegions
+	x.TimeSeriesIdColumn = b.TimeSeriesIdColumn
+	x.TimeSeriesIdColumns = b.TimeSeriesIdColumns
+	x.ForecastLimitLowerBound = b.ForecastLimitLowerBound
+	x.ForecastLimitUpperBound = b.ForecastLimitUpperBound
+	x.Horizon = b.Horizon
+	x.AutoArimaMaxOrder = b.AutoArimaMaxOrder
+	x.AutoArimaMinOrder = b.AutoArimaMinOrder
+	x.NumTrials = b.NumTrials
+	x.MaxParallelTrials = b.MaxParallelTrials
+	x.HparamTuningObjectives = b.HparamTuningObjectives
+	x.DecomposeTimeSeries = b.DecomposeTimeSeries
+	x.CleanSpikesAndDips = b.CleanSpikesAndDips
+	x.AdjustStepChanges = b.AdjustStepChanges
+	x.EnableGlobalExplain = b.EnableGlobalExplain
+	x.SampledShapleyNumPaths = b.SampledShapleyNumPaths
+	x.IntegratedGradientsNumSteps = b.IntegratedGradientsNumSteps
+	x.CategoryEncodingMethod = b.CategoryEncodingMethod
+	x.TfVersion = b.TfVersion
+	x.ColorSpace = b.ColorSpace
+	x.InstanceWeightColumn = b.InstanceWeightColumn
+	x.TrendSmoothingWindowSize = b.TrendSmoothingWindowSize
+	x.TimeSeriesLengthFraction = b.TimeSeriesLengthFraction
+	x.MinTimeSeriesLength = b.MinTimeSeriesLength
+	x.MaxTimeSeriesLength = b.MaxTimeSeriesLength
+	x.XgboostVersion = b.XgboostVersion
+	x.ApproxGlobalFeatureContrib = b.ApproxGlobalFeatureContrib
+	x.FitIntercept = b.FitIntercept
+	x.NumPrincipalComponents = b.NumPrincipalComponents
+	x.PcaExplainedVarianceRatio = b.PcaExplainedVarianceRatio
+	x.ScaleFeatures = b.ScaleFeatures
+	x.PcaSolver = b.PcaSolver
+	x.AutoClassWeights = b.AutoClassWeights
+	x.ActivationFn = b.ActivationFn
+	x.Optimizer = b.Optimizer
+	x.BudgetHours = b.BudgetHours
+	x.StandardizeFeatures = b.StandardizeFeatures
+	x.L1RegActivation = b.L1RegActivation
+	x.ModelRegistry = b.ModelRegistry
+	x.VertexAiModelVersionAliases = b.VertexAiModelVersionAliases
+	x.DimensionIdColumns = b.DimensionIdColumns
+	x.ContributionMetric = b.ContributionMetric
+	x.IsTestColumn = b.IsTestColumn
+	x.MinAprioriSupport = b.MinAprioriSupport
+	if b.HuggingFaceModelId != nil {
+		x.ExternalModelId = &Model_TrainingRun_TrainingOptions_HuggingFaceModelId{*b.HuggingFaceModelId}
+	}
+	if b.ModelGardenModelName != nil {
+		x.ExternalModelId = &Model_TrainingRun_TrainingOptions_ModelGardenModelName{*b.ModelGardenModelName}
+	}
+	x.EndpointIdleTtl = b.EndpointIdleTtl
+	x.MachineType = b.MachineType
+	x.MinReplicaCount = b.MinReplicaCount
+	x.MaxReplicaCount = b.MaxReplicaCount
+	x.ReservationAffinityType = b.ReservationAffinityType
+	x.ReservationAffinityKey = b.ReservationAffinityKey
+	x.ReservationAffinityValues = b.ReservationAffinityValues
+	return m0
+}
+
+type case_Model_TrainingRun_TrainingOptions_ExternalModelId protoreflect.FieldNumber
+
+func (x case_Model_TrainingRun_TrainingOptions_ExternalModelId) String() string {
+	md := file_google_cloud_bigquery_v2_model_proto_msgTypes[46].Descriptor()
+	if x == 0 {
+		return "not set"
+	}
+	return protoimpl.X.MessageFieldStringOf(md, protoreflect.FieldNumber(x))
+}
+
 type isModel_TrainingRun_TrainingOptions_ExternalModelId interface {
 	isModel_TrainingRun_TrainingOptions_ExternalModelId()
 }
@@ -6362,7 +10642,7 @@ func (*Model_TrainingRun_TrainingOptions_ModelGardenModelName) isModel_TrainingR
 
 // Information about a single iteration of the training run.
 type Model_TrainingRun_IterationResult struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Index of the iteration, 0 based.
 	Index *wrapperspb.Int32Value `protobuf:"bytes,1,opt,name=index,proto3" json:"index,omitempty"`
 	// Time taken to run the iteration in milliseconds.
@@ -6406,11 +10686,6 @@ func (x *Model_TrainingRun_IterationResult) ProtoReflect() protoreflect.Message 
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Model_TrainingRun_IterationResult.ProtoReflect.Descriptor instead.
-func (*Model_TrainingRun_IterationResult) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 20, 1}
 }
 
 func (x *Model_TrainingRun_IterationResult) GetIndex() *wrapperspb.Int32Value {
@@ -6469,9 +10744,132 @@ func (x *Model_TrainingRun_IterationResult) GetPrincipalComponentInfos() []*Mode
 	return nil
 }
 
+func (x *Model_TrainingRun_IterationResult) SetIndex(v *wrapperspb.Int32Value) {
+	x.Index = v
+}
+
+func (x *Model_TrainingRun_IterationResult) SetDurationMs(v *wrapperspb.Int64Value) {
+	x.DurationMs = v
+}
+
+func (x *Model_TrainingRun_IterationResult) SetTrainingLoss(v *wrapperspb.DoubleValue) {
+	x.TrainingLoss = v
+}
+
+func (x *Model_TrainingRun_IterationResult) SetEvalLoss(v *wrapperspb.DoubleValue) {
+	x.EvalLoss = v
+}
+
+func (x *Model_TrainingRun_IterationResult) SetLearnRate(v float64) {
+	x.LearnRate = v
+}
+
+func (x *Model_TrainingRun_IterationResult) SetClusterInfos(v []*Model_TrainingRun_IterationResult_ClusterInfo) {
+	x.ClusterInfos = v
+}
+
+func (x *Model_TrainingRun_IterationResult) SetArimaResult(v *Model_TrainingRun_IterationResult_ArimaResult) {
+	x.ArimaResult = v
+}
+
+func (x *Model_TrainingRun_IterationResult) SetPrincipalComponentInfos(v []*Model_TrainingRun_IterationResult_PrincipalComponentInfo) {
+	x.PrincipalComponentInfos = v
+}
+
+func (x *Model_TrainingRun_IterationResult) HasIndex() bool {
+	if x == nil {
+		return false
+	}
+	return x.Index != nil
+}
+
+func (x *Model_TrainingRun_IterationResult) HasDurationMs() bool {
+	if x == nil {
+		return false
+	}
+	return x.DurationMs != nil
+}
+
+func (x *Model_TrainingRun_IterationResult) HasTrainingLoss() bool {
+	if x == nil {
+		return false
+	}
+	return x.TrainingLoss != nil
+}
+
+func (x *Model_TrainingRun_IterationResult) HasEvalLoss() bool {
+	if x == nil {
+		return false
+	}
+	return x.EvalLoss != nil
+}
+
+func (x *Model_TrainingRun_IterationResult) HasArimaResult() bool {
+	if x == nil {
+		return false
+	}
+	return x.ArimaResult != nil
+}
+
+func (x *Model_TrainingRun_IterationResult) ClearIndex() {
+	x.Index = nil
+}
+
+func (x *Model_TrainingRun_IterationResult) ClearDurationMs() {
+	x.DurationMs = nil
+}
+
+func (x *Model_TrainingRun_IterationResult) ClearTrainingLoss() {
+	x.TrainingLoss = nil
+}
+
+func (x *Model_TrainingRun_IterationResult) ClearEvalLoss() {
+	x.EvalLoss = nil
+}
+
+func (x *Model_TrainingRun_IterationResult) ClearArimaResult() {
+	x.ArimaResult = nil
+}
+
+type Model_TrainingRun_IterationResult_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Index of the iteration, 0 based.
+	Index *wrapperspb.Int32Value
+	// Time taken to run the iteration in milliseconds.
+	DurationMs *wrapperspb.Int64Value
+	// Loss computed on the training data at the end of iteration.
+	TrainingLoss *wrapperspb.DoubleValue
+	// Loss computed on the eval data at the end of iteration.
+	EvalLoss *wrapperspb.DoubleValue
+	// Learn rate used for this iteration.
+	LearnRate float64
+	// Information about top clusters for clustering models.
+	ClusterInfos []*Model_TrainingRun_IterationResult_ClusterInfo
+	// Arima result.
+	ArimaResult *Model_TrainingRun_IterationResult_ArimaResult
+	// The information of the principal components.
+	PrincipalComponentInfos []*Model_TrainingRun_IterationResult_PrincipalComponentInfo
+}
+
+func (b0 Model_TrainingRun_IterationResult_builder) Build() *Model_TrainingRun_IterationResult {
+	m0 := &Model_TrainingRun_IterationResult{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Index = b.Index
+	x.DurationMs = b.DurationMs
+	x.TrainingLoss = b.TrainingLoss
+	x.EvalLoss = b.EvalLoss
+	x.LearnRate = b.LearnRate
+	x.ClusterInfos = b.ClusterInfos
+	x.ArimaResult = b.ArimaResult
+	x.PrincipalComponentInfos = b.PrincipalComponentInfos
+	return m0
+}
+
 // Information about a single cluster for clustering model.
 type Model_TrainingRun_IterationResult_ClusterInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Centroid id.
 	CentroidId int64 `protobuf:"varint,1,opt,name=centroid_id,json=centroidId,proto3" json:"centroid_id,omitempty"`
 	// Cluster radius, the average distance from centroid
@@ -6508,11 +10906,6 @@ func (x *Model_TrainingRun_IterationResult_ClusterInfo) ProtoReflect() protorefl
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_TrainingRun_IterationResult_ClusterInfo.ProtoReflect.Descriptor instead.
-func (*Model_TrainingRun_IterationResult_ClusterInfo) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 20, 1, 0}
-}
-
 func (x *Model_TrainingRun_IterationResult_ClusterInfo) GetCentroidId() int64 {
 	if x != nil {
 		return x.CentroidId
@@ -6534,10 +10927,66 @@ func (x *Model_TrainingRun_IterationResult_ClusterInfo) GetClusterSize() *wrappe
 	return nil
 }
 
+func (x *Model_TrainingRun_IterationResult_ClusterInfo) SetCentroidId(v int64) {
+	x.CentroidId = v
+}
+
+func (x *Model_TrainingRun_IterationResult_ClusterInfo) SetClusterRadius(v *wrapperspb.DoubleValue) {
+	x.ClusterRadius = v
+}
+
+func (x *Model_TrainingRun_IterationResult_ClusterInfo) SetClusterSize(v *wrapperspb.Int64Value) {
+	x.ClusterSize = v
+}
+
+func (x *Model_TrainingRun_IterationResult_ClusterInfo) HasClusterRadius() bool {
+	if x == nil {
+		return false
+	}
+	return x.ClusterRadius != nil
+}
+
+func (x *Model_TrainingRun_IterationResult_ClusterInfo) HasClusterSize() bool {
+	if x == nil {
+		return false
+	}
+	return x.ClusterSize != nil
+}
+
+func (x *Model_TrainingRun_IterationResult_ClusterInfo) ClearClusterRadius() {
+	x.ClusterRadius = nil
+}
+
+func (x *Model_TrainingRun_IterationResult_ClusterInfo) ClearClusterSize() {
+	x.ClusterSize = nil
+}
+
+type Model_TrainingRun_IterationResult_ClusterInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Centroid id.
+	CentroidId int64
+	// Cluster radius, the average distance from centroid
+	// to each point assigned to the cluster.
+	ClusterRadius *wrapperspb.DoubleValue
+	// Cluster size, the total number of points assigned to the cluster.
+	ClusterSize *wrapperspb.Int64Value
+}
+
+func (b0 Model_TrainingRun_IterationResult_ClusterInfo_builder) Build() *Model_TrainingRun_IterationResult_ClusterInfo {
+	m0 := &Model_TrainingRun_IterationResult_ClusterInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.CentroidId = b.CentroidId
+	x.ClusterRadius = b.ClusterRadius
+	x.ClusterSize = b.ClusterSize
+	return m0
+}
+
 // (Auto-)arima fitting result. Wrap everything in ArimaResult for easier
 // refactoring if we want to use model-specific iteration results.
 type Model_TrainingRun_IterationResult_ArimaResult struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// This message is repeated because there are multiple arima models
 	// fitted in auto-arima. For non-auto-arima model, its size is one.
 	ArimaModelInfo []*Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo `protobuf:"bytes,1,rep,name=arima_model_info,json=arimaModelInfo,proto3" json:"arima_model_info,omitempty"`
@@ -6573,11 +11022,6 @@ func (x *Model_TrainingRun_IterationResult_ArimaResult) ProtoReflect() protorefl
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_TrainingRun_IterationResult_ArimaResult.ProtoReflect.Descriptor instead.
-func (*Model_TrainingRun_IterationResult_ArimaResult) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 20, 1, 1}
-}
-
 func (x *Model_TrainingRun_IterationResult_ArimaResult) GetArimaModelInfo() []*Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo {
 	if x != nil {
 		return x.ArimaModelInfo
@@ -6592,11 +11036,39 @@ func (x *Model_TrainingRun_IterationResult_ArimaResult) GetSeasonalPeriods() []M
 	return nil
 }
 
+func (x *Model_TrainingRun_IterationResult_ArimaResult) SetArimaModelInfo(v []*Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo) {
+	x.ArimaModelInfo = v
+}
+
+func (x *Model_TrainingRun_IterationResult_ArimaResult) SetSeasonalPeriods(v []Model_SeasonalPeriod_SeasonalPeriodType) {
+	x.SeasonalPeriods = v
+}
+
+type Model_TrainingRun_IterationResult_ArimaResult_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// This message is repeated because there are multiple arima models
+	// fitted in auto-arima. For non-auto-arima model, its size is one.
+	ArimaModelInfo []*Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo
+	// Seasonal periods. Repeated because multiple periods are supported for
+	// one time series.
+	SeasonalPeriods []Model_SeasonalPeriod_SeasonalPeriodType
+}
+
+func (b0 Model_TrainingRun_IterationResult_ArimaResult_builder) Build() *Model_TrainingRun_IterationResult_ArimaResult {
+	m0 := &Model_TrainingRun_IterationResult_ArimaResult{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ArimaModelInfo = b.ArimaModelInfo
+	x.SeasonalPeriods = b.SeasonalPeriods
+	return m0
+}
+
 // Principal component infos, used only for eigen decomposition based
 // models, e.g., PCA. Ordered by explained_variance in the descending
 // order.
 type Model_TrainingRun_IterationResult_PrincipalComponentInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Id of the principal component.
 	PrincipalComponentId *wrapperspb.Int64Value `protobuf:"bytes,1,opt,name=principal_component_id,json=principalComponentId,proto3" json:"principal_component_id,omitempty"`
 	// Explained variance by this principal component, which is simply the
@@ -6636,11 +11108,6 @@ func (x *Model_TrainingRun_IterationResult_PrincipalComponentInfo) ProtoReflect(
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_TrainingRun_IterationResult_PrincipalComponentInfo.ProtoReflect.Descriptor instead.
-func (*Model_TrainingRun_IterationResult_PrincipalComponentInfo) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 20, 1, 2}
-}
-
 func (x *Model_TrainingRun_IterationResult_PrincipalComponentInfo) GetPrincipalComponentId() *wrapperspb.Int64Value {
 	if x != nil {
 		return x.PrincipalComponentId
@@ -6669,9 +11136,95 @@ func (x *Model_TrainingRun_IterationResult_PrincipalComponentInfo) GetCumulative
 	return nil
 }
 
+func (x *Model_TrainingRun_IterationResult_PrincipalComponentInfo) SetPrincipalComponentId(v *wrapperspb.Int64Value) {
+	x.PrincipalComponentId = v
+}
+
+func (x *Model_TrainingRun_IterationResult_PrincipalComponentInfo) SetExplainedVariance(v *wrapperspb.DoubleValue) {
+	x.ExplainedVariance = v
+}
+
+func (x *Model_TrainingRun_IterationResult_PrincipalComponentInfo) SetExplainedVarianceRatio(v *wrapperspb.DoubleValue) {
+	x.ExplainedVarianceRatio = v
+}
+
+func (x *Model_TrainingRun_IterationResult_PrincipalComponentInfo) SetCumulativeExplainedVarianceRatio(v *wrapperspb.DoubleValue) {
+	x.CumulativeExplainedVarianceRatio = v
+}
+
+func (x *Model_TrainingRun_IterationResult_PrincipalComponentInfo) HasPrincipalComponentId() bool {
+	if x == nil {
+		return false
+	}
+	return x.PrincipalComponentId != nil
+}
+
+func (x *Model_TrainingRun_IterationResult_PrincipalComponentInfo) HasExplainedVariance() bool {
+	if x == nil {
+		return false
+	}
+	return x.ExplainedVariance != nil
+}
+
+func (x *Model_TrainingRun_IterationResult_PrincipalComponentInfo) HasExplainedVarianceRatio() bool {
+	if x == nil {
+		return false
+	}
+	return x.ExplainedVarianceRatio != nil
+}
+
+func (x *Model_TrainingRun_IterationResult_PrincipalComponentInfo) HasCumulativeExplainedVarianceRatio() bool {
+	if x == nil {
+		return false
+	}
+	return x.CumulativeExplainedVarianceRatio != nil
+}
+
+func (x *Model_TrainingRun_IterationResult_PrincipalComponentInfo) ClearPrincipalComponentId() {
+	x.PrincipalComponentId = nil
+}
+
+func (x *Model_TrainingRun_IterationResult_PrincipalComponentInfo) ClearExplainedVariance() {
+	x.ExplainedVariance = nil
+}
+
+func (x *Model_TrainingRun_IterationResult_PrincipalComponentInfo) ClearExplainedVarianceRatio() {
+	x.ExplainedVarianceRatio = nil
+}
+
+func (x *Model_TrainingRun_IterationResult_PrincipalComponentInfo) ClearCumulativeExplainedVarianceRatio() {
+	x.CumulativeExplainedVarianceRatio = nil
+}
+
+type Model_TrainingRun_IterationResult_PrincipalComponentInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Id of the principal component.
+	PrincipalComponentId *wrapperspb.Int64Value
+	// Explained variance by this principal component, which is simply the
+	// eigenvalue.
+	ExplainedVariance *wrapperspb.DoubleValue
+	// Explained_variance over the total explained variance.
+	ExplainedVarianceRatio *wrapperspb.DoubleValue
+	// The explained_variance is pre-ordered in the descending order to
+	// compute the cumulative explained variance ratio.
+	CumulativeExplainedVarianceRatio *wrapperspb.DoubleValue
+}
+
+func (b0 Model_TrainingRun_IterationResult_PrincipalComponentInfo_builder) Build() *Model_TrainingRun_IterationResult_PrincipalComponentInfo {
+	m0 := &Model_TrainingRun_IterationResult_PrincipalComponentInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.PrincipalComponentId = b.PrincipalComponentId
+	x.ExplainedVariance = b.ExplainedVariance
+	x.ExplainedVarianceRatio = b.ExplainedVarianceRatio
+	x.CumulativeExplainedVarianceRatio = b.CumulativeExplainedVarianceRatio
+	return m0
+}
+
 // Arima coefficients.
 type Model_TrainingRun_IterationResult_ArimaResult_ArimaCoefficients struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Auto-regressive coefficients, an array of double.
 	AutoRegressiveCoefficients []float64 `protobuf:"fixed64,1,rep,packed,name=auto_regressive_coefficients,json=autoRegressiveCoefficients,proto3" json:"auto_regressive_coefficients,omitempty"`
 	// Moving-average coefficients, an array of double.
@@ -6707,11 +11260,6 @@ func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaCoefficients) ProtoR
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_TrainingRun_IterationResult_ArimaResult_ArimaCoefficients.ProtoReflect.Descriptor instead.
-func (*Model_TrainingRun_IterationResult_ArimaResult_ArimaCoefficients) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 20, 1, 1, 0}
-}
-
 func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaCoefficients) GetAutoRegressiveCoefficients() []float64 {
 	if x != nil {
 		return x.AutoRegressiveCoefficients
@@ -6733,9 +11281,53 @@ func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaCoefficients) GetInt
 	return nil
 }
 
+func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaCoefficients) SetAutoRegressiveCoefficients(v []float64) {
+	x.AutoRegressiveCoefficients = v
+}
+
+func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaCoefficients) SetMovingAverageCoefficients(v []float64) {
+	x.MovingAverageCoefficients = v
+}
+
+func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaCoefficients) SetInterceptCoefficient(v *wrapperspb.DoubleValue) {
+	x.InterceptCoefficient = v
+}
+
+func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaCoefficients) HasInterceptCoefficient() bool {
+	if x == nil {
+		return false
+	}
+	return x.InterceptCoefficient != nil
+}
+
+func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaCoefficients) ClearInterceptCoefficient() {
+	x.InterceptCoefficient = nil
+}
+
+type Model_TrainingRun_IterationResult_ArimaResult_ArimaCoefficients_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Auto-regressive coefficients, an array of double.
+	AutoRegressiveCoefficients []float64
+	// Moving-average coefficients, an array of double.
+	MovingAverageCoefficients []float64
+	// Intercept coefficient, just a double not an array.
+	InterceptCoefficient *wrapperspb.DoubleValue
+}
+
+func (b0 Model_TrainingRun_IterationResult_ArimaResult_ArimaCoefficients_builder) Build() *Model_TrainingRun_IterationResult_ArimaResult_ArimaCoefficients {
+	m0 := &Model_TrainingRun_IterationResult_ArimaResult_ArimaCoefficients{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.AutoRegressiveCoefficients = b.AutoRegressiveCoefficients
+	x.MovingAverageCoefficients = b.MovingAverageCoefficients
+	x.InterceptCoefficient = b.InterceptCoefficient
+	return m0
+}
+
 // Arima model information.
 type Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Non-seasonal order.
 	NonSeasonalOrder *Model_ArimaOrder `protobuf:"bytes,1,opt,name=non_seasonal_order,json=nonSeasonalOrder,proto3" json:"non_seasonal_order,omitempty"`
 	// Arima coefficients.
@@ -6796,11 +11388,6 @@ func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo) ProtoRefl
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo.ProtoReflect.Descriptor instead.
-func (*Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 20, 1, 1, 1}
 }
 
 func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo) GetNonSeasonalOrder() *Model_ArimaOrder {
@@ -6873,9 +11460,181 @@ func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo) GetHasSte
 	return nil
 }
 
+func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo) SetNonSeasonalOrder(v *Model_ArimaOrder) {
+	x.NonSeasonalOrder = v
+}
+
+func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo) SetArimaCoefficients(v *Model_TrainingRun_IterationResult_ArimaResult_ArimaCoefficients) {
+	x.ArimaCoefficients = v
+}
+
+func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo) SetArimaFittingMetrics(v *Model_ArimaFittingMetrics) {
+	x.ArimaFittingMetrics = v
+}
+
+func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo) SetHasDrift(v *wrapperspb.BoolValue) {
+	x.HasDrift = v
+}
+
+func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo) SetTimeSeriesId(v string) {
+	x.TimeSeriesId = v
+}
+
+func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo) SetTimeSeriesIds(v []string) {
+	x.TimeSeriesIds = v
+}
+
+func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo) SetSeasonalPeriods(v []Model_SeasonalPeriod_SeasonalPeriodType) {
+	x.SeasonalPeriods = v
+}
+
+func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo) SetHasHolidayEffect(v *wrapperspb.BoolValue) {
+	x.HasHolidayEffect = v
+}
+
+func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo) SetHasSpikesAndDips(v *wrapperspb.BoolValue) {
+	x.HasSpikesAndDips = v
+}
+
+func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo) SetHasStepChanges(v *wrapperspb.BoolValue) {
+	x.HasStepChanges = v
+}
+
+func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo) HasNonSeasonalOrder() bool {
+	if x == nil {
+		return false
+	}
+	return x.NonSeasonalOrder != nil
+}
+
+func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo) HasArimaCoefficients() bool {
+	if x == nil {
+		return false
+	}
+	return x.ArimaCoefficients != nil
+}
+
+func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo) HasArimaFittingMetrics() bool {
+	if x == nil {
+		return false
+	}
+	return x.ArimaFittingMetrics != nil
+}
+
+func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo) HasHasDrift() bool {
+	if x == nil {
+		return false
+	}
+	return x.HasDrift != nil
+}
+
+func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo) HasHasHolidayEffect() bool {
+	if x == nil {
+		return false
+	}
+	return x.HasHolidayEffect != nil
+}
+
+func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo) HasHasSpikesAndDips() bool {
+	if x == nil {
+		return false
+	}
+	return x.HasSpikesAndDips != nil
+}
+
+func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo) HasHasStepChanges() bool {
+	if x == nil {
+		return false
+	}
+	return x.HasStepChanges != nil
+}
+
+func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo) ClearNonSeasonalOrder() {
+	x.NonSeasonalOrder = nil
+}
+
+func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo) ClearArimaCoefficients() {
+	x.ArimaCoefficients = nil
+}
+
+func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo) ClearArimaFittingMetrics() {
+	x.ArimaFittingMetrics = nil
+}
+
+func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo) ClearHasDrift() {
+	x.HasDrift = nil
+}
+
+func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo) ClearHasHolidayEffect() {
+	x.HasHolidayEffect = nil
+}
+
+func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo) ClearHasSpikesAndDips() {
+	x.HasSpikesAndDips = nil
+}
+
+func (x *Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo) ClearHasStepChanges() {
+	x.HasStepChanges = nil
+}
+
+type Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Non-seasonal order.
+	NonSeasonalOrder *Model_ArimaOrder
+	// Arima coefficients.
+	ArimaCoefficients *Model_TrainingRun_IterationResult_ArimaResult_ArimaCoefficients
+	// Arima fitting metrics.
+	ArimaFittingMetrics *Model_ArimaFittingMetrics
+	// Whether Arima model fitted with drift or not. It is always false
+	// when d is not 1.
+	HasDrift *wrapperspb.BoolValue
+	// The time_series_id value for this time series. It will be one of
+	// the unique values from the time_series_id_column specified during
+	// ARIMA model training. Only present when time_series_id_column
+	// training option was used.
+	TimeSeriesId string
+	// The tuple of time_series_ids identifying this time series. It will
+	// be one of the unique tuples of values present in the
+	// time_series_id_columns specified during ARIMA model training. Only
+	// present when time_series_id_columns training option was used and
+	// the order of values here are same as the order of
+	// time_series_id_columns.
+	TimeSeriesIds []string
+	// Seasonal periods. Repeated because multiple periods are supported
+	// for one time series.
+	SeasonalPeriods []Model_SeasonalPeriod_SeasonalPeriodType
+	// If true, holiday_effect is a part of time series decomposition
+	// result.
+	HasHolidayEffect *wrapperspb.BoolValue
+	// If true, spikes_and_dips is a part of time series decomposition
+	// result.
+	HasSpikesAndDips *wrapperspb.BoolValue
+	// If true, step_changes is a part of time series decomposition
+	// result.
+	HasStepChanges *wrapperspb.BoolValue
+}
+
+func (b0 Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo_builder) Build() *Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo {
+	m0 := &Model_TrainingRun_IterationResult_ArimaResult_ArimaModelInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.NonSeasonalOrder = b.NonSeasonalOrder
+	x.ArimaCoefficients = b.ArimaCoefficients
+	x.ArimaFittingMetrics = b.ArimaFittingMetrics
+	x.HasDrift = b.HasDrift
+	x.TimeSeriesId = b.TimeSeriesId
+	x.TimeSeriesIds = b.TimeSeriesIds
+	x.SeasonalPeriods = b.SeasonalPeriods
+	x.HasHolidayEffect = b.HasHolidayEffect
+	x.HasSpikesAndDips = b.HasSpikesAndDips
+	x.HasStepChanges = b.HasStepChanges
+	return m0
+}
+
 // Range of a double hyperparameter.
 type Model_DoubleHparamSearchSpace_DoubleRange struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Min value of the double parameter.
 	Min *wrapperspb.DoubleValue `protobuf:"bytes,1,opt,name=min,proto3" json:"min,omitempty"`
 	// Max value of the double parameter.
@@ -6909,11 +11668,6 @@ func (x *Model_DoubleHparamSearchSpace_DoubleRange) ProtoReflect() protoreflect.
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_DoubleHparamSearchSpace_DoubleRange.ProtoReflect.Descriptor instead.
-func (*Model_DoubleHparamSearchSpace_DoubleRange) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 21, 0}
-}
-
 func (x *Model_DoubleHparamSearchSpace_DoubleRange) GetMin() *wrapperspb.DoubleValue {
 	if x != nil {
 		return x.Min
@@ -6928,9 +11682,57 @@ func (x *Model_DoubleHparamSearchSpace_DoubleRange) GetMax() *wrapperspb.DoubleV
 	return nil
 }
 
+func (x *Model_DoubleHparamSearchSpace_DoubleRange) SetMin(v *wrapperspb.DoubleValue) {
+	x.Min = v
+}
+
+func (x *Model_DoubleHparamSearchSpace_DoubleRange) SetMax(v *wrapperspb.DoubleValue) {
+	x.Max = v
+}
+
+func (x *Model_DoubleHparamSearchSpace_DoubleRange) HasMin() bool {
+	if x == nil {
+		return false
+	}
+	return x.Min != nil
+}
+
+func (x *Model_DoubleHparamSearchSpace_DoubleRange) HasMax() bool {
+	if x == nil {
+		return false
+	}
+	return x.Max != nil
+}
+
+func (x *Model_DoubleHparamSearchSpace_DoubleRange) ClearMin() {
+	x.Min = nil
+}
+
+func (x *Model_DoubleHparamSearchSpace_DoubleRange) ClearMax() {
+	x.Max = nil
+}
+
+type Model_DoubleHparamSearchSpace_DoubleRange_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Min value of the double parameter.
+	Min *wrapperspb.DoubleValue
+	// Max value of the double parameter.
+	Max *wrapperspb.DoubleValue
+}
+
+func (b0 Model_DoubleHparamSearchSpace_DoubleRange_builder) Build() *Model_DoubleHparamSearchSpace_DoubleRange {
+	m0 := &Model_DoubleHparamSearchSpace_DoubleRange{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Min = b.Min
+	x.Max = b.Max
+	return m0
+}
+
 // Discrete candidates of a double hyperparameter.
 type Model_DoubleHparamSearchSpace_DoubleCandidates struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Candidates for the double parameter in increasing order.
 	Candidates    []*wrapperspb.DoubleValue `protobuf:"bytes,1,rep,name=candidates,proto3" json:"candidates,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -6962,11 +11764,6 @@ func (x *Model_DoubleHparamSearchSpace_DoubleCandidates) ProtoReflect() protoref
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_DoubleHparamSearchSpace_DoubleCandidates.ProtoReflect.Descriptor instead.
-func (*Model_DoubleHparamSearchSpace_DoubleCandidates) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 21, 1}
-}
-
 func (x *Model_DoubleHparamSearchSpace_DoubleCandidates) GetCandidates() []*wrapperspb.DoubleValue {
 	if x != nil {
 		return x.Candidates
@@ -6974,9 +11771,28 @@ func (x *Model_DoubleHparamSearchSpace_DoubleCandidates) GetCandidates() []*wrap
 	return nil
 }
 
+func (x *Model_DoubleHparamSearchSpace_DoubleCandidates) SetCandidates(v []*wrapperspb.DoubleValue) {
+	x.Candidates = v
+}
+
+type Model_DoubleHparamSearchSpace_DoubleCandidates_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Candidates for the double parameter in increasing order.
+	Candidates []*wrapperspb.DoubleValue
+}
+
+func (b0 Model_DoubleHparamSearchSpace_DoubleCandidates_builder) Build() *Model_DoubleHparamSearchSpace_DoubleCandidates {
+	m0 := &Model_DoubleHparamSearchSpace_DoubleCandidates{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Candidates = b.Candidates
+	return m0
+}
+
 // Range of an int hyperparameter.
 type Model_IntHparamSearchSpace_IntRange struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Min value of the int parameter.
 	Min *wrapperspb.Int64Value `protobuf:"bytes,1,opt,name=min,proto3" json:"min,omitempty"`
 	// Max value of the int parameter.
@@ -7010,11 +11826,6 @@ func (x *Model_IntHparamSearchSpace_IntRange) ProtoReflect() protoreflect.Messag
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_IntHparamSearchSpace_IntRange.ProtoReflect.Descriptor instead.
-func (*Model_IntHparamSearchSpace_IntRange) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 22, 0}
-}
-
 func (x *Model_IntHparamSearchSpace_IntRange) GetMin() *wrapperspb.Int64Value {
 	if x != nil {
 		return x.Min
@@ -7029,9 +11840,57 @@ func (x *Model_IntHparamSearchSpace_IntRange) GetMax() *wrapperspb.Int64Value {
 	return nil
 }
 
+func (x *Model_IntHparamSearchSpace_IntRange) SetMin(v *wrapperspb.Int64Value) {
+	x.Min = v
+}
+
+func (x *Model_IntHparamSearchSpace_IntRange) SetMax(v *wrapperspb.Int64Value) {
+	x.Max = v
+}
+
+func (x *Model_IntHparamSearchSpace_IntRange) HasMin() bool {
+	if x == nil {
+		return false
+	}
+	return x.Min != nil
+}
+
+func (x *Model_IntHparamSearchSpace_IntRange) HasMax() bool {
+	if x == nil {
+		return false
+	}
+	return x.Max != nil
+}
+
+func (x *Model_IntHparamSearchSpace_IntRange) ClearMin() {
+	x.Min = nil
+}
+
+func (x *Model_IntHparamSearchSpace_IntRange) ClearMax() {
+	x.Max = nil
+}
+
+type Model_IntHparamSearchSpace_IntRange_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Min value of the int parameter.
+	Min *wrapperspb.Int64Value
+	// Max value of the int parameter.
+	Max *wrapperspb.Int64Value
+}
+
+func (b0 Model_IntHparamSearchSpace_IntRange_builder) Build() *Model_IntHparamSearchSpace_IntRange {
+	m0 := &Model_IntHparamSearchSpace_IntRange{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Min = b.Min
+	x.Max = b.Max
+	return m0
+}
+
 // Discrete candidates of an int hyperparameter.
 type Model_IntHparamSearchSpace_IntCandidates struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Candidates for the int parameter in increasing order.
 	Candidates    []*wrapperspb.Int64Value `protobuf:"bytes,1,rep,name=candidates,proto3" json:"candidates,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -7063,11 +11922,6 @@ func (x *Model_IntHparamSearchSpace_IntCandidates) ProtoReflect() protoreflect.M
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_IntHparamSearchSpace_IntCandidates.ProtoReflect.Descriptor instead.
-func (*Model_IntHparamSearchSpace_IntCandidates) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 22, 1}
-}
-
 func (x *Model_IntHparamSearchSpace_IntCandidates) GetCandidates() []*wrapperspb.Int64Value {
 	if x != nil {
 		return x.Candidates
@@ -7075,9 +11929,28 @@ func (x *Model_IntHparamSearchSpace_IntCandidates) GetCandidates() []*wrapperspb
 	return nil
 }
 
+func (x *Model_IntHparamSearchSpace_IntCandidates) SetCandidates(v []*wrapperspb.Int64Value) {
+	x.Candidates = v
+}
+
+type Model_IntHparamSearchSpace_IntCandidates_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Candidates for the int parameter in increasing order.
+	Candidates []*wrapperspb.Int64Value
+}
+
+func (b0 Model_IntHparamSearchSpace_IntCandidates_builder) Build() *Model_IntHparamSearchSpace_IntCandidates {
+	m0 := &Model_IntHparamSearchSpace_IntCandidates{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Candidates = b.Candidates
+	return m0
+}
+
 // An array of int.
 type Model_IntArrayHparamSearchSpace_IntArray struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Elements in the int array.
 	Elements      []int64 `protobuf:"varint,1,rep,packed,name=elements,proto3" json:"elements,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -7109,16 +11982,30 @@ func (x *Model_IntArrayHparamSearchSpace_IntArray) ProtoReflect() protoreflect.M
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Model_IntArrayHparamSearchSpace_IntArray.ProtoReflect.Descriptor instead.
-func (*Model_IntArrayHparamSearchSpace_IntArray) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_proto_rawDescGZIP(), []int{2, 24, 0}
-}
-
 func (x *Model_IntArrayHparamSearchSpace_IntArray) GetElements() []int64 {
 	if x != nil {
 		return x.Elements
 	}
 	return nil
+}
+
+func (x *Model_IntArrayHparamSearchSpace_IntArray) SetElements(v []int64) {
+	x.Elements = v
+}
+
+type Model_IntArrayHparamSearchSpace_IntArray_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Elements in the int array.
+	Elements []int64
+}
+
+func (b0 Model_IntArrayHparamSearchSpace_IntArray_builder) Build() *Model_IntArrayHparamSearchSpace_IntArray {
+	m0 := &Model_IntArrayHparamSearchSpace_IntArray{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Elements = b.Elements
+	return m0
 }
 
 var File_google_cloud_bigquery_v2_model_proto protoreflect.FileDescriptor
@@ -7831,18 +12718,6 @@ const file_google_cloud_bigquery_v2_model_proto_rawDesc = "" +
 	"\vDeleteModel\x12,.google.cloud.bigquery.v2.DeleteModelRequest\x1a\x16.google.protobuf.Empty\"y\xdaA\x1eproject_id,dataset_id,model_id\x82\xd3\xe4\x93\x02R*P/bigquery/v2/projects/{project_id=*}/datasets/{dataset_id=*}/models/{model_id=*}\x1a\xae\x01\xcaA\x17bigquery.googleapis.com\xd2A\x90\x01https://www.googleapis.com/auth/bigquery,https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-onlyBg\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\n" +
 	"ModelProtoZ;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_model_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_model_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_model_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_model_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_model_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_model_proto_rawDesc), len(file_google_cloud_bigquery_v2_model_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_model_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_model_proto_enumTypes = make([]protoimpl.EnumInfo, 22)
 var file_google_cloud_bigquery_v2_model_proto_msgTypes = make([]protoimpl.MessageInfo, 59)

@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/row_access_policy.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -41,7 +42,7 @@ const (
 
 // Request message for the ListRowAccessPolicies method.
 type ListRowAccessPoliciesRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the row access policies to list.
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. Dataset ID of row access policies to list.
@@ -83,11 +84,6 @@ func (x *ListRowAccessPoliciesRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListRowAccessPoliciesRequest.ProtoReflect.Descriptor instead.
-func (*ListRowAccessPoliciesRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_row_access_policy_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *ListRowAccessPoliciesRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -123,9 +119,58 @@ func (x *ListRowAccessPoliciesRequest) GetPageSize() int32 {
 	return 0
 }
 
+func (x *ListRowAccessPoliciesRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *ListRowAccessPoliciesRequest) SetDatasetId(v string) {
+	x.DatasetId = v
+}
+
+func (x *ListRowAccessPoliciesRequest) SetTableId(v string) {
+	x.TableId = v
+}
+
+func (x *ListRowAccessPoliciesRequest) SetPageToken(v string) {
+	x.PageToken = v
+}
+
+func (x *ListRowAccessPoliciesRequest) SetPageSize(v int32) {
+	x.PageSize = v
+}
+
+type ListRowAccessPoliciesRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the row access policies to list.
+	ProjectId string
+	// Required. Dataset ID of row access policies to list.
+	DatasetId string
+	// Required. Table ID of the table to list row access policies.
+	TableId string
+	// Page token, returned by a previous call, to request the next page of
+	// results.
+	PageToken string
+	// The maximum number of results to return in a single response page. Leverage
+	// the page tokens to iterate through the entire collection.
+	PageSize int32
+}
+
+func (b0 ListRowAccessPoliciesRequest_builder) Build() *ListRowAccessPoliciesRequest {
+	m0 := &ListRowAccessPoliciesRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.DatasetId = b.DatasetId
+	x.TableId = b.TableId
+	x.PageToken = b.PageToken
+	x.PageSize = b.PageSize
+	return m0
+}
+
 // Response message for the ListRowAccessPolicies method.
 type ListRowAccessPoliciesResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Row access policies on the requested table.
 	RowAccessPolicies []*RowAccessPolicy `protobuf:"bytes,1,rep,name=row_access_policies,json=rowAccessPolicies,proto3" json:"row_access_policies,omitempty"`
 	// A token to request the next page of results.
@@ -159,11 +204,6 @@ func (x *ListRowAccessPoliciesResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListRowAccessPoliciesResponse.ProtoReflect.Descriptor instead.
-func (*ListRowAccessPoliciesResponse) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_row_access_policy_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *ListRowAccessPoliciesResponse) GetRowAccessPolicies() []*RowAccessPolicy {
 	if x != nil {
 		return x.RowAccessPolicies
@@ -178,9 +218,35 @@ func (x *ListRowAccessPoliciesResponse) GetNextPageToken() string {
 	return ""
 }
 
+func (x *ListRowAccessPoliciesResponse) SetRowAccessPolicies(v []*RowAccessPolicy) {
+	x.RowAccessPolicies = v
+}
+
+func (x *ListRowAccessPoliciesResponse) SetNextPageToken(v string) {
+	x.NextPageToken = v
+}
+
+type ListRowAccessPoliciesResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Row access policies on the requested table.
+	RowAccessPolicies []*RowAccessPolicy
+	// A token to request the next page of results.
+	NextPageToken string
+}
+
+func (b0 ListRowAccessPoliciesResponse_builder) Build() *ListRowAccessPoliciesResponse {
+	m0 := &ListRowAccessPoliciesResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.RowAccessPolicies = b.RowAccessPolicies
+	x.NextPageToken = b.NextPageToken
+	return m0
+}
+
 // Request message for the GetRowAccessPolicy method.
 type GetRowAccessPolicyRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the table to get the row access policy.
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. Dataset ID of the table to get the row access policy.
@@ -218,11 +284,6 @@ func (x *GetRowAccessPolicyRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetRowAccessPolicyRequest.ProtoReflect.Descriptor instead.
-func (*GetRowAccessPolicyRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_row_access_policy_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *GetRowAccessPolicyRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -251,9 +312,49 @@ func (x *GetRowAccessPolicyRequest) GetPolicyId() string {
 	return ""
 }
 
+func (x *GetRowAccessPolicyRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *GetRowAccessPolicyRequest) SetDatasetId(v string) {
+	x.DatasetId = v
+}
+
+func (x *GetRowAccessPolicyRequest) SetTableId(v string) {
+	x.TableId = v
+}
+
+func (x *GetRowAccessPolicyRequest) SetPolicyId(v string) {
+	x.PolicyId = v
+}
+
+type GetRowAccessPolicyRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the table to get the row access policy.
+	ProjectId string
+	// Required. Dataset ID of the table to get the row access policy.
+	DatasetId string
+	// Required. Table ID of the table to get the row access policy.
+	TableId string
+	// Required. Policy ID of the row access policy.
+	PolicyId string
+}
+
+func (b0 GetRowAccessPolicyRequest_builder) Build() *GetRowAccessPolicyRequest {
+	m0 := &GetRowAccessPolicyRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.DatasetId = b.DatasetId
+	x.TableId = b.TableId
+	x.PolicyId = b.PolicyId
+	return m0
+}
+
 // Request message for the CreateRowAccessPolicy method.
 type CreateRowAccessPolicyRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the table to get the row access policy.
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. Dataset ID of the table to get the row access policy.
@@ -291,11 +392,6 @@ func (x *CreateRowAccessPolicyRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreateRowAccessPolicyRequest.ProtoReflect.Descriptor instead.
-func (*CreateRowAccessPolicyRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_row_access_policy_proto_rawDescGZIP(), []int{3}
-}
-
 func (x *CreateRowAccessPolicyRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -324,9 +420,60 @@ func (x *CreateRowAccessPolicyRequest) GetRowAccessPolicy() *RowAccessPolicy {
 	return nil
 }
 
+func (x *CreateRowAccessPolicyRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *CreateRowAccessPolicyRequest) SetDatasetId(v string) {
+	x.DatasetId = v
+}
+
+func (x *CreateRowAccessPolicyRequest) SetTableId(v string) {
+	x.TableId = v
+}
+
+func (x *CreateRowAccessPolicyRequest) SetRowAccessPolicy(v *RowAccessPolicy) {
+	x.RowAccessPolicy = v
+}
+
+func (x *CreateRowAccessPolicyRequest) HasRowAccessPolicy() bool {
+	if x == nil {
+		return false
+	}
+	return x.RowAccessPolicy != nil
+}
+
+func (x *CreateRowAccessPolicyRequest) ClearRowAccessPolicy() {
+	x.RowAccessPolicy = nil
+}
+
+type CreateRowAccessPolicyRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the table to get the row access policy.
+	ProjectId string
+	// Required. Dataset ID of the table to get the row access policy.
+	DatasetId string
+	// Required. Table ID of the table to get the row access policy.
+	TableId string
+	// Required. The row access policy to create.
+	RowAccessPolicy *RowAccessPolicy
+}
+
+func (b0 CreateRowAccessPolicyRequest_builder) Build() *CreateRowAccessPolicyRequest {
+	m0 := &CreateRowAccessPolicyRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.DatasetId = b.DatasetId
+	x.TableId = b.TableId
+	x.RowAccessPolicy = b.RowAccessPolicy
+	return m0
+}
+
 // Request message for the UpdateRowAccessPolicy method.
 type UpdateRowAccessPolicyRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the table to get the row access policy.
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. Dataset ID of the table to get the row access policy.
@@ -366,11 +513,6 @@ func (x *UpdateRowAccessPolicyRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateRowAccessPolicyRequest.ProtoReflect.Descriptor instead.
-func (*UpdateRowAccessPolicyRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_row_access_policy_proto_rawDescGZIP(), []int{4}
-}
-
 func (x *UpdateRowAccessPolicyRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -406,9 +548,67 @@ func (x *UpdateRowAccessPolicyRequest) GetRowAccessPolicy() *RowAccessPolicy {
 	return nil
 }
 
+func (x *UpdateRowAccessPolicyRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *UpdateRowAccessPolicyRequest) SetDatasetId(v string) {
+	x.DatasetId = v
+}
+
+func (x *UpdateRowAccessPolicyRequest) SetTableId(v string) {
+	x.TableId = v
+}
+
+func (x *UpdateRowAccessPolicyRequest) SetPolicyId(v string) {
+	x.PolicyId = v
+}
+
+func (x *UpdateRowAccessPolicyRequest) SetRowAccessPolicy(v *RowAccessPolicy) {
+	x.RowAccessPolicy = v
+}
+
+func (x *UpdateRowAccessPolicyRequest) HasRowAccessPolicy() bool {
+	if x == nil {
+		return false
+	}
+	return x.RowAccessPolicy != nil
+}
+
+func (x *UpdateRowAccessPolicyRequest) ClearRowAccessPolicy() {
+	x.RowAccessPolicy = nil
+}
+
+type UpdateRowAccessPolicyRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the table to get the row access policy.
+	ProjectId string
+	// Required. Dataset ID of the table to get the row access policy.
+	DatasetId string
+	// Required. Table ID of the table to get the row access policy.
+	TableId string
+	// Required. Policy ID of the row access policy.
+	PolicyId string
+	// Required. The row access policy to update.
+	RowAccessPolicy *RowAccessPolicy
+}
+
+func (b0 UpdateRowAccessPolicyRequest_builder) Build() *UpdateRowAccessPolicyRequest {
+	m0 := &UpdateRowAccessPolicyRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.DatasetId = b.DatasetId
+	x.TableId = b.TableId
+	x.PolicyId = b.PolicyId
+	x.RowAccessPolicy = b.RowAccessPolicy
+	return m0
+}
+
 // Request message for the DeleteRowAccessPolicy method.
 type DeleteRowAccessPolicyRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the table to delete the row access policy.
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. Dataset ID of the table to delete the row access policy.
@@ -450,11 +650,6 @@ func (x *DeleteRowAccessPolicyRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteRowAccessPolicyRequest.ProtoReflect.Descriptor instead.
-func (*DeleteRowAccessPolicyRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_row_access_policy_proto_rawDescGZIP(), []int{5}
-}
-
 func (x *DeleteRowAccessPolicyRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -490,9 +685,69 @@ func (x *DeleteRowAccessPolicyRequest) GetForce() bool {
 	return false
 }
 
+func (x *DeleteRowAccessPolicyRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *DeleteRowAccessPolicyRequest) SetDatasetId(v string) {
+	x.DatasetId = v
+}
+
+func (x *DeleteRowAccessPolicyRequest) SetTableId(v string) {
+	x.TableId = v
+}
+
+func (x *DeleteRowAccessPolicyRequest) SetPolicyId(v string) {
+	x.PolicyId = v
+}
+
+func (x *DeleteRowAccessPolicyRequest) SetForce(v bool) {
+	x.Force = &v
+}
+
+func (x *DeleteRowAccessPolicyRequest) HasForce() bool {
+	if x == nil {
+		return false
+	}
+	return x.Force != nil
+}
+
+func (x *DeleteRowAccessPolicyRequest) ClearForce() {
+	x.Force = nil
+}
+
+type DeleteRowAccessPolicyRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the table to delete the row access policy.
+	ProjectId string
+	// Required. Dataset ID of the table to delete the row access policy.
+	DatasetId string
+	// Required. Table ID of the table to delete the row access policy.
+	TableId string
+	// Required. Policy ID of the row access policy.
+	PolicyId string
+	// If set to true, it deletes the row access policy even if it's the last row
+	// access policy on the table and the deletion will widen the access rather
+	// narrowing it.
+	Force *bool
+}
+
+func (b0 DeleteRowAccessPolicyRequest_builder) Build() *DeleteRowAccessPolicyRequest {
+	m0 := &DeleteRowAccessPolicyRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.DatasetId = b.DatasetId
+	x.TableId = b.TableId
+	x.PolicyId = b.PolicyId
+	x.Force = b.Force
+	return m0
+}
+
 // Request message for the BatchDeleteRowAccessPoliciesRequest method.
 type BatchDeleteRowAccessPoliciesRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the table to delete the row access policies.
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. Dataset ID of the table to delete the row access policies.
@@ -534,11 +789,6 @@ func (x *BatchDeleteRowAccessPoliciesRequest) ProtoReflect() protoreflect.Messag
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use BatchDeleteRowAccessPoliciesRequest.ProtoReflect.Descriptor instead.
-func (*BatchDeleteRowAccessPoliciesRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_row_access_policy_proto_rawDescGZIP(), []int{6}
-}
-
 func (x *BatchDeleteRowAccessPoliciesRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -574,11 +824,71 @@ func (x *BatchDeleteRowAccessPoliciesRequest) GetForce() bool {
 	return false
 }
 
+func (x *BatchDeleteRowAccessPoliciesRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *BatchDeleteRowAccessPoliciesRequest) SetDatasetId(v string) {
+	x.DatasetId = v
+}
+
+func (x *BatchDeleteRowAccessPoliciesRequest) SetTableId(v string) {
+	x.TableId = v
+}
+
+func (x *BatchDeleteRowAccessPoliciesRequest) SetPolicyIds(v []string) {
+	x.PolicyIds = v
+}
+
+func (x *BatchDeleteRowAccessPoliciesRequest) SetForce(v bool) {
+	x.Force = &v
+}
+
+func (x *BatchDeleteRowAccessPoliciesRequest) HasForce() bool {
+	if x == nil {
+		return false
+	}
+	return x.Force != nil
+}
+
+func (x *BatchDeleteRowAccessPoliciesRequest) ClearForce() {
+	x.Force = nil
+}
+
+type BatchDeleteRowAccessPoliciesRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the table to delete the row access policies.
+	ProjectId string
+	// Required. Dataset ID of the table to delete the row access policies.
+	DatasetId string
+	// Required. Table ID of the table to delete the row access policies.
+	TableId string
+	// Required. Policy IDs of the row access policies.
+	PolicyIds []string
+	// If set to true, it deletes the row access policy even if it's the last row
+	// access policy on the table and the deletion will widen the access rather
+	// narrowing it.
+	Force *bool
+}
+
+func (b0 BatchDeleteRowAccessPoliciesRequest_builder) Build() *BatchDeleteRowAccessPoliciesRequest {
+	m0 := &BatchDeleteRowAccessPoliciesRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.DatasetId = b.DatasetId
+	x.TableId = b.TableId
+	x.PolicyIds = b.PolicyIds
+	x.Force = b.Force
+	return m0
+}
+
 // Represents access on a subset of rows on the specified table, defined by its
 // filter predicate. Access to the subset of rows is controlled by its IAM
 // policy.
 type RowAccessPolicy struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. A hash of this resource.
 	Etag string `protobuf:"bytes,1,opt,name=etag,proto3" json:"etag,omitempty"`
 	// Required. Reference describing the ID of this row access policy.
@@ -655,11 +965,6 @@ func (x *RowAccessPolicy) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RowAccessPolicy.ProtoReflect.Descriptor instead.
-func (*RowAccessPolicy) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_row_access_policy_proto_rawDescGZIP(), []int{7}
-}
-
 func (x *RowAccessPolicy) GetEtag() string {
 	if x != nil {
 		return x.Etag
@@ -700,6 +1005,128 @@ func (x *RowAccessPolicy) GetGrantees() []string {
 		return x.Grantees
 	}
 	return nil
+}
+
+func (x *RowAccessPolicy) SetEtag(v string) {
+	x.Etag = v
+}
+
+func (x *RowAccessPolicy) SetRowAccessPolicyReference(v *RowAccessPolicyReference) {
+	x.RowAccessPolicyReference = v
+}
+
+func (x *RowAccessPolicy) SetFilterPredicate(v string) {
+	x.FilterPredicate = v
+}
+
+func (x *RowAccessPolicy) SetCreationTime(v *timestamppb.Timestamp) {
+	x.CreationTime = v
+}
+
+func (x *RowAccessPolicy) SetLastModifiedTime(v *timestamppb.Timestamp) {
+	x.LastModifiedTime = v
+}
+
+func (x *RowAccessPolicy) SetGrantees(v []string) {
+	x.Grantees = v
+}
+
+func (x *RowAccessPolicy) HasRowAccessPolicyReference() bool {
+	if x == nil {
+		return false
+	}
+	return x.RowAccessPolicyReference != nil
+}
+
+func (x *RowAccessPolicy) HasCreationTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.CreationTime != nil
+}
+
+func (x *RowAccessPolicy) HasLastModifiedTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastModifiedTime != nil
+}
+
+func (x *RowAccessPolicy) ClearRowAccessPolicyReference() {
+	x.RowAccessPolicyReference = nil
+}
+
+func (x *RowAccessPolicy) ClearCreationTime() {
+	x.CreationTime = nil
+}
+
+func (x *RowAccessPolicy) ClearLastModifiedTime() {
+	x.LastModifiedTime = nil
+}
+
+type RowAccessPolicy_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. A hash of this resource.
+	Etag string
+	// Required. Reference describing the ID of this row access policy.
+	RowAccessPolicyReference *RowAccessPolicyReference
+	// Required. A SQL boolean expression that represents the rows defined by this
+	// row access policy, similar to the boolean expression in a WHERE clause of a
+	// SELECT query on a table.
+	// References to other tables, routines, and temporary functions are not
+	// supported.
+	//
+	// Examples: region="EU"
+	//
+	//	date_field = CAST('2019-9-27' as DATE)
+	//	nullable_field is not NULL
+	//	numeric_field BETWEEN 1.0 AND 5.0
+	FilterPredicate string
+	// Output only. The time when this row access policy was created, in
+	// milliseconds since the epoch.
+	CreationTime *timestamppb.Timestamp
+	// Output only. The time when this row access policy was last modified, in
+	// milliseconds since the epoch.
+	LastModifiedTime *timestamppb.Timestamp
+	// Optional. Input only. The optional list of iam_member users or groups that
+	// specifies the initial members that the row-level access policy should be
+	// created with.
+	//
+	// grantees types:
+	//
+	// - "user:alice@example.com": An email address that represents a specific
+	// Google account.
+	// - "serviceAccount:my-other-app@appspot.gserviceaccount.com": An email
+	// address that represents a service account.
+	// - "group:admins@example.com": An email address that represents a Google
+	// group.
+	// - "domain:example.com":The Google Workspace domain (primary) that
+	// represents all the users of that domain.
+	// - "allAuthenticatedUsers": A special identifier that represents all service
+	// accounts and all users on the internet who have authenticated with a Google
+	// Account. This identifier includes accounts that aren't connected to a
+	// Google Workspace or Cloud Identity domain, such as personal Gmail accounts.
+	// Users who aren't authenticated, such as anonymous visitors, aren't
+	// included.
+	// - "allUsers":A special identifier that represents anyone who is on
+	// the internet, including authenticated and unauthenticated users. Because
+	// BigQuery requires authentication before a user can access the service,
+	// allUsers includes only authenticated users.
+	Grantees []string
+}
+
+func (b0 RowAccessPolicy_builder) Build() *RowAccessPolicy {
+	m0 := &RowAccessPolicy{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Etag = b.Etag
+	x.RowAccessPolicyReference = b.RowAccessPolicyReference
+	x.FilterPredicate = b.FilterPredicate
+	x.CreationTime = b.CreationTime
+	x.LastModifiedTime = b.LastModifiedTime
+	x.Grantees = b.Grantees
+	return m0
 }
 
 var File_google_cloud_bigquery_v2_row_access_policy_proto protoreflect.FileDescriptor
@@ -775,18 +1202,6 @@ const file_google_cloud_bigquery_v2_row_access_policy_proto_rawDesc = "" +
 	"\x15DeleteRowAccessPolicy\x126.google.cloud.bigquery.v2.DeleteRowAccessPolicyRequest\x1a\x16.google.protobuf.Empty\"x\x82\xd3\xe4\x93\x02r*p/bigquery/v2/projects/{project_id=*}/datasets/{dataset_id=*}/tables/{table_id=*}/rowAccessPolicies/{policy_id=*}\x12\xf0\x01\n" +
 	"\x1cBatchDeleteRowAccessPolicies\x12=.google.cloud.bigquery.v2.BatchDeleteRowAccessPoliciesRequest\x1a\x16.google.protobuf.Empty\"y\x82\xd3\xe4\x93\x02s:\x01*\"n/bigquery/v2/projects/{project_id=*}/datasets/{dataset_id=*}/tables/{table_id=*}/rowAccessPolicies:batchDelete\x1a\xae\x01\xcaA\x17bigquery.googleapis.com\xd2A\x90\x01https://www.googleapis.com/auth/bigquery,https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-onlyBs\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\x14RowAccessPolicyProtoP\x01Z;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_row_access_policy_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_row_access_policy_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_row_access_policy_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_row_access_policy_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_row_access_policy_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_row_access_policy_proto_rawDesc), len(file_google_cloud_bigquery_v2_row_access_policy_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_row_access_policy_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_row_access_policy_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_google_cloud_bigquery_v2_row_access_policy_proto_goTypes = []any{

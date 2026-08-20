@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/job.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -92,11 +93,6 @@ func (x ListJobsRequest_Projection) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use ListJobsRequest_Projection.Descriptor instead.
-func (ListJobsRequest_Projection) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_proto_rawDescGZIP(), []int{6, 0}
-}
-
 // StateFilter allows filtration by job execution state.
 type ListJobsRequest_StateFilter int32
 
@@ -157,11 +153,6 @@ func (x ListJobsRequest_StateFilter) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use ListJobsRequest_StateFilter.Descriptor instead.
-func (ListJobsRequest_StateFilter) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_proto_rawDescGZIP(), []int{6, 1}
-}
-
 // Job Creation Mode provides different options on job creation.
 type QueryRequest_JobCreationMode int32
 
@@ -212,11 +203,6 @@ func (QueryRequest_JobCreationMode) Type() protoreflect.EnumType {
 
 func (x QueryRequest_JobCreationMode) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use QueryRequest_JobCreationMode.Descriptor instead.
-func (QueryRequest_JobCreationMode) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_proto_rawDescGZIP(), []int{12, 0}
 }
 
 // The format of the query results.
@@ -271,13 +257,8 @@ func (x QueryRequest_QueryResultsFormat) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use QueryRequest_QueryResultsFormat.Descriptor instead.
-func (QueryRequest_QueryResultsFormat) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_proto_rawDescGZIP(), []int{12, 1}
-}
-
 type Job struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. The type of the resource.
 	Kind string `protobuf:"bytes,1,opt,name=kind,proto3" json:"kind,omitempty"`
 	// Output only. A hash of this resource.
@@ -331,11 +312,6 @@ func (x *Job) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Job.ProtoReflect.Descriptor instead.
-func (*Job) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Job) GetKind() string {
@@ -415,9 +391,157 @@ func (x *Job) GetJobCreationReason() *JobCreationReason {
 	return nil
 }
 
+func (x *Job) SetKind(v string) {
+	x.Kind = v
+}
+
+func (x *Job) SetEtag(v string) {
+	x.Etag = v
+}
+
+func (x *Job) SetId(v string) {
+	x.Id = v
+}
+
+func (x *Job) SetSelfLink(v string) {
+	x.SelfLink = v
+}
+
+func (x *Job) SetUserEmail(v string) {
+	x.UserEmail = v
+}
+
+func (x *Job) SetConfiguration(v *JobConfiguration) {
+	x.Configuration = v
+}
+
+func (x *Job) SetJobReference(v *JobReference) {
+	x.JobReference = v
+}
+
+func (x *Job) SetStatistics(v *JobStatistics) {
+	x.Statistics = v
+}
+
+func (x *Job) SetStatus(v *JobStatus) {
+	x.Status = v
+}
+
+func (x *Job) SetPrincipalSubject(v string) {
+	x.PrincipalSubject = v
+}
+
+func (x *Job) SetJobCreationReason(v *JobCreationReason) {
+	x.JobCreationReason = v
+}
+
+func (x *Job) HasConfiguration() bool {
+	if x == nil {
+		return false
+	}
+	return x.Configuration != nil
+}
+
+func (x *Job) HasJobReference() bool {
+	if x == nil {
+		return false
+	}
+	return x.JobReference != nil
+}
+
+func (x *Job) HasStatistics() bool {
+	if x == nil {
+		return false
+	}
+	return x.Statistics != nil
+}
+
+func (x *Job) HasStatus() bool {
+	if x == nil {
+		return false
+	}
+	return x.Status != nil
+}
+
+func (x *Job) HasJobCreationReason() bool {
+	if x == nil {
+		return false
+	}
+	return x.JobCreationReason != nil
+}
+
+func (x *Job) ClearConfiguration() {
+	x.Configuration = nil
+}
+
+func (x *Job) ClearJobReference() {
+	x.JobReference = nil
+}
+
+func (x *Job) ClearStatistics() {
+	x.Statistics = nil
+}
+
+func (x *Job) ClearStatus() {
+	x.Status = nil
+}
+
+func (x *Job) ClearJobCreationReason() {
+	x.JobCreationReason = nil
+}
+
+type Job_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. The type of the resource.
+	Kind string
+	// Output only. A hash of this resource.
+	Etag string
+	// Output only. Opaque ID field of the job.
+	Id string
+	// Output only. A URL that can be used to access the resource again.
+	SelfLink string
+	// Output only. Email address of the user who ran the job.
+	UserEmail string
+	// Required. Describes the job configuration.
+	Configuration *JobConfiguration
+	// Optional. Reference describing the unique-per-user name of the job.
+	JobReference *JobReference
+	// Output only. Information about the job, including starting time and ending
+	// time of the job.
+	Statistics *JobStatistics
+	// Output only. The status of this job. Examine this value when polling an
+	// asynchronous job to see if the job is complete.
+	Status *JobStatus
+	// Output only. [Full-projection-only] String representation of identity of
+	// requesting party. Populated for both first- and third-party identities.
+	// Only present for APIs that support third-party identities.
+	PrincipalSubject string
+	// Output only. The reason why a Job was created.
+	JobCreationReason *JobCreationReason
+}
+
+func (b0 Job_builder) Build() *Job {
+	m0 := &Job{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Kind = b.Kind
+	x.Etag = b.Etag
+	x.Id = b.Id
+	x.SelfLink = b.SelfLink
+	x.UserEmail = b.UserEmail
+	x.Configuration = b.Configuration
+	x.JobReference = b.JobReference
+	x.Statistics = b.Statistics
+	x.Status = b.Status
+	x.PrincipalSubject = b.PrincipalSubject
+	x.JobCreationReason = b.JobCreationReason
+	return m0
+}
+
 // Describes format of a jobs cancellation request.
 type CancelJobRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the job to cancel
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. Job ID of the job to cancel
@@ -461,11 +585,6 @@ func (x *CancelJobRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CancelJobRequest.ProtoReflect.Descriptor instead.
-func (*CancelJobRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *CancelJobRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -487,9 +606,50 @@ func (x *CancelJobRequest) GetLocation() string {
 	return ""
 }
 
+func (x *CancelJobRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *CancelJobRequest) SetJobId(v string) {
+	x.JobId = v
+}
+
+func (x *CancelJobRequest) SetLocation(v string) {
+	x.Location = v
+}
+
+type CancelJobRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the job to cancel
+	ProjectId string
+	// Required. Job ID of the job to cancel
+	JobId string
+	// The geographic location of the job. You must
+	// [specify the
+	// location](https://cloud.google.com/bigquery/docs/locations#specify_locations)
+	// to run the job for the following scenarios:
+	//
+	//   - If the location to run a job is not in the `us` or
+	//     the `eu` multi-regional location
+	//   - If the job's location is in a single region (for example,
+	//     `us-central1`)
+	Location string
+}
+
+func (b0 CancelJobRequest_builder) Build() *CancelJobRequest {
+	m0 := &CancelJobRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.JobId = b.JobId
+	x.Location = b.Location
+	return m0
+}
+
 // Describes format of a jobs cancellation response.
 type JobCancelResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The resource type of the response.
 	Kind string `protobuf:"bytes,1,opt,name=kind,proto3" json:"kind,omitempty"`
 	// The final state of the job.
@@ -523,11 +683,6 @@ func (x *JobCancelResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use JobCancelResponse.ProtoReflect.Descriptor instead.
-func (*JobCancelResponse) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *JobCancelResponse) GetKind() string {
 	if x != nil {
 		return x.Kind
@@ -542,9 +697,46 @@ func (x *JobCancelResponse) GetJob() *Job {
 	return nil
 }
 
+func (x *JobCancelResponse) SetKind(v string) {
+	x.Kind = v
+}
+
+func (x *JobCancelResponse) SetJob(v *Job) {
+	x.Job = v
+}
+
+func (x *JobCancelResponse) HasJob() bool {
+	if x == nil {
+		return false
+	}
+	return x.Job != nil
+}
+
+func (x *JobCancelResponse) ClearJob() {
+	x.Job = nil
+}
+
+type JobCancelResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The resource type of the response.
+	Kind string
+	// The final state of the job.
+	Job *Job
+}
+
+func (b0 JobCancelResponse_builder) Build() *JobCancelResponse {
+	m0 := &JobCancelResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Kind = b.Kind
+	x.Job = b.Job
+	return m0
+}
+
 // Describes format of a jobs get request.
 type GetJobRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the requested job.
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. Job ID of the requested job.
@@ -590,11 +782,6 @@ func (x *GetJobRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetJobRequest.ProtoReflect.Descriptor instead.
-func (*GetJobRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_proto_rawDescGZIP(), []int{3}
-}
-
 func (x *GetJobRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -616,9 +803,52 @@ func (x *GetJobRequest) GetLocation() string {
 	return ""
 }
 
+func (x *GetJobRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *GetJobRequest) SetJobId(v string) {
+	x.JobId = v
+}
+
+func (x *GetJobRequest) SetLocation(v string) {
+	x.Location = v
+}
+
+type GetJobRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the requested job.
+	ProjectId string
+	// Required. Job ID of the requested job.
+	JobId string
+	// The geographic location of the job. You must specify the location to run
+	// the job for the following scenarios:
+	//
+	//   - If the location to run a job is not in the `us` or
+	//     the `eu` multi-regional location
+	//   - If the job's location is in a single region (for example,
+	//     `us-central1`)
+	//
+	// For more information, see how to
+	// [specify
+	// locations](https://cloud.google.com/bigquery/docs/locations#specify_locations).
+	Location string
+}
+
+func (b0 GetJobRequest_builder) Build() *GetJobRequest {
+	m0 := &GetJobRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.JobId = b.JobId
+	x.Location = b.Location
+	return m0
+}
+
 // Describes format of a job insertion request.
 type InsertJobRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Project ID of project that will be billed for the job.
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Jobs resource to insert.
@@ -652,11 +882,6 @@ func (x *InsertJobRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use InsertJobRequest.ProtoReflect.Descriptor instead.
-func (*InsertJobRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_proto_rawDescGZIP(), []int{4}
-}
-
 func (x *InsertJobRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -671,9 +896,46 @@ func (x *InsertJobRequest) GetJob() *Job {
 	return nil
 }
 
+func (x *InsertJobRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *InsertJobRequest) SetJob(v *Job) {
+	x.Job = v
+}
+
+func (x *InsertJobRequest) HasJob() bool {
+	if x == nil {
+		return false
+	}
+	return x.Job != nil
+}
+
+func (x *InsertJobRequest) ClearJob() {
+	x.Job = nil
+}
+
+type InsertJobRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Project ID of project that will be billed for the job.
+	ProjectId string
+	// Jobs resource to insert.
+	Job *Job
+}
+
+func (b0 InsertJobRequest_builder) Build() *InsertJobRequest {
+	m0 := &InsertJobRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.Job = b.Job
+	return m0
+}
+
 // Describes the format of a jobs deletion request.
 type DeleteJobRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the job for which metadata is to be deleted.
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. Job ID of the job for which metadata is to be deleted. If this is
@@ -716,11 +978,6 @@ func (x *DeleteJobRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteJobRequest.ProtoReflect.Descriptor instead.
-func (*DeleteJobRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_proto_rawDescGZIP(), []int{5}
-}
-
 func (x *DeleteJobRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -742,9 +999,49 @@ func (x *DeleteJobRequest) GetLocation() string {
 	return ""
 }
 
+func (x *DeleteJobRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *DeleteJobRequest) SetJobId(v string) {
+	x.JobId = v
+}
+
+func (x *DeleteJobRequest) SetLocation(v string) {
+	x.Location = v
+}
+
+type DeleteJobRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the job for which metadata is to be deleted.
+	ProjectId string
+	// Required. Job ID of the job for which metadata is to be deleted. If this is
+	// a parent job which has child jobs, the metadata from all child jobs will be
+	// deleted as well. Direct deletion of the metadata of child jobs is not
+	// allowed.
+	JobId string
+	// The geographic location of the job. Required.
+	//
+	// For more information, see how to
+	// [specify
+	// locations](https://cloud.google.com/bigquery/docs/locations#specify_locations).
+	Location string
+}
+
+func (b0 DeleteJobRequest_builder) Build() *DeleteJobRequest {
+	m0 := &DeleteJobRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.JobId = b.JobId
+	x.Location = b.Location
+	return m0
+}
+
 // Describes the format of the list jobs request.
 type ListJobsRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Project ID of the jobs to list.
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Whether to display jobs owned by all users in the project. Default False.
@@ -795,11 +1092,6 @@ func (x *ListJobsRequest) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListJobsRequest.ProtoReflect.Descriptor instead.
-func (*ListJobsRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *ListJobsRequest) GetProjectId() string {
@@ -865,10 +1157,112 @@ func (x *ListJobsRequest) GetParentJobId() string {
 	return ""
 }
 
+func (x *ListJobsRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *ListJobsRequest) SetAllUsers(v bool) {
+	x.AllUsers = v
+}
+
+func (x *ListJobsRequest) SetMaxResults(v *wrapperspb.Int32Value) {
+	x.MaxResults = v
+}
+
+func (x *ListJobsRequest) SetMinCreationTime(v uint64) {
+	x.MinCreationTime = v
+}
+
+func (x *ListJobsRequest) SetMaxCreationTime(v *wrapperspb.UInt64Value) {
+	x.MaxCreationTime = v
+}
+
+func (x *ListJobsRequest) SetPageToken(v string) {
+	x.PageToken = v
+}
+
+func (x *ListJobsRequest) SetProjection(v ListJobsRequest_Projection) {
+	x.Projection = v
+}
+
+func (x *ListJobsRequest) SetStateFilter(v []ListJobsRequest_StateFilter) {
+	x.StateFilter = v
+}
+
+func (x *ListJobsRequest) SetParentJobId(v string) {
+	x.ParentJobId = v
+}
+
+func (x *ListJobsRequest) HasMaxResults() bool {
+	if x == nil {
+		return false
+	}
+	return x.MaxResults != nil
+}
+
+func (x *ListJobsRequest) HasMaxCreationTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.MaxCreationTime != nil
+}
+
+func (x *ListJobsRequest) ClearMaxResults() {
+	x.MaxResults = nil
+}
+
+func (x *ListJobsRequest) ClearMaxCreationTime() {
+	x.MaxCreationTime = nil
+}
+
+type ListJobsRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Project ID of the jobs to list.
+	ProjectId string
+	// Whether to display jobs owned by all users in the project. Default False.
+	AllUsers bool
+	// The maximum number of results to return in a single response page.
+	// Leverage the page tokens to iterate through the entire collection.
+	MaxResults *wrapperspb.Int32Value
+	// Min value for job creation time, in milliseconds since the POSIX epoch.
+	// If set, only jobs created after or at this timestamp are returned.
+	MinCreationTime uint64
+	// Max value for job creation time, in milliseconds since the POSIX epoch.
+	// If set, only jobs created before or at this timestamp are returned.
+	MaxCreationTime *wrapperspb.UInt64Value
+	// Page token, returned by a previous call, to request the next page of
+	// results.
+	PageToken string
+	// Restrict information returned to a set of selected fields
+	Projection ListJobsRequest_Projection
+	// Filter for job state
+	StateFilter []ListJobsRequest_StateFilter
+	// If set, show only child jobs of the specified parent.  Otherwise, show all
+	// top-level jobs.
+	ParentJobId string
+}
+
+func (b0 ListJobsRequest_builder) Build() *ListJobsRequest {
+	m0 := &ListJobsRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.AllUsers = b.AllUsers
+	x.MaxResults = b.MaxResults
+	x.MinCreationTime = b.MinCreationTime
+	x.MaxCreationTime = b.MaxCreationTime
+	x.PageToken = b.PageToken
+	x.Projection = b.Projection
+	x.StateFilter = b.StateFilter
+	x.ParentJobId = b.ParentJobId
+	return m0
+}
+
 // ListFormatJob is a partial projection of job information returned as part
 // of a jobs.list response.
 type ListFormatJob struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Unique opaque ID of the job.
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// The resource type.
@@ -920,11 +1314,6 @@ func (x *ListFormatJob) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListFormatJob.ProtoReflect.Descriptor instead.
-func (*ListFormatJob) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ListFormatJob) GetId() string {
@@ -997,9 +1386,150 @@ func (x *ListFormatJob) GetPrincipalSubject() string {
 	return ""
 }
 
+func (x *ListFormatJob) SetId(v string) {
+	x.Id = v
+}
+
+func (x *ListFormatJob) SetKind(v string) {
+	x.Kind = v
+}
+
+func (x *ListFormatJob) SetJobReference(v *JobReference) {
+	x.JobReference = v
+}
+
+func (x *ListFormatJob) SetState(v string) {
+	x.State = v
+}
+
+func (x *ListFormatJob) SetErrorResult(v *ErrorProto) {
+	x.ErrorResult = v
+}
+
+func (x *ListFormatJob) SetStatistics(v *JobStatistics) {
+	x.Statistics = v
+}
+
+func (x *ListFormatJob) SetConfiguration(v *JobConfiguration) {
+	x.Configuration = v
+}
+
+func (x *ListFormatJob) SetStatus(v *JobStatus) {
+	x.Status = v
+}
+
+func (x *ListFormatJob) SetUserEmail(v string) {
+	x.UserEmail = v
+}
+
+func (x *ListFormatJob) SetPrincipalSubject(v string) {
+	x.PrincipalSubject = v
+}
+
+func (x *ListFormatJob) HasJobReference() bool {
+	if x == nil {
+		return false
+	}
+	return x.JobReference != nil
+}
+
+func (x *ListFormatJob) HasErrorResult() bool {
+	if x == nil {
+		return false
+	}
+	return x.ErrorResult != nil
+}
+
+func (x *ListFormatJob) HasStatistics() bool {
+	if x == nil {
+		return false
+	}
+	return x.Statistics != nil
+}
+
+func (x *ListFormatJob) HasConfiguration() bool {
+	if x == nil {
+		return false
+	}
+	return x.Configuration != nil
+}
+
+func (x *ListFormatJob) HasStatus() bool {
+	if x == nil {
+		return false
+	}
+	return x.Status != nil
+}
+
+func (x *ListFormatJob) ClearJobReference() {
+	x.JobReference = nil
+}
+
+func (x *ListFormatJob) ClearErrorResult() {
+	x.ErrorResult = nil
+}
+
+func (x *ListFormatJob) ClearStatistics() {
+	x.Statistics = nil
+}
+
+func (x *ListFormatJob) ClearConfiguration() {
+	x.Configuration = nil
+}
+
+func (x *ListFormatJob) ClearStatus() {
+	x.Status = nil
+}
+
+type ListFormatJob_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Unique opaque ID of the job.
+	Id string
+	// The resource type.
+	Kind string
+	// Unique opaque ID of the job.
+	JobReference *JobReference
+	// Running state of the job. When the state is DONE, errorResult can be
+	// checked to determine whether the job succeeded or failed.
+	State string
+	// A result object that will be present only if the job has failed.
+	ErrorResult *ErrorProto
+	// Output only. Information about the job, including starting time and ending
+	// time of the job.
+	Statistics *JobStatistics
+	// Required. Describes the job configuration.
+	Configuration *JobConfiguration
+	// [Full-projection-only] Describes the status of this job.
+	Status *JobStatus
+	// [Full-projection-only] Email address of the user who ran the job.
+	UserEmail string
+	// [Full-projection-only] String representation of identity of requesting
+	// party. Populated for both first- and third-party identities. Only present
+	// for APIs that support third-party identities.
+	PrincipalSubject string
+}
+
+func (b0 ListFormatJob_builder) Build() *ListFormatJob {
+	m0 := &ListFormatJob{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Id = b.Id
+	x.Kind = b.Kind
+	x.JobReference = b.JobReference
+	x.State = b.State
+	x.ErrorResult = b.ErrorResult
+	x.Statistics = b.Statistics
+	x.Configuration = b.Configuration
+	x.Status = b.Status
+	x.UserEmail = b.UserEmail
+	x.PrincipalSubject = b.PrincipalSubject
+	return m0
+}
+
 // JobList is the response format for a jobs.list call.
 type JobList struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// A hash of this page of results.
 	Etag string `protobuf:"bytes,1,opt,name=etag,proto3" json:"etag,omitempty"`
 	// The resource type of the response.
@@ -1041,11 +1571,6 @@ func (x *JobList) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use JobList.ProtoReflect.Descriptor instead.
-func (*JobList) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_proto_rawDescGZIP(), []int{8}
-}
-
 func (x *JobList) GetEtag() string {
 	if x != nil {
 		return x.Etag
@@ -1081,9 +1606,58 @@ func (x *JobList) GetUnreachable() []string {
 	return nil
 }
 
+func (x *JobList) SetEtag(v string) {
+	x.Etag = v
+}
+
+func (x *JobList) SetKind(v string) {
+	x.Kind = v
+}
+
+func (x *JobList) SetNextPageToken(v string) {
+	x.NextPageToken = v
+}
+
+func (x *JobList) SetJobs(v []*ListFormatJob) {
+	x.Jobs = v
+}
+
+func (x *JobList) SetUnreachable(v []string) {
+	x.Unreachable = v
+}
+
+type JobList_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// A hash of this page of results.
+	Etag string
+	// The resource type of the response.
+	Kind string
+	// A token to request the next page of results.
+	NextPageToken string
+	// List of jobs that were requested.
+	Jobs []*ListFormatJob
+	// A list of skipped locations that were unreachable. For more information
+	// about BigQuery locations, see:
+	// https://cloud.google.com/bigquery/docs/locations. Example: "europe-west5"
+	Unreachable []string
+}
+
+func (b0 JobList_builder) Build() *JobList {
+	m0 := &JobList{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Etag = b.Etag
+	x.Kind = b.Kind
+	x.NextPageToken = b.NextPageToken
+	x.Jobs = b.Jobs
+	x.Unreachable = b.Unreachable
+	return m0
+}
+
 // Request object of GetQueryResults.
 type GetQueryResultsRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the query job.
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. Job ID of the query job.
@@ -1154,11 +1728,6 @@ func (x *GetQueryResultsRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetQueryResultsRequest.ProtoReflect.Descriptor instead.
-func (*GetQueryResultsRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_proto_rawDescGZIP(), []int{9}
-}
-
 func (x *GetQueryResultsRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -1215,9 +1784,146 @@ func (x *GetQueryResultsRequest) GetFormatOptions() *DataFormatOptions {
 	return nil
 }
 
+func (x *GetQueryResultsRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *GetQueryResultsRequest) SetJobId(v string) {
+	x.JobId = v
+}
+
+func (x *GetQueryResultsRequest) SetStartIndex(v *wrapperspb.UInt64Value) {
+	x.StartIndex = v
+}
+
+func (x *GetQueryResultsRequest) SetPageToken(v string) {
+	x.PageToken = v
+}
+
+func (x *GetQueryResultsRequest) SetMaxResults(v *wrapperspb.UInt32Value) {
+	x.MaxResults = v
+}
+
+func (x *GetQueryResultsRequest) SetTimeoutMs(v *wrapperspb.UInt32Value) {
+	x.TimeoutMs = v
+}
+
+func (x *GetQueryResultsRequest) SetLocation(v string) {
+	x.Location = v
+}
+
+func (x *GetQueryResultsRequest) SetFormatOptions(v *DataFormatOptions) {
+	x.FormatOptions = v
+}
+
+func (x *GetQueryResultsRequest) HasStartIndex() bool {
+	if x == nil {
+		return false
+	}
+	return x.StartIndex != nil
+}
+
+func (x *GetQueryResultsRequest) HasMaxResults() bool {
+	if x == nil {
+		return false
+	}
+	return x.MaxResults != nil
+}
+
+func (x *GetQueryResultsRequest) HasTimeoutMs() bool {
+	if x == nil {
+		return false
+	}
+	return x.TimeoutMs != nil
+}
+
+func (x *GetQueryResultsRequest) HasFormatOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.FormatOptions != nil
+}
+
+func (x *GetQueryResultsRequest) ClearStartIndex() {
+	x.StartIndex = nil
+}
+
+func (x *GetQueryResultsRequest) ClearMaxResults() {
+	x.MaxResults = nil
+}
+
+func (x *GetQueryResultsRequest) ClearTimeoutMs() {
+	x.TimeoutMs = nil
+}
+
+func (x *GetQueryResultsRequest) ClearFormatOptions() {
+	x.FormatOptions = nil
+}
+
+type GetQueryResultsRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the query job.
+	ProjectId string
+	// Required. Job ID of the query job.
+	JobId string
+	// Zero-based index of the starting row.
+	StartIndex *wrapperspb.UInt64Value
+	// Page token, returned by a previous call, to request the next page of
+	// results.
+	PageToken string
+	// Maximum number of results to read.
+	MaxResults *wrapperspb.UInt32Value
+	// Optional: Specifies the maximum amount of time, in milliseconds, that the
+	// client is willing to wait for the query to complete. By default, this limit
+	// is 10 seconds (10,000 milliseconds). If the query is complete, the
+	// jobComplete field in the response is true. If the query has not yet
+	// completed, jobComplete is false.
+	//
+	// You can request a longer timeout period in the timeoutMs field.  However,
+	// the call is not guaranteed to wait for the specified timeout; it typically
+	// returns after around 200 seconds (200,000 milliseconds), even if the query
+	// is not complete.
+	//
+	// If jobComplete is false, you can continue to wait for the query to complete
+	// by calling the getQueryResults method until the jobComplete field in the
+	// getQueryResults response is true.
+	TimeoutMs *wrapperspb.UInt32Value
+	// The geographic location of the job. You must specify the location to run
+	// the job for the following scenarios:
+	//
+	//   - If the location to run a job is not in the `us` or
+	//     the `eu` multi-regional location
+	//   - If the job's location is in a single region (for example,
+	//
+	// `us-central1`)
+	//
+	// For more information, see how to
+	// [specify
+	// locations](https://cloud.google.com/bigquery/docs/locations#specify_locations).
+	Location string
+	// Optional. Output format adjustments.
+	FormatOptions *DataFormatOptions
+}
+
+func (b0 GetQueryResultsRequest_builder) Build() *GetQueryResultsRequest {
+	m0 := &GetQueryResultsRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.JobId = b.JobId
+	x.StartIndex = b.StartIndex
+	x.PageToken = b.PageToken
+	x.MaxResults = b.MaxResults
+	x.TimeoutMs = b.TimeoutMs
+	x.Location = b.Location
+	x.FormatOptions = b.FormatOptions
+	return m0
+}
+
 // Response object of GetQueryResults.
 type GetQueryResultsResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The resource type of the response.
 	Kind string `protobuf:"bytes,1,opt,name=kind,proto3" json:"kind,omitempty"`
 	// A hash of this response.
@@ -1291,11 +1997,6 @@ func (x *GetQueryResultsResponse) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetQueryResultsResponse.ProtoReflect.Descriptor instead.
-func (*GetQueryResultsResponse) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *GetQueryResultsResponse) GetKind() string {
@@ -1382,9 +2083,204 @@ func (x *GetQueryResultsResponse) GetNumDmlAffectedRows() *wrapperspb.Int64Value
 	return nil
 }
 
+func (x *GetQueryResultsResponse) SetKind(v string) {
+	x.Kind = v
+}
+
+func (x *GetQueryResultsResponse) SetEtag(v string) {
+	x.Etag = v
+}
+
+func (x *GetQueryResultsResponse) SetSchema(v *TableSchema) {
+	x.Schema = v
+}
+
+func (x *GetQueryResultsResponse) SetJobReference(v *JobReference) {
+	x.JobReference = v
+}
+
+func (x *GetQueryResultsResponse) SetTotalRows(v *wrapperspb.UInt64Value) {
+	x.TotalRows = v
+}
+
+func (x *GetQueryResultsResponse) SetPageToken(v string) {
+	x.PageToken = v
+}
+
+func (x *GetQueryResultsResponse) SetRows(v []*structpb.Struct) {
+	x.Rows = v
+}
+
+func (x *GetQueryResultsResponse) SetTotalBytesProcessed(v *wrapperspb.Int64Value) {
+	x.TotalBytesProcessed = v
+}
+
+func (x *GetQueryResultsResponse) SetJobComplete(v *wrapperspb.BoolValue) {
+	x.JobComplete = v
+}
+
+func (x *GetQueryResultsResponse) SetErrors(v []*ErrorProto) {
+	x.Errors = v
+}
+
+func (x *GetQueryResultsResponse) SetCacheHit(v *wrapperspb.BoolValue) {
+	x.CacheHit = v
+}
+
+func (x *GetQueryResultsResponse) SetNumDmlAffectedRows(v *wrapperspb.Int64Value) {
+	x.NumDmlAffectedRows = v
+}
+
+func (x *GetQueryResultsResponse) HasSchema() bool {
+	if x == nil {
+		return false
+	}
+	return x.Schema != nil
+}
+
+func (x *GetQueryResultsResponse) HasJobReference() bool {
+	if x == nil {
+		return false
+	}
+	return x.JobReference != nil
+}
+
+func (x *GetQueryResultsResponse) HasTotalRows() bool {
+	if x == nil {
+		return false
+	}
+	return x.TotalRows != nil
+}
+
+func (x *GetQueryResultsResponse) HasTotalBytesProcessed() bool {
+	if x == nil {
+		return false
+	}
+	return x.TotalBytesProcessed != nil
+}
+
+func (x *GetQueryResultsResponse) HasJobComplete() bool {
+	if x == nil {
+		return false
+	}
+	return x.JobComplete != nil
+}
+
+func (x *GetQueryResultsResponse) HasCacheHit() bool {
+	if x == nil {
+		return false
+	}
+	return x.CacheHit != nil
+}
+
+func (x *GetQueryResultsResponse) HasNumDmlAffectedRows() bool {
+	if x == nil {
+		return false
+	}
+	return x.NumDmlAffectedRows != nil
+}
+
+func (x *GetQueryResultsResponse) ClearSchema() {
+	x.Schema = nil
+}
+
+func (x *GetQueryResultsResponse) ClearJobReference() {
+	x.JobReference = nil
+}
+
+func (x *GetQueryResultsResponse) ClearTotalRows() {
+	x.TotalRows = nil
+}
+
+func (x *GetQueryResultsResponse) ClearTotalBytesProcessed() {
+	x.TotalBytesProcessed = nil
+}
+
+func (x *GetQueryResultsResponse) ClearJobComplete() {
+	x.JobComplete = nil
+}
+
+func (x *GetQueryResultsResponse) ClearCacheHit() {
+	x.CacheHit = nil
+}
+
+func (x *GetQueryResultsResponse) ClearNumDmlAffectedRows() {
+	x.NumDmlAffectedRows = nil
+}
+
+type GetQueryResultsResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The resource type of the response.
+	Kind string
+	// A hash of this response.
+	Etag string
+	// The schema of the results. Present only when the query completes
+	// successfully.
+	Schema *TableSchema
+	// Reference to the BigQuery Job that was created to run the query. This field
+	// will be present even if the original request timed out, in which case
+	// GetQueryResults can be used to read the results once the query has
+	// completed. Since this API only returns the first page of results,
+	// subsequent pages can be fetched via the same mechanism (GetQueryResults).
+	JobReference *JobReference
+	// The total number of rows in the complete query result set, which can be
+	// more than the number of rows in this single page of results. Present only
+	// when the query completes successfully.
+	TotalRows *wrapperspb.UInt64Value
+	// A token used for paging results.  When this token is non-empty, it
+	// indicates additional results are available.
+	PageToken string
+	// An object with as many results as can be contained within the maximum
+	// permitted reply size. To get any additional rows, you can call
+	// GetQueryResults and specify the jobReference returned above. Present only
+	// when the query completes successfully.
+	//
+	// The REST-based representation of this data leverages a series of
+	// JSON f,v objects for indicating fields and values.
+	Rows []*structpb.Struct
+	// The total number of bytes processed for this query.
+	TotalBytesProcessed *wrapperspb.Int64Value
+	// Whether the query has completed or not. If rows or totalRows are present,
+	// this will always be true. If this is false, totalRows will not be
+	// available.
+	JobComplete *wrapperspb.BoolValue
+	// Output only. The first errors or warnings encountered during the running
+	// of the job. The final message includes the number of errors that caused the
+	// process to stop. Errors here do not necessarily mean that the job has
+	// completed or was unsuccessful. For more information about error messages,
+	// see [Error
+	// messages](https://cloud.google.com/bigquery/docs/error-messages).
+	Errors []*ErrorProto
+	// Whether the query result was fetched from the query cache.
+	CacheHit *wrapperspb.BoolValue
+	// Output only. The number of rows affected by a DML statement. Present only
+	// for DML statements INSERT, UPDATE or DELETE.
+	NumDmlAffectedRows *wrapperspb.Int64Value
+}
+
+func (b0 GetQueryResultsResponse_builder) Build() *GetQueryResultsResponse {
+	m0 := &GetQueryResultsResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Kind = b.Kind
+	x.Etag = b.Etag
+	x.Schema = b.Schema
+	x.JobReference = b.JobReference
+	x.TotalRows = b.TotalRows
+	x.PageToken = b.PageToken
+	x.Rows = b.Rows
+	x.TotalBytesProcessed = b.TotalBytesProcessed
+	x.JobComplete = b.JobComplete
+	x.Errors = b.Errors
+	x.CacheHit = b.CacheHit
+	x.NumDmlAffectedRows = b.NumDmlAffectedRows
+	return m0
+}
+
 // Request format for the query request.
 type PostQueryRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the query request.
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// The query request body.
@@ -1418,11 +2314,6 @@ func (x *PostQueryRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PostQueryRequest.ProtoReflect.Descriptor instead.
-func (*PostQueryRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_proto_rawDescGZIP(), []int{11}
-}
-
 func (x *PostQueryRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -1437,9 +2328,46 @@ func (x *PostQueryRequest) GetQueryRequest() *QueryRequest {
 	return nil
 }
 
+func (x *PostQueryRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *PostQueryRequest) SetQueryRequest(v *QueryRequest) {
+	x.QueryRequest = v
+}
+
+func (x *PostQueryRequest) HasQueryRequest() bool {
+	if x == nil {
+		return false
+	}
+	return x.QueryRequest != nil
+}
+
+func (x *PostQueryRequest) ClearQueryRequest() {
+	x.QueryRequest = nil
+}
+
+type PostQueryRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the query request.
+	ProjectId string
+	// The query request body.
+	QueryRequest *QueryRequest
+}
+
+func (b0 PostQueryRequest_builder) Build() *PostQueryRequest {
+	m0 := &PostQueryRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.QueryRequest = b.QueryRequest
+	return m0
+}
+
 // Describes the format of the jobs.query request.
 type QueryRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The resource type of the request.
 	Kind string `protobuf:"bytes,2,opt,name=kind,proto3" json:"kind,omitempty"`
 	// Required. A query string to execute, using Google Standard SQL or legacy
@@ -1634,11 +2562,6 @@ func (x *QueryRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use QueryRequest.ProtoReflect.Descriptor instead.
-func (*QueryRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_proto_rawDescGZIP(), []int{12}
-}
-
 func (x *QueryRequest) GetKind() string {
 	if x != nil {
 		return x.Kind
@@ -1823,6 +2746,496 @@ func (x *QueryRequest) GetArrowSerializationOptions() *ArrowSerializationOptions
 	return nil
 }
 
+func (x *QueryRequest) SetKind(v string) {
+	x.Kind = v
+}
+
+func (x *QueryRequest) SetQuery(v string) {
+	x.Query = v
+}
+
+func (x *QueryRequest) SetMaxResults(v *wrapperspb.UInt32Value) {
+	x.MaxResults = v
+}
+
+func (x *QueryRequest) SetDefaultDataset(v *DatasetReference) {
+	x.DefaultDataset = v
+}
+
+func (x *QueryRequest) SetTimeoutMs(v *wrapperspb.UInt32Value) {
+	x.TimeoutMs = v
+}
+
+func (x *QueryRequest) SetJobTimeoutMs(v int64) {
+	x.JobTimeoutMs = &v
+}
+
+func (x *QueryRequest) SetMaxSlots(v int32) {
+	x.MaxSlots = &v
+}
+
+func (x *QueryRequest) SetDestinationEncryptionConfiguration(v *EncryptionConfiguration) {
+	x.DestinationEncryptionConfiguration = v
+}
+
+func (x *QueryRequest) SetDryRun(v bool) {
+	x.DryRun = v
+}
+
+func (x *QueryRequest) SetUseQueryCache(v *wrapperspb.BoolValue) {
+	x.UseQueryCache = v
+}
+
+func (x *QueryRequest) SetUseLegacySql(v *wrapperspb.BoolValue) {
+	x.UseLegacySql = v
+}
+
+func (x *QueryRequest) SetParameterMode(v string) {
+	x.ParameterMode = v
+}
+
+func (x *QueryRequest) SetQueryParameters(v []*QueryParameter) {
+	x.QueryParameters = v
+}
+
+func (x *QueryRequest) SetLocation(v string) {
+	x.Location = v
+}
+
+func (x *QueryRequest) SetFormatOptions(v *DataFormatOptions) {
+	x.FormatOptions = v
+}
+
+func (x *QueryRequest) SetConnectionProperties(v []*ConnectionProperty) {
+	x.ConnectionProperties = v
+}
+
+func (x *QueryRequest) SetLabels(v map[string]string) {
+	x.Labels = v
+}
+
+func (x *QueryRequest) SetMaximumBytesBilled(v *wrapperspb.Int64Value) {
+	x.MaximumBytesBilled = v
+}
+
+func (x *QueryRequest) SetRequestId(v string) {
+	x.RequestId = v
+}
+
+func (x *QueryRequest) SetCreateSession(v *wrapperspb.BoolValue) {
+	x.CreateSession = v
+}
+
+func (x *QueryRequest) SetJobCreationMode(v QueryRequest_JobCreationMode) {
+	x.JobCreationMode = v
+}
+
+func (x *QueryRequest) SetReservation(v string) {
+	x.Reservation = &v
+}
+
+func (x *QueryRequest) SetWriteIncrementalResults(v bool) {
+	x.WriteIncrementalResults = v
+}
+
+func (x *QueryRequest) SetQueryResultsFormat(v QueryRequest_QueryResultsFormat) {
+	x.QueryResultsFormat = v
+}
+
+func (x *QueryRequest) SetArrowSerializationOptions(v *ArrowSerializationOptions) {
+	if v == nil {
+		x.ResultsFormatSerializationOptions = nil
+		return
+	}
+	x.ResultsFormatSerializationOptions = &QueryRequest_ArrowSerializationOptions{v}
+}
+
+func (x *QueryRequest) HasMaxResults() bool {
+	if x == nil {
+		return false
+	}
+	return x.MaxResults != nil
+}
+
+func (x *QueryRequest) HasDefaultDataset() bool {
+	if x == nil {
+		return false
+	}
+	return x.DefaultDataset != nil
+}
+
+func (x *QueryRequest) HasTimeoutMs() bool {
+	if x == nil {
+		return false
+	}
+	return x.TimeoutMs != nil
+}
+
+func (x *QueryRequest) HasJobTimeoutMs() bool {
+	if x == nil {
+		return false
+	}
+	return x.JobTimeoutMs != nil
+}
+
+func (x *QueryRequest) HasMaxSlots() bool {
+	if x == nil {
+		return false
+	}
+	return x.MaxSlots != nil
+}
+
+func (x *QueryRequest) HasDestinationEncryptionConfiguration() bool {
+	if x == nil {
+		return false
+	}
+	return x.DestinationEncryptionConfiguration != nil
+}
+
+func (x *QueryRequest) HasUseQueryCache() bool {
+	if x == nil {
+		return false
+	}
+	return x.UseQueryCache != nil
+}
+
+func (x *QueryRequest) HasUseLegacySql() bool {
+	if x == nil {
+		return false
+	}
+	return x.UseLegacySql != nil
+}
+
+func (x *QueryRequest) HasFormatOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.FormatOptions != nil
+}
+
+func (x *QueryRequest) HasMaximumBytesBilled() bool {
+	if x == nil {
+		return false
+	}
+	return x.MaximumBytesBilled != nil
+}
+
+func (x *QueryRequest) HasCreateSession() bool {
+	if x == nil {
+		return false
+	}
+	return x.CreateSession != nil
+}
+
+func (x *QueryRequest) HasReservation() bool {
+	if x == nil {
+		return false
+	}
+	return x.Reservation != nil
+}
+
+func (x *QueryRequest) HasResultsFormatSerializationOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.ResultsFormatSerializationOptions != nil
+}
+
+func (x *QueryRequest) HasArrowSerializationOptions() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.ResultsFormatSerializationOptions.(*QueryRequest_ArrowSerializationOptions)
+	return ok
+}
+
+func (x *QueryRequest) ClearMaxResults() {
+	x.MaxResults = nil
+}
+
+func (x *QueryRequest) ClearDefaultDataset() {
+	x.DefaultDataset = nil
+}
+
+func (x *QueryRequest) ClearTimeoutMs() {
+	x.TimeoutMs = nil
+}
+
+func (x *QueryRequest) ClearJobTimeoutMs() {
+	x.JobTimeoutMs = nil
+}
+
+func (x *QueryRequest) ClearMaxSlots() {
+	x.MaxSlots = nil
+}
+
+func (x *QueryRequest) ClearDestinationEncryptionConfiguration() {
+	x.DestinationEncryptionConfiguration = nil
+}
+
+func (x *QueryRequest) ClearUseQueryCache() {
+	x.UseQueryCache = nil
+}
+
+func (x *QueryRequest) ClearUseLegacySql() {
+	x.UseLegacySql = nil
+}
+
+func (x *QueryRequest) ClearFormatOptions() {
+	x.FormatOptions = nil
+}
+
+func (x *QueryRequest) ClearMaximumBytesBilled() {
+	x.MaximumBytesBilled = nil
+}
+
+func (x *QueryRequest) ClearCreateSession() {
+	x.CreateSession = nil
+}
+
+func (x *QueryRequest) ClearReservation() {
+	x.Reservation = nil
+}
+
+func (x *QueryRequest) ClearResultsFormatSerializationOptions() {
+	x.ResultsFormatSerializationOptions = nil
+}
+
+func (x *QueryRequest) ClearArrowSerializationOptions() {
+	if _, ok := x.ResultsFormatSerializationOptions.(*QueryRequest_ArrowSerializationOptions); ok {
+		x.ResultsFormatSerializationOptions = nil
+	}
+}
+
+const QueryRequest_ResultsFormatSerializationOptions_not_set_case case_QueryRequest_ResultsFormatSerializationOptions = 0
+const QueryRequest_ArrowSerializationOptions_case case_QueryRequest_ResultsFormatSerializationOptions = 30
+
+func (x *QueryRequest) WhichResultsFormatSerializationOptions() case_QueryRequest_ResultsFormatSerializationOptions {
+	if x == nil {
+		return QueryRequest_ResultsFormatSerializationOptions_not_set_case
+	}
+	switch x.ResultsFormatSerializationOptions.(type) {
+	case *QueryRequest_ArrowSerializationOptions:
+		return QueryRequest_ArrowSerializationOptions_case
+	default:
+		return QueryRequest_ResultsFormatSerializationOptions_not_set_case
+	}
+}
+
+type QueryRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The resource type of the request.
+	Kind string
+	// Required. A query string to execute, using Google Standard SQL or legacy
+	// SQL syntax. Example: "SELECT COUNT(f1) FROM
+	// myProjectId.myDatasetId.myTableId".
+	Query string
+	// Optional. The maximum number of rows of data to return per page of
+	// results. Setting this flag to a small value such as 1000 and then paging
+	// through results might improve reliability when the query result set is
+	// large. In addition to this limit, responses are also limited to 10 MB. By
+	// default, there is no maximum row count, and only the byte limit applies.
+	MaxResults *wrapperspb.UInt32Value
+	// Optional. Specifies the default datasetId and projectId to assume for any
+	// unqualified table names in the query. If not set, all table names in the
+	// query string must be qualified in the format 'datasetId.tableId'.
+	DefaultDataset *DatasetReference
+	// Optional. Optional: Specifies the maximum amount of time, in milliseconds,
+	// that the client is willing to wait for the query to complete. By default,
+	// this limit is 10 seconds (10,000 milliseconds). If the query is complete,
+	// the jobComplete field in the response is true. If the query has not yet
+	// completed, jobComplete is false.
+	//
+	// You can request a longer timeout period in the timeoutMs field.  However,
+	// the call is not guaranteed to wait for the specified timeout; it typically
+	// returns after around 200 seconds (200,000 milliseconds), even if the query
+	// is not complete.
+	//
+	// If jobComplete is false, you can continue to wait for the query to complete
+	// by calling the getQueryResults method until the jobComplete field in the
+	// getQueryResults response is true.
+	TimeoutMs *wrapperspb.UInt32Value
+	// Optional. Job timeout in milliseconds. If this time limit is exceeded,
+	// BigQuery will attempt to stop a longer job, but may not always succeed in
+	// canceling it before the job completes. For example, a job that takes more
+	// than 60 seconds to complete has a better chance of being stopped than a job
+	// that takes 10 seconds to complete. This timeout applies to the query even
+	// if a job does not need to be created.
+	JobTimeoutMs *int64
+	// Optional. A target limit on the rate of slot consumption by this query. If
+	// set to a value > 0, BigQuery will attempt to limit the rate of slot
+	// consumption by this query to keep it below the configured limit, even if
+	// the query is eligible for more slots based on fair scheduling. The unused
+	// slots will be available for other jobs and queries to use.
+	//
+	// Note: This feature is not yet generally available.
+	MaxSlots *int32
+	// Optional. Custom encryption configuration (e.g., Cloud KMS keys)
+	DestinationEncryptionConfiguration *EncryptionConfiguration
+	// Optional. If set to true, BigQuery doesn't run the job. Instead, if the
+	// query is valid, BigQuery returns statistics about the job such as how many
+	// bytes would be processed. If the query is invalid, an error returns. The
+	// default value is false.
+	DryRun bool
+	// Optional. Whether to look for the result in the query cache. The query
+	// cache is a best-effort cache that will be flushed whenever tables in the
+	// query are modified. The default value is true.
+	UseQueryCache *wrapperspb.BoolValue
+	// Specifies whether to use BigQuery's legacy SQL dialect for this query. The
+	// default value is true. If set to false, the query uses BigQuery's
+	// [GoogleSQL](https://docs.cloud.google.com/bigquery/docs/introduction-sql).
+	// When useLegacySql is set to false, the value of flattenResults is ignored;
+	// query will be run as if flattenResults is false.
+	UseLegacySql *wrapperspb.BoolValue
+	// GoogleSQL only. Set to POSITIONAL to use positional (?) query parameters
+	// or to NAMED to use named (@myparam) query parameters in this query.
+	ParameterMode string
+	// Query parameters for GoogleSQL queries.
+	QueryParameters []*QueryParameter
+	// The geographic location where the job should run.
+	// For more information, see how to
+	// [specify
+	// locations](https://cloud.google.com/bigquery/docs/locations#specify_locations).
+	Location string
+	// Optional. Output format adjustments.
+	FormatOptions *DataFormatOptions
+	// Optional. Connection properties which can modify the query behavior.
+	ConnectionProperties []*ConnectionProperty
+	// Optional. The labels associated with this query.
+	// Labels can be used to organize and group query jobs.
+	// Label keys and values can be no longer than 63 characters, can only contain
+	// lowercase letters, numeric characters, underscores and dashes.
+	// International characters are allowed. Label keys must start with a letter
+	// and each label in the list must have a different key.
+	Labels map[string]string
+	// Optional. Limits the bytes billed for this query. Queries with
+	// bytes billed above this limit will fail (without incurring a charge).
+	// If unspecified, the project default is used.
+	MaximumBytesBilled *wrapperspb.Int64Value
+	// Optional. A unique user provided identifier to ensure idempotent behavior
+	// for queries. Note that this is different from the job_id. It has the
+	// following properties:
+	//
+	//  1. It is case-sensitive, limited to up to 36 ASCII characters. A UUID is
+	//     recommended.
+	//
+	//  2. Read only queries can ignore this token since they are nullipotent by
+	//     definition.
+	//
+	//  3. For the purposes of idempotency ensured by the request_id, a request
+	//     is considered duplicate of another only if they have the same request_id
+	//     and are actually duplicates. When determining whether a request is a
+	//     duplicate of another request, all parameters in the request that
+	//     may affect the result are considered. For example, query,
+	//     connection_properties, query_parameters, use_legacy_sql are parameters
+	//     that affect the result and are considered when determining whether a
+	//     request is a duplicate, but properties like timeout_ms don't
+	//     affect the result and are thus not considered. Dry run query
+	//     requests are never considered duplicate of another request.
+	//
+	//  4. When a duplicate mutating query request is detected, it returns:
+	//     a. the results of the mutation if it completes successfully within
+	//     the timeout.
+	//     b. the running operation if it is still in progress at the end of the
+	//     timeout.
+	//
+	//  5. Its lifetime is limited to 15 minutes. In other words, if two
+	//     requests are sent with the same request_id, but more than 15 minutes
+	//     apart, idempotency is not guaranteed.
+	RequestId string
+	// Optional. If true, creates a new session using a randomly generated
+	// session_id. If false, runs query with an existing session_id passed in
+	// ConnectionProperty, otherwise runs query in non-session mode.
+	//
+	// The session location will be set to QueryRequest.location if it is present,
+	// otherwise it's set to the default location based on existing routing logic.
+	CreateSession *wrapperspb.BoolValue
+	// Optional. If not set, jobs are always required.
+	//
+	// If set, the query request will follow the behavior described
+	// JobCreationMode.
+	JobCreationMode QueryRequest_JobCreationMode
+	// Optional. The reservation that jobs.query request would use. User can
+	// specify a reservation to execute the job.query. The expected format is
+	// `projects/{project}/locations/{location}/reservations/{reservation}`.
+	// Forces the query to use on-demand billing when set to `none`.
+	// This requires the project or organization to have
+	// `reservation_override_mode` set to `ALLOW_ANY_OVERRIDE`.
+	Reservation *string
+	// Optional. This is only supported for SELECT query. If set, the query is
+	// allowed to write results incrementally to the temporary result table. This
+	// may incur a performance penalty. This option cannot be used with Legacy
+	// SQL. This feature is not yet available.
+	WriteIncrementalResults bool
+	// Optional. The query results format.
+	// If the value is anything other than `STRUCT_ENCODING` or unspecified:
+	//
+	//   - The schema of the results will be provided in
+	//     `QueryResponse.results_schema` field.
+	//   - The results of the first page will be provided in
+	//     `QueryResponse.results` field.
+	//   - The `QueryResponse.rows` will not be populated.
+	//   - The `QueryResponse.schema` for `QueryResponse.rows` will also not be
+	//     populated since it is the schema of the `QueryResponse.rows`.
+	//
+	// This feature is not yet available.
+	QueryResultsFormat QueryRequest_QueryResultsFormat
+	// Results serialization options for `query_results_format` other than
+	// `STRUCT_ENCODING`.
+	//
+	// This feature is not yet available.
+
+	// Fields of oneof ResultsFormatSerializationOptions:
+	// Optional. Options specific to the Apache Arrow output format.
+	ArrowSerializationOptions *ArrowSerializationOptions
+	// -- end of ResultsFormatSerializationOptions
+}
+
+func (b0 QueryRequest_builder) Build() *QueryRequest {
+	m0 := &QueryRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Kind = b.Kind
+	x.Query = b.Query
+	x.MaxResults = b.MaxResults
+	x.DefaultDataset = b.DefaultDataset
+	x.TimeoutMs = b.TimeoutMs
+	x.JobTimeoutMs = b.JobTimeoutMs
+	x.MaxSlots = b.MaxSlots
+	x.DestinationEncryptionConfiguration = b.DestinationEncryptionConfiguration
+	x.DryRun = b.DryRun
+	x.UseQueryCache = b.UseQueryCache
+	x.UseLegacySql = b.UseLegacySql
+	x.ParameterMode = b.ParameterMode
+	x.QueryParameters = b.QueryParameters
+	x.Location = b.Location
+	x.FormatOptions = b.FormatOptions
+	x.ConnectionProperties = b.ConnectionProperties
+	x.Labels = b.Labels
+	x.MaximumBytesBilled = b.MaximumBytesBilled
+	x.RequestId = b.RequestId
+	x.CreateSession = b.CreateSession
+	x.JobCreationMode = b.JobCreationMode
+	x.Reservation = b.Reservation
+	x.WriteIncrementalResults = b.WriteIncrementalResults
+	x.QueryResultsFormat = b.QueryResultsFormat
+	if b.ArrowSerializationOptions != nil {
+		x.ResultsFormatSerializationOptions = &QueryRequest_ArrowSerializationOptions{b.ArrowSerializationOptions}
+	}
+	return m0
+}
+
+type case_QueryRequest_ResultsFormatSerializationOptions protoreflect.FieldNumber
+
+func (x case_QueryRequest_ResultsFormatSerializationOptions) String() string {
+	md := file_google_cloud_bigquery_v2_job_proto_msgTypes[12].Descriptor()
+	if x == 0 {
+		return "not set"
+	}
+	return protoimpl.X.MessageFieldStringOf(md, protoreflect.FieldNumber(x))
+}
+
 type isQueryRequest_ResultsFormatSerializationOptions interface {
 	isQueryRequest_ResultsFormatSerializationOptions()
 }
@@ -1835,7 +3248,7 @@ type QueryRequest_ArrowSerializationOptions struct {
 func (*QueryRequest_ArrowSerializationOptions) isQueryRequest_ResultsFormatSerializationOptions() {}
 
 type QueryResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The resource type.
 	Kind string `protobuf:"bytes,1,opt,name=kind,proto3" json:"kind,omitempty"`
 	// The schema of the results. Present only when the query completes
@@ -2097,11 +3510,6 @@ func (x *QueryResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use QueryResponse.ProtoReflect.Descriptor instead.
-func (*QueryResponse) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_proto_rawDescGZIP(), []int{13}
-}
-
 func (x *QueryResponse) GetKind() string {
 	if x != nil {
 		return x.Kind
@@ -2293,6 +3701,652 @@ func (x *QueryResponse) GetStatementType() string {
 		return x.StatementType
 	}
 	return ""
+}
+
+func (x *QueryResponse) SetKind(v string) {
+	x.Kind = v
+}
+
+func (x *QueryResponse) SetSchema(v *TableSchema) {
+	x.Schema = v
+}
+
+func (x *QueryResponse) SetJobReference(v *JobReference) {
+	x.JobReference = v
+}
+
+func (x *QueryResponse) SetJobCreationReason(v *JobCreationReason) {
+	x.JobCreationReason = v
+}
+
+func (x *QueryResponse) SetQueryId(v string) {
+	x.QueryId = v
+}
+
+func (x *QueryResponse) SetLocation(v string) {
+	x.Location = v
+}
+
+func (x *QueryResponse) SetTotalRows(v *wrapperspb.UInt64Value) {
+	x.TotalRows = v
+}
+
+func (x *QueryResponse) SetPageToken(v string) {
+	x.PageToken = v
+}
+
+func (x *QueryResponse) SetRows(v []*structpb.Struct) {
+	x.Rows = v
+}
+
+func (x *QueryResponse) SetTotalBytesProcessed(v *wrapperspb.Int64Value) {
+	x.TotalBytesProcessed = v
+}
+
+func (x *QueryResponse) SetTotalBytesBilled(v int64) {
+	x.TotalBytesBilled = &v
+}
+
+func (x *QueryResponse) SetTotalSlotMs(v int64) {
+	x.TotalSlotMs = &v
+}
+
+func (x *QueryResponse) SetJobComplete(v *wrapperspb.BoolValue) {
+	x.JobComplete = v
+}
+
+func (x *QueryResponse) SetErrors(v []*ErrorProto) {
+	x.Errors = v
+}
+
+func (x *QueryResponse) SetCacheHit(v *wrapperspb.BoolValue) {
+	x.CacheHit = v
+}
+
+func (x *QueryResponse) SetNumDmlAffectedRows(v *wrapperspb.Int64Value) {
+	x.NumDmlAffectedRows = v
+}
+
+func (x *QueryResponse) SetSessionInfo(v *SessionInfo) {
+	x.SessionInfo = v
+}
+
+func (x *QueryResponse) SetDmlStats(v *DmlStats) {
+	x.DmlStats = v
+}
+
+func (x *QueryResponse) SetCreationTime(v int64) {
+	x.CreationTime = &v
+}
+
+func (x *QueryResponse) SetStartTime(v int64) {
+	x.StartTime = &v
+}
+
+func (x *QueryResponse) SetEndTime(v int64) {
+	x.EndTime = &v
+}
+
+func (x *QueryResponse) SetArrowSchema(v *ArrowSchema) {
+	if v == nil {
+		x.ResultsSchema = nil
+		return
+	}
+	x.ResultsSchema = &QueryResponse_ArrowSchema{v}
+}
+
+func (x *QueryResponse) SetArrowRecordBatch(v *ArrowRecordBatch) {
+	if v == nil {
+		x.Results = nil
+		return
+	}
+	x.Results = &QueryResponse_ArrowRecordBatch{v}
+}
+
+func (x *QueryResponse) SetPageRowCount(v int64) {
+	x.PageRowCount = v
+}
+
+func (x *QueryResponse) SetStatementType(v string) {
+	x.StatementType = v
+}
+
+func (x *QueryResponse) HasSchema() bool {
+	if x == nil {
+		return false
+	}
+	return x.Schema != nil
+}
+
+func (x *QueryResponse) HasJobReference() bool {
+	if x == nil {
+		return false
+	}
+	return x.JobReference != nil
+}
+
+func (x *QueryResponse) HasJobCreationReason() bool {
+	if x == nil {
+		return false
+	}
+	return x.JobCreationReason != nil
+}
+
+func (x *QueryResponse) HasTotalRows() bool {
+	if x == nil {
+		return false
+	}
+	return x.TotalRows != nil
+}
+
+func (x *QueryResponse) HasTotalBytesProcessed() bool {
+	if x == nil {
+		return false
+	}
+	return x.TotalBytesProcessed != nil
+}
+
+func (x *QueryResponse) HasTotalBytesBilled() bool {
+	if x == nil {
+		return false
+	}
+	return x.TotalBytesBilled != nil
+}
+
+func (x *QueryResponse) HasTotalSlotMs() bool {
+	if x == nil {
+		return false
+	}
+	return x.TotalSlotMs != nil
+}
+
+func (x *QueryResponse) HasJobComplete() bool {
+	if x == nil {
+		return false
+	}
+	return x.JobComplete != nil
+}
+
+func (x *QueryResponse) HasCacheHit() bool {
+	if x == nil {
+		return false
+	}
+	return x.CacheHit != nil
+}
+
+func (x *QueryResponse) HasNumDmlAffectedRows() bool {
+	if x == nil {
+		return false
+	}
+	return x.NumDmlAffectedRows != nil
+}
+
+func (x *QueryResponse) HasSessionInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.SessionInfo != nil
+}
+
+func (x *QueryResponse) HasDmlStats() bool {
+	if x == nil {
+		return false
+	}
+	return x.DmlStats != nil
+}
+
+func (x *QueryResponse) HasCreationTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.CreationTime != nil
+}
+
+func (x *QueryResponse) HasStartTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.StartTime != nil
+}
+
+func (x *QueryResponse) HasEndTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.EndTime != nil
+}
+
+func (x *QueryResponse) HasResultsSchema() bool {
+	if x == nil {
+		return false
+	}
+	return x.ResultsSchema != nil
+}
+
+func (x *QueryResponse) HasArrowSchema() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.ResultsSchema.(*QueryResponse_ArrowSchema)
+	return ok
+}
+
+func (x *QueryResponse) HasResults() bool {
+	if x == nil {
+		return false
+	}
+	return x.Results != nil
+}
+
+func (x *QueryResponse) HasArrowRecordBatch() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Results.(*QueryResponse_ArrowRecordBatch)
+	return ok
+}
+
+func (x *QueryResponse) ClearSchema() {
+	x.Schema = nil
+}
+
+func (x *QueryResponse) ClearJobReference() {
+	x.JobReference = nil
+}
+
+func (x *QueryResponse) ClearJobCreationReason() {
+	x.JobCreationReason = nil
+}
+
+func (x *QueryResponse) ClearTotalRows() {
+	x.TotalRows = nil
+}
+
+func (x *QueryResponse) ClearTotalBytesProcessed() {
+	x.TotalBytesProcessed = nil
+}
+
+func (x *QueryResponse) ClearTotalBytesBilled() {
+	x.TotalBytesBilled = nil
+}
+
+func (x *QueryResponse) ClearTotalSlotMs() {
+	x.TotalSlotMs = nil
+}
+
+func (x *QueryResponse) ClearJobComplete() {
+	x.JobComplete = nil
+}
+
+func (x *QueryResponse) ClearCacheHit() {
+	x.CacheHit = nil
+}
+
+func (x *QueryResponse) ClearNumDmlAffectedRows() {
+	x.NumDmlAffectedRows = nil
+}
+
+func (x *QueryResponse) ClearSessionInfo() {
+	x.SessionInfo = nil
+}
+
+func (x *QueryResponse) ClearDmlStats() {
+	x.DmlStats = nil
+}
+
+func (x *QueryResponse) ClearCreationTime() {
+	x.CreationTime = nil
+}
+
+func (x *QueryResponse) ClearStartTime() {
+	x.StartTime = nil
+}
+
+func (x *QueryResponse) ClearEndTime() {
+	x.EndTime = nil
+}
+
+func (x *QueryResponse) ClearResultsSchema() {
+	x.ResultsSchema = nil
+}
+
+func (x *QueryResponse) ClearArrowSchema() {
+	if _, ok := x.ResultsSchema.(*QueryResponse_ArrowSchema); ok {
+		x.ResultsSchema = nil
+	}
+}
+
+func (x *QueryResponse) ClearResults() {
+	x.Results = nil
+}
+
+func (x *QueryResponse) ClearArrowRecordBatch() {
+	if _, ok := x.Results.(*QueryResponse_ArrowRecordBatch); ok {
+		x.Results = nil
+	}
+}
+
+const QueryResponse_ResultsSchema_not_set_case case_QueryResponse_ResultsSchema = 0
+const QueryResponse_ArrowSchema_case case_QueryResponse_ResultsSchema = 23
+
+func (x *QueryResponse) WhichResultsSchema() case_QueryResponse_ResultsSchema {
+	if x == nil {
+		return QueryResponse_ResultsSchema_not_set_case
+	}
+	switch x.ResultsSchema.(type) {
+	case *QueryResponse_ArrowSchema:
+		return QueryResponse_ArrowSchema_case
+	default:
+		return QueryResponse_ResultsSchema_not_set_case
+	}
+}
+
+const QueryResponse_Results_not_set_case case_QueryResponse_Results = 0
+const QueryResponse_ArrowRecordBatch_case case_QueryResponse_Results = 24
+
+func (x *QueryResponse) WhichResults() case_QueryResponse_Results {
+	if x == nil {
+		return QueryResponse_Results_not_set_case
+	}
+	switch x.Results.(type) {
+	case *QueryResponse_ArrowRecordBatch:
+		return QueryResponse_ArrowRecordBatch_case
+	default:
+		return QueryResponse_Results_not_set_case
+	}
+}
+
+type QueryResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The resource type.
+	Kind string
+	// The schema of the results. Present only when the query completes
+	// successfully.
+	Schema *TableSchema
+	// Reference to the Job that was created to run the query. This field will be
+	// present even if the original request timed out, in which case
+	// GetQueryResults can be used to read the results once the query has
+	// completed. Since this API only returns the first page of results,
+	// subsequent pages can be fetched via the same mechanism (GetQueryResults).
+	//
+	// If job_creation_mode was set to `JOB_CREATION_OPTIONAL` and the query
+	// completes without creating a job, this field will be empty.
+	JobReference *JobReference
+	// Optional. The reason why a Job was created.
+	//
+	// Only relevant when a job_reference is present in the response.
+	// If job_reference is not present it will always be unset.
+	JobCreationReason *JobCreationReason
+	// Auto-generated ID for the query.
+	QueryId string
+	// Output only. The geographic location of the query.
+	//
+	// For more information about BigQuery locations, see:
+	// https://cloud.google.com/bigquery/docs/locations
+	Location string
+	// The total number of rows in the complete query result set, which can be
+	// more than the number of rows in this single page of results.
+	TotalRows *wrapperspb.UInt64Value
+	// A token used for paging results. A non-empty token indicates that
+	// additional results are available. To see additional results,
+	// query the
+	// [`jobs.getQueryResults`](https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/getQueryResults)
+	// method. For more information, see [Paging through table
+	// data](https://cloud.google.com/bigquery/docs/paging-results).
+	PageToken string
+	// An object with as many results as can be contained within the maximum
+	// permitted reply size. To get any additional rows, you can call
+	// GetQueryResults and specify the jobReference returned above.
+	Rows []*structpb.Struct
+	// The total number of bytes processed for this query. If this query was a dry
+	// run, this is the number of bytes that would be processed if the query were
+	// run.
+	TotalBytesProcessed *wrapperspb.Int64Value
+	// Output only. If the project is configured to use on-demand pricing,
+	// then this field contains the total bytes billed for the job.
+	// If the project is configured to use flat-rate pricing, then you are
+	// not billed for bytes and this field is informational only.
+	TotalBytesBilled *int64
+	// Output only. Number of slot ms the user is actually billed for.
+	TotalSlotMs *int64
+	// Whether the query has completed or not. If rows or totalRows are present,
+	// this will always be true. If this is false, totalRows will not be
+	// available.
+	JobComplete *wrapperspb.BoolValue
+	// Output only. The first errors or warnings encountered during the running of
+	// the job. The final message includes the number of errors that caused the
+	// process to stop. Errors here do not necessarily mean that the job has
+	// completed or was unsuccessful. For more information about error messages,
+	// see [Error
+	// messages](https://cloud.google.com/bigquery/docs/error-messages).
+	Errors []*ErrorProto
+	// Whether the query result was fetched from the query cache.
+	CacheHit *wrapperspb.BoolValue
+	// Output only. The number of rows affected by a DML statement. Present only
+	// for DML statements INSERT, UPDATE or DELETE.
+	NumDmlAffectedRows *wrapperspb.Int64Value
+	// Output only. Information of the session if this job is part of one.
+	SessionInfo *SessionInfo
+	// Output only. Detailed statistics for DML statements INSERT, UPDATE, DELETE,
+	// MERGE or TRUNCATE.
+	DmlStats *DmlStats
+	// Output only. Creation time of this query, in milliseconds since the epoch.
+	// This field will be present on all queries.
+	CreationTime *int64
+	// Output only. Start time of this query, in milliseconds since the epoch.
+	// This field will be present when the query job transitions from the PENDING
+	// state to either RUNNING or DONE.
+	StartTime *int64
+	// Output only. End time of this query, in milliseconds since the epoch. This
+	// field will be present whenever a query job is in the DONE state.
+	EndTime *int64
+	// The schema if `query_results_format` has been specified with value other
+	// than default `STRUCT_ENCODING`.
+	//
+	// This feature is not yet available.
+
+	// Fields of oneof ResultsSchema:
+	// Output only. Arrow schema
+	ArrowSchema *ArrowSchema
+	// -- end of ResultsSchema
+	// Row data is returned in format when `query_results_format` has been
+	// specified with value other than default `STRUCT_ENCODING`.
+	//
+	// This feature is not yet available.
+
+	// Fields of oneof Results:
+	// Output only. Serialized row data in Arrow RecordBatch format.
+	ArrowRecordBatch *ArrowRecordBatch
+	// -- end of Results
+	// Output only. The number of rows out of `total_rows` returned in this
+	// response.
+	//
+	// This feature is not yet available.
+	PageRowCount int64
+	// Output only. The type of query statement, if valid.
+	// Possible values:
+	//
+	// * `SELECT`:
+	// [`SELECT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax#select_list)
+	// statement.
+	// * `ASSERT`:
+	// [`ASSERT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/debugging-statements#assert)
+	// statement.
+	// * `INSERT`:
+	// [`INSERT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/dml-syntax#insert_statement)
+	// statement.
+	// * `UPDATE`:
+	// [`UPDATE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/dml-syntax#update_statement)
+	// statement.
+	// * `DELETE`:
+	// [`DELETE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-manipulation-language)
+	// statement.
+	// * `MERGE`:
+	// [`MERGE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-manipulation-language)
+	// statement.
+	// * `CREATE_TABLE`: [`CREATE
+	// TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_table_statement)
+	// statement, without `AS SELECT`.
+	// * `CREATE_TABLE_AS_SELECT`: [`CREATE TABLE AS
+	// SELECT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_table_statement)
+	// statement.
+	// * `CREATE_VIEW`: [`CREATE
+	// VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_view_statement)
+	// statement.
+	// * `CREATE_MODEL`: [`CREATE
+	// MODEL`](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-create#create_model_statement)
+	// statement.
+	// * `CREATE_MATERIALIZED_VIEW`: [`CREATE MATERIALIZED
+	// VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_materialized_view_statement)
+	// statement.
+	// * `CREATE_FUNCTION`: [`CREATE
+	// FUNCTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_function_statement)
+	// statement.
+	// * `CREATE_TABLE_FUNCTION`: [`CREATE TABLE
+	// FUNCTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_table_function_statement)
+	// statement.
+	// * `CREATE_PROCEDURE`: [`CREATE
+	// PROCEDURE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_procedure)
+	// statement.
+	// * `CREATE_ROW_ACCESS_POLICY`: [`CREATE ROW ACCESS
+	// POLICY`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_row_access_policy_statement)
+	// statement.
+	// * `CREATE_SCHEMA`: [`CREATE
+	// SCHEMA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_schema_statement)
+	// statement.
+	// * `CREATE_SNAPSHOT_TABLE`: [`CREATE SNAPSHOT
+	// TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_snapshot_table_statement)
+	// statement.
+	// * `CREATE_SEARCH_INDEX`: [`CREATE SEARCH
+	// INDEX`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_search_index_statement)
+	// statement.
+	// * `DROP_TABLE`: [`DROP
+	// TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_table_statement)
+	// statement.
+	// * `DROP_EXTERNAL_TABLE`: [`DROP EXTERNAL
+	// TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_external_table_statement)
+	// statement.
+	// * `DROP_VIEW`: [`DROP
+	// VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_view_statement)
+	// statement.
+	// * `DROP_MODEL`: [`DROP
+	// MODEL`](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-drop-model)
+	// statement.
+	//   - `DROP_MATERIALIZED_VIEW`: [`DROP MATERIALIZED
+	//     VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_materialized_view_statement)
+	//
+	// statement.
+	// * `DROP_FUNCTION` : [`DROP
+	// FUNCTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_function_statement)
+	// statement.
+	// * `DROP_TABLE_FUNCTION` : [`DROP TABLE
+	// FUNCTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_table_function)
+	// statement.
+	// * `DROP_PROCEDURE`: [`DROP
+	// PROCEDURE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_procedure_statement)
+	// statement.
+	// * `DROP_SEARCH_INDEX`: [`DROP SEARCH
+	// INDEX`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_search_index)
+	// statement.
+	// * `DROP_SCHEMA`: [`DROP
+	// SCHEMA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_schema_statement)
+	// statement.
+	// * `DROP_SNAPSHOT_TABLE`: [`DROP SNAPSHOT
+	// TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_snapshot_table_statement)
+	// statement.
+	// * `DROP_ROW_ACCESS_POLICY`: [`DROP [ALL] ROW ACCESS
+	// POLICY|POLICIES`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_row_access_policy_statement)
+	// statement.
+	// * `ALTER_TABLE`: [`ALTER
+	// TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_table_set_options_statement)
+	// statement.
+	// * `ALTER_VIEW`: [`ALTER
+	// VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_view_set_options_statement)
+	// statement.
+	// * `ALTER_MATERIALIZED_VIEW`: [`ALTER MATERIALIZED
+	// VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_materialized_view_set_options_statement)
+	// statement.
+	// * `ALTER_SCHEMA`: [`ALTER
+	// SCHEMA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_schema_set_options_statement)
+	// statement.
+	// * `SCRIPT`:
+	// [`SCRIPT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/procedural-language).
+	// * `TRUNCATE_TABLE`: [`TRUNCATE
+	// TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/dml-syntax#truncate_table_statement)
+	// statement.
+	// * `CREATE_EXTERNAL_TABLE`: [`CREATE EXTERNAL
+	// TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_external_table_statement)
+	// statement.
+	// * `EXPORT_DATA`: [`EXPORT
+	// DATA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/other-statements#export_data_statement)
+	// statement.
+	// * `EXPORT_MODEL`: [`EXPORT
+	// MODEL`](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-export-model)
+	// statement.
+	// * `LOAD_DATA`: [`LOAD
+	// DATA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/other-statements#load_data_statement)
+	// statement.
+	// * `CALL`:
+	// [`CALL`](https://cloud.google.com/bigquery/docs/reference/standard-sql/procedural-language#call)
+	// statement.
+	StatementType string
+}
+
+func (b0 QueryResponse_builder) Build() *QueryResponse {
+	m0 := &QueryResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Kind = b.Kind
+	x.Schema = b.Schema
+	x.JobReference = b.JobReference
+	x.JobCreationReason = b.JobCreationReason
+	x.QueryId = b.QueryId
+	x.Location = b.Location
+	x.TotalRows = b.TotalRows
+	x.PageToken = b.PageToken
+	x.Rows = b.Rows
+	x.TotalBytesProcessed = b.TotalBytesProcessed
+	x.TotalBytesBilled = b.TotalBytesBilled
+	x.TotalSlotMs = b.TotalSlotMs
+	x.JobComplete = b.JobComplete
+	x.Errors = b.Errors
+	x.CacheHit = b.CacheHit
+	x.NumDmlAffectedRows = b.NumDmlAffectedRows
+	x.SessionInfo = b.SessionInfo
+	x.DmlStats = b.DmlStats
+	x.CreationTime = b.CreationTime
+	x.StartTime = b.StartTime
+	x.EndTime = b.EndTime
+	if b.ArrowSchema != nil {
+		x.ResultsSchema = &QueryResponse_ArrowSchema{b.ArrowSchema}
+	}
+	if b.ArrowRecordBatch != nil {
+		x.Results = &QueryResponse_ArrowRecordBatch{b.ArrowRecordBatch}
+	}
+	x.PageRowCount = b.PageRowCount
+	x.StatementType = b.StatementType
+	return m0
+}
+
+type case_QueryResponse_ResultsSchema protoreflect.FieldNumber
+
+func (x case_QueryResponse_ResultsSchema) String() string {
+	md := file_google_cloud_bigquery_v2_job_proto_msgTypes[13].Descriptor()
+	if x == 0 {
+		return "not set"
+	}
+	return protoimpl.X.MessageFieldStringOf(md, protoreflect.FieldNumber(x))
+}
+
+type case_QueryResponse_Results protoreflect.FieldNumber
+
+func (x case_QueryResponse_Results) String() string {
+	md := file_google_cloud_bigquery_v2_job_proto_msgTypes[13].Descriptor()
+	if x == 0 {
+		return "not set"
+	}
+	return protoimpl.X.MessageFieldStringOf(md, protoreflect.FieldNumber(x))
 }
 
 type isQueryResponse_ResultsSchema interface {
@@ -2538,18 +4592,6 @@ const file_google_cloud_bigquery_v2_job_proto_rawDesc = "" +
 	"\x0fGetQueryResults\x120.google.cloud.bigquery.v2.GetQueryResultsRequest\x1a1.google.cloud.bigquery.v2.GetQueryResultsResponse\"?\x82\xd3\xe4\x93\x029\x127/bigquery/v2/projects/{project_id=*}/queries/{job_id=*}\x12\xa1\x01\n" +
 	"\x05Query\x12*.google.cloud.bigquery.v2.PostQueryRequest\x1a'.google.cloud.bigquery.v2.QueryResponse\"C\x82\xd3\xe4\x93\x02=:\rquery_request\",/bigquery/v2/projects/{project_id=*}/queries\x1a\xd1\x02\xcaA\x17bigquery.googleapis.com\xd2A\xb3\x02https://www.googleapis.com/auth/bigquery,https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-only,https://www.googleapis.com/auth/devstorage.full_control,https://www.googleapis.com/auth/devstorage.read_only,https://www.googleapis.com/auth/devstorage.read_writeBe\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\bJobProtoZ;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_job_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_job_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_job_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_job_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_job_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_job_proto_rawDesc), len(file_google_cloud_bigquery_v2_job_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_job_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_job_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
 var file_google_cloud_bigquery_v2_job_proto_msgTypes = make([]protoimpl.MessageInfo, 15)

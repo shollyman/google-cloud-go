@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/partitioning_definition.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -40,7 +41,7 @@ const (
 // The partitioning information, which includes managed table, external table
 // and metastore partitioned table partition information.
 type PartitioningDefinition struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. Details about each partitioning column. This field is output only
 	// for all partitioning types other than metastore partitioned tables.
 	// BigQuery native tables only support 1 partitioning column. Other table
@@ -83,11 +84,6 @@ func (x *PartitioningDefinition) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PartitioningDefinition.ProtoReflect.Descriptor instead.
-func (*PartitioningDefinition) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_partitioning_definition_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *PartitioningDefinition) GetPartitionedColumn() []*PartitionedColumn {
 	if x != nil {
 		return x.PartitionedColumn
@@ -95,9 +91,39 @@ func (x *PartitioningDefinition) GetPartitionedColumn() []*PartitionedColumn {
 	return nil
 }
 
+func (x *PartitioningDefinition) SetPartitionedColumn(v []*PartitionedColumn) {
+	x.PartitionedColumn = v
+}
+
+type PartitioningDefinition_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. Details about each partitioning column. This field is output only
+	// for all partitioning types other than metastore partitioned tables.
+	// BigQuery native tables only support 1 partitioning column. Other table
+	// types may support 0, 1 or more partitioning columns.
+	// For metastore partitioned tables, the order must match the definition order
+	// in the Hive Metastore, where it must match the physical layout of the
+	// table. For example,
+	//
+	// CREATE TABLE a_table(id BIGINT, name STRING)
+	// PARTITIONED BY (city STRING, state STRING).
+	//
+	// In this case the values must be ['city', 'state'] in that order.
+	PartitionedColumn []*PartitionedColumn
+}
+
+func (b0 PartitioningDefinition_builder) Build() *PartitioningDefinition {
+	m0 := &PartitioningDefinition{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.PartitionedColumn = b.PartitionedColumn
+	return m0
+}
+
 // The partitioning column information.
 type PartitionedColumn struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. The name of the partition column.
 	Field         *string `protobuf:"bytes,1,opt,name=field,proto3,oneof" json:"field,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -129,16 +155,41 @@ func (x *PartitionedColumn) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PartitionedColumn.ProtoReflect.Descriptor instead.
-func (*PartitionedColumn) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_partitioning_definition_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *PartitionedColumn) GetField() string {
 	if x != nil && x.Field != nil {
 		return *x.Field
 	}
 	return ""
+}
+
+func (x *PartitionedColumn) SetField(v string) {
+	x.Field = &v
+}
+
+func (x *PartitionedColumn) HasField() bool {
+	if x == nil {
+		return false
+	}
+	return x.Field != nil
+}
+
+func (x *PartitionedColumn) ClearField() {
+	x.Field = nil
+}
+
+type PartitionedColumn_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. The name of the partition column.
+	Field *string
+}
+
+func (b0 PartitionedColumn_builder) Build() *PartitionedColumn {
+	m0 := &PartitionedColumn{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Field = b.Field
+	return m0
 }
 
 var File_google_cloud_bigquery_v2_partitioning_definition_proto protoreflect.FileDescriptor
@@ -152,18 +203,6 @@ const file_google_cloud_bigquery_v2_partitioning_definition_proto_rawDesc = "" +
 	"\x05field\x18\x01 \x01(\tB\x03\xe0A\x02H\x00R\x05field\x88\x01\x01B\b\n" +
 	"\x06_fieldBz\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\x1bPartitioningDefinitionProtoP\x01Z;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_partitioning_definition_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_partitioning_definition_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_partitioning_definition_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_partitioning_definition_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_partitioning_definition_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_partitioning_definition_proto_rawDesc), len(file_google_cloud_bigquery_v2_partitioning_definition_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_partitioning_definition_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_partitioning_definition_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_google_cloud_bigquery_v2_partitioning_definition_proto_goTypes = []any{

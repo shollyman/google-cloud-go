@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/query_parameter.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -41,7 +42,7 @@ const (
 
 // The type of a struct parameter.
 type QueryParameterStructType struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. The name of this field.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Required. The type of this field.
@@ -77,11 +78,6 @@ func (x *QueryParameterStructType) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use QueryParameterStructType.ProtoReflect.Descriptor instead.
-func (*QueryParameterStructType) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_query_parameter_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *QueryParameterStructType) GetName() string {
 	if x != nil {
 		return x.Name
@@ -103,9 +99,53 @@ func (x *QueryParameterStructType) GetDescription() string {
 	return ""
 }
 
+func (x *QueryParameterStructType) SetName(v string) {
+	x.Name = v
+}
+
+func (x *QueryParameterStructType) SetType(v *QueryParameterType) {
+	x.Type = v
+}
+
+func (x *QueryParameterStructType) SetDescription(v string) {
+	x.Description = v
+}
+
+func (x *QueryParameterStructType) HasType() bool {
+	if x == nil {
+		return false
+	}
+	return x.Type != nil
+}
+
+func (x *QueryParameterStructType) ClearType() {
+	x.Type = nil
+}
+
+type QueryParameterStructType_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. The name of this field.
+	Name string
+	// Required. The type of this field.
+	Type *QueryParameterType
+	// Optional. Human-oriented description of the field.
+	Description string
+}
+
+func (b0 QueryParameterStructType_builder) Build() *QueryParameterStructType {
+	m0 := &QueryParameterStructType{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Name = b.Name
+	x.Type = b.Type
+	x.Description = b.Description
+	return m0
+}
+
 // The type of a query parameter.
 type QueryParameterType struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. The top level type of this field.
 	Type string `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
 	// Optional. Precision (maximum number of total digits in base 10) for seconds
@@ -151,11 +191,6 @@ func (x *QueryParameterType) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use QueryParameterType.ProtoReflect.Descriptor instead.
-func (*QueryParameterType) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_query_parameter_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *QueryParameterType) GetType() string {
 	if x != nil {
 		return x.Type
@@ -191,9 +226,95 @@ func (x *QueryParameterType) GetRangeElementType() *QueryParameterType {
 	return nil
 }
 
+func (x *QueryParameterType) SetType(v string) {
+	x.Type = v
+}
+
+func (x *QueryParameterType) SetTimestampPrecision(v int64) {
+	x.TimestampPrecision = &v
+}
+
+func (x *QueryParameterType) SetArrayType(v *QueryParameterType) {
+	x.ArrayType = v
+}
+
+func (x *QueryParameterType) SetStructTypes(v []*QueryParameterStructType) {
+	x.StructTypes = v
+}
+
+func (x *QueryParameterType) SetRangeElementType(v *QueryParameterType) {
+	x.RangeElementType = v
+}
+
+func (x *QueryParameterType) HasTimestampPrecision() bool {
+	if x == nil {
+		return false
+	}
+	return x.TimestampPrecision != nil
+}
+
+func (x *QueryParameterType) HasArrayType() bool {
+	if x == nil {
+		return false
+	}
+	return x.ArrayType != nil
+}
+
+func (x *QueryParameterType) HasRangeElementType() bool {
+	if x == nil {
+		return false
+	}
+	return x.RangeElementType != nil
+}
+
+func (x *QueryParameterType) ClearTimestampPrecision() {
+	x.TimestampPrecision = nil
+}
+
+func (x *QueryParameterType) ClearArrayType() {
+	x.ArrayType = nil
+}
+
+func (x *QueryParameterType) ClearRangeElementType() {
+	x.RangeElementType = nil
+}
+
+type QueryParameterType_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. The top level type of this field.
+	Type string
+	// Optional. Precision (maximum number of total digits in base 10) for seconds
+	// of TIMESTAMP type.
+	//
+	// Possible values include:
+	// * 6 (Default, for TIMESTAMP type with microsecond precision)
+	// * 12 (For TIMESTAMP type with picosecond precision)
+	TimestampPrecision *int64
+	// Optional. The type of the array's elements, if this is an array.
+	ArrayType *QueryParameterType
+	// Optional. The types of the fields of this struct, in order, if this is a
+	// struct.
+	StructTypes []*QueryParameterStructType
+	// Optional. The element type of the range, if this is a range.
+	RangeElementType *QueryParameterType
+}
+
+func (b0 QueryParameterType_builder) Build() *QueryParameterType {
+	m0 := &QueryParameterType{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Type = b.Type
+	x.TimestampPrecision = b.TimestampPrecision
+	x.ArrayType = b.ArrayType
+	x.StructTypes = b.StructTypes
+	x.RangeElementType = b.RangeElementType
+	return m0
+}
+
 // Represents the value of a range.
 type RangeValue struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. The start value of the range. A missing value represents an
 	// unbounded start.
 	Start *QueryParameterValue `protobuf:"bytes,1,opt,name=start,proto3" json:"start,omitempty"`
@@ -229,11 +350,6 @@ func (x *RangeValue) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RangeValue.ProtoReflect.Descriptor instead.
-func (*RangeValue) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_query_parameter_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *RangeValue) GetStart() *QueryParameterValue {
 	if x != nil {
 		return x.Start
@@ -248,9 +364,59 @@ func (x *RangeValue) GetEnd() *QueryParameterValue {
 	return nil
 }
 
+func (x *RangeValue) SetStart(v *QueryParameterValue) {
+	x.Start = v
+}
+
+func (x *RangeValue) SetEnd(v *QueryParameterValue) {
+	x.End = v
+}
+
+func (x *RangeValue) HasStart() bool {
+	if x == nil {
+		return false
+	}
+	return x.Start != nil
+}
+
+func (x *RangeValue) HasEnd() bool {
+	if x == nil {
+		return false
+	}
+	return x.End != nil
+}
+
+func (x *RangeValue) ClearStart() {
+	x.Start = nil
+}
+
+func (x *RangeValue) ClearEnd() {
+	x.End = nil
+}
+
+type RangeValue_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. The start value of the range. A missing value represents an
+	// unbounded start.
+	Start *QueryParameterValue
+	// Optional. The end value of the range. A missing value represents an
+	// unbounded end.
+	End *QueryParameterValue
+}
+
+func (b0 RangeValue_builder) Build() *RangeValue {
+	m0 := &RangeValue{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Start = b.Start
+	x.End = b.End
+	return m0
+}
+
 // The value of a query parameter.
 type QueryParameterValue struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. The value of this value, if a simple scalar type.
 	Value *wrapperspb.StringValue `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
 	// Optional. The array values, if this is an array type.
@@ -290,11 +456,6 @@ func (x *QueryParameterValue) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use QueryParameterValue.ProtoReflect.Descriptor instead.
-func (*QueryParameterValue) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_query_parameter_proto_rawDescGZIP(), []int{3}
-}
-
 func (x *QueryParameterValue) GetValue() *wrapperspb.StringValue {
 	if x != nil {
 		return x.Value
@@ -330,9 +491,78 @@ func (x *QueryParameterValue) GetAltStructValues() []*structpb.Value {
 	return nil
 }
 
+func (x *QueryParameterValue) SetValue(v *wrapperspb.StringValue) {
+	x.Value = v
+}
+
+func (x *QueryParameterValue) SetArrayValues(v []*QueryParameterValue) {
+	x.ArrayValues = v
+}
+
+func (x *QueryParameterValue) SetStructValues(v map[string]*QueryParameterValue) {
+	x.StructValues = v
+}
+
+func (x *QueryParameterValue) SetRangeValue(v *RangeValue) {
+	x.RangeValue = v
+}
+
+func (x *QueryParameterValue) SetAltStructValues(v []*structpb.Value) {
+	x.AltStructValues = v
+}
+
+func (x *QueryParameterValue) HasValue() bool {
+	if x == nil {
+		return false
+	}
+	return x.Value != nil
+}
+
+func (x *QueryParameterValue) HasRangeValue() bool {
+	if x == nil {
+		return false
+	}
+	return x.RangeValue != nil
+}
+
+func (x *QueryParameterValue) ClearValue() {
+	x.Value = nil
+}
+
+func (x *QueryParameterValue) ClearRangeValue() {
+	x.RangeValue = nil
+}
+
+type QueryParameterValue_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. The value of this value, if a simple scalar type.
+	Value *wrapperspb.StringValue
+	// Optional. The array values, if this is an array type.
+	ArrayValues []*QueryParameterValue
+	// The struct field values.
+	StructValues map[string]*QueryParameterValue
+	// Optional. The range value, if this is a range type.
+	RangeValue *RangeValue
+	// This field should not be used.
+	AltStructValues []*structpb.Value
+}
+
+func (b0 QueryParameterValue_builder) Build() *QueryParameterValue {
+	m0 := &QueryParameterValue{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Value = b.Value
+	x.ArrayValues = b.ArrayValues
+	x.StructValues = b.StructValues
+	x.RangeValue = b.RangeValue
+	x.AltStructValues = b.AltStructValues
+	return m0
+}
+
 // A parameter given to a query.
 type QueryParameter struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. If unset, this is a positional parameter. Otherwise, should be
 	// unique within a query.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
@@ -369,11 +599,6 @@ func (x *QueryParameter) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use QueryParameter.ProtoReflect.Descriptor instead.
-func (*QueryParameter) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_query_parameter_proto_rawDescGZIP(), []int{4}
-}
-
 func (x *QueryParameter) GetName() string {
 	if x != nil {
 		return x.Name
@@ -393,6 +618,62 @@ func (x *QueryParameter) GetParameterValue() *QueryParameterValue {
 		return x.ParameterValue
 	}
 	return nil
+}
+
+func (x *QueryParameter) SetName(v string) {
+	x.Name = v
+}
+
+func (x *QueryParameter) SetParameterType(v *QueryParameterType) {
+	x.ParameterType = v
+}
+
+func (x *QueryParameter) SetParameterValue(v *QueryParameterValue) {
+	x.ParameterValue = v
+}
+
+func (x *QueryParameter) HasParameterType() bool {
+	if x == nil {
+		return false
+	}
+	return x.ParameterType != nil
+}
+
+func (x *QueryParameter) HasParameterValue() bool {
+	if x == nil {
+		return false
+	}
+	return x.ParameterValue != nil
+}
+
+func (x *QueryParameter) ClearParameterType() {
+	x.ParameterType = nil
+}
+
+func (x *QueryParameter) ClearParameterValue() {
+	x.ParameterValue = nil
+}
+
+type QueryParameter_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. If unset, this is a positional parameter. Otherwise, should be
+	// unique within a query.
+	Name string
+	// Required. The type of this parameter.
+	ParameterType *QueryParameterType
+	// Required. The value of this parameter.
+	ParameterValue *QueryParameterValue
+}
+
+func (b0 QueryParameter_builder) Build() *QueryParameter {
+	m0 := &QueryParameter{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Name = b.Name
+	x.ParameterType = b.ParameterType
+	x.ParameterValue = b.ParameterValue
+	return m0
 }
 
 var File_google_cloud_bigquery_v2_query_parameter_proto protoreflect.FileDescriptor
@@ -431,18 +712,6 @@ const file_google_cloud_bigquery_v2_query_parameter_proto_rawDesc = "" +
 	"\x0eparameter_type\x18\x02 \x01(\v2,.google.cloud.bigquery.v2.QueryParameterTypeB\x03\xe0A\x02R\rparameterType\x12[\n" +
 	"\x0fparameter_value\x18\x03 \x01(\v2-.google.cloud.bigquery.v2.QueryParameterValueB\x03\xe0A\x02R\x0eparameterValueBp\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\x13QueryParameterProtoZ;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_query_parameter_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_query_parameter_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_query_parameter_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_query_parameter_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_query_parameter_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_query_parameter_proto_rawDesc), len(file_google_cloud_bigquery_v2_query_parameter_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_query_parameter_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_query_parameter_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_google_cloud_bigquery_v2_query_parameter_proto_goTypes = []any{

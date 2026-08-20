@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/managed_table_type.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -84,11 +85,6 @@ func (x ManagedTableType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use ManagedTableType.Descriptor instead.
-func (ManagedTableType) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_managed_table_type_proto_rawDescGZIP(), []int{0}
-}
-
 var File_google_cloud_bigquery_v2_managed_table_type_proto protoreflect.FileDescriptor
 
 const file_google_cloud_bigquery_v2_managed_table_type_proto_rawDesc = "" +
@@ -100,18 +96,6 @@ const file_google_cloud_bigquery_v2_managed_table_type_proto_rawDesc = "" +
 	"\x06NATIVE\x10\x01\x12\v\n" +
 	"\aBIGLAKE\x10\x02Bt\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\x15ManagedTableTypeProtoP\x01Z;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_managed_table_type_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_managed_table_type_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_managed_table_type_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_managed_table_type_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_managed_table_type_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_managed_table_type_proto_rawDesc), len(file_google_cloud_bigquery_v2_managed_table_type_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_managed_table_type_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_managed_table_type_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_google_cloud_bigquery_v2_managed_table_type_proto_goTypes = []any{

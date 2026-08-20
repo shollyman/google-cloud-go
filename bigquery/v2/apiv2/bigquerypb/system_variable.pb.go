@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/system_variable.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -40,7 +41,7 @@ const (
 
 // System variables given to a query.
 type SystemVariables struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. Data type for each system variable.
 	Types map[string]*StandardSqlDataType `protobuf:"bytes,1,rep,name=types,proto3" json:"types,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	// Output only. Value for each system variable.
@@ -74,11 +75,6 @@ func (x *SystemVariables) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SystemVariables.ProtoReflect.Descriptor instead.
-func (*SystemVariables) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_system_variable_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *SystemVariables) GetTypes() map[string]*StandardSqlDataType {
 	if x != nil {
 		return x.Types
@@ -91,6 +87,43 @@ func (x *SystemVariables) GetValues() *structpb.Struct {
 		return x.Values
 	}
 	return nil
+}
+
+func (x *SystemVariables) SetTypes(v map[string]*StandardSqlDataType) {
+	x.Types = v
+}
+
+func (x *SystemVariables) SetValues(v *structpb.Struct) {
+	x.Values = v
+}
+
+func (x *SystemVariables) HasValues() bool {
+	if x == nil {
+		return false
+	}
+	return x.Values != nil
+}
+
+func (x *SystemVariables) ClearValues() {
+	x.Values = nil
+}
+
+type SystemVariables_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. Data type for each system variable.
+	Types map[string]*StandardSqlDataType
+	// Output only. Value for each system variable.
+	Values *structpb.Struct
+}
+
+func (b0 SystemVariables_builder) Build() *SystemVariables {
+	m0 := &SystemVariables{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Types = b.Types
+	x.Values = b.Values
+	return m0
 }
 
 var File_google_cloud_bigquery_v2_system_variable_proto protoreflect.FileDescriptor
@@ -106,18 +139,6 @@ const file_google_cloud_bigquery_v2_system_variable_proto_rawDesc = "" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12C\n" +
 	"\x05value\x18\x02 \x01(\v2-.google.cloud.bigquery.v2.StandardSqlDataTypeR\x05value:\x028\x01Br\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\x13SystemVariableProtoP\x01Z;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_system_variable_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_system_variable_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_system_variable_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_system_variable_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_system_variable_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_system_variable_proto_rawDesc), len(file_google_cloud_bigquery_v2_system_variable_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_system_variable_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_system_variable_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_google_cloud_bigquery_v2_system_variable_proto_goTypes = []any{

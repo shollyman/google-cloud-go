@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/range_partitioning.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -38,7 +39,7 @@ const (
 )
 
 type RangePartitioning struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. The name of the column to partition the table on. It must be a
 	// top-level, INT64 column whose mode is NULLABLE or REQUIRED.
 	Field string `protobuf:"bytes,1,opt,name=field,proto3" json:"field,omitempty"`
@@ -73,11 +74,6 @@ func (x *RangePartitioning) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RangePartitioning.ProtoReflect.Descriptor instead.
-func (*RangePartitioning) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_range_partitioning_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *RangePartitioning) GetField() string {
 	if x != nil {
 		return x.Field
@@ -92,9 +88,47 @@ func (x *RangePartitioning) GetRange() *RangePartitioning_Range {
 	return nil
 }
 
+func (x *RangePartitioning) SetField(v string) {
+	x.Field = v
+}
+
+func (x *RangePartitioning) SetRange(v *RangePartitioning_Range) {
+	x.Range = v
+}
+
+func (x *RangePartitioning) HasRange() bool {
+	if x == nil {
+		return false
+	}
+	return x.Range != nil
+}
+
+func (x *RangePartitioning) ClearRange() {
+	x.Range = nil
+}
+
+type RangePartitioning_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. The name of the column to partition the table on. It must be a
+	// top-level, INT64 column whose mode is NULLABLE or REQUIRED.
+	Field string
+	// Defines the ranges for range partitioning.
+	Range *RangePartitioning_Range
+}
+
+func (b0 RangePartitioning_builder) Build() *RangePartitioning {
+	m0 := &RangePartitioning{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Field = b.Field
+	x.Range = b.Range
+	return m0
+}
+
 // Defines the ranges for range partitioning.
 type RangePartitioning_Range struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. The start of range partitioning, inclusive. This field is an
 	// INT64 value represented as a string.
 	Start string `protobuf:"bytes,1,opt,name=start,proto3" json:"start,omitempty"`
@@ -133,11 +167,6 @@ func (x *RangePartitioning_Range) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RangePartitioning_Range.ProtoReflect.Descriptor instead.
-func (*RangePartitioning_Range) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_range_partitioning_proto_rawDescGZIP(), []int{0, 0}
-}
-
 func (x *RangePartitioning_Range) GetStart() string {
 	if x != nil {
 		return x.Start
@@ -159,6 +188,42 @@ func (x *RangePartitioning_Range) GetInterval() string {
 	return ""
 }
 
+func (x *RangePartitioning_Range) SetStart(v string) {
+	x.Start = v
+}
+
+func (x *RangePartitioning_Range) SetEnd(v string) {
+	x.End = v
+}
+
+func (x *RangePartitioning_Range) SetInterval(v string) {
+	x.Interval = v
+}
+
+type RangePartitioning_Range_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. The start of range partitioning, inclusive. This field is an
+	// INT64 value represented as a string.
+	Start string
+	// Required. The end of range partitioning, exclusive. This field is an
+	// INT64 value represented as a string.
+	End string
+	// Required. The width of each interval. This field is an INT64 value
+	// represented as a string.
+	Interval string
+}
+
+func (b0 RangePartitioning_Range_builder) Build() *RangePartitioning_Range {
+	m0 := &RangePartitioning_Range{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Start = b.Start
+	x.End = b.End
+	x.Interval = b.Interval
+	return m0
+}
+
 var File_google_cloud_bigquery_v2_range_partitioning_proto protoreflect.FileDescriptor
 
 const file_google_cloud_bigquery_v2_range_partitioning_proto_rawDesc = "" +
@@ -172,18 +237,6 @@ const file_google_cloud_bigquery_v2_range_partitioning_proto_rawDesc = "" +
 	"\x03end\x18\x02 \x01(\tB\x03\xe0A\x02R\x03end\x12\x1f\n" +
 	"\binterval\x18\x03 \x01(\tB\x03\xe0A\x02R\bintervalBs\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\x16RangePartitioningProtoZ;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_range_partitioning_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_range_partitioning_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_range_partitioning_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_range_partitioning_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_range_partitioning_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_range_partitioning_proto_rawDesc), len(file_google_cloud_bigquery_v2_range_partitioning_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_range_partitioning_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_range_partitioning_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_google_cloud_bigquery_v2_range_partitioning_proto_goTypes = []any{

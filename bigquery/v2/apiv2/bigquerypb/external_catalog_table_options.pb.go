@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/external_catalog_table_options.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -40,7 +41,7 @@ const (
 // Metadata about open source compatible table. The fields contained in
 // these options correspond to Hive metastore's table-level properties.
 type ExternalCatalogTableOptions struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. A map of the key-value pairs defining the parameters and
 	// properties of the open source table. Corresponds with Hive metastore table
 	// parameters. Maximum size of 4MiB.
@@ -84,11 +85,6 @@ func (x *ExternalCatalogTableOptions) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ExternalCatalogTableOptions.ProtoReflect.Descriptor instead.
-func (*ExternalCatalogTableOptions) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_external_catalog_table_options_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *ExternalCatalogTableOptions) GetParameters() map[string]string {
 	if x != nil {
 		return x.Parameters
@@ -110,10 +106,62 @@ func (x *ExternalCatalogTableOptions) GetConnectionId() string {
 	return ""
 }
 
+func (x *ExternalCatalogTableOptions) SetParameters(v map[string]string) {
+	x.Parameters = v
+}
+
+func (x *ExternalCatalogTableOptions) SetStorageDescriptor(v *StorageDescriptor) {
+	x.StorageDescriptor = v
+}
+
+func (x *ExternalCatalogTableOptions) SetConnectionId(v string) {
+	x.ConnectionId = v
+}
+
+func (x *ExternalCatalogTableOptions) HasStorageDescriptor() bool {
+	if x == nil {
+		return false
+	}
+	return x.StorageDescriptor != nil
+}
+
+func (x *ExternalCatalogTableOptions) ClearStorageDescriptor() {
+	x.StorageDescriptor = nil
+}
+
+type ExternalCatalogTableOptions_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. A map of the key-value pairs defining the parameters and
+	// properties of the open source table. Corresponds with Hive metastore table
+	// parameters. Maximum size of 4MiB.
+	Parameters map[string]string
+	// Optional. A storage descriptor containing information about the physical
+	// storage of this table.
+	StorageDescriptor *StorageDescriptor
+	// Optional. A connection ID that specifies the credentials to be used to read
+	// external storage, such as Azure Blob, Cloud Storage, or Amazon S3. This
+	// connection is needed to read the open source table from BigQuery. The
+	// connection_id format must be either
+	// `<project_id>.<location_id>.<connection_id>` or
+	// `projects/<project_id>/locations/<location_id>/connections/<connection_id>`.
+	ConnectionId string
+}
+
+func (b0 ExternalCatalogTableOptions_builder) Build() *ExternalCatalogTableOptions {
+	m0 := &ExternalCatalogTableOptions{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Parameters = b.Parameters
+	x.StorageDescriptor = b.StorageDescriptor
+	x.ConnectionId = b.ConnectionId
+	return m0
+}
+
 // Contains information about how a table's data is stored and accessed by open
 // source query engines.
 type StorageDescriptor struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. The physical location of the table
 	// (e.g. `gs://spark-dataproc-data/pangea-data/case_sensitive/` or
 	// `gs://spark-dataproc-data/pangea-data/*`).
@@ -158,11 +206,6 @@ func (x *StorageDescriptor) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use StorageDescriptor.ProtoReflect.Descriptor instead.
-func (*StorageDescriptor) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_external_catalog_table_options_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *StorageDescriptor) GetLocationUri() string {
 	if x != nil {
 		return x.LocationUri
@@ -191,9 +234,67 @@ func (x *StorageDescriptor) GetSerdeInfo() *SerDeInfo {
 	return nil
 }
 
+func (x *StorageDescriptor) SetLocationUri(v string) {
+	x.LocationUri = v
+}
+
+func (x *StorageDescriptor) SetInputFormat(v string) {
+	x.InputFormat = v
+}
+
+func (x *StorageDescriptor) SetOutputFormat(v string) {
+	x.OutputFormat = v
+}
+
+func (x *StorageDescriptor) SetSerdeInfo(v *SerDeInfo) {
+	x.SerdeInfo = v
+}
+
+func (x *StorageDescriptor) HasSerdeInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.SerdeInfo != nil
+}
+
+func (x *StorageDescriptor) ClearSerdeInfo() {
+	x.SerdeInfo = nil
+}
+
+type StorageDescriptor_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. The physical location of the table
+	// (e.g. `gs://spark-dataproc-data/pangea-data/case_sensitive/` or
+	// `gs://spark-dataproc-data/pangea-data/*`).
+	// The maximum length is 2056 bytes.
+	LocationUri string
+	// Optional. Specifies the fully qualified class name of the InputFormat
+	// (e.g. "org.apache.hadoop.hive.ql.io.orc.OrcInputFormat").
+	// The maximum length is 128 characters.
+	InputFormat string
+	// Optional. Specifies the fully qualified class name of the OutputFormat
+	// (e.g. "org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat").
+	// The maximum length is 128 characters.
+	OutputFormat string
+	// Optional. Serializer and deserializer information.
+	SerdeInfo *SerDeInfo
+}
+
+func (b0 StorageDescriptor_builder) Build() *StorageDescriptor {
+	m0 := &StorageDescriptor{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.LocationUri = b.LocationUri
+	x.InputFormat = b.InputFormat
+	x.OutputFormat = b.OutputFormat
+	x.SerdeInfo = b.SerdeInfo
+	return m0
+}
+
 // Serializer and deserializer information.
 type SerDeInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. Name of the SerDe.
 	// The maximum length is 256 characters.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
@@ -235,11 +336,6 @@ func (x *SerDeInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SerDeInfo.ProtoReflect.Descriptor instead.
-func (*SerDeInfo) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_external_catalog_table_options_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *SerDeInfo) GetName() string {
 	if x != nil {
 		return x.Name
@@ -259,6 +355,45 @@ func (x *SerDeInfo) GetParameters() map[string]string {
 		return x.Parameters
 	}
 	return nil
+}
+
+func (x *SerDeInfo) SetName(v string) {
+	x.Name = v
+}
+
+func (x *SerDeInfo) SetSerializationLibrary(v string) {
+	x.SerializationLibrary = v
+}
+
+func (x *SerDeInfo) SetParameters(v map[string]string) {
+	x.Parameters = v
+}
+
+type SerDeInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. Name of the SerDe.
+	// The maximum length is 256 characters.
+	Name string
+	// Required. Specifies a fully-qualified class name of the serialization
+	// library that is responsible for the translation of data between table
+	// representation and the underlying low-level input and output format
+	// structures. The maximum length is 256 characters.
+	SerializationLibrary string
+	// Optional. Key-value pairs that define the initialization parameters for the
+	// serialization library.
+	// Maximum size 10 Kib.
+	Parameters map[string]string
+}
+
+func (b0 SerDeInfo_builder) Build() *SerDeInfo {
+	m0 := &SerDeInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Name = b.Name
+	x.SerializationLibrary = b.SerializationLibrary
+	x.Parameters = b.Parameters
+	return m0
 }
 
 var File_google_cloud_bigquery_v2_external_catalog_table_options_proto protoreflect.FileDescriptor
@@ -291,18 +426,6 @@ const file_google_cloud_bigquery_v2_external_catalog_table_options_proto_rawDesc
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\x7f\n" +
 	"\x1ccom.google.cloud.bigquery.v2B ExternalCatalogTableOptionsProtoP\x01Z;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_external_catalog_table_options_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_external_catalog_table_options_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_external_catalog_table_options_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_external_catalog_table_options_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_external_catalog_table_options_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_external_catalog_table_options_proto_rawDesc), len(file_google_cloud_bigquery_v2_external_catalog_table_options_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_external_catalog_table_options_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_external_catalog_table_options_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_google_cloud_bigquery_v2_external_catalog_table_options_proto_goTypes = []any{

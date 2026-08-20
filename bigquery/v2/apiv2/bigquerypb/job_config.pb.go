@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/job_config.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -87,11 +88,6 @@ func (x ScriptOptions_KeyResultStatementKind) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use ScriptOptions_KeyResultStatementKind.Descriptor instead.
-func (ScriptOptions_KeyResultStatementKind) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_config_proto_rawDescGZIP(), []int{3, 0}
-}
-
 // Indicates the character map used for column names.
 type JobConfigurationLoad_ColumnNameCharacterMap int32
 
@@ -145,11 +141,6 @@ func (x JobConfigurationLoad_ColumnNameCharacterMap) Number() protoreflect.EnumN
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use JobConfigurationLoad_ColumnNameCharacterMap.Descriptor instead.
-func (JobConfigurationLoad_ColumnNameCharacterMap) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_config_proto_rawDescGZIP(), []int{4, 0}
-}
-
 // Indicates the strategy used to match loaded columns to the schema.
 type JobConfigurationLoad_SourceColumnMatch int32
 
@@ -200,11 +191,6 @@ func (JobConfigurationLoad_SourceColumnMatch) Type() protoreflect.EnumType {
 
 func (x JobConfigurationLoad_SourceColumnMatch) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use JobConfigurationLoad_SourceColumnMatch.Descriptor instead.
-func (JobConfigurationLoad_SourceColumnMatch) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_config_proto_rawDescGZIP(), []int{4, 1}
 }
 
 // Indicates different operation types supported in table copy job.
@@ -266,14 +252,9 @@ func (x JobConfigurationTableCopy_OperationType) Number() protoreflect.EnumNumbe
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use JobConfigurationTableCopy_OperationType.Descriptor instead.
-func (JobConfigurationTableCopy_OperationType) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_config_proto_rawDescGZIP(), []int{5, 0}
-}
-
 // Properties for the destination table.
 type DestinationTableProperties struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. Friendly name for the destination table. If the table already
 	// exists, it should be same as the existing friendly name.
 	FriendlyName *wrapperspb.StringValue `protobuf:"bytes,1,opt,name=friendly_name,json=friendlyName,proto3" json:"friendly_name,omitempty"`
@@ -316,11 +297,6 @@ func (x *DestinationTableProperties) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DestinationTableProperties.ProtoReflect.Descriptor instead.
-func (*DestinationTableProperties) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_config_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *DestinationTableProperties) GetFriendlyName() *wrapperspb.StringValue {
 	if x != nil {
 		return x.FriendlyName
@@ -340,6 +316,68 @@ func (x *DestinationTableProperties) GetLabels() map[string]string {
 		return x.Labels
 	}
 	return nil
+}
+
+func (x *DestinationTableProperties) SetFriendlyName(v *wrapperspb.StringValue) {
+	x.FriendlyName = v
+}
+
+func (x *DestinationTableProperties) SetDescription(v *wrapperspb.StringValue) {
+	x.Description = v
+}
+
+func (x *DestinationTableProperties) SetLabels(v map[string]string) {
+	x.Labels = v
+}
+
+func (x *DestinationTableProperties) HasFriendlyName() bool {
+	if x == nil {
+		return false
+	}
+	return x.FriendlyName != nil
+}
+
+func (x *DestinationTableProperties) HasDescription() bool {
+	if x == nil {
+		return false
+	}
+	return x.Description != nil
+}
+
+func (x *DestinationTableProperties) ClearFriendlyName() {
+	x.FriendlyName = nil
+}
+
+func (x *DestinationTableProperties) ClearDescription() {
+	x.Description = nil
+}
+
+type DestinationTableProperties_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. Friendly name for the destination table. If the table already
+	// exists, it should be same as the existing friendly name.
+	FriendlyName *wrapperspb.StringValue
+	// Optional. The description for the destination table.
+	// This will only be used if the destination table is newly created.
+	// If the table already exists and a value different than the current
+	// description is provided, the job will fail.
+	Description *wrapperspb.StringValue
+	// Optional. The labels associated with this table. You can use these to
+	// organize and group your tables. This will only be used if the destination
+	// table is newly created. If the table already exists and labels are
+	// different than the current labels are provided, the job will fail.
+	Labels map[string]string
+}
+
+func (b0 DestinationTableProperties_builder) Build() *DestinationTableProperties {
+	m0 := &DestinationTableProperties{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.FriendlyName = b.FriendlyName
+	x.Description = b.Description
+	x.Labels = b.Labels
+	return m0
 }
 
 // A connection-level property to customize query behavior. Under JDBC, these
@@ -372,7 +410,7 @@ func (x *DestinationTableProperties) GetLabels() map[string]string {
 // Additional properties are allowed, but ignored. Specifying multiple
 // connection properties with the same key returns an error.
 type ConnectionProperty struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The key of the property to set.
 	Key string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
 	// The value of the property to set.
@@ -406,11 +444,6 @@ func (x *ConnectionProperty) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ConnectionProperty.ProtoReflect.Descriptor instead.
-func (*ConnectionProperty) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_config_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *ConnectionProperty) GetKey() string {
 	if x != nil {
 		return x.Key
@@ -425,9 +458,35 @@ func (x *ConnectionProperty) GetValue() string {
 	return ""
 }
 
+func (x *ConnectionProperty) SetKey(v string) {
+	x.Key = v
+}
+
+func (x *ConnectionProperty) SetValue(v string) {
+	x.Value = v
+}
+
+type ConnectionProperty_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The key of the property to set.
+	Key string
+	// The value of the property to set.
+	Value string
+}
+
+func (b0 ConnectionProperty_builder) Build() *ConnectionProperty {
+	m0 := &ConnectionProperty{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Key = b.Key
+	x.Value = b.Value
+	return m0
+}
+
 // JobConfigurationQuery configures a BigQuery query job.
 type JobConfigurationQuery struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// [Required] SQL query text to execute. The useLegacySql field can be used
 	// to indicate whether the query uses legacy SQL or GoogleSQL.
 	Query string `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
@@ -595,11 +654,6 @@ func (x *JobConfigurationQuery) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use JobConfigurationQuery.ProtoReflect.Descriptor instead.
-func (*JobConfigurationQuery) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_config_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *JobConfigurationQuery) GetQuery() string {
@@ -784,9 +838,456 @@ func (x *JobConfigurationQuery) GetWriteIncrementalResults() bool {
 	return false
 }
 
+func (x *JobConfigurationQuery) SetQuery(v string) {
+	x.Query = v
+}
+
+func (x *JobConfigurationQuery) SetDestinationTable(v *TableReference) {
+	x.DestinationTable = v
+}
+
+func (x *JobConfigurationQuery) SetExternalTableDefinitions(v map[string]*ExternalDataConfiguration) {
+	x.ExternalTableDefinitions = v
+}
+
+func (x *JobConfigurationQuery) SetUserDefinedFunctionResources(v []*UserDefinedFunctionResource) {
+	x.UserDefinedFunctionResources = v
+}
+
+func (x *JobConfigurationQuery) SetCreateDisposition(v string) {
+	x.CreateDisposition = v
+}
+
+func (x *JobConfigurationQuery) SetWriteDisposition(v string) {
+	x.WriteDisposition = v
+}
+
+func (x *JobConfigurationQuery) SetDefaultDataset(v *DatasetReference) {
+	x.DefaultDataset = v
+}
+
+func (x *JobConfigurationQuery) SetPriority(v string) {
+	x.Priority = v
+}
+
+func (x *JobConfigurationQuery) SetAllowLargeResults(v *wrapperspb.BoolValue) {
+	x.AllowLargeResults = v
+}
+
+func (x *JobConfigurationQuery) SetUseQueryCache(v *wrapperspb.BoolValue) {
+	x.UseQueryCache = v
+}
+
+func (x *JobConfigurationQuery) SetFlattenResults(v *wrapperspb.BoolValue) {
+	x.FlattenResults = v
+}
+
+func (x *JobConfigurationQuery) SetMaximumBytesBilled(v *wrapperspb.Int64Value) {
+	x.MaximumBytesBilled = v
+}
+
+func (x *JobConfigurationQuery) SetUseLegacySql(v *wrapperspb.BoolValue) {
+	x.UseLegacySql = v
+}
+
+func (x *JobConfigurationQuery) SetParameterMode(v string) {
+	x.ParameterMode = v
+}
+
+func (x *JobConfigurationQuery) SetQueryParameters(v []*QueryParameter) {
+	x.QueryParameters = v
+}
+
+func (x *JobConfigurationQuery) SetSystemVariables(v *SystemVariables) {
+	x.SystemVariables = v
+}
+
+func (x *JobConfigurationQuery) SetSchemaUpdateOptions(v []string) {
+	x.SchemaUpdateOptions = v
+}
+
+func (x *JobConfigurationQuery) SetTimePartitioning(v *TimePartitioning) {
+	x.TimePartitioning = v
+}
+
+func (x *JobConfigurationQuery) SetRangePartitioning(v *RangePartitioning) {
+	x.RangePartitioning = v
+}
+
+func (x *JobConfigurationQuery) SetClustering(v *Clustering) {
+	x.Clustering = v
+}
+
+func (x *JobConfigurationQuery) SetDestinationEncryptionConfiguration(v *EncryptionConfiguration) {
+	x.DestinationEncryptionConfiguration = v
+}
+
+func (x *JobConfigurationQuery) SetScriptOptions(v *ScriptOptions) {
+	x.ScriptOptions = v
+}
+
+func (x *JobConfigurationQuery) SetConnectionProperties(v []*ConnectionProperty) {
+	x.ConnectionProperties = v
+}
+
+func (x *JobConfigurationQuery) SetCreateSession(v *wrapperspb.BoolValue) {
+	x.CreateSession = v
+}
+
+func (x *JobConfigurationQuery) SetContinuous(v *wrapperspb.BoolValue) {
+	x.Continuous = v
+}
+
+func (x *JobConfigurationQuery) SetWriteIncrementalResults(v bool) {
+	x.WriteIncrementalResults = v
+}
+
+func (x *JobConfigurationQuery) HasDestinationTable() bool {
+	if x == nil {
+		return false
+	}
+	return x.DestinationTable != nil
+}
+
+func (x *JobConfigurationQuery) HasDefaultDataset() bool {
+	if x == nil {
+		return false
+	}
+	return x.DefaultDataset != nil
+}
+
+func (x *JobConfigurationQuery) HasAllowLargeResults() bool {
+	if x == nil {
+		return false
+	}
+	return x.AllowLargeResults != nil
+}
+
+func (x *JobConfigurationQuery) HasUseQueryCache() bool {
+	if x == nil {
+		return false
+	}
+	return x.UseQueryCache != nil
+}
+
+func (x *JobConfigurationQuery) HasFlattenResults() bool {
+	if x == nil {
+		return false
+	}
+	return x.FlattenResults != nil
+}
+
+func (x *JobConfigurationQuery) HasMaximumBytesBilled() bool {
+	if x == nil {
+		return false
+	}
+	return x.MaximumBytesBilled != nil
+}
+
+func (x *JobConfigurationQuery) HasUseLegacySql() bool {
+	if x == nil {
+		return false
+	}
+	return x.UseLegacySql != nil
+}
+
+func (x *JobConfigurationQuery) HasSystemVariables() bool {
+	if x == nil {
+		return false
+	}
+	return x.SystemVariables != nil
+}
+
+func (x *JobConfigurationQuery) HasTimePartitioning() bool {
+	if x == nil {
+		return false
+	}
+	return x.TimePartitioning != nil
+}
+
+func (x *JobConfigurationQuery) HasRangePartitioning() bool {
+	if x == nil {
+		return false
+	}
+	return x.RangePartitioning != nil
+}
+
+func (x *JobConfigurationQuery) HasClustering() bool {
+	if x == nil {
+		return false
+	}
+	return x.Clustering != nil
+}
+
+func (x *JobConfigurationQuery) HasDestinationEncryptionConfiguration() bool {
+	if x == nil {
+		return false
+	}
+	return x.DestinationEncryptionConfiguration != nil
+}
+
+func (x *JobConfigurationQuery) HasScriptOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScriptOptions != nil
+}
+
+func (x *JobConfigurationQuery) HasCreateSession() bool {
+	if x == nil {
+		return false
+	}
+	return x.CreateSession != nil
+}
+
+func (x *JobConfigurationQuery) HasContinuous() bool {
+	if x == nil {
+		return false
+	}
+	return x.Continuous != nil
+}
+
+func (x *JobConfigurationQuery) ClearDestinationTable() {
+	x.DestinationTable = nil
+}
+
+func (x *JobConfigurationQuery) ClearDefaultDataset() {
+	x.DefaultDataset = nil
+}
+
+func (x *JobConfigurationQuery) ClearAllowLargeResults() {
+	x.AllowLargeResults = nil
+}
+
+func (x *JobConfigurationQuery) ClearUseQueryCache() {
+	x.UseQueryCache = nil
+}
+
+func (x *JobConfigurationQuery) ClearFlattenResults() {
+	x.FlattenResults = nil
+}
+
+func (x *JobConfigurationQuery) ClearMaximumBytesBilled() {
+	x.MaximumBytesBilled = nil
+}
+
+func (x *JobConfigurationQuery) ClearUseLegacySql() {
+	x.UseLegacySql = nil
+}
+
+func (x *JobConfigurationQuery) ClearSystemVariables() {
+	x.SystemVariables = nil
+}
+
+func (x *JobConfigurationQuery) ClearTimePartitioning() {
+	x.TimePartitioning = nil
+}
+
+func (x *JobConfigurationQuery) ClearRangePartitioning() {
+	x.RangePartitioning = nil
+}
+
+func (x *JobConfigurationQuery) ClearClustering() {
+	x.Clustering = nil
+}
+
+func (x *JobConfigurationQuery) ClearDestinationEncryptionConfiguration() {
+	x.DestinationEncryptionConfiguration = nil
+}
+
+func (x *JobConfigurationQuery) ClearScriptOptions() {
+	x.ScriptOptions = nil
+}
+
+func (x *JobConfigurationQuery) ClearCreateSession() {
+	x.CreateSession = nil
+}
+
+func (x *JobConfigurationQuery) ClearContinuous() {
+	x.Continuous = nil
+}
+
+type JobConfigurationQuery_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// [Required] SQL query text to execute. The useLegacySql field can be used
+	// to indicate whether the query uses legacy SQL or GoogleSQL.
+	Query string
+	// Optional. Describes the table where the query results should be stored.
+	// This property must be set for large results that exceed the maximum
+	// response size.  For queries that produce anonymous (cached) results, this
+	// field will be populated by BigQuery.
+	DestinationTable *TableReference
+	// Optional. You can specify external table definitions, which operate as
+	// ephemeral tables that can be queried.  These definitions are configured
+	// using a JSON map, where the string key represents the table identifier, and
+	// the value is the corresponding external data configuration object.
+	ExternalTableDefinitions map[string]*ExternalDataConfiguration
+	// Describes user-defined function resources used in the query.
+	UserDefinedFunctionResources []*UserDefinedFunctionResource
+	// Optional. Specifies whether the job is allowed to create new tables.
+	// The following values are supported:
+	//
+	// * CREATE_IF_NEEDED: If the table does not exist, BigQuery creates the
+	// table.
+	// * CREATE_NEVER: The table must already exist. If it does not,
+	// a 'notFound' error is returned in the job result.
+	//
+	// The default value is CREATE_IF_NEEDED.
+	// Creation, truncation and append actions occur as one atomic update
+	// upon job completion.
+	CreateDisposition string
+	// Optional. Specifies the action that occurs if the destination table
+	// already exists. The following values are supported:
+	//
+	// * WRITE_TRUNCATE: If the table already exists, BigQuery overwrites the
+	// data, removes the constraints, and uses the schema from the query result.
+	// * WRITE_TRUNCATE_DATA: If the table already exists, BigQuery overwrites the
+	// data, but keeps the constraints and schema of the existing table.
+	// * WRITE_APPEND: If the table already exists, BigQuery appends the data to
+	// the table.
+	// * WRITE_EMPTY: If the table already exists and contains data, a 'duplicate'
+	// error is returned in the job result.
+	//
+	// The default value is WRITE_EMPTY. Each action is atomic and only occurs if
+	// BigQuery is able to complete the job successfully. Creation, truncation and
+	// append actions occur as one atomic update upon job completion.
+	WriteDisposition string
+	// Optional. Specifies the default dataset to use for unqualified
+	// table names in the query. This setting does not alter behavior of
+	// unqualified dataset names. Setting the system variable
+	// `@@dataset_id` achieves the same behavior.  See
+	// https://cloud.google.com/bigquery/docs/reference/system-variables for more
+	// information on system variables.
+	DefaultDataset *DatasetReference
+	// Optional. Specifies a priority for the query. Possible values include
+	// INTERACTIVE and BATCH. The default value is INTERACTIVE.
+	Priority string
+	// Optional. If true and query uses legacy SQL dialect, allows the query
+	// to produce arbitrarily large result tables at a slight cost in performance.
+	// Requires destinationTable to be set.
+	// For GoogleSQL queries, this flag is ignored and large results are
+	// always allowed.  However, you must still set destinationTable when result
+	// size exceeds the allowed maximum response size.
+	AllowLargeResults *wrapperspb.BoolValue
+	// Optional. Whether to look for the result in the query cache. The query
+	// cache is a best-effort cache that will be flushed whenever tables in the
+	// query are modified. Moreover, the query cache is only available when a
+	// query does not have a destination table specified. The default value is
+	// true.
+	UseQueryCache *wrapperspb.BoolValue
+	// Optional. If true and query uses legacy SQL dialect, flattens all nested
+	// and repeated fields in the query results.
+	// allowLargeResults must be true if this is set to false.
+	// For GoogleSQL queries, this flag is ignored and results are never
+	// flattened.
+	FlattenResults *wrapperspb.BoolValue
+	// Limits the bytes billed for this job. Queries that will have
+	// bytes billed beyond this limit will fail (without incurring a charge).
+	// If unspecified, this will be set to your project default.
+	MaximumBytesBilled *wrapperspb.Int64Value
+	// Optional. Specifies whether to use BigQuery's legacy SQL dialect for this
+	// query. The default value is true. If set to false, the query uses
+	// BigQuery's
+	// [GoogleSQL](https://docs.cloud.google.com/bigquery/docs/introduction-sql).
+	//
+	// When useLegacySql is set to false, the value of flattenResults is ignored;
+	// query will be run as if flattenResults is false.
+	UseLegacySql *wrapperspb.BoolValue
+	// GoogleSQL only. Set to POSITIONAL to use positional (?) query parameters
+	// or to NAMED to use named (@myparam) query parameters in this query.
+	ParameterMode string
+	// Query parameters for GoogleSQL queries.
+	QueryParameters []*QueryParameter
+	// Output only. System variables for GoogleSQL queries. A system variable is
+	// output if the variable is settable and its value differs from the system
+	// default.
+	// "@@" prefix is not included in the name of the System variables.
+	SystemVariables *SystemVariables
+	// Allows the schema of the destination table to be updated as a side effect
+	// of the query job. Schema update options are supported in three cases:
+	// when writeDisposition is WRITE_APPEND;
+	// when writeDisposition is WRITE_TRUNCATE_DATA;
+	// when writeDisposition is WRITE_TRUNCATE and the destination table is a
+	// partition of a table, specified by partition decorators. For normal tables,
+	// WRITE_TRUNCATE will always overwrite the schema.
+	// One or more of the following values are specified:
+	//
+	// * ALLOW_FIELD_ADDITION: allow adding a nullable field to the schema.
+	// * ALLOW_FIELD_RELAXATION: allow relaxing a required field in the original
+	// schema to nullable.
+	SchemaUpdateOptions []string
+	// Time-based partitioning specification for the destination table. Only one
+	// of timePartitioning and rangePartitioning should be specified.
+	TimePartitioning *TimePartitioning
+	// Range partitioning specification for the destination table.
+	// Only one of timePartitioning and rangePartitioning should be specified.
+	RangePartitioning *RangePartitioning
+	// Clustering specification for the destination table.
+	Clustering *Clustering
+	// Custom encryption configuration (e.g., Cloud KMS keys)
+	DestinationEncryptionConfiguration *EncryptionConfiguration
+	// Options controlling the execution of scripts.
+	ScriptOptions *ScriptOptions
+	// Connection properties which can modify the query behavior.
+	ConnectionProperties []*ConnectionProperty
+	// If this property is true, the job creates a new session using a randomly
+	// generated session_id.  To continue using a created session with
+	// subsequent queries, pass the existing session identifier as a
+	// `ConnectionProperty` value.  The session identifier is returned as part of
+	// the `SessionInfo` message within the query statistics.
+	//
+	// The new session's location will be set to `Job.JobReference.location` if it
+	// is present, otherwise it's set to the default location based on existing
+	// routing logic.
+	CreateSession *wrapperspb.BoolValue
+	// Optional. Whether to run the query as continuous or a regular query.
+	// Continuous query is currently in experimental stage and not ready for
+	// general usage.
+	Continuous *wrapperspb.BoolValue
+	// Optional. This is only supported for a SELECT query using a temporary
+	// table. If set, the query is allowed to write results incrementally to the
+	// temporary result table. This may incur a performance penalty. This option
+	// cannot be used with Legacy SQL. This feature is not yet available.
+	WriteIncrementalResults bool
+}
+
+func (b0 JobConfigurationQuery_builder) Build() *JobConfigurationQuery {
+	m0 := &JobConfigurationQuery{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Query = b.Query
+	x.DestinationTable = b.DestinationTable
+	x.ExternalTableDefinitions = b.ExternalTableDefinitions
+	x.UserDefinedFunctionResources = b.UserDefinedFunctionResources
+	x.CreateDisposition = b.CreateDisposition
+	x.WriteDisposition = b.WriteDisposition
+	x.DefaultDataset = b.DefaultDataset
+	x.Priority = b.Priority
+	x.AllowLargeResults = b.AllowLargeResults
+	x.UseQueryCache = b.UseQueryCache
+	x.FlattenResults = b.FlattenResults
+	x.MaximumBytesBilled = b.MaximumBytesBilled
+	x.UseLegacySql = b.UseLegacySql
+	x.ParameterMode = b.ParameterMode
+	x.QueryParameters = b.QueryParameters
+	x.SystemVariables = b.SystemVariables
+	x.SchemaUpdateOptions = b.SchemaUpdateOptions
+	x.TimePartitioning = b.TimePartitioning
+	x.RangePartitioning = b.RangePartitioning
+	x.Clustering = b.Clustering
+	x.DestinationEncryptionConfiguration = b.DestinationEncryptionConfiguration
+	x.ScriptOptions = b.ScriptOptions
+	x.ConnectionProperties = b.ConnectionProperties
+	x.CreateSession = b.CreateSession
+	x.Continuous = b.Continuous
+	x.WriteIncrementalResults = b.WriteIncrementalResults
+	return m0
+}
+
 // Options related to script execution.
 type ScriptOptions struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Timeout period for each statement in a script.
 	StatementTimeoutMs *wrapperspb.Int64Value `protobuf:"bytes,1,opt,name=statement_timeout_ms,json=statementTimeoutMs,proto3" json:"statement_timeout_ms,omitempty"`
 	// Limit on the number of bytes billed per statement. Exceeding this budget
@@ -825,11 +1326,6 @@ func (x *ScriptOptions) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ScriptOptions.ProtoReflect.Descriptor instead.
-func (*ScriptOptions) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_config_proto_rawDescGZIP(), []int{3}
-}
-
 func (x *ScriptOptions) GetStatementTimeoutMs() *wrapperspb.Int64Value {
 	if x != nil {
 		return x.StatementTimeoutMs
@@ -851,10 +1347,68 @@ func (x *ScriptOptions) GetKeyResultStatement() ScriptOptions_KeyResultStatement
 	return ScriptOptions_KEY_RESULT_STATEMENT_KIND_UNSPECIFIED
 }
 
+func (x *ScriptOptions) SetStatementTimeoutMs(v *wrapperspb.Int64Value) {
+	x.StatementTimeoutMs = v
+}
+
+func (x *ScriptOptions) SetStatementByteBudget(v *wrapperspb.Int64Value) {
+	x.StatementByteBudget = v
+}
+
+func (x *ScriptOptions) SetKeyResultStatement(v ScriptOptions_KeyResultStatementKind) {
+	x.KeyResultStatement = v
+}
+
+func (x *ScriptOptions) HasStatementTimeoutMs() bool {
+	if x == nil {
+		return false
+	}
+	return x.StatementTimeoutMs != nil
+}
+
+func (x *ScriptOptions) HasStatementByteBudget() bool {
+	if x == nil {
+		return false
+	}
+	return x.StatementByteBudget != nil
+}
+
+func (x *ScriptOptions) ClearStatementTimeoutMs() {
+	x.StatementTimeoutMs = nil
+}
+
+func (x *ScriptOptions) ClearStatementByteBudget() {
+	x.StatementByteBudget = nil
+}
+
+type ScriptOptions_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Timeout period for each statement in a script.
+	StatementTimeoutMs *wrapperspb.Int64Value
+	// Limit on the number of bytes billed per statement. Exceeding this budget
+	// results in an error.
+	StatementByteBudget *wrapperspb.Int64Value
+	// Determines which statement in the script represents the "key result",
+	// used to populate the schema and query results of the script job.
+	// Default is LAST.
+	KeyResultStatement ScriptOptions_KeyResultStatementKind
+}
+
+func (b0 ScriptOptions_builder) Build() *ScriptOptions {
+	m0 := &ScriptOptions{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.StatementTimeoutMs = b.StatementTimeoutMs
+	x.StatementByteBudget = b.StatementByteBudget
+	x.KeyResultStatement = b.KeyResultStatement
+	return m0
+}
+
 // JobConfigurationLoad contains the configuration properties for loading data
 // into a destination table.
 type JobConfigurationLoad struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// [Required] The fully-qualified URIs that point to your data in Google
 	// Cloud.
 	// For Google Cloud Storage URIs:
@@ -1214,11 +1768,6 @@ func (x *JobConfigurationLoad) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use JobConfigurationLoad.ProtoReflect.Descriptor instead.
-func (*JobConfigurationLoad) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_config_proto_rawDescGZIP(), []int{4}
-}
-
 func (x *JobConfigurationLoad) GetSourceUris() []string {
 	if x != nil {
 		return x.SourceUris
@@ -1520,13 +2069,867 @@ func (x *JobConfigurationLoad) GetTimestampTargetPrecision() []int32 {
 	return nil
 }
 
+func (x *JobConfigurationLoad) SetSourceUris(v []string) {
+	x.SourceUris = v
+}
+
+func (x *JobConfigurationLoad) SetFileSetSpecType(v FileSetSpecType) {
+	x.FileSetSpecType = v
+}
+
+func (x *JobConfigurationLoad) SetSchema(v *TableSchema) {
+	x.Schema = v
+}
+
+func (x *JobConfigurationLoad) SetDestinationTable(v *TableReference) {
+	x.DestinationTable = v
+}
+
+func (x *JobConfigurationLoad) SetDestinationTableProperties(v *DestinationTableProperties) {
+	x.DestinationTableProperties = v
+}
+
+func (x *JobConfigurationLoad) SetCreateDisposition(v string) {
+	x.CreateDisposition = v
+}
+
+func (x *JobConfigurationLoad) SetWriteDisposition(v string) {
+	x.WriteDisposition = v
+}
+
+func (x *JobConfigurationLoad) SetNullMarker(v *wrapperspb.StringValue) {
+	x.NullMarker = v
+}
+
+func (x *JobConfigurationLoad) SetFieldDelimiter(v string) {
+	x.FieldDelimiter = v
+}
+
+func (x *JobConfigurationLoad) SetSkipLeadingRows(v *wrapperspb.Int32Value) {
+	x.SkipLeadingRows = v
+}
+
+func (x *JobConfigurationLoad) SetEncoding(v string) {
+	x.Encoding = v
+}
+
+func (x *JobConfigurationLoad) SetQuote(v *wrapperspb.StringValue) {
+	x.Quote = v
+}
+
+func (x *JobConfigurationLoad) SetMaxBadRecords(v *wrapperspb.Int32Value) {
+	x.MaxBadRecords = v
+}
+
+func (x *JobConfigurationLoad) SetAllowQuotedNewlines(v *wrapperspb.BoolValue) {
+	x.AllowQuotedNewlines = v
+}
+
+func (x *JobConfigurationLoad) SetSourceFormat(v string) {
+	x.SourceFormat = v
+}
+
+func (x *JobConfigurationLoad) SetAllowJaggedRows(v *wrapperspb.BoolValue) {
+	x.AllowJaggedRows = v
+}
+
+func (x *JobConfigurationLoad) SetIgnoreUnknownValues(v *wrapperspb.BoolValue) {
+	x.IgnoreUnknownValues = v
+}
+
+func (x *JobConfigurationLoad) SetProjectionFields(v []string) {
+	x.ProjectionFields = v
+}
+
+func (x *JobConfigurationLoad) SetAutodetect(v *wrapperspb.BoolValue) {
+	x.Autodetect = v
+}
+
+func (x *JobConfigurationLoad) SetSchemaUpdateOptions(v []string) {
+	x.SchemaUpdateOptions = v
+}
+
+func (x *JobConfigurationLoad) SetTimePartitioning(v *TimePartitioning) {
+	x.TimePartitioning = v
+}
+
+func (x *JobConfigurationLoad) SetRangePartitioning(v *RangePartitioning) {
+	x.RangePartitioning = v
+}
+
+func (x *JobConfigurationLoad) SetClustering(v *Clustering) {
+	x.Clustering = v
+}
+
+func (x *JobConfigurationLoad) SetDestinationEncryptionConfiguration(v *EncryptionConfiguration) {
+	x.DestinationEncryptionConfiguration = v
+}
+
+func (x *JobConfigurationLoad) SetUseAvroLogicalTypes(v *wrapperspb.BoolValue) {
+	x.UseAvroLogicalTypes = v
+}
+
+func (x *JobConfigurationLoad) SetReferenceFileSchemaUri(v *wrapperspb.StringValue) {
+	x.ReferenceFileSchemaUri = v
+}
+
+func (x *JobConfigurationLoad) SetHivePartitioningOptions(v *HivePartitioningOptions) {
+	x.HivePartitioningOptions = v
+}
+
+func (x *JobConfigurationLoad) SetDecimalTargetTypes(v []DecimalTargetType) {
+	x.DecimalTargetTypes = v
+}
+
+func (x *JobConfigurationLoad) SetJsonExtension(v JsonExtension) {
+	x.JsonExtension = v
+}
+
+func (x *JobConfigurationLoad) SetParquetOptions(v *ParquetOptions) {
+	x.ParquetOptions = v
+}
+
+func (x *JobConfigurationLoad) SetPreserveAsciiControlCharacters(v *wrapperspb.BoolValue) {
+	x.PreserveAsciiControlCharacters = v
+}
+
+func (x *JobConfigurationLoad) SetConnectionProperties(v []*ConnectionProperty) {
+	x.ConnectionProperties = v
+}
+
+func (x *JobConfigurationLoad) SetCreateSession(v *wrapperspb.BoolValue) {
+	x.CreateSession = v
+}
+
+func (x *JobConfigurationLoad) SetColumnNameCharacterMap(v JobConfigurationLoad_ColumnNameCharacterMap) {
+	x.ColumnNameCharacterMap = v
+}
+
+func (x *JobConfigurationLoad) SetCopyFilesOnly(v *wrapperspb.BoolValue) {
+	x.CopyFilesOnly = v
+}
+
+func (x *JobConfigurationLoad) SetTimeZone(v *wrapperspb.StringValue) {
+	x.TimeZone = v
+}
+
+func (x *JobConfigurationLoad) SetNullMarkers(v []string) {
+	x.NullMarkers = v
+}
+
+func (x *JobConfigurationLoad) SetDateFormat(v string) {
+	x.DateFormat = &v
+}
+
+func (x *JobConfigurationLoad) SetDatetimeFormat(v string) {
+	x.DatetimeFormat = &v
+}
+
+func (x *JobConfigurationLoad) SetTimeFormat(v string) {
+	x.TimeFormat = &v
+}
+
+func (x *JobConfigurationLoad) SetTimestampFormat(v string) {
+	x.TimestampFormat = &v
+}
+
+func (x *JobConfigurationLoad) SetSourceColumnMatch(v JobConfigurationLoad_SourceColumnMatch) {
+	x.SourceColumnMatch = v
+}
+
+func (x *JobConfigurationLoad) SetTimestampTargetPrecision(v []int32) {
+	x.TimestampTargetPrecision = v
+}
+
+func (x *JobConfigurationLoad) HasSchema() bool {
+	if x == nil {
+		return false
+	}
+	return x.Schema != nil
+}
+
+func (x *JobConfigurationLoad) HasDestinationTable() bool {
+	if x == nil {
+		return false
+	}
+	return x.DestinationTable != nil
+}
+
+func (x *JobConfigurationLoad) HasDestinationTableProperties() bool {
+	if x == nil {
+		return false
+	}
+	return x.DestinationTableProperties != nil
+}
+
+func (x *JobConfigurationLoad) HasNullMarker() bool {
+	if x == nil {
+		return false
+	}
+	return x.NullMarker != nil
+}
+
+func (x *JobConfigurationLoad) HasSkipLeadingRows() bool {
+	if x == nil {
+		return false
+	}
+	return x.SkipLeadingRows != nil
+}
+
+func (x *JobConfigurationLoad) HasQuote() bool {
+	if x == nil {
+		return false
+	}
+	return x.Quote != nil
+}
+
+func (x *JobConfigurationLoad) HasMaxBadRecords() bool {
+	if x == nil {
+		return false
+	}
+	return x.MaxBadRecords != nil
+}
+
+func (x *JobConfigurationLoad) HasAllowQuotedNewlines() bool {
+	if x == nil {
+		return false
+	}
+	return x.AllowQuotedNewlines != nil
+}
+
+func (x *JobConfigurationLoad) HasAllowJaggedRows() bool {
+	if x == nil {
+		return false
+	}
+	return x.AllowJaggedRows != nil
+}
+
+func (x *JobConfigurationLoad) HasIgnoreUnknownValues() bool {
+	if x == nil {
+		return false
+	}
+	return x.IgnoreUnknownValues != nil
+}
+
+func (x *JobConfigurationLoad) HasAutodetect() bool {
+	if x == nil {
+		return false
+	}
+	return x.Autodetect != nil
+}
+
+func (x *JobConfigurationLoad) HasTimePartitioning() bool {
+	if x == nil {
+		return false
+	}
+	return x.TimePartitioning != nil
+}
+
+func (x *JobConfigurationLoad) HasRangePartitioning() bool {
+	if x == nil {
+		return false
+	}
+	return x.RangePartitioning != nil
+}
+
+func (x *JobConfigurationLoad) HasClustering() bool {
+	if x == nil {
+		return false
+	}
+	return x.Clustering != nil
+}
+
+func (x *JobConfigurationLoad) HasDestinationEncryptionConfiguration() bool {
+	if x == nil {
+		return false
+	}
+	return x.DestinationEncryptionConfiguration != nil
+}
+
+func (x *JobConfigurationLoad) HasUseAvroLogicalTypes() bool {
+	if x == nil {
+		return false
+	}
+	return x.UseAvroLogicalTypes != nil
+}
+
+func (x *JobConfigurationLoad) HasReferenceFileSchemaUri() bool {
+	if x == nil {
+		return false
+	}
+	return x.ReferenceFileSchemaUri != nil
+}
+
+func (x *JobConfigurationLoad) HasHivePartitioningOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.HivePartitioningOptions != nil
+}
+
+func (x *JobConfigurationLoad) HasParquetOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.ParquetOptions != nil
+}
+
+func (x *JobConfigurationLoad) HasPreserveAsciiControlCharacters() bool {
+	if x == nil {
+		return false
+	}
+	return x.PreserveAsciiControlCharacters != nil
+}
+
+func (x *JobConfigurationLoad) HasCreateSession() bool {
+	if x == nil {
+		return false
+	}
+	return x.CreateSession != nil
+}
+
+func (x *JobConfigurationLoad) HasCopyFilesOnly() bool {
+	if x == nil {
+		return false
+	}
+	return x.CopyFilesOnly != nil
+}
+
+func (x *JobConfigurationLoad) HasTimeZone() bool {
+	if x == nil {
+		return false
+	}
+	return x.TimeZone != nil
+}
+
+func (x *JobConfigurationLoad) HasDateFormat() bool {
+	if x == nil {
+		return false
+	}
+	return x.DateFormat != nil
+}
+
+func (x *JobConfigurationLoad) HasDatetimeFormat() bool {
+	if x == nil {
+		return false
+	}
+	return x.DatetimeFormat != nil
+}
+
+func (x *JobConfigurationLoad) HasTimeFormat() bool {
+	if x == nil {
+		return false
+	}
+	return x.TimeFormat != nil
+}
+
+func (x *JobConfigurationLoad) HasTimestampFormat() bool {
+	if x == nil {
+		return false
+	}
+	return x.TimestampFormat != nil
+}
+
+func (x *JobConfigurationLoad) ClearSchema() {
+	x.Schema = nil
+}
+
+func (x *JobConfigurationLoad) ClearDestinationTable() {
+	x.DestinationTable = nil
+}
+
+func (x *JobConfigurationLoad) ClearDestinationTableProperties() {
+	x.DestinationTableProperties = nil
+}
+
+func (x *JobConfigurationLoad) ClearNullMarker() {
+	x.NullMarker = nil
+}
+
+func (x *JobConfigurationLoad) ClearSkipLeadingRows() {
+	x.SkipLeadingRows = nil
+}
+
+func (x *JobConfigurationLoad) ClearQuote() {
+	x.Quote = nil
+}
+
+func (x *JobConfigurationLoad) ClearMaxBadRecords() {
+	x.MaxBadRecords = nil
+}
+
+func (x *JobConfigurationLoad) ClearAllowQuotedNewlines() {
+	x.AllowQuotedNewlines = nil
+}
+
+func (x *JobConfigurationLoad) ClearAllowJaggedRows() {
+	x.AllowJaggedRows = nil
+}
+
+func (x *JobConfigurationLoad) ClearIgnoreUnknownValues() {
+	x.IgnoreUnknownValues = nil
+}
+
+func (x *JobConfigurationLoad) ClearAutodetect() {
+	x.Autodetect = nil
+}
+
+func (x *JobConfigurationLoad) ClearTimePartitioning() {
+	x.TimePartitioning = nil
+}
+
+func (x *JobConfigurationLoad) ClearRangePartitioning() {
+	x.RangePartitioning = nil
+}
+
+func (x *JobConfigurationLoad) ClearClustering() {
+	x.Clustering = nil
+}
+
+func (x *JobConfigurationLoad) ClearDestinationEncryptionConfiguration() {
+	x.DestinationEncryptionConfiguration = nil
+}
+
+func (x *JobConfigurationLoad) ClearUseAvroLogicalTypes() {
+	x.UseAvroLogicalTypes = nil
+}
+
+func (x *JobConfigurationLoad) ClearReferenceFileSchemaUri() {
+	x.ReferenceFileSchemaUri = nil
+}
+
+func (x *JobConfigurationLoad) ClearHivePartitioningOptions() {
+	x.HivePartitioningOptions = nil
+}
+
+func (x *JobConfigurationLoad) ClearParquetOptions() {
+	x.ParquetOptions = nil
+}
+
+func (x *JobConfigurationLoad) ClearPreserveAsciiControlCharacters() {
+	x.PreserveAsciiControlCharacters = nil
+}
+
+func (x *JobConfigurationLoad) ClearCreateSession() {
+	x.CreateSession = nil
+}
+
+func (x *JobConfigurationLoad) ClearCopyFilesOnly() {
+	x.CopyFilesOnly = nil
+}
+
+func (x *JobConfigurationLoad) ClearTimeZone() {
+	x.TimeZone = nil
+}
+
+func (x *JobConfigurationLoad) ClearDateFormat() {
+	x.DateFormat = nil
+}
+
+func (x *JobConfigurationLoad) ClearDatetimeFormat() {
+	x.DatetimeFormat = nil
+}
+
+func (x *JobConfigurationLoad) ClearTimeFormat() {
+	x.TimeFormat = nil
+}
+
+func (x *JobConfigurationLoad) ClearTimestampFormat() {
+	x.TimestampFormat = nil
+}
+
+type JobConfigurationLoad_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// [Required] The fully-qualified URIs that point to your data in Google
+	// Cloud.
+	// For Google Cloud Storage URIs:
+	//
+	//	Each URI can contain one '*' wildcard character and it must come after
+	//	the 'bucket' name. Size limits related to load jobs apply to external
+	//	data sources.
+	//
+	// For Google Cloud Bigtable URIs:
+	//
+	//	Exactly one URI can be specified and it has be a fully specified and
+	//	valid HTTPS URL for a Google Cloud Bigtable table.
+	//
+	// For Google Cloud Datastore backups:
+	//
+	//	Exactly one URI can be specified. Also, the '*' wildcard character is not
+	//	allowed.
+	SourceUris []string
+	// Optional. Specifies how source URIs are interpreted for constructing the
+	// file set to load. By default, source URIs are expanded against the
+	// underlying storage. You can also specify manifest files to control how the
+	// file set is constructed. This option is only applicable to object storage
+	// systems.
+	FileSetSpecType FileSetSpecType
+	// Optional. The schema for the destination table. The schema can be
+	// omitted if the destination table already exists, or if you're loading data
+	// from Google Cloud Datastore.
+	Schema *TableSchema
+	// [Required] The destination table to load the data into.
+	DestinationTable *TableReference
+	// Optional. [Experimental] Properties with which to create the destination
+	// table if it is new.
+	DestinationTableProperties *DestinationTableProperties
+	// Optional. Specifies whether the job is allowed to create new tables.
+	// The following values are supported:
+	//
+	// * CREATE_IF_NEEDED: If the table does not exist, BigQuery creates the
+	// table.
+	// * CREATE_NEVER: The table must already exist. If it does not,
+	// a 'notFound' error is returned in the job result.
+	// The default value is CREATE_IF_NEEDED.
+	// Creation, truncation and append actions occur as one atomic update
+	// upon job completion.
+	CreateDisposition string
+	// Optional. Specifies the action that occurs if the destination table
+	// already exists. The following values are supported:
+	//
+	// * WRITE_TRUNCATE:  If the table already exists, BigQuery overwrites the
+	// data, removes the constraints and uses the schema from the load job.
+	// * WRITE_TRUNCATE_DATA: If the table already exists, BigQuery overwrites the
+	// data, but keeps the constraints and schema of the existing table.
+	// * WRITE_APPEND: If the table already exists, BigQuery appends the data to
+	// the table.
+	// * WRITE_EMPTY: If the table already exists and contains data, a 'duplicate'
+	// error is returned in the job result.
+	//
+	// The default value is WRITE_APPEND.
+	// Each action is atomic and only occurs if BigQuery is able to complete the
+	// job successfully.
+	// Creation, truncation and append actions occur as one atomic update
+	// upon job completion.
+	WriteDisposition string
+	// Optional. Specifies a string that represents a null value in a CSV file.
+	// For example, if you specify "\N", BigQuery interprets "\N" as a null value
+	// when loading a CSV file.
+	// The default value is the empty string. If you set this property to a custom
+	// value, BigQuery throws an error if an empty string is present for all data
+	// types except for STRING and BYTE. For STRING and BYTE columns, BigQuery
+	// interprets the empty string as an empty value.
+	NullMarker *wrapperspb.StringValue
+	// Optional. The separator character for fields in a CSV file. The separator
+	// is interpreted as a single byte. For files encoded in ISO-8859-1, any
+	// single character can be used as a separator. For files encoded in UTF-8,
+	// characters represented in decimal range 1-127 (U+0001-U+007F) can be used
+	// without any modification. UTF-8 characters encoded with multiple bytes
+	// (i.e. U+0080 and above) will have only the first byte used for separating
+	// fields. The remaining bytes will be treated as a part of the field.
+	// BigQuery also supports the escape sequence "\t" (U+0009) to specify a tab
+	// separator. The default value is comma (",", U+002C).
+	FieldDelimiter string
+	// Optional. The number of rows at the top of a CSV file that BigQuery will
+	// skip when loading the data. The default value is 0. This property is useful
+	// if you have header rows in the file that should be skipped. When autodetect
+	// is on, the behavior is the following:
+	//
+	//   - skipLeadingRows unspecified - Autodetect tries to detect headers in the
+	//     first row. If they are not detected, the row is read as data. Otherwise
+	//     data is read starting from the second row.
+	//   - skipLeadingRows is 0 - Instructs autodetect that there are no headers and
+	//     data should be read starting from the first row.
+	//   - skipLeadingRows = N > 0 - Autodetect skips N-1 rows and tries to detect
+	//     headers in row N. If headers are not detected, row N is just skipped.
+	//     Otherwise row N is used to extract column names for the detected schema.
+	SkipLeadingRows *wrapperspb.Int32Value
+	// Optional. The character encoding of the data.
+	// The supported values are UTF-8, ISO-8859-1, UTF-16BE, UTF-16LE, UTF-32BE,
+	// and UTF-32LE. The default value is UTF-8. BigQuery decodes the data after
+	// the raw, binary data has been split using the values of the `quote` and
+	// `fieldDelimiter` properties.
+	//
+	// If you don't specify an encoding, or if you specify a UTF-8 encoding when
+	// the CSV file is not UTF-8 encoded, BigQuery attempts to convert the data to
+	// UTF-8. Generally, your data loads successfully, but it may not match
+	// byte-for-byte what you expect. To avoid this, specify the correct encoding
+	// by using the `--encoding` flag.
+	//
+	// If BigQuery can't convert a character other than the ASCII `0` character,
+	// BigQuery converts the character to the standard Unicode replacement
+	// character: &#65533;.
+	Encoding string
+	// Optional. The value that is used to quote data sections in a CSV file.
+	// BigQuery converts the string to ISO-8859-1 encoding, and then uses the
+	// first byte of the encoded string to split the data in its raw, binary
+	// state.
+	// The default value is a double-quote ('"').
+	// If your data does not contain quoted sections, set the property value to an
+	// empty string.
+	// If your data contains quoted newline characters, you must also set the
+	// allowQuotedNewlines property to true.
+	// To include the specific quote character within a quoted value, precede it
+	// with an additional matching quote character. For example, if you want to
+	// escape the default character  ' " ', use ' "" '.
+	// @default "
+	Quote *wrapperspb.StringValue
+	// Optional. The maximum number of bad records that BigQuery can ignore when
+	// running the job. If the number of bad records exceeds this value, an
+	// invalid error is returned in the job result.
+	// The default value is 0, which requires that all records are valid.
+	// This is only supported for CSV and NEWLINE_DELIMITED_JSON file formats.
+	MaxBadRecords *wrapperspb.Int32Value
+	// Indicates if BigQuery should allow quoted data sections that contain
+	// newline characters in a CSV file. The default value is false.
+	AllowQuotedNewlines *wrapperspb.BoolValue
+	// Optional. The format of the data files.
+	// For CSV files, specify "CSV". For datastore backups,
+	// specify "DATASTORE_BACKUP". For newline-delimited JSON,
+	// specify "NEWLINE_DELIMITED_JSON". For Avro, specify "AVRO".
+	// For parquet, specify "PARQUET". For orc, specify "ORC".
+	// The default value is CSV.
+	SourceFormat string
+	// Optional. Accept rows that are missing trailing optional columns.
+	// The missing values are treated as nulls.
+	// If false, records with missing trailing columns are treated as bad records,
+	// and if there are too many bad records, an invalid error is returned in the
+	// job result.
+	// The default value is false.
+	// Only applicable to CSV, ignored for other formats.
+	AllowJaggedRows *wrapperspb.BoolValue
+	// Optional. Indicates if BigQuery should allow extra values that are not
+	// represented in the table schema.
+	// If true, the extra values are ignored.
+	// If false, records with extra columns are treated as bad records, and if
+	// there are too many bad records, an invalid error is returned in the job
+	// result. The default value is false.
+	// The sourceFormat property determines what BigQuery treats as an extra
+	// value:
+	//
+	//	CSV: Trailing columns
+	//	JSON: Named values that don't match any column names in the table schema
+	//	Avro, Parquet, ORC: Fields in the file schema that don't exist in the
+	//	table schema.
+	IgnoreUnknownValues *wrapperspb.BoolValue
+	// If sourceFormat is set to "DATASTORE_BACKUP", indicates which entity
+	// properties to load into BigQuery from a Cloud Datastore backup. Property
+	// names are case sensitive and must be top-level properties. If no properties
+	// are specified, BigQuery loads all properties. If any named property isn't
+	// found in the Cloud Datastore backup, an invalid error is returned in the
+	// job result.
+	ProjectionFields []string
+	// Optional. Indicates if we should automatically infer the options and
+	// schema for CSV and JSON sources.
+	Autodetect *wrapperspb.BoolValue
+	// Allows the schema of the destination table to be updated as a side effect
+	// of the load job if a schema is autodetected or supplied in the job
+	// configuration.
+	// Schema update options are supported in three cases:
+	// when writeDisposition is WRITE_APPEND;
+	// when writeDisposition is WRITE_TRUNCATE_DATA;
+	// when writeDisposition is WRITE_TRUNCATE and the destination table is a
+	// partition of a table, specified by partition decorators. For normal tables,
+	// WRITE_TRUNCATE will always overwrite the schema.
+	// One or more of the following values are specified:
+	//
+	// * ALLOW_FIELD_ADDITION: allow adding a nullable field to the schema.
+	// * ALLOW_FIELD_RELAXATION: allow relaxing a required field in the original
+	// schema to nullable.
+	SchemaUpdateOptions []string
+	// Time-based partitioning specification for the destination table. Only one
+	// of timePartitioning and rangePartitioning should be specified.
+	TimePartitioning *TimePartitioning
+	// Range partitioning specification for the destination table.
+	// Only one of timePartitioning and rangePartitioning should be specified.
+	RangePartitioning *RangePartitioning
+	// Clustering specification for the destination table.
+	Clustering *Clustering
+	// Custom encryption configuration (e.g., Cloud KMS keys)
+	DestinationEncryptionConfiguration *EncryptionConfiguration
+	// Optional. If sourceFormat is set to "AVRO", indicates whether to interpret
+	// logical types as the corresponding BigQuery data type (for example,
+	// TIMESTAMP), instead of using the raw type (for example, INTEGER).
+	UseAvroLogicalTypes *wrapperspb.BoolValue
+	// Optional. The user can provide a reference file with the reader schema.
+	// This file is only loaded if it is part of source URIs, but is not loaded
+	// otherwise. It is enabled for the following formats: AVRO, PARQUET, ORC.
+	ReferenceFileSchemaUri *wrapperspb.StringValue
+	// Optional. When set, configures hive partitioning support.
+	// Not all storage formats support hive partitioning -- requesting hive
+	// partitioning on an unsupported format will lead to an error, as will
+	// providing an invalid specification.
+	HivePartitioningOptions *HivePartitioningOptions
+	// Defines the list of possible SQL data types to which the source decimal
+	// values are converted. This list and the precision and the scale parameters
+	// of the decimal field determine the target type. In the order of NUMERIC,
+	// BIGNUMERIC, and STRING, a
+	// type is picked if it is in the specified list and if it supports the
+	// precision and the scale. STRING supports all precision and scale values.
+	// If none of the listed types supports the precision and the scale, the type
+	// supporting the widest range in the specified list is picked, and if a value
+	// exceeds the supported range when reading the data, an error will be thrown.
+	//
+	// Example: Suppose the value of this field is ["NUMERIC", "BIGNUMERIC"].
+	// If (precision,scale) is:
+	//
+	// * (38,9) -> NUMERIC;
+	// * (39,9) -> BIGNUMERIC (NUMERIC cannot hold 30 integer digits);
+	// * (38,10) -> BIGNUMERIC (NUMERIC cannot hold 10 fractional digits);
+	// * (76,38) -> BIGNUMERIC;
+	// * (77,38) -> BIGNUMERIC (error if value exceeds supported range).
+	//
+	// This field cannot contain duplicate types. The order of the types in this
+	// field is ignored. For example, ["BIGNUMERIC", "NUMERIC"] is the same as
+	// ["NUMERIC", "BIGNUMERIC"] and NUMERIC always takes precedence over
+	// BIGNUMERIC.
+	//
+	// Defaults to ["NUMERIC", "STRING"] for ORC and ["NUMERIC"] for the other
+	// file formats.
+	DecimalTargetTypes []DecimalTargetType
+	// Optional. Load option to be used together with source_format
+	// newline-delimited JSON to indicate that a variant of JSON is being loaded.
+	// To load newline-delimited GeoJSON, specify GEOJSON (and source_format must
+	// be set to NEWLINE_DELIMITED_JSON).
+	JsonExtension JsonExtension
+	// Optional. Additional properties to set if sourceFormat is set to PARQUET.
+	ParquetOptions *ParquetOptions
+	// Optional. When sourceFormat is set to "CSV", this indicates whether the
+	// embedded ASCII control characters (the first 32 characters in the
+	// ASCII-table, from
+	// '\x00' to '\x1F') are preserved.
+	PreserveAsciiControlCharacters *wrapperspb.BoolValue
+	// Optional. Connection properties which can modify the load job behavior.
+	// Currently, only the 'session_id' connection property is supported, and is
+	// used to resolve _SESSION appearing as the dataset id.
+	ConnectionProperties []*ConnectionProperty
+	// Optional. If this property is true, the job creates a new session using a
+	// randomly generated session_id.  To continue using a created session with
+	// subsequent queries, pass the existing session identifier as a
+	// `ConnectionProperty` value.  The session identifier is returned as part of
+	// the `SessionInfo` message within the query statistics.
+	//
+	// The new session's location will be set to `Job.JobReference.location` if it
+	// is present, otherwise it's set to the default location based on existing
+	// routing logic.
+	CreateSession *wrapperspb.BoolValue
+	// Optional. Character map supported for column names in CSV/Parquet loads.
+	// Defaults to STRICT and can be overridden by Project Config Service. Using
+	// this option with unsupporting load formats will result in an error.
+	ColumnNameCharacterMap JobConfigurationLoad_ColumnNameCharacterMap
+	// Optional. [Experimental] Configures the load job to copy files directly to
+	// the destination BigLake managed table, bypassing file content reading and
+	// rewriting.
+	//
+	// Copying files only is supported when all the following are true:
+	//
+	//   - `source_uris` are located in the same Cloud Storage location as the
+	//     destination table's `storage_uri` location.
+	//   - `source_format` is `PARQUET`.
+	//   - `destination_table` is an existing BigLake managed table. The table's
+	//     schema does not have flexible column names. The table's columns do not
+	//     have type parameters other than precision and scale.
+	//   - No options other than the above are specified.
+	CopyFilesOnly *wrapperspb.BoolValue
+	// Optional. Default time zone that will apply when parsing timestamp values
+	// that have no specific time zone.
+	TimeZone *wrapperspb.StringValue
+	// Optional. A list of strings represented as SQL NULL value in a CSV file.
+	//
+	// null_marker and null_markers can't be set at the same time.
+	// If null_marker is set, null_markers has to be not set.
+	// If null_markers is set, null_marker has to be not set.
+	// If both null_marker and null_markers are set at the same time, a user
+	// error would be thrown.
+	// Any strings listed in null_markers, including
+	// empty string would be interpreted as SQL NULL. This applies to all column
+	// types.
+	NullMarkers []string
+	// Optional. Date format used for parsing DATE values.
+	DateFormat *string
+	// Optional. Date format used for parsing DATETIME values.
+	DatetimeFormat *string
+	// Optional. Date format used for parsing TIME values.
+	TimeFormat *string
+	// Optional. Date format used for parsing TIMESTAMP values.
+	TimestampFormat *string
+	// Optional. Controls the strategy used to match loaded columns to the schema.
+	// If not set, a sensible default is chosen based on how the schema is
+	// provided. If autodetect is used, then columns are matched by name.
+	// Otherwise, columns are matched by position. This is done to keep the
+	// behavior backward-compatible.
+	SourceColumnMatch JobConfigurationLoad_SourceColumnMatch
+	// Precisions (maximum number of total digits in base 10) for seconds
+	// of TIMESTAMP types that are allowed to the destination table for
+	// autodetection mode.
+	//
+	// Available for the formats: CSV, PARQUET, AVRO, and Iceberg External Table.
+	//
+	// Possible values include:
+	// Not Specified, [], or [6]: timestamp(6) for all auto detected TIMESTAMP
+	// columns
+	// [6, 12]: timestamp(6) for all auto detected TIMESTAMP columns that have
+	// less than 6 digits of subseconds.
+	//
+	//	timestamp(12) for all auto detected TIMESTAMP columns that have
+	//	more than 6 digits of subseconds.
+	//
+	// [12]: timestamp(12) for all auto detected TIMESTAMP columns.
+	//
+	// The order of the elements in this array is ignored.
+	// Inputs that have higher precision than the highest target precision in this
+	// array will be truncated.
+	TimestampTargetPrecision []int32
+}
+
+func (b0 JobConfigurationLoad_builder) Build() *JobConfigurationLoad {
+	m0 := &JobConfigurationLoad{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.SourceUris = b.SourceUris
+	x.FileSetSpecType = b.FileSetSpecType
+	x.Schema = b.Schema
+	x.DestinationTable = b.DestinationTable
+	x.DestinationTableProperties = b.DestinationTableProperties
+	x.CreateDisposition = b.CreateDisposition
+	x.WriteDisposition = b.WriteDisposition
+	x.NullMarker = b.NullMarker
+	x.FieldDelimiter = b.FieldDelimiter
+	x.SkipLeadingRows = b.SkipLeadingRows
+	x.Encoding = b.Encoding
+	x.Quote = b.Quote
+	x.MaxBadRecords = b.MaxBadRecords
+	x.AllowQuotedNewlines = b.AllowQuotedNewlines
+	x.SourceFormat = b.SourceFormat
+	x.AllowJaggedRows = b.AllowJaggedRows
+	x.IgnoreUnknownValues = b.IgnoreUnknownValues
+	x.ProjectionFields = b.ProjectionFields
+	x.Autodetect = b.Autodetect
+	x.SchemaUpdateOptions = b.SchemaUpdateOptions
+	x.TimePartitioning = b.TimePartitioning
+	x.RangePartitioning = b.RangePartitioning
+	x.Clustering = b.Clustering
+	x.DestinationEncryptionConfiguration = b.DestinationEncryptionConfiguration
+	x.UseAvroLogicalTypes = b.UseAvroLogicalTypes
+	x.ReferenceFileSchemaUri = b.ReferenceFileSchemaUri
+	x.HivePartitioningOptions = b.HivePartitioningOptions
+	x.DecimalTargetTypes = b.DecimalTargetTypes
+	x.JsonExtension = b.JsonExtension
+	x.ParquetOptions = b.ParquetOptions
+	x.PreserveAsciiControlCharacters = b.PreserveAsciiControlCharacters
+	x.ConnectionProperties = b.ConnectionProperties
+	x.CreateSession = b.CreateSession
+	x.ColumnNameCharacterMap = b.ColumnNameCharacterMap
+	x.CopyFilesOnly = b.CopyFilesOnly
+	x.TimeZone = b.TimeZone
+	x.NullMarkers = b.NullMarkers
+	x.DateFormat = b.DateFormat
+	x.DatetimeFormat = b.DatetimeFormat
+	x.TimeFormat = b.TimeFormat
+	x.TimestampFormat = b.TimestampFormat
+	x.SourceColumnMatch = b.SourceColumnMatch
+	x.TimestampTargetPrecision = b.TimestampTargetPrecision
+	return m0
+}
+
 // JobConfigurationTableCopy configures a job that copies data from one table
 // to another.
 // For more information on copying tables, see [Copy a
 //
 //	table](https://cloud.google.com/bigquery/docs/managing-tables#copy-table).
 type JobConfigurationTableCopy struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// [Pick one] Source table to copy.
 	SourceTable *TableReference `protobuf:"bytes,1,opt,name=source_table,json=sourceTable,proto3" json:"source_table,omitempty"`
 	// [Pick one] Source tables to copy.
@@ -1595,11 +2998,6 @@ func (x *JobConfigurationTableCopy) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use JobConfigurationTableCopy.ProtoReflect.Descriptor instead.
-func (*JobConfigurationTableCopy) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_config_proto_rawDescGZIP(), []int{5}
-}
-
 func (x *JobConfigurationTableCopy) GetSourceTable() *TableReference {
 	if x != nil {
 		return x.SourceTable
@@ -1656,10 +3054,145 @@ func (x *JobConfigurationTableCopy) GetDestinationExpirationTime() *timestamppb.
 	return nil
 }
 
+func (x *JobConfigurationTableCopy) SetSourceTable(v *TableReference) {
+	x.SourceTable = v
+}
+
+func (x *JobConfigurationTableCopy) SetSourceTables(v []*TableReference) {
+	x.SourceTables = v
+}
+
+func (x *JobConfigurationTableCopy) SetDestinationTable(v *TableReference) {
+	x.DestinationTable = v
+}
+
+func (x *JobConfigurationTableCopy) SetCreateDisposition(v string) {
+	x.CreateDisposition = v
+}
+
+func (x *JobConfigurationTableCopy) SetWriteDisposition(v string) {
+	x.WriteDisposition = v
+}
+
+func (x *JobConfigurationTableCopy) SetDestinationEncryptionConfiguration(v *EncryptionConfiguration) {
+	x.DestinationEncryptionConfiguration = v
+}
+
+func (x *JobConfigurationTableCopy) SetOperationType(v JobConfigurationTableCopy_OperationType) {
+	x.OperationType = v
+}
+
+func (x *JobConfigurationTableCopy) SetDestinationExpirationTime(v *timestamppb.Timestamp) {
+	x.DestinationExpirationTime = v
+}
+
+func (x *JobConfigurationTableCopy) HasSourceTable() bool {
+	if x == nil {
+		return false
+	}
+	return x.SourceTable != nil
+}
+
+func (x *JobConfigurationTableCopy) HasDestinationTable() bool {
+	if x == nil {
+		return false
+	}
+	return x.DestinationTable != nil
+}
+
+func (x *JobConfigurationTableCopy) HasDestinationEncryptionConfiguration() bool {
+	if x == nil {
+		return false
+	}
+	return x.DestinationEncryptionConfiguration != nil
+}
+
+func (x *JobConfigurationTableCopy) HasDestinationExpirationTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.DestinationExpirationTime != nil
+}
+
+func (x *JobConfigurationTableCopy) ClearSourceTable() {
+	x.SourceTable = nil
+}
+
+func (x *JobConfigurationTableCopy) ClearDestinationTable() {
+	x.DestinationTable = nil
+}
+
+func (x *JobConfigurationTableCopy) ClearDestinationEncryptionConfiguration() {
+	x.DestinationEncryptionConfiguration = nil
+}
+
+func (x *JobConfigurationTableCopy) ClearDestinationExpirationTime() {
+	x.DestinationExpirationTime = nil
+}
+
+type JobConfigurationTableCopy_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// [Pick one] Source table to copy.
+	SourceTable *TableReference
+	// [Pick one] Source tables to copy.
+	SourceTables []*TableReference
+	// [Required] The destination table.
+	DestinationTable *TableReference
+	// Optional. Specifies whether the job is allowed to create new tables.
+	// The following values are supported:
+	//
+	// * CREATE_IF_NEEDED: If the table does not exist, BigQuery creates the
+	// table.
+	// * CREATE_NEVER: The table must already exist. If it does not,
+	// a 'notFound' error is returned in the job result.
+	//
+	// The default value is CREATE_IF_NEEDED.
+	// Creation, truncation and append actions occur as one atomic update
+	// upon job completion.
+	CreateDisposition string
+	// Optional. Specifies the action that occurs if the destination table
+	// already exists. The following values are supported:
+	//
+	// * WRITE_TRUNCATE: If the table already exists, BigQuery overwrites the
+	// table data and uses the schema and table constraints from the source table.
+	// * WRITE_APPEND: If the table already exists, BigQuery appends the data to
+	// the table.
+	// * WRITE_EMPTY: If the table already exists and contains data, a 'duplicate'
+	// error is returned in the job result.
+	//
+	// The default value is WRITE_EMPTY. Each action is atomic and only occurs if
+	// BigQuery is able to complete the job successfully. Creation, truncation and
+	// append actions occur as one atomic update upon job completion.
+	WriteDisposition string
+	// Custom encryption configuration (e.g., Cloud KMS keys).
+	DestinationEncryptionConfiguration *EncryptionConfiguration
+	// Optional. Supported operation types in table copy job.
+	OperationType JobConfigurationTableCopy_OperationType
+	// Optional. The time when the destination table expires. Expired tables will
+	// be deleted and their storage reclaimed.
+	DestinationExpirationTime *timestamppb.Timestamp
+}
+
+func (b0 JobConfigurationTableCopy_builder) Build() *JobConfigurationTableCopy {
+	m0 := &JobConfigurationTableCopy{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.SourceTable = b.SourceTable
+	x.SourceTables = b.SourceTables
+	x.DestinationTable = b.DestinationTable
+	x.CreateDisposition = b.CreateDisposition
+	x.WriteDisposition = b.WriteDisposition
+	x.DestinationEncryptionConfiguration = b.DestinationEncryptionConfiguration
+	x.OperationType = b.OperationType
+	x.DestinationExpirationTime = b.DestinationExpirationTime
+	return m0
+}
+
 // JobConfigurationExtract configures a job that exports data from a BigQuery
 // table into Google Cloud Storage.
 type JobConfigurationExtract struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Source reference for the export.
 	//
 	// Types that are valid to be assigned to Source:
@@ -1721,11 +3254,6 @@ func (x *JobConfigurationExtract) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use JobConfigurationExtract.ProtoReflect.Descriptor instead.
-func (*JobConfigurationExtract) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_config_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *JobConfigurationExtract) GetSource() isJobConfigurationExtract_Source {
@@ -1802,6 +3330,210 @@ func (x *JobConfigurationExtract) GetModelExtractOptions() *JobConfigurationExtr
 	return nil
 }
 
+func (x *JobConfigurationExtract) SetSourceTable(v *TableReference) {
+	if v == nil {
+		x.Source = nil
+		return
+	}
+	x.Source = &JobConfigurationExtract_SourceTable{v}
+}
+
+func (x *JobConfigurationExtract) SetSourceModel(v *ModelReference) {
+	if v == nil {
+		x.Source = nil
+		return
+	}
+	x.Source = &JobConfigurationExtract_SourceModel{v}
+}
+
+func (x *JobConfigurationExtract) SetDestinationUris(v []string) {
+	x.DestinationUris = v
+}
+
+func (x *JobConfigurationExtract) SetPrintHeader(v *wrapperspb.BoolValue) {
+	x.PrintHeader = v
+}
+
+func (x *JobConfigurationExtract) SetFieldDelimiter(v string) {
+	x.FieldDelimiter = v
+}
+
+func (x *JobConfigurationExtract) SetDestinationFormat(v string) {
+	x.DestinationFormat = v
+}
+
+func (x *JobConfigurationExtract) SetCompression(v string) {
+	x.Compression = v
+}
+
+func (x *JobConfigurationExtract) SetUseAvroLogicalTypes(v *wrapperspb.BoolValue) {
+	x.UseAvroLogicalTypes = v
+}
+
+func (x *JobConfigurationExtract) SetModelExtractOptions(v *JobConfigurationExtract_ModelExtractOptions) {
+	x.ModelExtractOptions = v
+}
+
+func (x *JobConfigurationExtract) HasSource() bool {
+	if x == nil {
+		return false
+	}
+	return x.Source != nil
+}
+
+func (x *JobConfigurationExtract) HasSourceTable() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Source.(*JobConfigurationExtract_SourceTable)
+	return ok
+}
+
+func (x *JobConfigurationExtract) HasSourceModel() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Source.(*JobConfigurationExtract_SourceModel)
+	return ok
+}
+
+func (x *JobConfigurationExtract) HasPrintHeader() bool {
+	if x == nil {
+		return false
+	}
+	return x.PrintHeader != nil
+}
+
+func (x *JobConfigurationExtract) HasUseAvroLogicalTypes() bool {
+	if x == nil {
+		return false
+	}
+	return x.UseAvroLogicalTypes != nil
+}
+
+func (x *JobConfigurationExtract) HasModelExtractOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.ModelExtractOptions != nil
+}
+
+func (x *JobConfigurationExtract) ClearSource() {
+	x.Source = nil
+}
+
+func (x *JobConfigurationExtract) ClearSourceTable() {
+	if _, ok := x.Source.(*JobConfigurationExtract_SourceTable); ok {
+		x.Source = nil
+	}
+}
+
+func (x *JobConfigurationExtract) ClearSourceModel() {
+	if _, ok := x.Source.(*JobConfigurationExtract_SourceModel); ok {
+		x.Source = nil
+	}
+}
+
+func (x *JobConfigurationExtract) ClearPrintHeader() {
+	x.PrintHeader = nil
+}
+
+func (x *JobConfigurationExtract) ClearUseAvroLogicalTypes() {
+	x.UseAvroLogicalTypes = nil
+}
+
+func (x *JobConfigurationExtract) ClearModelExtractOptions() {
+	x.ModelExtractOptions = nil
+}
+
+const JobConfigurationExtract_Source_not_set_case case_JobConfigurationExtract_Source = 0
+const JobConfigurationExtract_SourceTable_case case_JobConfigurationExtract_Source = 1
+const JobConfigurationExtract_SourceModel_case case_JobConfigurationExtract_Source = 9
+
+func (x *JobConfigurationExtract) WhichSource() case_JobConfigurationExtract_Source {
+	if x == nil {
+		return JobConfigurationExtract_Source_not_set_case
+	}
+	switch x.Source.(type) {
+	case *JobConfigurationExtract_SourceTable:
+		return JobConfigurationExtract_SourceTable_case
+	case *JobConfigurationExtract_SourceModel:
+		return JobConfigurationExtract_SourceModel_case
+	default:
+		return JobConfigurationExtract_Source_not_set_case
+	}
+}
+
+type JobConfigurationExtract_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Source reference for the export.
+
+	// Fields of oneof Source:
+	// A reference to the table being exported.
+	SourceTable *TableReference
+	// A reference to the model being exported.
+	SourceModel *ModelReference
+	// -- end of Source
+	// [Pick one] A list of fully-qualified Google Cloud Storage URIs where the
+	// extracted table should be written.
+	DestinationUris []string
+	// Optional. Whether to print out a header row in the results.
+	// Default is true. Not applicable when extracting models.
+	PrintHeader *wrapperspb.BoolValue
+	// Optional. When extracting data in CSV format, this defines the
+	// delimiter to use between fields in the exported data.
+	// Default is ','. Not applicable when extracting models.
+	FieldDelimiter string
+	// Optional. The exported file format. Possible values include CSV,
+	// NEWLINE_DELIMITED_JSON, PARQUET, or AVRO for tables and ML_TF_SAVED_MODEL
+	// or ML_XGBOOST_BOOSTER for models. The default value for tables is CSV.
+	// Tables with nested or repeated fields cannot be exported as CSV. The
+	// default value for models is ML_TF_SAVED_MODEL.
+	DestinationFormat string
+	// Optional. The compression type to use for exported files. Possible values
+	// include DEFLATE, GZIP, NONE, SNAPPY, and ZSTD. The default value is NONE.
+	// Not all compression formats are support for all file formats. DEFLATE is
+	// only supported for Avro. ZSTD is only supported for Parquet. Not applicable
+	// when extracting models.
+	Compression string
+	// Whether to use logical types when extracting to AVRO format. Not applicable
+	// when extracting models.
+	UseAvroLogicalTypes *wrapperspb.BoolValue
+	// Optional. Model extract options only applicable when extracting models.
+	ModelExtractOptions *JobConfigurationExtract_ModelExtractOptions
+}
+
+func (b0 JobConfigurationExtract_builder) Build() *JobConfigurationExtract {
+	m0 := &JobConfigurationExtract{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.SourceTable != nil {
+		x.Source = &JobConfigurationExtract_SourceTable{b.SourceTable}
+	}
+	if b.SourceModel != nil {
+		x.Source = &JobConfigurationExtract_SourceModel{b.SourceModel}
+	}
+	x.DestinationUris = b.DestinationUris
+	x.PrintHeader = b.PrintHeader
+	x.FieldDelimiter = b.FieldDelimiter
+	x.DestinationFormat = b.DestinationFormat
+	x.Compression = b.Compression
+	x.UseAvroLogicalTypes = b.UseAvroLogicalTypes
+	x.ModelExtractOptions = b.ModelExtractOptions
+	return m0
+}
+
+type case_JobConfigurationExtract_Source protoreflect.FieldNumber
+
+func (x case_JobConfigurationExtract_Source) String() string {
+	md := file_google_cloud_bigquery_v2_job_config_proto_msgTypes[6].Descriptor()
+	if x == 0 {
+		return "not set"
+	}
+	return protoimpl.X.MessageFieldStringOf(md, protoreflect.FieldNumber(x))
+}
+
 type isJobConfigurationExtract_Source interface {
 	isJobConfigurationExtract_Source()
 }
@@ -1821,7 +3553,7 @@ func (*JobConfigurationExtract_SourceTable) isJobConfigurationExtract_Source() {
 func (*JobConfigurationExtract_SourceModel) isJobConfigurationExtract_Source() {}
 
 type JobConfiguration struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. The type of the job. Can be QUERY, LOAD, EXTRACT, COPY or
 	// UNKNOWN.
 	JobType string `protobuf:"bytes,8,opt,name=job_type,json=jobType,proto3" json:"job_type,omitempty"`
@@ -1898,11 +3630,6 @@ func (x *JobConfiguration) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use JobConfiguration.ProtoReflect.Descriptor instead.
-func (*JobConfiguration) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_config_proto_rawDescGZIP(), []int{7}
-}
-
 func (x *JobConfiguration) GetJobType() string {
 	if x != nil {
 		return x.JobType
@@ -1973,9 +3700,206 @@ func (x *JobConfiguration) GetReservation() string {
 	return ""
 }
 
+func (x *JobConfiguration) SetJobType(v string) {
+	x.JobType = v
+}
+
+func (x *JobConfiguration) SetQuery(v *JobConfigurationQuery) {
+	x.Query = v
+}
+
+func (x *JobConfiguration) SetLoad(v *JobConfigurationLoad) {
+	x.Load = v
+}
+
+func (x *JobConfiguration) SetCopy(v *JobConfigurationTableCopy) {
+	x.Copy = v
+}
+
+func (x *JobConfiguration) SetExtract(v *JobConfigurationExtract) {
+	x.Extract = v
+}
+
+func (x *JobConfiguration) SetDryRun(v *wrapperspb.BoolValue) {
+	x.DryRun = v
+}
+
+func (x *JobConfiguration) SetJobTimeoutMs(v *wrapperspb.Int64Value) {
+	x.JobTimeoutMs = v
+}
+
+func (x *JobConfiguration) SetMaxSlots(v int32) {
+	x.MaxSlots = &v
+}
+
+func (x *JobConfiguration) SetLabels(v map[string]string) {
+	x.Labels = v
+}
+
+func (x *JobConfiguration) SetReservation(v string) {
+	x.Reservation = &v
+}
+
+func (x *JobConfiguration) HasQuery() bool {
+	if x == nil {
+		return false
+	}
+	return x.Query != nil
+}
+
+func (x *JobConfiguration) HasLoad() bool {
+	if x == nil {
+		return false
+	}
+	return x.Load != nil
+}
+
+func (x *JobConfiguration) HasCopy() bool {
+	if x == nil {
+		return false
+	}
+	return x.Copy != nil
+}
+
+func (x *JobConfiguration) HasExtract() bool {
+	if x == nil {
+		return false
+	}
+	return x.Extract != nil
+}
+
+func (x *JobConfiguration) HasDryRun() bool {
+	if x == nil {
+		return false
+	}
+	return x.DryRun != nil
+}
+
+func (x *JobConfiguration) HasJobTimeoutMs() bool {
+	if x == nil {
+		return false
+	}
+	return x.JobTimeoutMs != nil
+}
+
+func (x *JobConfiguration) HasMaxSlots() bool {
+	if x == nil {
+		return false
+	}
+	return x.MaxSlots != nil
+}
+
+func (x *JobConfiguration) HasReservation() bool {
+	if x == nil {
+		return false
+	}
+	return x.Reservation != nil
+}
+
+func (x *JobConfiguration) ClearQuery() {
+	x.Query = nil
+}
+
+func (x *JobConfiguration) ClearLoad() {
+	x.Load = nil
+}
+
+func (x *JobConfiguration) ClearCopy() {
+	x.Copy = nil
+}
+
+func (x *JobConfiguration) ClearExtract() {
+	x.Extract = nil
+}
+
+func (x *JobConfiguration) ClearDryRun() {
+	x.DryRun = nil
+}
+
+func (x *JobConfiguration) ClearJobTimeoutMs() {
+	x.JobTimeoutMs = nil
+}
+
+func (x *JobConfiguration) ClearMaxSlots() {
+	x.MaxSlots = nil
+}
+
+func (x *JobConfiguration) ClearReservation() {
+	x.Reservation = nil
+}
+
+type JobConfiguration_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. The type of the job. Can be QUERY, LOAD, EXTRACT, COPY or
+	// UNKNOWN.
+	JobType string
+	// [Pick one] Configures a query job.
+	Query *JobConfigurationQuery
+	// [Pick one] Configures a load job.
+	Load *JobConfigurationLoad
+	// [Pick one] Copies a table.
+	Copy *JobConfigurationTableCopy
+	// [Pick one] Configures an extract job.
+	Extract *JobConfigurationExtract
+	// Optional. If set, don't actually run this job. A valid query will return
+	// a mostly empty response with some processing statistics, while an invalid
+	// query will return the same error it would if it wasn't a dry run. Behavior
+	// of non-query jobs is undefined.
+	DryRun *wrapperspb.BoolValue
+	// Optional. Job timeout in milliseconds relative to the job creation time. If
+	// this time limit is exceeded, BigQuery attempts to stop the job, but might
+	// not always succeed in canceling it before the job completes. For example, a
+	// job that takes more than 60 seconds to complete has a better chance of
+	// being stopped than a job that takes 10 seconds to complete.
+	JobTimeoutMs *wrapperspb.Int64Value
+	// Optional. A target limit on the rate of slot consumption by this job. If
+	// set to a value > 0, BigQuery will attempt to limit the rate of slot
+	// consumption by this job to keep it below the configured limit, even if the
+	// job is eligible for more slots based on fair scheduling. The unused slots
+	// will be available for other jobs and queries to use.
+	//
+	// Note: This feature is not yet generally available.
+	MaxSlots *int32
+	// The labels associated with this job. You can use these to organize and
+	// group your jobs.
+	// Label keys and values can be no longer than 63 characters, can only contain
+	// lowercase letters, numeric characters, underscores and dashes.
+	// International characters are allowed. Label values are optional.  Label
+	// keys must start with a letter and each label in the list must have a
+	// different key.
+	Labels map[string]string
+	// Optional. The reservation that job would use. User can specify a
+	// reservation to execute the job. If reservation is not set, reservation is
+	// determined based on the rules defined by the reservation assignments. The
+	// expected format is
+	// `projects/{project}/locations/{location}/reservations/{reservation}`.
+	// Forces the query to use on-demand billing when set to `none`, which
+	// requires the project or organization to have
+	// `reservation_override_mode` set to `ALLOW_ANY_OVERRIDE`.
+	Reservation *string
+}
+
+func (b0 JobConfiguration_builder) Build() *JobConfiguration {
+	m0 := &JobConfiguration{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.JobType = b.JobType
+	x.Query = b.Query
+	x.Load = b.Load
+	x.Copy = b.Copy
+	x.Extract = b.Extract
+	x.DryRun = b.DryRun
+	x.JobTimeoutMs = b.JobTimeoutMs
+	x.MaxSlots = b.MaxSlots
+	x.Labels = b.Labels
+	x.Reservation = b.Reservation
+	return m0
+}
+
 // Options related to model extraction.
 type JobConfigurationExtract_ModelExtractOptions struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The 1-based ID of the trial to be exported from a hyperparameter tuning
 	// model. If not specified, the trial with id =
 	// [Model](https://cloud.google.com/bigquery/docs/reference/rest/v2/models#resource:-model).defaultTrialId
@@ -2011,16 +3935,45 @@ func (x *JobConfigurationExtract_ModelExtractOptions) ProtoReflect() protoreflec
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use JobConfigurationExtract_ModelExtractOptions.ProtoReflect.Descriptor instead.
-func (*JobConfigurationExtract_ModelExtractOptions) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_config_proto_rawDescGZIP(), []int{6, 0}
-}
-
 func (x *JobConfigurationExtract_ModelExtractOptions) GetTrialId() *wrapperspb.Int64Value {
 	if x != nil {
 		return x.TrialId
 	}
 	return nil
+}
+
+func (x *JobConfigurationExtract_ModelExtractOptions) SetTrialId(v *wrapperspb.Int64Value) {
+	x.TrialId = v
+}
+
+func (x *JobConfigurationExtract_ModelExtractOptions) HasTrialId() bool {
+	if x == nil {
+		return false
+	}
+	return x.TrialId != nil
+}
+
+func (x *JobConfigurationExtract_ModelExtractOptions) ClearTrialId() {
+	x.TrialId = nil
+}
+
+type JobConfigurationExtract_ModelExtractOptions_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The 1-based ID of the trial to be exported from a hyperparameter tuning
+	// model. If not specified, the trial with id =
+	// [Model](https://cloud.google.com/bigquery/docs/reference/rest/v2/models#resource:-model).defaultTrialId
+	// is exported. This field is ignored for models not trained with
+	// hyperparameter tuning.
+	TrialId *wrapperspb.Int64Value
+}
+
+func (b0 JobConfigurationExtract_ModelExtractOptions_builder) Build() *JobConfigurationExtract_ModelExtractOptions {
+	m0 := &JobConfigurationExtract_ModelExtractOptions{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TrialId = b.TrialId
+	return m0
 }
 
 var File_google_cloud_bigquery_v2_job_config_proto protoreflect.FileDescriptor
@@ -2196,18 +4149,6 @@ const file_google_cloud_bigquery_v2_job_config_proto_rawDesc = "" +
 	"_max_slotsB\x0e\n" +
 	"\f_reservationBk\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\x0eJobConfigProtoZ;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_job_config_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_job_config_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_job_config_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_job_config_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_job_config_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_job_config_proto_rawDesc), len(file_google_cloud_bigquery_v2_job_config_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_job_config_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_job_config_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
 var file_google_cloud_bigquery_v2_job_config_proto_msgTypes = make([]protoimpl.MessageInfo, 12)

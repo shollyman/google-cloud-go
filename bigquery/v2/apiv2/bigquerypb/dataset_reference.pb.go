@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/dataset_reference.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -39,7 +40,7 @@ const (
 
 // Identifier for a dataset.
 type DatasetReference struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. A unique ID for this dataset, without the project name. The ID
 	// must contain only letters (a-z, A-Z), numbers (0-9), or underscores (_).
 	// The maximum length is 1,024 characters.
@@ -75,11 +76,6 @@ func (x *DatasetReference) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DatasetReference.ProtoReflect.Descriptor instead.
-func (*DatasetReference) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_dataset_reference_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *DatasetReference) GetDatasetId() string {
 	if x != nil {
 		return x.DatasetId
@@ -94,6 +90,34 @@ func (x *DatasetReference) GetProjectId() string {
 	return ""
 }
 
+func (x *DatasetReference) SetDatasetId(v string) {
+	x.DatasetId = v
+}
+
+func (x *DatasetReference) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+type DatasetReference_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. A unique ID for this dataset, without the project name. The ID
+	// must contain only letters (a-z, A-Z), numbers (0-9), or underscores (_).
+	// The maximum length is 1,024 characters.
+	DatasetId string
+	// Optional. The ID of the project containing this dataset.
+	ProjectId string
+}
+
+func (b0 DatasetReference_builder) Build() *DatasetReference {
+	m0 := &DatasetReference{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.DatasetId = b.DatasetId
+	x.ProjectId = b.ProjectId
+	return m0
+}
+
 var File_google_cloud_bigquery_v2_dataset_reference_proto protoreflect.FileDescriptor
 
 const file_google_cloud_bigquery_v2_dataset_reference_proto_rawDesc = "" +
@@ -105,18 +129,6 @@ const file_google_cloud_bigquery_v2_dataset_reference_proto_rawDesc = "" +
 	"\n" +
 	"project_id\x18\x02 \x01(\tB\x03\xe0A\x01R\tprojectIdBr\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\x15DatasetReferenceProtoZ;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_dataset_reference_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_dataset_reference_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_dataset_reference_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_dataset_reference_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_dataset_reference_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_dataset_reference_proto_rawDesc), len(file_google_cloud_bigquery_v2_dataset_reference_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_dataset_reference_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_dataset_reference_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_google_cloud_bigquery_v2_dataset_reference_proto_goTypes = []any{

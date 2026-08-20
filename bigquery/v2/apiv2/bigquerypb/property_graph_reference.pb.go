@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/property_graph_reference.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -39,7 +40,7 @@ const (
 
 // Id path of a property graph.
 type PropertyGraphReference struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. The ID of the project containing this property graph.
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. The ID of the dataset containing this property graph.
@@ -77,11 +78,6 @@ func (x *PropertyGraphReference) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PropertyGraphReference.ProtoReflect.Descriptor instead.
-func (*PropertyGraphReference) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_property_graph_reference_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *PropertyGraphReference) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -103,6 +99,41 @@ func (x *PropertyGraphReference) GetPropertyGraphId() string {
 	return ""
 }
 
+func (x *PropertyGraphReference) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *PropertyGraphReference) SetDatasetId(v string) {
+	x.DatasetId = v
+}
+
+func (x *PropertyGraphReference) SetPropertyGraphId(v string) {
+	x.PropertyGraphId = v
+}
+
+type PropertyGraphReference_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. The ID of the project containing this property graph.
+	ProjectId string
+	// Required. The ID of the dataset containing this property graph.
+	DatasetId string
+	// Required. The ID of the property graph. The ID must contain only
+	// letters (a-z, A-Z), numbers (0-9), or underscores (_). The maximum
+	// length is 256 characters.
+	PropertyGraphId string
+}
+
+func (b0 PropertyGraphReference_builder) Build() *PropertyGraphReference {
+	m0 := &PropertyGraphReference{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.DatasetId = b.DatasetId
+	x.PropertyGraphId = b.PropertyGraphId
+	return m0
+}
+
 var File_google_cloud_bigquery_v2_property_graph_reference_proto protoreflect.FileDescriptor
 
 const file_google_cloud_bigquery_v2_property_graph_reference_proto_rawDesc = "" +
@@ -115,18 +146,6 @@ const file_google_cloud_bigquery_v2_property_graph_reference_proto_rawDesc = "" 
 	"dataset_id\x18\x02 \x01(\tB\x03\xe0A\x02R\tdatasetId\x12/\n" +
 	"\x11property_graph_id\x18\x03 \x01(\tB\x03\xe0A\x02R\x0fpropertyGraphIdBz\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\x1bPropertyGraphReferenceProtoP\x01Z;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_property_graph_reference_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_property_graph_reference_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_property_graph_reference_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_property_graph_reference_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_property_graph_reference_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_property_graph_reference_proto_rawDesc), len(file_google_cloud_bigquery_v2_property_graph_reference_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_property_graph_reference_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_property_graph_reference_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_google_cloud_bigquery_v2_property_graph_reference_proto_goTypes = []any{

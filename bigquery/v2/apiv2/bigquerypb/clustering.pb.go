@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/clustering.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -38,7 +39,7 @@ const (
 
 // Configures table clustering.
 type Clustering struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// One or more fields on which data should be clustered. Only top-level,
 	// non-repeated, simple-type fields are supported. The ordering of the
 	// clustering fields should be prioritized from most to least important
@@ -77,16 +78,37 @@ func (x *Clustering) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Clustering.ProtoReflect.Descriptor instead.
-func (*Clustering) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_clustering_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *Clustering) GetFields() []string {
 	if x != nil {
 		return x.Fields
 	}
 	return nil
+}
+
+func (x *Clustering) SetFields(v []string) {
+	x.Fields = v
+}
+
+type Clustering_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// One or more fields on which data should be clustered. Only top-level,
+	// non-repeated, simple-type fields are supported. The ordering of the
+	// clustering fields should be prioritized from most to least important
+	// for filtering purposes.
+	//
+	// For additional information, see
+	// [Introduction to clustered
+	// tables](https://cloud.google.com/bigquery/docs/clustered-tables#limitations).
+	Fields []string
+}
+
+func (b0 Clustering_builder) Build() *Clustering {
+	m0 := &Clustering{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Fields = b.Fields
+	return m0
 }
 
 var File_google_cloud_bigquery_v2_clustering_proto protoreflect.FileDescriptor
@@ -98,18 +120,6 @@ const file_google_cloud_bigquery_v2_clustering_proto_rawDesc = "" +
 	"Clustering\x12\x16\n" +
 	"\x06fields\x18\x01 \x03(\tR\x06fieldsBl\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\x0fClusteringProtoZ;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_clustering_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_clustering_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_clustering_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_clustering_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_clustering_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_clustering_proto_rawDesc), len(file_google_cloud_bigquery_v2_clustering_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_clustering_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_clustering_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_google_cloud_bigquery_v2_clustering_proto_goTypes = []any{

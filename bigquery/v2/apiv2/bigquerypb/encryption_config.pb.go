@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/encryption_config.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -40,7 +41,7 @@ const (
 
 // Configuration for Cloud KMS encryption settings.
 type EncryptionConfiguration struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. Describes the Cloud KMS encryption key that will be used to
 	// protect destination BigQuery table. The BigQuery Service Account associated
 	// with your project requires access to this encryption key.
@@ -74,16 +75,43 @@ func (x *EncryptionConfiguration) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use EncryptionConfiguration.ProtoReflect.Descriptor instead.
-func (*EncryptionConfiguration) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_encryption_config_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *EncryptionConfiguration) GetKmsKeyName() *wrapperspb.StringValue {
 	if x != nil {
 		return x.KmsKeyName
 	}
 	return nil
+}
+
+func (x *EncryptionConfiguration) SetKmsKeyName(v *wrapperspb.StringValue) {
+	x.KmsKeyName = v
+}
+
+func (x *EncryptionConfiguration) HasKmsKeyName() bool {
+	if x == nil {
+		return false
+	}
+	return x.KmsKeyName != nil
+}
+
+func (x *EncryptionConfiguration) ClearKmsKeyName() {
+	x.KmsKeyName = nil
+}
+
+type EncryptionConfiguration_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. Describes the Cloud KMS encryption key that will be used to
+	// protect destination BigQuery table. The BigQuery Service Account associated
+	// with your project requires access to this encryption key.
+	KmsKeyName *wrapperspb.StringValue
+}
+
+func (b0 EncryptionConfiguration_builder) Build() *EncryptionConfiguration {
+	m0 := &EncryptionConfiguration{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.KmsKeyName = b.KmsKeyName
+	return m0
 }
 
 var File_google_cloud_bigquery_v2_encryption_config_proto protoreflect.FileDescriptor
@@ -95,18 +123,6 @@ const file_google_cloud_bigquery_v2_encryption_config_proto_rawDesc = "" +
 	"\fkms_key_name\x18\x01 \x01(\v2\x1c.google.protobuf.StringValueB\x03\xe0A\x01R\n" +
 	"kmsKeyNameBr\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\x15EncryptionConfigProtoZ;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_encryption_config_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_encryption_config_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_encryption_config_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_encryption_config_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_encryption_config_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_encryption_config_proto_rawDesc), len(file_google_cloud_bigquery_v2_encryption_config_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_encryption_config_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_encryption_config_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_google_cloud_bigquery_v2_encryption_config_proto_goTypes = []any{

@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/session_info.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -39,7 +40,7 @@ const (
 
 // [Preview] Information related to sessions.
 type SessionInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. The id of the session.
 	SessionId     string `protobuf:"bytes,1,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -71,16 +72,30 @@ func (x *SessionInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SessionInfo.ProtoReflect.Descriptor instead.
-func (*SessionInfo) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_session_info_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *SessionInfo) GetSessionId() string {
 	if x != nil {
 		return x.SessionId
 	}
 	return ""
+}
+
+func (x *SessionInfo) SetSessionId(v string) {
+	x.SessionId = v
+}
+
+type SessionInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. The id of the session.
+	SessionId string
+}
+
+func (b0 SessionInfo_builder) Build() *SessionInfo {
+	m0 := &SessionInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.SessionId = b.SessionId
+	return m0
 }
 
 var File_google_cloud_bigquery_v2_session_info_proto protoreflect.FileDescriptor
@@ -92,18 +107,6 @@ const file_google_cloud_bigquery_v2_session_info_proto_rawDesc = "" +
 	"\n" +
 	"session_id\x18\x01 \x01(\tB\x03\xe0A\x03R\tsessionIdBo\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\x10SessionInfoProtoP\x01Z;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_session_info_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_session_info_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_session_info_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_session_info_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_session_info_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_session_info_proto_rawDesc), len(file_google_cloud_bigquery_v2_session_info_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_session_info_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_session_info_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_google_cloud_bigquery_v2_session_info_proto_goTypes = []any{

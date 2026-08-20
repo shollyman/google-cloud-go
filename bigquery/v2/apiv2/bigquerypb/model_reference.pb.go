@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/model_reference.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -39,7 +40,7 @@ const (
 
 // Id path of a model.
 type ModelReference struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. The ID of the project containing this model.
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. The ID of the dataset containing this model.
@@ -77,11 +78,6 @@ func (x *ModelReference) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ModelReference.ProtoReflect.Descriptor instead.
-func (*ModelReference) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_model_reference_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *ModelReference) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -103,6 +99,41 @@ func (x *ModelReference) GetModelId() string {
 	return ""
 }
 
+func (x *ModelReference) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *ModelReference) SetDatasetId(v string) {
+	x.DatasetId = v
+}
+
+func (x *ModelReference) SetModelId(v string) {
+	x.ModelId = v
+}
+
+type ModelReference_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. The ID of the project containing this model.
+	ProjectId string
+	// Required. The ID of the dataset containing this model.
+	DatasetId string
+	// Required. The ID of the model. The ID must contain only
+	// letters (a-z, A-Z), numbers (0-9), or underscores (_). The maximum
+	// length is 1,024 characters.
+	ModelId string
+}
+
+func (b0 ModelReference_builder) Build() *ModelReference {
+	m0 := &ModelReference{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.DatasetId = b.DatasetId
+	x.ModelId = b.ModelId
+	return m0
+}
+
 var File_google_cloud_bigquery_v2_model_reference_proto protoreflect.FileDescriptor
 
 const file_google_cloud_bigquery_v2_model_reference_proto_rawDesc = "" +
@@ -115,18 +146,6 @@ const file_google_cloud_bigquery_v2_model_reference_proto_rawDesc = "" +
 	"dataset_id\x18\x02 \x01(\tB\x03\xe0A\x02R\tdatasetId\x12\x1e\n" +
 	"\bmodel_id\x18\x03 \x01(\tB\x03\xe0A\x02R\amodelIdBp\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\x13ModelReferenceProtoZ;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_model_reference_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_model_reference_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_model_reference_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_model_reference_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_model_reference_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_model_reference_proto_rawDesc), len(file_google_cloud_bigquery_v2_model_reference_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_model_reference_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_model_reference_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_google_cloud_bigquery_v2_model_reference_proto_goTypes = []any{

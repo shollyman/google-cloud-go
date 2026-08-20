@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/dataset.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -89,11 +90,6 @@ func (x DatasetAccessEntry_TargetType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use DatasetAccessEntry_TargetType.Descriptor instead.
-func (DatasetAccessEntry_TargetType) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_dataset_proto_rawDescGZIP(), []int{0, 0}
-}
-
 // Indicates the billing model that will be applied to the dataset.
 type Dataset_StorageBillingModel int32
 
@@ -140,11 +136,6 @@ func (Dataset_StorageBillingModel) Type() protoreflect.EnumType {
 
 func (x Dataset_StorageBillingModel) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Dataset_StorageBillingModel.Descriptor instead.
-func (Dataset_StorageBillingModel) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_dataset_proto_rawDescGZIP(), []int{2, 0}
 }
 
 // Specifies whether Linked Dataset is currently in a linked state or not.
@@ -195,11 +186,6 @@ func (LinkedDatasetMetadata_LinkState) Type() protoreflect.EnumType {
 
 func (x LinkedDatasetMetadata_LinkState) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use LinkedDatasetMetadata_LinkState.Descriptor instead.
-func (LinkedDatasetMetadata_LinkState) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_dataset_proto_rawDescGZIP(), []int{5, 0}
 }
 
 // DatasetView specifies which dataset information is returned.
@@ -257,11 +243,6 @@ func (x GetDatasetRequest_DatasetView) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use GetDatasetRequest_DatasetView.Descriptor instead.
-func (GetDatasetRequest_DatasetView) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_dataset_proto_rawDescGZIP(), []int{6, 0}
-}
-
 // UpdateMode specifies which dataset fields is updated.
 type UpdateOrPatchDatasetRequest_UpdateMode int32
 
@@ -317,11 +298,6 @@ func (x UpdateOrPatchDatasetRequest_UpdateMode) Number() protoreflect.EnumNumber
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use UpdateOrPatchDatasetRequest_UpdateMode.Descriptor instead.
-func (UpdateOrPatchDatasetRequest_UpdateMode) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_dataset_proto_rawDescGZIP(), []int{8, 0}
-}
-
 // Grants all resources of particular types in a particular dataset read access
 // to the current dataset.
 //
@@ -330,7 +306,7 @@ func (UpdateOrPatchDatasetRequest_UpdateMode) EnumDescriptor() ([]byte, []int) {
 // read permission to referenced resources, plus write permission to the
 // authorizing dataset.
 type DatasetAccessEntry struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The dataset this entry applies to
 	Dataset *DatasetReference `protobuf:"bytes,1,opt,name=dataset,proto3" json:"dataset,omitempty"`
 	// Which resources in the dataset this entry applies to. Currently, only
@@ -366,11 +342,6 @@ func (x *DatasetAccessEntry) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DatasetAccessEntry.ProtoReflect.Descriptor instead.
-func (*DatasetAccessEntry) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_dataset_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *DatasetAccessEntry) GetDataset() *DatasetReference {
 	if x != nil {
 		return x.Dataset
@@ -385,9 +356,48 @@ func (x *DatasetAccessEntry) GetTargetTypes() []DatasetAccessEntry_TargetType {
 	return nil
 }
 
+func (x *DatasetAccessEntry) SetDataset(v *DatasetReference) {
+	x.Dataset = v
+}
+
+func (x *DatasetAccessEntry) SetTargetTypes(v []DatasetAccessEntry_TargetType) {
+	x.TargetTypes = v
+}
+
+func (x *DatasetAccessEntry) HasDataset() bool {
+	if x == nil {
+		return false
+	}
+	return x.Dataset != nil
+}
+
+func (x *DatasetAccessEntry) ClearDataset() {
+	x.Dataset = nil
+}
+
+type DatasetAccessEntry_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The dataset this entry applies to
+	Dataset *DatasetReference
+	// Which resources in the dataset this entry applies to. Currently, only
+	// views are supported, but additional target types may be added in the
+	// future.
+	TargetTypes []DatasetAccessEntry_TargetType
+}
+
+func (b0 DatasetAccessEntry_builder) Build() *DatasetAccessEntry {
+	m0 := &DatasetAccessEntry{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Dataset = b.Dataset
+	x.TargetTypes = b.TargetTypes
+	return m0
+}
+
 // An object that defines dataset access for an entity.
 type Access struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// An IAM role ID that should be granted to the user, group,
 	// or domain specified in this access entry.
 	// The following legacy mappings will be applied:
@@ -475,11 +485,6 @@ func (x *Access) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Access.ProtoReflect.Descriptor instead.
-func (*Access) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_dataset_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *Access) GetRole() string {
 	if x != nil {
 		return x.Role
@@ -550,9 +555,173 @@ func (x *Access) GetCondition() *expr.Expr {
 	return nil
 }
 
+func (x *Access) SetRole(v string) {
+	x.Role = v
+}
+
+func (x *Access) SetUserByEmail(v string) {
+	x.UserByEmail = v
+}
+
+func (x *Access) SetGroupByEmail(v string) {
+	x.GroupByEmail = v
+}
+
+func (x *Access) SetDomain(v string) {
+	x.Domain = v
+}
+
+func (x *Access) SetSpecialGroup(v string) {
+	x.SpecialGroup = v
+}
+
+func (x *Access) SetIamMember(v string) {
+	x.IamMember = v
+}
+
+func (x *Access) SetView(v *TableReference) {
+	x.View = v
+}
+
+func (x *Access) SetRoutine(v *RoutineReference) {
+	x.Routine = v
+}
+
+func (x *Access) SetDataset(v *DatasetAccessEntry) {
+	x.Dataset = v
+}
+
+func (x *Access) SetCondition(v *expr.Expr) {
+	x.Condition = v
+}
+
+func (x *Access) HasView() bool {
+	if x == nil {
+		return false
+	}
+	return x.View != nil
+}
+
+func (x *Access) HasRoutine() bool {
+	if x == nil {
+		return false
+	}
+	return x.Routine != nil
+}
+
+func (x *Access) HasDataset() bool {
+	if x == nil {
+		return false
+	}
+	return x.Dataset != nil
+}
+
+func (x *Access) HasCondition() bool {
+	if x == nil {
+		return false
+	}
+	return x.Condition != nil
+}
+
+func (x *Access) ClearView() {
+	x.View = nil
+}
+
+func (x *Access) ClearRoutine() {
+	x.Routine = nil
+}
+
+func (x *Access) ClearDataset() {
+	x.Dataset = nil
+}
+
+func (x *Access) ClearCondition() {
+	x.Condition = nil
+}
+
+type Access_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// An IAM role ID that should be granted to the user, group,
+	// or domain specified in this access entry.
+	// The following legacy mappings will be applied:
+	//
+	// * `OWNER`: `roles/bigquery.dataOwner`
+	// * `WRITER`: `roles/bigquery.dataEditor`
+	// * `READER`: `roles/bigquery.dataViewer`
+	//
+	// This field will accept any of the above formats, but will return only
+	// the legacy format. For example, if you set this field to
+	// "roles/bigquery.dataOwner", it will be returned back as "OWNER".
+	Role string
+	// [Pick one] An email address of a user to grant access to. For example:
+	// fred@example.com. Maps to IAM policy member "user:EMAIL" or
+	// "serviceAccount:EMAIL".
+	UserByEmail string
+	// [Pick one] An email address of a Google Group to grant access to.
+	// Maps to IAM policy member "group:GROUP".
+	GroupByEmail string
+	// [Pick one] A domain to grant access to. Any users signed in with the domain
+	// specified will be granted the specified access. Example: "example.com".
+	// Maps to IAM policy member "domain:DOMAIN".
+	Domain string
+	// [Pick one] A special group to grant access to. Possible values include:
+	//
+	//   - projectOwners: Owners of the enclosing project.
+	//   - projectReaders: Readers of the enclosing project.
+	//   - projectWriters: Writers of the enclosing project.
+	//   - allAuthenticatedUsers: All authenticated BigQuery users.
+	//
+	// Maps to similarly-named IAM members.
+	SpecialGroup string
+	// [Pick one] Some other type of member that appears in the IAM Policy but
+	// isn't a user, group, domain, or special group.
+	IamMember string
+	// [Pick one] A view from a different dataset to grant access to. Queries
+	// executed against that view will have read access to views/tables/routines
+	// in this dataset.
+	// The role field is not required when this field is set. If that view is
+	// updated by any user, access to the view needs to be granted again via an
+	// update operation.
+	View *TableReference
+	// [Pick one] A routine from a different dataset to grant access to. Queries
+	// executed against that routine will have read access to
+	// views/tables/routines in this dataset. Only UDF is supported for now.
+	// The role field is not required when this field is set. If that routine is
+	// updated by any user, access to the routine needs to be granted again via
+	// an update operation.
+	Routine *RoutineReference
+	// [Pick one] A grant authorizing all resources of a particular type in a
+	// particular dataset access to this dataset. Only views are supported for
+	// now. The role field is not required when this field is set. If that dataset
+	// is deleted and re-created, its access needs to be granted again via an
+	// update operation.
+	Dataset *DatasetAccessEntry
+	// Optional. condition for the binding. If CEL expression in this field is
+	// true, this access binding will be considered
+	Condition *expr.Expr
+}
+
+func (b0 Access_builder) Build() *Access {
+	m0 := &Access{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Role = b.Role
+	x.UserByEmail = b.UserByEmail
+	x.GroupByEmail = b.GroupByEmail
+	x.Domain = b.Domain
+	x.SpecialGroup = b.SpecialGroup
+	x.IamMember = b.IamMember
+	x.View = b.View
+	x.Routine = b.Routine
+	x.Dataset = b.Dataset
+	x.Condition = b.Condition
+	return m0
+}
+
 // Represents a BigQuery dataset.
 type Dataset struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. The resource type.
 	Kind string `protobuf:"bytes,1,opt,name=kind,proto3" json:"kind,omitempty"`
 	// Output only. A hash of the resource.
@@ -742,11 +911,6 @@ func (x *Dataset) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Dataset.ProtoReflect.Descriptor instead.
-func (*Dataset) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_dataset_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *Dataset) GetKind() string {
@@ -967,10 +1131,527 @@ func (x *Dataset) GetResourceTags() map[string]string {
 	return nil
 }
 
+func (x *Dataset) SetKind(v string) {
+	x.Kind = v
+}
+
+func (x *Dataset) SetEtag(v string) {
+	x.Etag = v
+}
+
+func (x *Dataset) SetId(v string) {
+	x.Id = v
+}
+
+func (x *Dataset) SetSelfLink(v string) {
+	x.SelfLink = v
+}
+
+func (x *Dataset) SetDatasetReference(v *DatasetReference) {
+	x.DatasetReference = v
+}
+
+func (x *Dataset) SetFriendlyName(v *wrapperspb.StringValue) {
+	x.FriendlyName = v
+}
+
+func (x *Dataset) SetDescription(v *wrapperspb.StringValue) {
+	x.Description = v
+}
+
+func (x *Dataset) SetDefaultTableExpirationMs(v *wrapperspb.Int64Value) {
+	x.DefaultTableExpirationMs = v
+}
+
+func (x *Dataset) SetDefaultPartitionExpirationMs(v *wrapperspb.Int64Value) {
+	x.DefaultPartitionExpirationMs = v
+}
+
+func (x *Dataset) SetLabels(v map[string]string) {
+	x.Labels = v
+}
+
+func (x *Dataset) SetAccess(v []*Access) {
+	x.Access = v
+}
+
+func (x *Dataset) SetCreationTime(v int64) {
+	x.CreationTime = v
+}
+
+func (x *Dataset) SetLastModifiedTime(v int64) {
+	x.LastModifiedTime = v
+}
+
+func (x *Dataset) SetLocation(v string) {
+	x.Location = v
+}
+
+func (x *Dataset) SetDefaultEncryptionConfiguration(v *EncryptionConfiguration) {
+	x.DefaultEncryptionConfiguration = v
+}
+
+func (x *Dataset) SetSatisfiesPzs(v *wrapperspb.BoolValue) {
+	x.SatisfiesPzs = v
+}
+
+func (x *Dataset) SetSatisfiesPzi(v *wrapperspb.BoolValue) {
+	x.SatisfiesPzi = v
+}
+
+func (x *Dataset) SetType(v string) {
+	x.Type = v
+}
+
+func (x *Dataset) SetCatalogSource(v string) {
+	x.CatalogSource = &v
+}
+
+func (x *Dataset) SetLinkedDatasetSource(v *LinkedDatasetSource) {
+	x.LinkedDatasetSource = v
+}
+
+func (x *Dataset) SetLinkedDatasetMetadata(v *LinkedDatasetMetadata) {
+	x.LinkedDatasetMetadata = v
+}
+
+func (x *Dataset) SetExternalDatasetReference(v *ExternalDatasetReference) {
+	x.ExternalDatasetReference = v
+}
+
+func (x *Dataset) SetExternalCatalogDatasetOptions(v *ExternalCatalogDatasetOptions) {
+	x.ExternalCatalogDatasetOptions = v
+}
+
+func (x *Dataset) SetIsCaseInsensitive(v *wrapperspb.BoolValue) {
+	x.IsCaseInsensitive = v
+}
+
+func (x *Dataset) SetDefaultCollation(v *wrapperspb.StringValue) {
+	x.DefaultCollation = v
+}
+
+func (x *Dataset) SetDefaultRoundingMode(v TableFieldSchema_RoundingMode) {
+	x.DefaultRoundingMode = v
+}
+
+func (x *Dataset) SetMaxTimeTravelHours(v *wrapperspb.Int64Value) {
+	x.MaxTimeTravelHours = v
+}
+
+// Deprecated: Marked as deprecated in google/cloud/bigquery/v2/dataset.proto.
+func (x *Dataset) SetTags(v []*GcpTag) {
+	x.Tags = v
+}
+
+func (x *Dataset) SetStorageBillingModel(v Dataset_StorageBillingModel) {
+	x.StorageBillingModel = v
+}
+
+func (x *Dataset) SetRestrictions(v *RestrictionConfig) {
+	x.Restrictions = v
+}
+
+func (x *Dataset) SetResourceTags(v map[string]string) {
+	x.ResourceTags = v
+}
+
+func (x *Dataset) HasDatasetReference() bool {
+	if x == nil {
+		return false
+	}
+	return x.DatasetReference != nil
+}
+
+func (x *Dataset) HasFriendlyName() bool {
+	if x == nil {
+		return false
+	}
+	return x.FriendlyName != nil
+}
+
+func (x *Dataset) HasDescription() bool {
+	if x == nil {
+		return false
+	}
+	return x.Description != nil
+}
+
+func (x *Dataset) HasDefaultTableExpirationMs() bool {
+	if x == nil {
+		return false
+	}
+	return x.DefaultTableExpirationMs != nil
+}
+
+func (x *Dataset) HasDefaultPartitionExpirationMs() bool {
+	if x == nil {
+		return false
+	}
+	return x.DefaultPartitionExpirationMs != nil
+}
+
+func (x *Dataset) HasDefaultEncryptionConfiguration() bool {
+	if x == nil {
+		return false
+	}
+	return x.DefaultEncryptionConfiguration != nil
+}
+
+func (x *Dataset) HasSatisfiesPzs() bool {
+	if x == nil {
+		return false
+	}
+	return x.SatisfiesPzs != nil
+}
+
+func (x *Dataset) HasSatisfiesPzi() bool {
+	if x == nil {
+		return false
+	}
+	return x.SatisfiesPzi != nil
+}
+
+func (x *Dataset) HasCatalogSource() bool {
+	if x == nil {
+		return false
+	}
+	return x.CatalogSource != nil
+}
+
+func (x *Dataset) HasLinkedDatasetSource() bool {
+	if x == nil {
+		return false
+	}
+	return x.LinkedDatasetSource != nil
+}
+
+func (x *Dataset) HasLinkedDatasetMetadata() bool {
+	if x == nil {
+		return false
+	}
+	return x.LinkedDatasetMetadata != nil
+}
+
+func (x *Dataset) HasExternalDatasetReference() bool {
+	if x == nil {
+		return false
+	}
+	return x.ExternalDatasetReference != nil
+}
+
+func (x *Dataset) HasExternalCatalogDatasetOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.ExternalCatalogDatasetOptions != nil
+}
+
+func (x *Dataset) HasIsCaseInsensitive() bool {
+	if x == nil {
+		return false
+	}
+	return x.IsCaseInsensitive != nil
+}
+
+func (x *Dataset) HasDefaultCollation() bool {
+	if x == nil {
+		return false
+	}
+	return x.DefaultCollation != nil
+}
+
+func (x *Dataset) HasMaxTimeTravelHours() bool {
+	if x == nil {
+		return false
+	}
+	return x.MaxTimeTravelHours != nil
+}
+
+func (x *Dataset) HasRestrictions() bool {
+	if x == nil {
+		return false
+	}
+	return x.Restrictions != nil
+}
+
+func (x *Dataset) ClearDatasetReference() {
+	x.DatasetReference = nil
+}
+
+func (x *Dataset) ClearFriendlyName() {
+	x.FriendlyName = nil
+}
+
+func (x *Dataset) ClearDescription() {
+	x.Description = nil
+}
+
+func (x *Dataset) ClearDefaultTableExpirationMs() {
+	x.DefaultTableExpirationMs = nil
+}
+
+func (x *Dataset) ClearDefaultPartitionExpirationMs() {
+	x.DefaultPartitionExpirationMs = nil
+}
+
+func (x *Dataset) ClearDefaultEncryptionConfiguration() {
+	x.DefaultEncryptionConfiguration = nil
+}
+
+func (x *Dataset) ClearSatisfiesPzs() {
+	x.SatisfiesPzs = nil
+}
+
+func (x *Dataset) ClearSatisfiesPzi() {
+	x.SatisfiesPzi = nil
+}
+
+func (x *Dataset) ClearCatalogSource() {
+	x.CatalogSource = nil
+}
+
+func (x *Dataset) ClearLinkedDatasetSource() {
+	x.LinkedDatasetSource = nil
+}
+
+func (x *Dataset) ClearLinkedDatasetMetadata() {
+	x.LinkedDatasetMetadata = nil
+}
+
+func (x *Dataset) ClearExternalDatasetReference() {
+	x.ExternalDatasetReference = nil
+}
+
+func (x *Dataset) ClearExternalCatalogDatasetOptions() {
+	x.ExternalCatalogDatasetOptions = nil
+}
+
+func (x *Dataset) ClearIsCaseInsensitive() {
+	x.IsCaseInsensitive = nil
+}
+
+func (x *Dataset) ClearDefaultCollation() {
+	x.DefaultCollation = nil
+}
+
+func (x *Dataset) ClearMaxTimeTravelHours() {
+	x.MaxTimeTravelHours = nil
+}
+
+func (x *Dataset) ClearRestrictions() {
+	x.Restrictions = nil
+}
+
+type Dataset_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. The resource type.
+	Kind string
+	// Output only. A hash of the resource.
+	Etag string
+	// Output only. The fully-qualified unique name of the dataset in the format
+	// projectId:datasetId. The dataset name without the project name is given in
+	// the datasetId field. When creating a new dataset, leave this field blank,
+	// and instead specify the datasetId field.
+	Id string
+	// Output only. A URL that can be used to access the resource again. You can
+	// use this URL in Get or Update requests to the resource.
+	SelfLink string
+	// Required. A reference that identifies the dataset.
+	DatasetReference *DatasetReference
+	// Optional. A descriptive name for the dataset.
+	FriendlyName *wrapperspb.StringValue
+	// Optional. A user-friendly description of the dataset.
+	Description *wrapperspb.StringValue
+	// Optional. The default lifetime of all tables in the dataset, in
+	// milliseconds. The minimum lifetime value is 3600000 milliseconds (one
+	// hour). To clear an existing default expiration with a PATCH request, set to
+	// 0. Once this property is set, all newly-created tables in the dataset will
+	// have an expirationTime property set to the creation time plus the value in
+	// this property, and changing the value will only affect new tables, not
+	// existing ones. When the expirationTime for a given table is reached, that
+	// table will be deleted automatically.
+	// If a table's expirationTime is modified or removed before the table
+	// expires, or if you provide an explicit expirationTime when creating a
+	// table, that value takes precedence over the default expiration time
+	// indicated by this property.
+	DefaultTableExpirationMs *wrapperspb.Int64Value
+	// This default partition expiration, expressed in milliseconds.
+	//
+	// When new time-partitioned tables are created in a dataset where this
+	// property is set, the table will inherit this value, propagated as the
+	// `TimePartitioning.expirationMs` property on the new table.  If you set
+	// `TimePartitioning.expirationMs` explicitly when creating a table,
+	// the `defaultPartitionExpirationMs` of the containing dataset is ignored.
+	//
+	// When creating a partitioned table, if `defaultPartitionExpirationMs`
+	// is set, the `defaultTableExpirationMs` value is ignored and the table
+	// will not be inherit a table expiration deadline.
+	DefaultPartitionExpirationMs *wrapperspb.Int64Value
+	// The labels associated with this dataset. You can use these
+	// to organize and group your datasets.
+	// You can set this property when inserting or updating a dataset.
+	// See [Creating and Updating Dataset
+	// Labels](https://cloud.google.com/bigquery/docs/creating-managing-labels#creating_and_updating_dataset_labels)
+	// for more information.
+	Labels map[string]string
+	// Optional. An array of objects that define dataset access for one or more
+	// entities. You can set this property when inserting or updating a dataset in
+	// order to control who is allowed to access the data. If unspecified at
+	// dataset creation time, BigQuery adds default dataset access for the
+	// following entities: access.specialGroup: projectReaders; access.role:
+	// READER; access.specialGroup: projectWriters; access.role: WRITER;
+	// access.specialGroup: projectOwners; access.role: OWNER;
+	// access.userByEmail: [dataset creator email]; access.role: OWNER;
+	// If you patch a dataset, then this field is overwritten by the patched
+	// dataset's access field. To add entities, you must supply the entire
+	// existing access array in addition to any new entities that you want to add.
+	Access []*Access
+	// Output only. The time when this dataset was created, in milliseconds since
+	// the epoch.
+	CreationTime int64
+	// Output only. The date when this dataset was last modified, in milliseconds
+	// since the epoch.
+	LastModifiedTime int64
+	// The geographic location where the dataset should reside. See
+	// https://cloud.google.com/bigquery/docs/locations for supported
+	// locations.
+	Location string
+	// The default encryption key for all tables in the dataset.
+	// After this property is set, the encryption key of all newly-created tables
+	// in the dataset is set to this value unless the table creation request or
+	// query explicitly overrides the key.
+	DefaultEncryptionConfiguration *EncryptionConfiguration
+	// Output only. Reserved for future use.
+	SatisfiesPzs *wrapperspb.BoolValue
+	// Output only. Reserved for future use.
+	SatisfiesPzi *wrapperspb.BoolValue
+	// Output only. Same as `type` in `ListFormatDataset`.
+	// The type of the dataset, one of:
+	//
+	// * DEFAULT - only accessible by owner and authorized accounts,
+	// * PUBLIC - accessible by everyone,
+	// * LINKED - linked dataset,
+	// * EXTERNAL - dataset with definition in external metadata catalog,
+	// * BIGLAKE_ICEBERG - a Biglake dataset accessible through the Iceberg API,
+	// * BIGLAKE_HIVE - a Biglake dataset accessible through the Hive API.
+	Type string
+	// Output only. The origin of the dataset, one of:
+	//
+	// * (Unset) - Native BigQuery Dataset
+	// * BIGLAKE - Dataset is backed by a namespace stored natively in Biglake
+	CatalogSource *string
+	// Optional. The source dataset reference when the dataset is of type LINKED.
+	// For all other dataset types it is not set. This field cannot be updated
+	// once it is set. Any attempt to update this field using Update and Patch API
+	// Operations will be ignored.
+	LinkedDatasetSource *LinkedDatasetSource
+	// Output only. Metadata about the LinkedDataset. Filled out when the dataset
+	// type is LINKED.
+	LinkedDatasetMetadata *LinkedDatasetMetadata
+	// Optional. Reference to a read-only external dataset defined in data
+	// catalogs outside of BigQuery. Filled out when the dataset type is EXTERNAL.
+	ExternalDatasetReference *ExternalDatasetReference
+	// Optional. Options defining open source compatible datasets living in the
+	// BigQuery catalog. Contains metadata of open source database, schema or
+	// namespace represented by the current dataset.
+	ExternalCatalogDatasetOptions *ExternalCatalogDatasetOptions
+	// Optional. TRUE if the dataset and its table names are case-insensitive,
+	// otherwise FALSE. By default, this is FALSE, which means the dataset and its
+	// table names are case-sensitive. This field does not affect routine
+	// references.
+	IsCaseInsensitive *wrapperspb.BoolValue
+	// Optional. Defines the default collation specification of future tables
+	// created in the dataset. If a table is created in this dataset without
+	// table-level default collation, then the table inherits the dataset default
+	// collation, which is applied to the string fields that do not have explicit
+	// collation specified. A change to this field affects only tables created
+	// afterwards, and does not alter the existing tables.
+	// The following values are supported:
+	//
+	// * 'und:ci': undetermined locale, case insensitive.
+	// * ”: empty string. Default to case-sensitive behavior.
+	DefaultCollation *wrapperspb.StringValue
+	// Optional. Defines the default rounding mode specification of new tables
+	// created within this dataset. During table creation, if this field is
+	// specified, the table within this dataset will inherit the default rounding
+	// mode of the dataset. Setting the default rounding mode on a table overrides
+	// this option. Existing tables in the dataset are unaffected.
+	// If columns are defined during that table creation,
+	// they will immediately inherit the table's default rounding mode,
+	// unless otherwise specified.
+	DefaultRoundingMode TableFieldSchema_RoundingMode
+	// Optional. Defines the time travel window in hours. The value can be from 48
+	// to 168 hours (2 to 7 days). The default value is 168 hours if this is not
+	// set.
+	MaxTimeTravelHours *wrapperspb.Int64Value
+	// Output only. Tags for the dataset. To provide tags as inputs, use the
+	// `resourceTags` field.
+	//
+	// Deprecated: Marked as deprecated in google/cloud/bigquery/v2/dataset.proto.
+	Tags []*GcpTag
+	// Optional. Updates storage_billing_model for the dataset.
+	StorageBillingModel Dataset_StorageBillingModel
+	// Optional. Output only. Restriction config for all tables and dataset. If
+	// set, restrict certain accesses on the dataset and all its tables based on
+	// the config. See [Data
+	// egress](https://cloud.google.com/bigquery/docs/analytics-hub-introduction#data_egress)
+	// for more details.
+	Restrictions *RestrictionConfig
+	// Optional. The [tags](https://cloud.google.com/bigquery/docs/tags) attached
+	// to this dataset. Tag keys are globally unique. Tag key is expected to be in
+	// the namespaced format, for example "123456789012/environment" where
+	// 123456789012 is the ID of the parent organization or project resource for
+	// this tag key. Tag value is expected to be the short name, for example
+	// "Production". See [Tag
+	// definitions](https://cloud.google.com/iam/docs/tags-access-control#definitions)
+	// for more details.
+	ResourceTags map[string]string
+}
+
+func (b0 Dataset_builder) Build() *Dataset {
+	m0 := &Dataset{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Kind = b.Kind
+	x.Etag = b.Etag
+	x.Id = b.Id
+	x.SelfLink = b.SelfLink
+	x.DatasetReference = b.DatasetReference
+	x.FriendlyName = b.FriendlyName
+	x.Description = b.Description
+	x.DefaultTableExpirationMs = b.DefaultTableExpirationMs
+	x.DefaultPartitionExpirationMs = b.DefaultPartitionExpirationMs
+	x.Labels = b.Labels
+	x.Access = b.Access
+	x.CreationTime = b.CreationTime
+	x.LastModifiedTime = b.LastModifiedTime
+	x.Location = b.Location
+	x.DefaultEncryptionConfiguration = b.DefaultEncryptionConfiguration
+	x.SatisfiesPzs = b.SatisfiesPzs
+	x.SatisfiesPzi = b.SatisfiesPzi
+	x.Type = b.Type
+	x.CatalogSource = b.CatalogSource
+	x.LinkedDatasetSource = b.LinkedDatasetSource
+	x.LinkedDatasetMetadata = b.LinkedDatasetMetadata
+	x.ExternalDatasetReference = b.ExternalDatasetReference
+	x.ExternalCatalogDatasetOptions = b.ExternalCatalogDatasetOptions
+	x.IsCaseInsensitive = b.IsCaseInsensitive
+	x.DefaultCollation = b.DefaultCollation
+	x.DefaultRoundingMode = b.DefaultRoundingMode
+	x.MaxTimeTravelHours = b.MaxTimeTravelHours
+	x.Tags = b.Tags
+	x.StorageBillingModel = b.StorageBillingModel
+	x.Restrictions = b.Restrictions
+	x.ResourceTags = b.ResourceTags
+	return m0
+}
+
 // A global tag managed by Resource Manager.
 // https://cloud.google.com/iam/docs/tags-access-control#definitions
 type GcpTag struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. The namespaced friendly name of the tag key, e.g.
 	// "12345/environment" where 12345 is org id.
 	TagKey string `protobuf:"bytes,1,opt,name=tag_key,json=tagKey,proto3" json:"tag_key,omitempty"`
@@ -1005,11 +1686,6 @@ func (x *GcpTag) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GcpTag.ProtoReflect.Descriptor instead.
-func (*GcpTag) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_dataset_proto_rawDescGZIP(), []int{3}
-}
-
 func (x *GcpTag) GetTagKey() string {
 	if x != nil {
 		return x.TagKey
@@ -1024,9 +1700,36 @@ func (x *GcpTag) GetTagValue() string {
 	return ""
 }
 
+func (x *GcpTag) SetTagKey(v string) {
+	x.TagKey = v
+}
+
+func (x *GcpTag) SetTagValue(v string) {
+	x.TagValue = v
+}
+
+type GcpTag_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. The namespaced friendly name of the tag key, e.g.
+	// "12345/environment" where 12345 is org id.
+	TagKey string
+	// Required. The friendly short name of the tag value, e.g. "production".
+	TagValue string
+}
+
+func (b0 GcpTag_builder) Build() *GcpTag {
+	m0 := &GcpTag{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TagKey = b.TagKey
+	x.TagValue = b.TagValue
+	return m0
+}
+
 // A dataset source type which refers to another BigQuery dataset.
 type LinkedDatasetSource struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The source dataset reference contains project numbers and not project ids.
 	SourceDataset *DatasetReference `protobuf:"bytes,1,opt,name=source_dataset,json=sourceDataset,proto3" json:"source_dataset,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1058,11 +1761,6 @@ func (x *LinkedDatasetSource) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use LinkedDatasetSource.ProtoReflect.Descriptor instead.
-func (*LinkedDatasetSource) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_dataset_proto_rawDescGZIP(), []int{4}
-}
-
 func (x *LinkedDatasetSource) GetSourceDataset() *DatasetReference {
 	if x != nil {
 		return x.SourceDataset
@@ -1070,9 +1768,39 @@ func (x *LinkedDatasetSource) GetSourceDataset() *DatasetReference {
 	return nil
 }
 
+func (x *LinkedDatasetSource) SetSourceDataset(v *DatasetReference) {
+	x.SourceDataset = v
+}
+
+func (x *LinkedDatasetSource) HasSourceDataset() bool {
+	if x == nil {
+		return false
+	}
+	return x.SourceDataset != nil
+}
+
+func (x *LinkedDatasetSource) ClearSourceDataset() {
+	x.SourceDataset = nil
+}
+
+type LinkedDatasetSource_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The source dataset reference contains project numbers and not project ids.
+	SourceDataset *DatasetReference
+}
+
+func (b0 LinkedDatasetSource_builder) Build() *LinkedDatasetSource {
+	m0 := &LinkedDatasetSource{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.SourceDataset = b.SourceDataset
+	return m0
+}
+
 // Metadata about the Linked Dataset.
 type LinkedDatasetMetadata struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. Specifies whether Linked Dataset is currently in a linked
 	// state or not.
 	LinkState     LinkedDatasetMetadata_LinkState `protobuf:"varint,1,opt,name=link_state,json=linkState,proto3,enum=google.cloud.bigquery.v2.LinkedDatasetMetadata_LinkState" json:"link_state,omitempty"`
@@ -1105,11 +1833,6 @@ func (x *LinkedDatasetMetadata) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use LinkedDatasetMetadata.ProtoReflect.Descriptor instead.
-func (*LinkedDatasetMetadata) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_dataset_proto_rawDescGZIP(), []int{5}
-}
-
 func (x *LinkedDatasetMetadata) GetLinkState() LinkedDatasetMetadata_LinkState {
 	if x != nil {
 		return x.LinkState
@@ -1117,9 +1840,29 @@ func (x *LinkedDatasetMetadata) GetLinkState() LinkedDatasetMetadata_LinkState {
 	return LinkedDatasetMetadata_LINK_STATE_UNSPECIFIED
 }
 
+func (x *LinkedDatasetMetadata) SetLinkState(v LinkedDatasetMetadata_LinkState) {
+	x.LinkState = v
+}
+
+type LinkedDatasetMetadata_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. Specifies whether Linked Dataset is currently in a linked
+	// state or not.
+	LinkState LinkedDatasetMetadata_LinkState
+}
+
+func (b0 LinkedDatasetMetadata_builder) Build() *LinkedDatasetMetadata {
+	m0 := &LinkedDatasetMetadata{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.LinkState = b.LinkState
+	return m0
+}
+
 // Request format for getting information about a dataset.
 type GetDatasetRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the requested dataset
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. Dataset ID of the requested dataset
@@ -1185,11 +1928,6 @@ func (x *GetDatasetRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetDatasetRequest.ProtoReflect.Descriptor instead.
-func (*GetDatasetRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_dataset_proto_rawDescGZIP(), []int{6}
-}
-
 func (x *GetDatasetRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -1218,9 +1956,77 @@ func (x *GetDatasetRequest) GetAccessPolicyVersion() int32 {
 	return 0
 }
 
+func (x *GetDatasetRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *GetDatasetRequest) SetDatasetId(v string) {
+	x.DatasetId = v
+}
+
+func (x *GetDatasetRequest) SetDatasetView(v GetDatasetRequest_DatasetView) {
+	x.DatasetView = v
+}
+
+func (x *GetDatasetRequest) SetAccessPolicyVersion(v int32) {
+	x.AccessPolicyVersion = v
+}
+
+type GetDatasetRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the requested dataset
+	ProjectId string
+	// Required. Dataset ID of the requested dataset
+	DatasetId string
+	// Optional. Specifies the view that determines which dataset information is
+	// returned. By default, metadata and ACL information are returned.
+	DatasetView GetDatasetRequest_DatasetView
+	// Optional. The version of the access policy schema to fetch.
+	// Valid values are 0, 1, and 3. Requests specifying an invalid value will be
+	// rejected.
+	//
+	// Requests for conditional access policy binding in datasets must specify
+	// version 3. Dataset with no conditional role bindings in access policy may
+	// specify any valid value or leave the field unset.
+	//
+	// This field will be mapped to [IAM Policy version]
+	// (https://cloud.google.com/iam/docs/policies#versions) and will be used to
+	// fetch policy from IAM.
+	//
+	// If unset or if 0 or 1 value is used for dataset with conditional bindings,
+	// access entry with condition will have role string appended by
+	// 'withcond' string followed by a hash value. For example :
+	//
+	//	{
+	//	  "access": [
+	//	     {
+	//	        "role":
+	//	        "roles/bigquery.dataViewer_with_conditionalbinding_7a34awqsda",
+	//	        "userByEmail": "user@example.com",
+	//	     }
+	//	  ]
+	//	}
+	//
+	// Please refer https://cloud.google.com/iam/docs/troubleshooting-withcond for
+	// more details.
+	AccessPolicyVersion int32
+}
+
+func (b0 GetDatasetRequest_builder) Build() *GetDatasetRequest {
+	m0 := &GetDatasetRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.DatasetId = b.DatasetId
+	x.DatasetView = b.DatasetView
+	x.AccessPolicyVersion = b.AccessPolicyVersion
+	return m0
+}
+
 // Request format for inserting a dataset.
 type InsertDatasetRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the new dataset
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. Datasets resource to use for the new dataset
@@ -1275,11 +2081,6 @@ func (x *InsertDatasetRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use InsertDatasetRequest.ProtoReflect.Descriptor instead.
-func (*InsertDatasetRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_dataset_proto_rawDescGZIP(), []int{7}
-}
-
 func (x *InsertDatasetRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -1301,9 +2102,72 @@ func (x *InsertDatasetRequest) GetAccessPolicyVersion() int32 {
 	return 0
 }
 
+func (x *InsertDatasetRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *InsertDatasetRequest) SetDataset(v *Dataset) {
+	x.Dataset = v
+}
+
+func (x *InsertDatasetRequest) SetAccessPolicyVersion(v int32) {
+	x.AccessPolicyVersion = v
+}
+
+func (x *InsertDatasetRequest) HasDataset() bool {
+	if x == nil {
+		return false
+	}
+	return x.Dataset != nil
+}
+
+func (x *InsertDatasetRequest) ClearDataset() {
+	x.Dataset = nil
+}
+
+type InsertDatasetRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the new dataset
+	ProjectId string
+	// Required. Datasets resource to use for the new dataset
+	Dataset *Dataset
+	// Optional. The version of the provided access policy schema.
+	// Valid values are 0, 1, and 3. Requests specifying an invalid value will be
+	// rejected.
+	//
+	// This version refers to the schema version of the access policy and not the
+	// version of access policy. This field's value can be equal or more
+	// than the access policy schema provided in the request.
+	// For example,
+	//   - Requests with conditional access policy binding in datasets must
+	//     specify
+	//     version 3.
+	//   - But dataset with no conditional role bindings in access policy
+	//     may specify any valid value or leave the field unset.
+	//
+	// If unset or if 0 or 1 value is used for dataset with conditional
+	// bindings, request will be rejected.
+	//
+	// This field will be mapped to IAM Policy version
+	// (https://cloud.google.com/iam/docs/policies#versions) and will be used to
+	// set policy in IAM.
+	AccessPolicyVersion int32
+}
+
+func (b0 InsertDatasetRequest_builder) Build() *InsertDatasetRequest {
+	m0 := &InsertDatasetRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.Dataset = b.Dataset
+	x.AccessPolicyVersion = b.AccessPolicyVersion
+	return m0
+}
+
 // Message for updating or patching a dataset.
 type UpdateOrPatchDatasetRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the dataset being updated
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. Dataset ID of the dataset being updated
@@ -1367,11 +2231,6 @@ func (x *UpdateOrPatchDatasetRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateOrPatchDatasetRequest.ProtoReflect.Descriptor instead.
-func (*UpdateOrPatchDatasetRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_dataset_proto_rawDescGZIP(), []int{8}
-}
-
 func (x *UpdateOrPatchDatasetRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -1407,9 +2266,91 @@ func (x *UpdateOrPatchDatasetRequest) GetAccessPolicyVersion() int32 {
 	return 0
 }
 
+func (x *UpdateOrPatchDatasetRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *UpdateOrPatchDatasetRequest) SetDatasetId(v string) {
+	x.DatasetId = v
+}
+
+func (x *UpdateOrPatchDatasetRequest) SetDataset(v *Dataset) {
+	x.Dataset = v
+}
+
+func (x *UpdateOrPatchDatasetRequest) SetUpdateMode(v UpdateOrPatchDatasetRequest_UpdateMode) {
+	x.UpdateMode = v
+}
+
+func (x *UpdateOrPatchDatasetRequest) SetAccessPolicyVersion(v int32) {
+	x.AccessPolicyVersion = v
+}
+
+func (x *UpdateOrPatchDatasetRequest) HasDataset() bool {
+	if x == nil {
+		return false
+	}
+	return x.Dataset != nil
+}
+
+func (x *UpdateOrPatchDatasetRequest) ClearDataset() {
+	x.Dataset = nil
+}
+
+type UpdateOrPatchDatasetRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the dataset being updated
+	ProjectId string
+	// Required. Dataset ID of the dataset being updated
+	DatasetId string
+	// Required. Datasets resource which will replace or patch the specified
+	// dataset.
+	Dataset *Dataset
+	// Optional. Specifies the fields of dataset that update/patch operation is
+	// targeting By default, both metadata and ACL fields are updated.
+	UpdateMode UpdateOrPatchDatasetRequest_UpdateMode
+	// Optional. The version of the provided access policy schema.
+	// Valid values are 0, 1, and 3. Requests specifying an invalid value will be
+	// rejected.
+	//
+	// This version refers to the schema version of the access policy and not the
+	// version of access policy. This field's value can be equal or more
+	// than the access policy schema provided in the request.
+	// For example,
+	//   - Operations updating conditional access policy binding in datasets must
+	//     specify
+	//     version 3. Some of the operations are :
+	//   - Adding a new access policy entry with condition.
+	//   - Removing an access policy entry with condition.
+	//   - Updating an access policy entry with condition.
+	//   - But dataset with no conditional role bindings in access policy
+	//     may specify any valid value or leave the field unset.
+	//
+	// If unset or if 0 or 1 value is used for dataset with conditional
+	// bindings, request will be rejected.
+	//
+	// This field will be mapped to IAM Policy version
+	// (https://cloud.google.com/iam/docs/policies#versions) and will be used to
+	// set policy in IAM.
+	AccessPolicyVersion int32
+}
+
+func (b0 UpdateOrPatchDatasetRequest_builder) Build() *UpdateOrPatchDatasetRequest {
+	m0 := &UpdateOrPatchDatasetRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.DatasetId = b.DatasetId
+	x.Dataset = b.Dataset
+	x.UpdateMode = b.UpdateMode
+	x.AccessPolicyVersion = b.AccessPolicyVersion
+	return m0
+}
+
 // Request format for deleting a dataset.
 type DeleteDatasetRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the dataset being deleted
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. Dataset ID of dataset being deleted
@@ -1447,11 +2388,6 @@ func (x *DeleteDatasetRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteDatasetRequest.ProtoReflect.Descriptor instead.
-func (*DeleteDatasetRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_dataset_proto_rawDescGZIP(), []int{9}
-}
-
 func (x *DeleteDatasetRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -1473,8 +2409,43 @@ func (x *DeleteDatasetRequest) GetDeleteContents() bool {
 	return false
 }
 
+func (x *DeleteDatasetRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *DeleteDatasetRequest) SetDatasetId(v string) {
+	x.DatasetId = v
+}
+
+func (x *DeleteDatasetRequest) SetDeleteContents(v bool) {
+	x.DeleteContents = v
+}
+
+type DeleteDatasetRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the dataset being deleted
+	ProjectId string
+	// Required. Dataset ID of dataset being deleted
+	DatasetId string
+	// If True, delete all the tables in the dataset.
+	// If False and the dataset contains tables, the request will fail.
+	// Default is False
+	DeleteContents bool
+}
+
+func (b0 DeleteDatasetRequest_builder) Build() *DeleteDatasetRequest {
+	m0 := &DeleteDatasetRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.DatasetId = b.DatasetId
+	x.DeleteContents = b.DeleteContents
+	return m0
+}
+
 type ListDatasetsRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the datasets to be listed
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// The maximum number of results to return in a single response page.
@@ -1522,11 +2493,6 @@ func (x *ListDatasetsRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListDatasetsRequest.ProtoReflect.Descriptor instead.
-func (*ListDatasetsRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_dataset_proto_rawDescGZIP(), []int{10}
-}
-
 func (x *ListDatasetsRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -1562,10 +2528,76 @@ func (x *ListDatasetsRequest) GetFilter() string {
 	return ""
 }
 
+func (x *ListDatasetsRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *ListDatasetsRequest) SetMaxResults(v *wrapperspb.UInt32Value) {
+	x.MaxResults = v
+}
+
+func (x *ListDatasetsRequest) SetPageToken(v string) {
+	x.PageToken = v
+}
+
+func (x *ListDatasetsRequest) SetAll(v bool) {
+	x.All = v
+}
+
+func (x *ListDatasetsRequest) SetFilter(v string) {
+	x.Filter = v
+}
+
+func (x *ListDatasetsRequest) HasMaxResults() bool {
+	if x == nil {
+		return false
+	}
+	return x.MaxResults != nil
+}
+
+func (x *ListDatasetsRequest) ClearMaxResults() {
+	x.MaxResults = nil
+}
+
+type ListDatasetsRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the datasets to be listed
+	ProjectId string
+	// The maximum number of results to return in a single response page.
+	// Leverage the page tokens to iterate through the entire collection.
+	MaxResults *wrapperspb.UInt32Value
+	// Page token, returned by a previous call, to request the next page of
+	// results
+	PageToken string
+	// Whether to list all datasets, including hidden ones
+	All bool
+	// An expression for filtering the results of the request by label.
+	// The syntax is `labels.<name>[:<value>]`.
+	// Multiple filters can be AND-ed together by connecting with a space.
+	// Example: `labels.department:receiving labels.active`.
+	// See [Filtering datasets using
+	// labels](https://cloud.google.com/bigquery/docs/filtering-labels#filtering_datasets_using_labels)
+	// for details.
+	Filter string
+}
+
+func (b0 ListDatasetsRequest_builder) Build() *ListDatasetsRequest {
+	m0 := &ListDatasetsRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.MaxResults = b.MaxResults
+	x.PageToken = b.PageToken
+	x.All = b.All
+	x.Filter = b.Filter
+	return m0
+}
+
 // A dataset resource with only a subset of fields, to be returned in a list of
 // datasets.
 type ListFormatDataset struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The resource type.
 	// This property always returns the value "bigquery#dataset"
 	Kind string `protobuf:"bytes,1,opt,name=kind,proto3" json:"kind,omitempty"`
@@ -1628,11 +2660,6 @@ func (x *ListFormatDataset) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListFormatDataset.ProtoReflect.Descriptor instead.
-func (*ListFormatDataset) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_dataset_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *ListFormatDataset) GetKind() string {
@@ -1698,9 +2725,145 @@ func (x *ListFormatDataset) GetExternalDatasetReference() *ExternalDatasetRefere
 	return nil
 }
 
+func (x *ListFormatDataset) SetKind(v string) {
+	x.Kind = v
+}
+
+func (x *ListFormatDataset) SetId(v string) {
+	x.Id = v
+}
+
+func (x *ListFormatDataset) SetDatasetReference(v *DatasetReference) {
+	x.DatasetReference = v
+}
+
+func (x *ListFormatDataset) SetLabels(v map[string]string) {
+	x.Labels = v
+}
+
+func (x *ListFormatDataset) SetFriendlyName(v *wrapperspb.StringValue) {
+	x.FriendlyName = v
+}
+
+func (x *ListFormatDataset) SetLocation(v string) {
+	x.Location = v
+}
+
+func (x *ListFormatDataset) SetType(v string) {
+	x.Type = v
+}
+
+func (x *ListFormatDataset) SetCatalogSource(v string) {
+	x.CatalogSource = &v
+}
+
+func (x *ListFormatDataset) SetExternalDatasetReference(v *ExternalDatasetReference) {
+	x.ExternalDatasetReference = v
+}
+
+func (x *ListFormatDataset) HasDatasetReference() bool {
+	if x == nil {
+		return false
+	}
+	return x.DatasetReference != nil
+}
+
+func (x *ListFormatDataset) HasFriendlyName() bool {
+	if x == nil {
+		return false
+	}
+	return x.FriendlyName != nil
+}
+
+func (x *ListFormatDataset) HasCatalogSource() bool {
+	if x == nil {
+		return false
+	}
+	return x.CatalogSource != nil
+}
+
+func (x *ListFormatDataset) HasExternalDatasetReference() bool {
+	if x == nil {
+		return false
+	}
+	return x.ExternalDatasetReference != nil
+}
+
+func (x *ListFormatDataset) ClearDatasetReference() {
+	x.DatasetReference = nil
+}
+
+func (x *ListFormatDataset) ClearFriendlyName() {
+	x.FriendlyName = nil
+}
+
+func (x *ListFormatDataset) ClearCatalogSource() {
+	x.CatalogSource = nil
+}
+
+func (x *ListFormatDataset) ClearExternalDatasetReference() {
+	x.ExternalDatasetReference = nil
+}
+
+type ListFormatDataset_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The resource type.
+	// This property always returns the value "bigquery#dataset"
+	Kind string
+	// The fully-qualified, unique, opaque ID of the dataset.
+	Id string
+	// The dataset reference.
+	// Use this property to access specific parts of the dataset's ID, such as
+	// project ID or dataset ID.
+	DatasetReference *DatasetReference
+	// The labels associated with this dataset.
+	// You can use these to organize and group your datasets.
+	Labels map[string]string
+	// An alternate name for the dataset.  The friendly name is purely
+	// decorative in nature.
+	FriendlyName *wrapperspb.StringValue
+	// The geographic location where the dataset resides.
+	Location string
+	// Output only. Same as `type` in `Dataset`.
+	// The type of the dataset, one of:
+	//
+	// * DEFAULT - only accessible by owner and authorized accounts,
+	// * PUBLIC - accessible by everyone,
+	// * LINKED - linked dataset,
+	// * EXTERNAL - dataset with definition in external metadata catalog,
+	// * BIGLAKE_ICEBERG - a Biglake dataset accessible through the Iceberg API,
+	// * BIGLAKE_HIVE - a Biglake dataset accessible through the Hive API.
+	Type string
+	// Output only. The origin of the dataset, one of:
+	//
+	// * (Unset) - Native BigQuery Dataset.
+	// * BIGLAKE - Dataset is backed by a namespace stored natively in Biglake.
+	CatalogSource *string
+	// Output only. Reference to a read-only external dataset defined in data
+	// catalogs outside of BigQuery. Filled out when the dataset type is EXTERNAL.
+	ExternalDatasetReference *ExternalDatasetReference
+}
+
+func (b0 ListFormatDataset_builder) Build() *ListFormatDataset {
+	m0 := &ListFormatDataset{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Kind = b.Kind
+	x.Id = b.Id
+	x.DatasetReference = b.DatasetReference
+	x.Labels = b.Labels
+	x.FriendlyName = b.FriendlyName
+	x.Location = b.Location
+	x.Type = b.Type
+	x.CatalogSource = b.CatalogSource
+	x.ExternalDatasetReference = b.ExternalDatasetReference
+	return m0
+}
+
 // Response format for a page of results when listing datasets.
 type DatasetList struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. The resource type.
 	// This property always returns the value "bigquery#datasetList"
 	Kind string `protobuf:"bytes,1,opt,name=kind,proto3" json:"kind,omitempty"`
@@ -1749,11 +2912,6 @@ func (x *DatasetList) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DatasetList.ProtoReflect.Descriptor instead.
-func (*DatasetList) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_dataset_proto_rawDescGZIP(), []int{12}
-}
-
 func (x *DatasetList) GetKind() string {
 	if x != nil {
 		return x.Kind
@@ -1789,9 +2947,65 @@ func (x *DatasetList) GetUnreachable() []string {
 	return nil
 }
 
+func (x *DatasetList) SetKind(v string) {
+	x.Kind = v
+}
+
+func (x *DatasetList) SetEtag(v string) {
+	x.Etag = v
+}
+
+func (x *DatasetList) SetNextPageToken(v string) {
+	x.NextPageToken = v
+}
+
+func (x *DatasetList) SetDatasets(v []*ListFormatDataset) {
+	x.Datasets = v
+}
+
+func (x *DatasetList) SetUnreachable(v []string) {
+	x.Unreachable = v
+}
+
+type DatasetList_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. The resource type.
+	// This property always returns the value "bigquery#datasetList"
+	Kind string
+	// Output only. A hash value of the results page. You can use this property to
+	// determine if the page has changed since the last request.
+	Etag string
+	// A token that can be used to request the next results page. This property is
+	// omitted on the final results page.
+	NextPageToken string
+	// An array of the dataset resources in the project.
+	// Each resource contains basic information.
+	// For full information about a particular dataset resource, use the Datasets:
+	// get method. This property is omitted when there are no datasets in the
+	// project.
+	Datasets []*ListFormatDataset
+	// A list of skipped locations that were unreachable. For more information
+	// about BigQuery locations, see:
+	// https://cloud.google.com/bigquery/docs/locations. Example: "europe-west5"
+	Unreachable []string
+}
+
+func (b0 DatasetList_builder) Build() *DatasetList {
+	m0 := &DatasetList{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Kind = b.Kind
+	x.Etag = b.Etag
+	x.NextPageToken = b.NextPageToken
+	x.Datasets = b.Datasets
+	x.Unreachable = b.Unreachable
+	return m0
+}
+
 // Request format for undeleting a dataset.
 type UndeleteDatasetRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the dataset to be undeleted
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. Dataset ID of dataset being deleted
@@ -1829,11 +3043,6 @@ func (x *UndeleteDatasetRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UndeleteDatasetRequest.ProtoReflect.Descriptor instead.
-func (*UndeleteDatasetRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_dataset_proto_rawDescGZIP(), []int{13}
-}
-
 func (x *UndeleteDatasetRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -1853,6 +3062,52 @@ func (x *UndeleteDatasetRequest) GetDeletionTime() *timestamppb.Timestamp {
 		return x.DeletionTime
 	}
 	return nil
+}
+
+func (x *UndeleteDatasetRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *UndeleteDatasetRequest) SetDatasetId(v string) {
+	x.DatasetId = v
+}
+
+func (x *UndeleteDatasetRequest) SetDeletionTime(v *timestamppb.Timestamp) {
+	x.DeletionTime = v
+}
+
+func (x *UndeleteDatasetRequest) HasDeletionTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.DeletionTime != nil
+}
+
+func (x *UndeleteDatasetRequest) ClearDeletionTime() {
+	x.DeletionTime = nil
+}
+
+type UndeleteDatasetRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the dataset to be undeleted
+	ProjectId string
+	// Required. Dataset ID of dataset being deleted
+	DatasetId string
+	// Optional. The exact time when the dataset was deleted. If not specified,
+	// the most recently deleted version is undeleted. Undeleting a dataset
+	// using deletion time is not supported.
+	DeletionTime *timestamppb.Timestamp
+}
+
+func (b0 UndeleteDatasetRequest_builder) Build() *UndeleteDatasetRequest {
+	m0 := &UndeleteDatasetRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.DatasetId = b.DatasetId
+	x.DeletionTime = b.DeletionTime
+	return m0
 }
 
 var File_google_cloud_bigquery_v2_dataset_proto protoreflect.FileDescriptor
@@ -2023,18 +3278,6 @@ const file_google_cloud_bigquery_v2_dataset_proto_rawDesc = "" +
 	"\fListDatasets\x12-.google.cloud.bigquery.v2.ListDatasetsRequest\x1a%.google.cloud.bigquery.v2.DatasetList\"5\x82\xd3\xe4\x93\x02/\x12-/bigquery/v2/projects/{project_id=*}/datasets\x12\xb8\x01\n" +
 	"\x0fUndeleteDataset\x120.google.cloud.bigquery.v2.UndeleteDatasetRequest\x1a!.google.cloud.bigquery.v2.Dataset\"P\x82\xd3\xe4\x93\x02J:\x01*\"E/bigquery/v2/projects/{project_id=*}/datasets/{dataset_id=*}:undelete\x1a\xae\x01\xcaA\x17bigquery.googleapis.com\xd2A\x90\x01https://www.googleapis.com/auth/bigquery,https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-onlyBi\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\fDatasetProtoZ;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_dataset_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_dataset_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_dataset_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_dataset_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_dataset_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_dataset_proto_rawDesc), len(file_google_cloud_bigquery_v2_dataset_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_dataset_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_dataset_proto_enumTypes = make([]protoimpl.EnumInfo, 5)
 var file_google_cloud_bigquery_v2_dataset_proto_msgTypes = make([]protoimpl.MessageInfo, 17)

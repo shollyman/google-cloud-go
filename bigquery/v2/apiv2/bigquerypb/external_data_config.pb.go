@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/external_data_config.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -86,11 +87,6 @@ func (x ExternalDataConfiguration_ObjectMetadata) Number() protoreflect.EnumNumb
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use ExternalDataConfiguration_ObjectMetadata.Descriptor instead.
-func (ExternalDataConfiguration_ObjectMetadata) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_external_data_config_proto_rawDescGZIP(), []int{9, 0}
-}
-
 // MetadataCacheMode identifies if the table should use metadata caching for
 // files from external source (eg Google Cloud Storage).
 type ExternalDataConfiguration_MetadataCacheMode int32
@@ -144,14 +140,9 @@ func (x ExternalDataConfiguration_MetadataCacheMode) Number() protoreflect.EnumN
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use ExternalDataConfiguration_MetadataCacheMode.Descriptor instead.
-func (ExternalDataConfiguration_MetadataCacheMode) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_external_data_config_proto_rawDescGZIP(), []int{9, 1}
-}
-
 // Options for external data sources.
 type AvroOptions struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. If sourceFormat is set to "AVRO", indicates whether to interpret
 	// logical types as the corresponding BigQuery data type (for example,
 	// TIMESTAMP), instead of using the raw type (for example, INTEGER).
@@ -185,11 +176,6 @@ func (x *AvroOptions) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use AvroOptions.ProtoReflect.Descriptor instead.
-func (*AvroOptions) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_external_data_config_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *AvroOptions) GetUseAvroLogicalTypes() *wrapperspb.BoolValue {
 	if x != nil {
 		return x.UseAvroLogicalTypes
@@ -197,9 +183,41 @@ func (x *AvroOptions) GetUseAvroLogicalTypes() *wrapperspb.BoolValue {
 	return nil
 }
 
+func (x *AvroOptions) SetUseAvroLogicalTypes(v *wrapperspb.BoolValue) {
+	x.UseAvroLogicalTypes = v
+}
+
+func (x *AvroOptions) HasUseAvroLogicalTypes() bool {
+	if x == nil {
+		return false
+	}
+	return x.UseAvroLogicalTypes != nil
+}
+
+func (x *AvroOptions) ClearUseAvroLogicalTypes() {
+	x.UseAvroLogicalTypes = nil
+}
+
+type AvroOptions_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. If sourceFormat is set to "AVRO", indicates whether to interpret
+	// logical types as the corresponding BigQuery data type (for example,
+	// TIMESTAMP), instead of using the raw type (for example, INTEGER).
+	UseAvroLogicalTypes *wrapperspb.BoolValue
+}
+
+func (b0 AvroOptions_builder) Build() *AvroOptions {
+	m0 := &AvroOptions{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.UseAvroLogicalTypes = b.UseAvroLogicalTypes
+	return m0
+}
+
 // Parquet Options for load and make external tables.
 type ParquetOptions struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. Indicates whether to infer Parquet ENUM logical type as STRING
 	// instead of BYTES by default.
 	EnumAsString *wrapperspb.BoolValue `protobuf:"bytes,1,opt,name=enum_as_string,json=enumAsString,proto3" json:"enum_as_string,omitempty"`
@@ -237,11 +255,6 @@ func (x *ParquetOptions) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ParquetOptions.ProtoReflect.Descriptor instead.
-func (*ParquetOptions) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_external_data_config_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *ParquetOptions) GetEnumAsString() *wrapperspb.BoolValue {
 	if x != nil {
 		return x.EnumAsString
@@ -263,9 +276,66 @@ func (x *ParquetOptions) GetMapTargetType() MapTargetType {
 	return MapTargetType_MAP_TARGET_TYPE_UNSPECIFIED
 }
 
+func (x *ParquetOptions) SetEnumAsString(v *wrapperspb.BoolValue) {
+	x.EnumAsString = v
+}
+
+func (x *ParquetOptions) SetEnableListInference(v *wrapperspb.BoolValue) {
+	x.EnableListInference = v
+}
+
+func (x *ParquetOptions) SetMapTargetType(v MapTargetType) {
+	x.MapTargetType = v
+}
+
+func (x *ParquetOptions) HasEnumAsString() bool {
+	if x == nil {
+		return false
+	}
+	return x.EnumAsString != nil
+}
+
+func (x *ParquetOptions) HasEnableListInference() bool {
+	if x == nil {
+		return false
+	}
+	return x.EnableListInference != nil
+}
+
+func (x *ParquetOptions) ClearEnumAsString() {
+	x.EnumAsString = nil
+}
+
+func (x *ParquetOptions) ClearEnableListInference() {
+	x.EnableListInference = nil
+}
+
+type ParquetOptions_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. Indicates whether to infer Parquet ENUM logical type as STRING
+	// instead of BYTES by default.
+	EnumAsString *wrapperspb.BoolValue
+	// Optional. Indicates whether to use schema inference specifically for
+	// Parquet LIST logical type.
+	EnableListInference *wrapperspb.BoolValue
+	// Optional. Indicates how to represent a Parquet map if present.
+	MapTargetType MapTargetType
+}
+
+func (b0 ParquetOptions_builder) Build() *ParquetOptions {
+	m0 := &ParquetOptions{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.EnumAsString = b.EnumAsString
+	x.EnableListInference = b.EnableListInference
+	x.MapTargetType = b.MapTargetType
+	return m0
+}
+
 // Information related to a CSV data source.
 type CsvOptions struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. The separator character for fields in a CSV file. The separator
 	// is interpreted as a single byte. For files encoded in ISO-8859-1, any
 	// single character can be used as a separator. For files encoded in UTF-8,
@@ -381,11 +451,6 @@ func (x *CsvOptions) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CsvOptions.ProtoReflect.Descriptor instead.
-func (*CsvOptions) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_external_data_config_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *CsvOptions) GetFieldDelimiter() string {
 	if x != nil {
 		return x.FieldDelimiter
@@ -456,9 +521,223 @@ func (x *CsvOptions) GetSourceColumnMatch() string {
 	return ""
 }
 
+func (x *CsvOptions) SetFieldDelimiter(v string) {
+	x.FieldDelimiter = v
+}
+
+func (x *CsvOptions) SetSkipLeadingRows(v *wrapperspb.Int64Value) {
+	x.SkipLeadingRows = v
+}
+
+func (x *CsvOptions) SetQuote(v *wrapperspb.StringValue) {
+	x.Quote = v
+}
+
+func (x *CsvOptions) SetAllowQuotedNewlines(v *wrapperspb.BoolValue) {
+	x.AllowQuotedNewlines = v
+}
+
+func (x *CsvOptions) SetAllowJaggedRows(v *wrapperspb.BoolValue) {
+	x.AllowJaggedRows = v
+}
+
+func (x *CsvOptions) SetEncoding(v string) {
+	x.Encoding = v
+}
+
+func (x *CsvOptions) SetPreserveAsciiControlCharacters(v *wrapperspb.BoolValue) {
+	x.PreserveAsciiControlCharacters = v
+}
+
+func (x *CsvOptions) SetNullMarker(v *wrapperspb.StringValue) {
+	x.NullMarker = v
+}
+
+func (x *CsvOptions) SetNullMarkers(v []string) {
+	x.NullMarkers = v
+}
+
+func (x *CsvOptions) SetSourceColumnMatch(v string) {
+	x.SourceColumnMatch = v
+}
+
+func (x *CsvOptions) HasSkipLeadingRows() bool {
+	if x == nil {
+		return false
+	}
+	return x.SkipLeadingRows != nil
+}
+
+func (x *CsvOptions) HasQuote() bool {
+	if x == nil {
+		return false
+	}
+	return x.Quote != nil
+}
+
+func (x *CsvOptions) HasAllowQuotedNewlines() bool {
+	if x == nil {
+		return false
+	}
+	return x.AllowQuotedNewlines != nil
+}
+
+func (x *CsvOptions) HasAllowJaggedRows() bool {
+	if x == nil {
+		return false
+	}
+	return x.AllowJaggedRows != nil
+}
+
+func (x *CsvOptions) HasPreserveAsciiControlCharacters() bool {
+	if x == nil {
+		return false
+	}
+	return x.PreserveAsciiControlCharacters != nil
+}
+
+func (x *CsvOptions) HasNullMarker() bool {
+	if x == nil {
+		return false
+	}
+	return x.NullMarker != nil
+}
+
+func (x *CsvOptions) ClearSkipLeadingRows() {
+	x.SkipLeadingRows = nil
+}
+
+func (x *CsvOptions) ClearQuote() {
+	x.Quote = nil
+}
+
+func (x *CsvOptions) ClearAllowQuotedNewlines() {
+	x.AllowQuotedNewlines = nil
+}
+
+func (x *CsvOptions) ClearAllowJaggedRows() {
+	x.AllowJaggedRows = nil
+}
+
+func (x *CsvOptions) ClearPreserveAsciiControlCharacters() {
+	x.PreserveAsciiControlCharacters = nil
+}
+
+func (x *CsvOptions) ClearNullMarker() {
+	x.NullMarker = nil
+}
+
+type CsvOptions_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. The separator character for fields in a CSV file. The separator
+	// is interpreted as a single byte. For files encoded in ISO-8859-1, any
+	// single character can be used as a separator. For files encoded in UTF-8,
+	// characters represented in decimal range 1-127 (U+0001-U+007F) can be used
+	// without any modification. UTF-8 characters encoded with multiple bytes
+	// (i.e. U+0080 and above) will have only the first byte used for separating
+	// fields. The remaining bytes will be treated as a part of the field.
+	// BigQuery also supports the escape sequence "\t" (U+0009) to specify a tab
+	// separator. The default value is comma (",", U+002C).
+	FieldDelimiter string
+	// Optional. The number of rows at the top of a CSV file that BigQuery will
+	// skip when reading the data. The default value is 0. This property is
+	// useful if you have header rows in the file that should be skipped.
+	// When autodetect is on, the behavior is the following:
+	//
+	//   - skipLeadingRows unspecified - Autodetect tries to detect headers in the
+	//     first row. If they are not detected, the row is read as data. Otherwise
+	//     data is read starting from the second row.
+	//   - skipLeadingRows is 0 - Instructs autodetect that there are no headers and
+	//     data should be read starting from the first row.
+	//   - skipLeadingRows = N > 0 - Autodetect skips N-1 rows and tries to detect
+	//     headers in row N. If headers are not detected, row N is just skipped.
+	//     Otherwise row N is used to extract column names for the detected schema.
+	SkipLeadingRows *wrapperspb.Int64Value
+	// Optional. The value that is used to quote data sections in a CSV file.
+	// BigQuery converts the string to ISO-8859-1 encoding, and then uses the
+	// first byte of the encoded string to split the data in its raw, binary
+	// state.
+	// The default value is a double-quote (").
+	// If your data does not contain quoted sections,
+	// set the property value to an empty string.
+	// If your data contains quoted newline characters, you must also set the
+	// allowQuotedNewlines property to true.
+	// To include the specific quote character within a quoted value, precede it
+	// with an additional matching quote character. For example, if you want to
+	// escape the default character  ' " ', use ' "" '.
+	Quote *wrapperspb.StringValue
+	// Optional. Indicates if BigQuery should allow quoted data sections that
+	// contain newline characters in a CSV file. The default value is false.
+	AllowQuotedNewlines *wrapperspb.BoolValue
+	// Optional. Indicates if BigQuery should accept rows that are missing
+	// trailing optional columns. If true, BigQuery treats missing trailing
+	// columns as null values.
+	// If false, records with missing trailing columns are treated as bad records,
+	// and if there are too many bad records, an invalid error is returned in the
+	// job result. The default value is false.
+	AllowJaggedRows *wrapperspb.BoolValue
+	// Optional. The character encoding of the data.
+	// The supported values are UTF-8, ISO-8859-1, UTF-16BE, UTF-16LE, UTF-32BE,
+	// and UTF-32LE.  The default value is UTF-8.
+	// BigQuery decodes the data after the raw, binary data has been split using
+	// the values of the quote and fieldDelimiter properties.
+	Encoding string
+	// Optional. Indicates if the embedded ASCII control characters (the first 32
+	// characters in the ASCII-table, from '\x00' to '\x1F') are preserved.
+	PreserveAsciiControlCharacters *wrapperspb.BoolValue
+	// Optional. Specifies a string that represents a null value in a CSV file.
+	// For example, if you specify "\N", BigQuery interprets "\N" as a null value
+	// when querying a CSV file.
+	// The default value is the empty string. If you set this property to a custom
+	// value, BigQuery throws an error if an empty string is present for all data
+	// types except for STRING and BYTE. For STRING and BYTE columns, BigQuery
+	// interprets the empty string as an empty value.
+	NullMarker *wrapperspb.StringValue
+	// Optional. A list of strings represented as SQL NULL value in a CSV file.
+	//
+	// null_marker and null_markers can't be set at the same time.
+	// If null_marker is set, null_markers has to be not set.
+	// If null_markers is set, null_marker has to be not set.
+	// If both null_marker and null_markers are set at the same time, a user
+	// error would be thrown.
+	// Any strings listed in null_markers, including
+	// empty string would be interpreted as SQL NULL. This applies to all column
+	// types.
+	NullMarkers []string
+	// Optional. Controls the strategy used to match loaded columns to the schema.
+	// If not set, a sensible default is chosen based on how the schema is
+	// provided. If autodetect is used, then columns are matched by name.
+	// Otherwise, columns are matched by position. This is done to keep the
+	// behavior backward-compatible. Acceptable values are:
+	//
+	//	POSITION - matches by position. This assumes that the columns are ordered
+	//	           the same way as the schema.
+	//	NAME - matches by name. This reads the header row as column names and
+	//	       reorders columns to match the field names in the schema.
+	SourceColumnMatch string
+}
+
+func (b0 CsvOptions_builder) Build() *CsvOptions {
+	m0 := &CsvOptions{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.FieldDelimiter = b.FieldDelimiter
+	x.SkipLeadingRows = b.SkipLeadingRows
+	x.Quote = b.Quote
+	x.AllowQuotedNewlines = b.AllowQuotedNewlines
+	x.AllowJaggedRows = b.AllowJaggedRows
+	x.Encoding = b.Encoding
+	x.PreserveAsciiControlCharacters = b.PreserveAsciiControlCharacters
+	x.NullMarker = b.NullMarker
+	x.NullMarkers = b.NullMarkers
+	x.SourceColumnMatch = b.SourceColumnMatch
+	return m0
+}
+
 // Json Options for load and make external tables.
 type JsonOptions struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. The character encoding of the data.
 	// The supported values are UTF-8, UTF-16BE, UTF-16LE, UTF-32BE,
 	// and UTF-32LE.  The default value is UTF-8.
@@ -492,11 +771,6 @@ func (x *JsonOptions) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use JsonOptions.ProtoReflect.Descriptor instead.
-func (*JsonOptions) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_external_data_config_proto_rawDescGZIP(), []int{3}
-}
-
 func (x *JsonOptions) GetEncoding() string {
 	if x != nil {
 		return x.Encoding
@@ -504,9 +778,30 @@ func (x *JsonOptions) GetEncoding() string {
 	return ""
 }
 
+func (x *JsonOptions) SetEncoding(v string) {
+	x.Encoding = v
+}
+
+type JsonOptions_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. The character encoding of the data.
+	// The supported values are UTF-8, UTF-16BE, UTF-16LE, UTF-32BE,
+	// and UTF-32LE.  The default value is UTF-8.
+	Encoding string
+}
+
+func (b0 JsonOptions_builder) Build() *JsonOptions {
+	m0 := &JsonOptions{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Encoding = b.Encoding
+	return m0
+}
+
 // Information related to a Bigtable protobuf column.
 type BigtableProtoConfig struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. The ID of the Bigtable SchemaBundle resource associated with this
 	// protobuf. The ID should be referred to within the parent table, e.g.,
 	// `foo` rather than
@@ -546,11 +841,6 @@ func (x *BigtableProtoConfig) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use BigtableProtoConfig.ProtoReflect.Descriptor instead.
-func (*BigtableProtoConfig) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_external_data_config_proto_rawDescGZIP(), []int{4}
-}
-
 func (x *BigtableProtoConfig) GetSchemaBundleId() string {
 	if x != nil {
 		return x.SchemaBundleId
@@ -565,9 +855,41 @@ func (x *BigtableProtoConfig) GetProtoMessageName() string {
 	return ""
 }
 
+func (x *BigtableProtoConfig) SetSchemaBundleId(v string) {
+	x.SchemaBundleId = v
+}
+
+func (x *BigtableProtoConfig) SetProtoMessageName(v string) {
+	x.ProtoMessageName = v
+}
+
+type BigtableProtoConfig_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. The ID of the Bigtable SchemaBundle resource associated with this
+	// protobuf. The ID should be referred to within the parent table, e.g.,
+	// `foo` rather than
+	// `projects/{project}/instances/{instance}/tables/{table}/schemaBundles/foo`.
+	// See [more details on Bigtable
+	// SchemaBundles](https://docs.cloud.google.com/bigtable/docs/create-manage-protobuf-schemas).
+	SchemaBundleId string
+	// Optional. The fully qualified proto message name of the protobuf. In the
+	// format of "foo.bar.Message".
+	ProtoMessageName string
+}
+
+func (b0 BigtableProtoConfig_builder) Build() *BigtableProtoConfig {
+	m0 := &BigtableProtoConfig{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.SchemaBundleId = b.SchemaBundleId
+	x.ProtoMessageName = b.ProtoMessageName
+	return m0
+}
+
 // Information related to a Bigtable column.
 type BigtableColumn struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// [Required] Qualifier of the column.
 	// Columns in the parent column family that has this exact qualifier are
 	// exposed as `<family field name>.<column field name>` field.
@@ -653,11 +975,6 @@ func (x *BigtableColumn) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use BigtableColumn.ProtoReflect.Descriptor instead.
-func (*BigtableColumn) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_external_data_config_proto_rawDescGZIP(), []int{5}
-}
-
 func (x *BigtableColumn) GetQualifierEncoded() *wrapperspb.BytesValue {
 	if x != nil {
 		return x.QualifierEncoded
@@ -707,9 +1024,156 @@ func (x *BigtableColumn) GetProtoConfig() *BigtableProtoConfig {
 	return nil
 }
 
+func (x *BigtableColumn) SetQualifierEncoded(v *wrapperspb.BytesValue) {
+	x.QualifierEncoded = v
+}
+
+func (x *BigtableColumn) SetQualifierString(v *wrapperspb.StringValue) {
+	x.QualifierString = v
+}
+
+func (x *BigtableColumn) SetFieldName(v string) {
+	x.FieldName = v
+}
+
+func (x *BigtableColumn) SetType(v string) {
+	x.Type = v
+}
+
+func (x *BigtableColumn) SetEncoding(v string) {
+	x.Encoding = v
+}
+
+func (x *BigtableColumn) SetOnlyReadLatest(v *wrapperspb.BoolValue) {
+	x.OnlyReadLatest = v
+}
+
+func (x *BigtableColumn) SetProtoConfig(v *BigtableProtoConfig) {
+	x.ProtoConfig = v
+}
+
+func (x *BigtableColumn) HasQualifierEncoded() bool {
+	if x == nil {
+		return false
+	}
+	return x.QualifierEncoded != nil
+}
+
+func (x *BigtableColumn) HasQualifierString() bool {
+	if x == nil {
+		return false
+	}
+	return x.QualifierString != nil
+}
+
+func (x *BigtableColumn) HasOnlyReadLatest() bool {
+	if x == nil {
+		return false
+	}
+	return x.OnlyReadLatest != nil
+}
+
+func (x *BigtableColumn) HasProtoConfig() bool {
+	if x == nil {
+		return false
+	}
+	return x.ProtoConfig != nil
+}
+
+func (x *BigtableColumn) ClearQualifierEncoded() {
+	x.QualifierEncoded = nil
+}
+
+func (x *BigtableColumn) ClearQualifierString() {
+	x.QualifierString = nil
+}
+
+func (x *BigtableColumn) ClearOnlyReadLatest() {
+	x.OnlyReadLatest = nil
+}
+
+func (x *BigtableColumn) ClearProtoConfig() {
+	x.ProtoConfig = nil
+}
+
+type BigtableColumn_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// [Required] Qualifier of the column.
+	// Columns in the parent column family that has this exact qualifier are
+	// exposed as `<family field name>.<column field name>` field.
+	// If the qualifier is valid UTF-8 string, it can be specified in the
+	// qualifier_string field.  Otherwise, a base-64 encoded value must be set to
+	// qualifier_encoded.
+	// The column field name is the same as the column qualifier. However, if the
+	// qualifier is not a valid BigQuery field identifier i.e. does not match
+	// [a-zA-Z][a-zA-Z0-9_]*, a valid identifier must be provided as field_name.
+	QualifierEncoded *wrapperspb.BytesValue
+	// Qualifier string.
+	QualifierString *wrapperspb.StringValue
+	// Optional. If the qualifier is not a valid BigQuery field identifier i.e.
+	// does not match [a-zA-Z][a-zA-Z0-9_]*,  a valid identifier must be provided
+	// as the column field name and is used as field name in queries.
+	FieldName string
+	// Optional. The type to convert the value in cells of this column.
+	// The values are expected to be encoded using HBase Bytes.toBytes function
+	// when using the BINARY encoding value.
+	// Following BigQuery types are allowed (case-sensitive):
+	//
+	// * BYTES
+	// * STRING
+	// * INTEGER
+	// * FLOAT
+	// * BOOLEAN
+	// * JSON
+	//
+	// Default type is BYTES.
+	// 'type' can also be set at the column family level. However, the setting at
+	// this level takes precedence if 'type' is set at both levels.
+	Type string
+	// Optional. The encoding of the values when the type is not STRING.
+	// Acceptable encoding values are:
+	//
+	//	TEXT - indicates values are alphanumeric text strings.
+	//	BINARY - indicates values are encoded using HBase Bytes.toBytes family of
+	//	         functions.
+	//	PROTO_BINARY - indicates values are encoded using serialized proto
+	//	         messages. This can only be used in combination with JSON
+	//	         type.
+	//
+	// 'encoding' can also be set at the column family level. However, the setting
+	// at this level takes precedence if 'encoding' is set at both levels.
+	Encoding string
+	// Optional. If this is set, only the latest version of value in this column
+	//
+	//	are exposed.
+	//
+	// 'onlyReadLatest' can also be set at the column family level. However, the
+	// setting at this level takes precedence if 'onlyReadLatest' is set at both
+	// levels.
+	OnlyReadLatest *wrapperspb.BoolValue
+	// Optional. Protobuf-specific configurations, only takes effect when the
+	// encoding is PROTO_BINARY.
+	ProtoConfig *BigtableProtoConfig
+}
+
+func (b0 BigtableColumn_builder) Build() *BigtableColumn {
+	m0 := &BigtableColumn{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.QualifierEncoded = b.QualifierEncoded
+	x.QualifierString = b.QualifierString
+	x.FieldName = b.FieldName
+	x.Type = b.Type
+	x.Encoding = b.Encoding
+	x.OnlyReadLatest = b.OnlyReadLatest
+	x.ProtoConfig = b.ProtoConfig
+	return m0
+}
+
 // Information related to a Bigtable column family.
 type BigtableColumnFamily struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Identifier of the column family.
 	FamilyId string `protobuf:"bytes,1,opt,name=family_id,json=familyId,proto3" json:"family_id,omitempty"`
 	// Optional. The type to convert the value in cells of this column family.
@@ -786,11 +1250,6 @@ func (x *BigtableColumnFamily) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use BigtableColumnFamily.ProtoReflect.Descriptor instead.
-func (*BigtableColumnFamily) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_external_data_config_proto_rawDescGZIP(), []int{6}
-}
-
 func (x *BigtableColumnFamily) GetFamilyId() string {
 	if x != nil {
 		return x.FamilyId
@@ -833,9 +1292,120 @@ func (x *BigtableColumnFamily) GetProtoConfig() *BigtableProtoConfig {
 	return nil
 }
 
+func (x *BigtableColumnFamily) SetFamilyId(v string) {
+	x.FamilyId = v
+}
+
+func (x *BigtableColumnFamily) SetType(v string) {
+	x.Type = v
+}
+
+func (x *BigtableColumnFamily) SetEncoding(v string) {
+	x.Encoding = v
+}
+
+func (x *BigtableColumnFamily) SetColumns(v []*BigtableColumn) {
+	x.Columns = v
+}
+
+func (x *BigtableColumnFamily) SetOnlyReadLatest(v *wrapperspb.BoolValue) {
+	x.OnlyReadLatest = v
+}
+
+func (x *BigtableColumnFamily) SetProtoConfig(v *BigtableProtoConfig) {
+	x.ProtoConfig = v
+}
+
+func (x *BigtableColumnFamily) HasOnlyReadLatest() bool {
+	if x == nil {
+		return false
+	}
+	return x.OnlyReadLatest != nil
+}
+
+func (x *BigtableColumnFamily) HasProtoConfig() bool {
+	if x == nil {
+		return false
+	}
+	return x.ProtoConfig != nil
+}
+
+func (x *BigtableColumnFamily) ClearOnlyReadLatest() {
+	x.OnlyReadLatest = nil
+}
+
+func (x *BigtableColumnFamily) ClearProtoConfig() {
+	x.ProtoConfig = nil
+}
+
+type BigtableColumnFamily_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Identifier of the column family.
+	FamilyId string
+	// Optional. The type to convert the value in cells of this column family.
+	// The values are expected to be encoded using HBase Bytes.toBytes function
+	// when using the BINARY encoding value.
+	// Following BigQuery types are allowed (case-sensitive):
+	//
+	// * BYTES
+	// * STRING
+	// * INTEGER
+	// * FLOAT
+	// * BOOLEAN
+	// * JSON
+	//
+	// Default type is BYTES.
+	// This can be overridden for a specific column by listing that column in
+	// 'columns' and specifying a type for it.
+	Type string
+	// Optional. The encoding of the values when the type is not STRING.
+	// Acceptable encoding values are:
+	//
+	//	TEXT - indicates values are alphanumeric text strings.
+	//	BINARY - indicates values are encoded using HBase Bytes.toBytes family of
+	//	         functions.
+	//	PROTO_BINARY - indicates values are encoded using serialized proto
+	//	         messages. This can only be used in combination with JSON
+	//	         type.
+	//
+	// This can be overridden for a specific column by listing that column in
+	// 'columns' and specifying an encoding for it.
+	Encoding string
+	// Optional. Lists of columns that should be exposed as individual fields as
+	// opposed to a list of (column name, value) pairs.
+	// All columns whose qualifier matches a qualifier in this list can be
+	// accessed as `<family field name>.<column field name>`.
+	// Other columns can be accessed as a list through
+	// the `<family field name>.Column` field.
+	Columns []*BigtableColumn
+	// Optional. If this is set only the latest version of value are exposed for
+	// all columns in this column family.
+	// This can be overridden for a specific column by listing that column in
+	// 'columns' and specifying a different setting
+	// for that column.
+	OnlyReadLatest *wrapperspb.BoolValue
+	// Optional. Protobuf-specific configurations, only takes effect when the
+	// encoding is PROTO_BINARY.
+	ProtoConfig *BigtableProtoConfig
+}
+
+func (b0 BigtableColumnFamily_builder) Build() *BigtableColumnFamily {
+	m0 := &BigtableColumnFamily{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.FamilyId = b.FamilyId
+	x.Type = b.Type
+	x.Encoding = b.Encoding
+	x.Columns = b.Columns
+	x.OnlyReadLatest = b.OnlyReadLatest
+	x.ProtoConfig = b.ProtoConfig
+	return m0
+}
+
 // Options specific to Google Cloud Bigtable data sources.
 type BigtableOptions struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. List of column families to expose in the table schema along with
 	// their types.
 	// This list restricts the column families that can be referenced in queries
@@ -890,11 +1460,6 @@ func (x *BigtableOptions) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use BigtableOptions.ProtoReflect.Descriptor instead.
-func (*BigtableOptions) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_external_data_config_proto_rawDescGZIP(), []int{7}
-}
-
 func (x *BigtableOptions) GetColumnFamilies() []*BigtableColumnFamily {
 	if x != nil {
 		return x.ColumnFamilies
@@ -923,9 +1488,99 @@ func (x *BigtableOptions) GetOutputColumnFamiliesAsJson() *wrapperspb.BoolValue 
 	return nil
 }
 
+func (x *BigtableOptions) SetColumnFamilies(v []*BigtableColumnFamily) {
+	x.ColumnFamilies = v
+}
+
+func (x *BigtableOptions) SetIgnoreUnspecifiedColumnFamilies(v *wrapperspb.BoolValue) {
+	x.IgnoreUnspecifiedColumnFamilies = v
+}
+
+func (x *BigtableOptions) SetReadRowkeyAsString(v *wrapperspb.BoolValue) {
+	x.ReadRowkeyAsString = v
+}
+
+func (x *BigtableOptions) SetOutputColumnFamiliesAsJson(v *wrapperspb.BoolValue) {
+	x.OutputColumnFamiliesAsJson = v
+}
+
+func (x *BigtableOptions) HasIgnoreUnspecifiedColumnFamilies() bool {
+	if x == nil {
+		return false
+	}
+	return x.IgnoreUnspecifiedColumnFamilies != nil
+}
+
+func (x *BigtableOptions) HasReadRowkeyAsString() bool {
+	if x == nil {
+		return false
+	}
+	return x.ReadRowkeyAsString != nil
+}
+
+func (x *BigtableOptions) HasOutputColumnFamiliesAsJson() bool {
+	if x == nil {
+		return false
+	}
+	return x.OutputColumnFamiliesAsJson != nil
+}
+
+func (x *BigtableOptions) ClearIgnoreUnspecifiedColumnFamilies() {
+	x.IgnoreUnspecifiedColumnFamilies = nil
+}
+
+func (x *BigtableOptions) ClearReadRowkeyAsString() {
+	x.ReadRowkeyAsString = nil
+}
+
+func (x *BigtableOptions) ClearOutputColumnFamiliesAsJson() {
+	x.OutputColumnFamiliesAsJson = nil
+}
+
+type BigtableOptions_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. List of column families to expose in the table schema along with
+	// their types.
+	// This list restricts the column families that can be referenced in queries
+	// and specifies their value types.
+	// You can use this list to do type conversions - see the 'type' field for
+	// more details.
+	// If you leave this list empty, all column families are present in the table
+	// schema and their values are read as BYTES.
+	// During a query only the column families referenced in that query are read
+	// from Bigtable.
+	ColumnFamilies []*BigtableColumnFamily
+	// Optional. If field is true, then the column families that are not
+	// specified in columnFamilies list are not exposed in the table schema.
+	// Otherwise, they are read with BYTES type values.
+	// The default value is false.
+	IgnoreUnspecifiedColumnFamilies *wrapperspb.BoolValue
+	// Optional. If field is true, then the rowkey column families will be read
+	// and converted to string. Otherwise they are read with BYTES type values and
+	// users need to manually cast them with CAST if necessary.
+	// The default value is false.
+	ReadRowkeyAsString *wrapperspb.BoolValue
+	// Optional. If field is true, then each column family will be read as a
+	// single JSON column. Otherwise they are read as a repeated cell structure
+	// containing timestamp/value tuples. The default value is false.
+	OutputColumnFamiliesAsJson *wrapperspb.BoolValue
+}
+
+func (b0 BigtableOptions_builder) Build() *BigtableOptions {
+	m0 := &BigtableOptions{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ColumnFamilies = b.ColumnFamilies
+	x.IgnoreUnspecifiedColumnFamilies = b.IgnoreUnspecifiedColumnFamilies
+	x.ReadRowkeyAsString = b.ReadRowkeyAsString
+	x.OutputColumnFamiliesAsJson = b.OutputColumnFamiliesAsJson
+	return m0
+}
+
 // Options specific to Google Sheets data sources.
 type GoogleSheetsOptions struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. The number of rows at the top of a sheet that BigQuery will skip
 	// when reading the data. The default value is 0. This property is useful if
 	// you have header rows that should be skipped. When autodetect is on,
@@ -972,11 +1627,6 @@ func (x *GoogleSheetsOptions) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GoogleSheetsOptions.ProtoReflect.Descriptor instead.
-func (*GoogleSheetsOptions) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_external_data_config_proto_rawDescGZIP(), []int{8}
-}
-
 func (x *GoogleSheetsOptions) GetSkipLeadingRows() *wrapperspb.Int64Value {
 	if x != nil {
 		return x.SkipLeadingRows
@@ -991,8 +1641,58 @@ func (x *GoogleSheetsOptions) GetRange() string {
 	return ""
 }
 
+func (x *GoogleSheetsOptions) SetSkipLeadingRows(v *wrapperspb.Int64Value) {
+	x.SkipLeadingRows = v
+}
+
+func (x *GoogleSheetsOptions) SetRange(v string) {
+	x.Range = v
+}
+
+func (x *GoogleSheetsOptions) HasSkipLeadingRows() bool {
+	if x == nil {
+		return false
+	}
+	return x.SkipLeadingRows != nil
+}
+
+func (x *GoogleSheetsOptions) ClearSkipLeadingRows() {
+	x.SkipLeadingRows = nil
+}
+
+type GoogleSheetsOptions_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. The number of rows at the top of a sheet that BigQuery will skip
+	// when reading the data. The default value is 0. This property is useful if
+	// you have header rows that should be skipped. When autodetect is on,
+	// the behavior is the following:
+	//   - skipLeadingRows unspecified - Autodetect tries to detect headers in the
+	//     first row. If they are not detected, the row is read as data. Otherwise
+	//     data is read starting from the second row.
+	//   - skipLeadingRows is 0 - Instructs autodetect that there are no headers and
+	//     data should be read starting from the first row.
+	//   - skipLeadingRows = N > 0 - Autodetect skips N-1 rows and tries to detect
+	//     headers in row N. If headers are not detected, row N is just skipped.
+	//     Otherwise row N is used to extract column names for the detected schema.
+	SkipLeadingRows *wrapperspb.Int64Value
+	// Optional. Range of a sheet to query from. Only used when non-empty.
+	// Typical format: sheet_name!top_left_cell_id:bottom_right_cell_id
+	// For example: sheet1!A1:B20
+	Range string
+}
+
+func (b0 GoogleSheetsOptions_builder) Build() *GoogleSheetsOptions {
+	m0 := &GoogleSheetsOptions{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.SkipLeadingRows = b.SkipLeadingRows
+	x.Range = b.Range
+	return m0
+}
+
 type ExternalDataConfiguration struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// [Required] The fully-qualified URIs that point to your data in Google
 	// Cloud. For Google Cloud Storage URIs:
 	//
@@ -1196,11 +1896,6 @@ func (x *ExternalDataConfiguration) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ExternalDataConfiguration.ProtoReflect.Descriptor instead.
-func (*ExternalDataConfiguration) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_external_data_config_proto_rawDescGZIP(), []int{9}
-}
-
 func (x *ExternalDataConfiguration) GetSourceUris() []string {
 	if x != nil {
 		return x.SourceUris
@@ -1390,6 +2085,525 @@ func (x *ExternalDataConfiguration) GetTimestampTargetPrecision() []int32 {
 	return nil
 }
 
+func (x *ExternalDataConfiguration) SetSourceUris(v []string) {
+	x.SourceUris = v
+}
+
+func (x *ExternalDataConfiguration) SetFileSetSpecType(v FileSetSpecType) {
+	x.FileSetSpecType = v
+}
+
+func (x *ExternalDataConfiguration) SetSchema(v *TableSchema) {
+	x.Schema = v
+}
+
+func (x *ExternalDataConfiguration) SetSourceFormat(v string) {
+	x.SourceFormat = v
+}
+
+func (x *ExternalDataConfiguration) SetMaxBadRecords(v *wrapperspb.Int32Value) {
+	x.MaxBadRecords = v
+}
+
+func (x *ExternalDataConfiguration) SetAutodetect(v *wrapperspb.BoolValue) {
+	x.Autodetect = v
+}
+
+func (x *ExternalDataConfiguration) SetIgnoreUnknownValues(v *wrapperspb.BoolValue) {
+	x.IgnoreUnknownValues = v
+}
+
+func (x *ExternalDataConfiguration) SetCompression(v string) {
+	x.Compression = v
+}
+
+func (x *ExternalDataConfiguration) SetCsvOptions(v *CsvOptions) {
+	x.CsvOptions = v
+}
+
+func (x *ExternalDataConfiguration) SetJsonOptions(v *JsonOptions) {
+	x.JsonOptions = v
+}
+
+func (x *ExternalDataConfiguration) SetBigtableOptions(v *BigtableOptions) {
+	x.BigtableOptions = v
+}
+
+func (x *ExternalDataConfiguration) SetGoogleSheetsOptions(v *GoogleSheetsOptions) {
+	x.GoogleSheetsOptions = v
+}
+
+func (x *ExternalDataConfiguration) SetHivePartitioningOptions(v *HivePartitioningOptions) {
+	x.HivePartitioningOptions = v
+}
+
+func (x *ExternalDataConfiguration) SetConnectionId(v string) {
+	x.ConnectionId = v
+}
+
+func (x *ExternalDataConfiguration) SetDecimalTargetTypes(v []DecimalTargetType) {
+	x.DecimalTargetTypes = v
+}
+
+func (x *ExternalDataConfiguration) SetAvroOptions(v *AvroOptions) {
+	x.AvroOptions = v
+}
+
+func (x *ExternalDataConfiguration) SetJsonExtension(v JsonExtension) {
+	x.JsonExtension = v
+}
+
+func (x *ExternalDataConfiguration) SetParquetOptions(v *ParquetOptions) {
+	x.ParquetOptions = v
+}
+
+func (x *ExternalDataConfiguration) SetObjectMetadata(v ExternalDataConfiguration_ObjectMetadata) {
+	x.ObjectMetadata = &v
+}
+
+func (x *ExternalDataConfiguration) SetReferenceFileSchemaUri(v *wrapperspb.StringValue) {
+	x.ReferenceFileSchemaUri = v
+}
+
+func (x *ExternalDataConfiguration) SetMetadataCacheMode(v ExternalDataConfiguration_MetadataCacheMode) {
+	x.MetadataCacheMode = v
+}
+
+func (x *ExternalDataConfiguration) SetTimeZone(v string) {
+	x.TimeZone = &v
+}
+
+func (x *ExternalDataConfiguration) SetDateFormat(v string) {
+	x.DateFormat = &v
+}
+
+func (x *ExternalDataConfiguration) SetDatetimeFormat(v string) {
+	x.DatetimeFormat = &v
+}
+
+func (x *ExternalDataConfiguration) SetTimeFormat(v string) {
+	x.TimeFormat = &v
+}
+
+func (x *ExternalDataConfiguration) SetTimestampFormat(v string) {
+	x.TimestampFormat = &v
+}
+
+func (x *ExternalDataConfiguration) SetTimestampTargetPrecision(v []int32) {
+	x.TimestampTargetPrecision = v
+}
+
+func (x *ExternalDataConfiguration) HasSchema() bool {
+	if x == nil {
+		return false
+	}
+	return x.Schema != nil
+}
+
+func (x *ExternalDataConfiguration) HasMaxBadRecords() bool {
+	if x == nil {
+		return false
+	}
+	return x.MaxBadRecords != nil
+}
+
+func (x *ExternalDataConfiguration) HasAutodetect() bool {
+	if x == nil {
+		return false
+	}
+	return x.Autodetect != nil
+}
+
+func (x *ExternalDataConfiguration) HasIgnoreUnknownValues() bool {
+	if x == nil {
+		return false
+	}
+	return x.IgnoreUnknownValues != nil
+}
+
+func (x *ExternalDataConfiguration) HasCsvOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.CsvOptions != nil
+}
+
+func (x *ExternalDataConfiguration) HasJsonOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.JsonOptions != nil
+}
+
+func (x *ExternalDataConfiguration) HasBigtableOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.BigtableOptions != nil
+}
+
+func (x *ExternalDataConfiguration) HasGoogleSheetsOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.GoogleSheetsOptions != nil
+}
+
+func (x *ExternalDataConfiguration) HasHivePartitioningOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.HivePartitioningOptions != nil
+}
+
+func (x *ExternalDataConfiguration) HasAvroOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.AvroOptions != nil
+}
+
+func (x *ExternalDataConfiguration) HasParquetOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.ParquetOptions != nil
+}
+
+func (x *ExternalDataConfiguration) HasObjectMetadata() bool {
+	if x == nil {
+		return false
+	}
+	return x.ObjectMetadata != nil
+}
+
+func (x *ExternalDataConfiguration) HasReferenceFileSchemaUri() bool {
+	if x == nil {
+		return false
+	}
+	return x.ReferenceFileSchemaUri != nil
+}
+
+func (x *ExternalDataConfiguration) HasTimeZone() bool {
+	if x == nil {
+		return false
+	}
+	return x.TimeZone != nil
+}
+
+func (x *ExternalDataConfiguration) HasDateFormat() bool {
+	if x == nil {
+		return false
+	}
+	return x.DateFormat != nil
+}
+
+func (x *ExternalDataConfiguration) HasDatetimeFormat() bool {
+	if x == nil {
+		return false
+	}
+	return x.DatetimeFormat != nil
+}
+
+func (x *ExternalDataConfiguration) HasTimeFormat() bool {
+	if x == nil {
+		return false
+	}
+	return x.TimeFormat != nil
+}
+
+func (x *ExternalDataConfiguration) HasTimestampFormat() bool {
+	if x == nil {
+		return false
+	}
+	return x.TimestampFormat != nil
+}
+
+func (x *ExternalDataConfiguration) ClearSchema() {
+	x.Schema = nil
+}
+
+func (x *ExternalDataConfiguration) ClearMaxBadRecords() {
+	x.MaxBadRecords = nil
+}
+
+func (x *ExternalDataConfiguration) ClearAutodetect() {
+	x.Autodetect = nil
+}
+
+func (x *ExternalDataConfiguration) ClearIgnoreUnknownValues() {
+	x.IgnoreUnknownValues = nil
+}
+
+func (x *ExternalDataConfiguration) ClearCsvOptions() {
+	x.CsvOptions = nil
+}
+
+func (x *ExternalDataConfiguration) ClearJsonOptions() {
+	x.JsonOptions = nil
+}
+
+func (x *ExternalDataConfiguration) ClearBigtableOptions() {
+	x.BigtableOptions = nil
+}
+
+func (x *ExternalDataConfiguration) ClearGoogleSheetsOptions() {
+	x.GoogleSheetsOptions = nil
+}
+
+func (x *ExternalDataConfiguration) ClearHivePartitioningOptions() {
+	x.HivePartitioningOptions = nil
+}
+
+func (x *ExternalDataConfiguration) ClearAvroOptions() {
+	x.AvroOptions = nil
+}
+
+func (x *ExternalDataConfiguration) ClearParquetOptions() {
+	x.ParquetOptions = nil
+}
+
+func (x *ExternalDataConfiguration) ClearObjectMetadata() {
+	x.ObjectMetadata = nil
+}
+
+func (x *ExternalDataConfiguration) ClearReferenceFileSchemaUri() {
+	x.ReferenceFileSchemaUri = nil
+}
+
+func (x *ExternalDataConfiguration) ClearTimeZone() {
+	x.TimeZone = nil
+}
+
+func (x *ExternalDataConfiguration) ClearDateFormat() {
+	x.DateFormat = nil
+}
+
+func (x *ExternalDataConfiguration) ClearDatetimeFormat() {
+	x.DatetimeFormat = nil
+}
+
+func (x *ExternalDataConfiguration) ClearTimeFormat() {
+	x.TimeFormat = nil
+}
+
+func (x *ExternalDataConfiguration) ClearTimestampFormat() {
+	x.TimestampFormat = nil
+}
+
+type ExternalDataConfiguration_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// [Required] The fully-qualified URIs that point to your data in Google
+	// Cloud. For Google Cloud Storage URIs:
+	//
+	//	Each URI can contain one '*' wildcard character and it must come after
+	//	the 'bucket' name.
+	//	Size limits related to load jobs apply to external data sources.
+	//
+	// For Google Cloud Bigtable URIs:
+	//
+	//	Exactly one URI can be specified and it has be a fully specified and
+	//	valid HTTPS URL for a Google Cloud Bigtable table.
+	//
+	// For Google Cloud Datastore backups, exactly one URI can be specified. Also,
+	// the '*' wildcard character is not allowed.
+	SourceUris []string
+	// Optional. Specifies how source URIs are interpreted for constructing the
+	// file set to load.  By default source URIs are expanded against the
+	// underlying storage.  Other options include specifying manifest files. Only
+	// applicable to object storage systems.
+	FileSetSpecType FileSetSpecType
+	// Optional. The schema for the data.
+	// Schema is required for CSV and JSON formats if autodetect is not on.
+	// Schema is disallowed for Google Cloud Bigtable, Cloud Datastore backups,
+	// Avro, ORC and Parquet formats.
+	Schema *TableSchema
+	// [Required] The data format.
+	// For CSV files, specify "CSV".
+	// For Google sheets, specify "GOOGLE_SHEETS".
+	// For newline-delimited JSON, specify "NEWLINE_DELIMITED_JSON".
+	// For Avro files, specify "AVRO".
+	// For Google Cloud Datastore backups, specify "DATASTORE_BACKUP".
+	// For Apache Iceberg tables, specify "ICEBERG".
+	// For ORC files, specify "ORC".
+	// For Parquet files, specify "PARQUET".
+	// [Beta] For Google Cloud Bigtable, specify "BIGTABLE".
+	SourceFormat string
+	// Optional. The maximum number of bad records that BigQuery can ignore when
+	// reading data. If the number of bad records exceeds this value, an invalid
+	// error is returned in the job result. The default value is 0, which requires
+	// that all records are valid. This setting is ignored for Google Cloud
+	// Bigtable, Google Cloud Datastore backups, Avro, ORC and Parquet formats.
+	MaxBadRecords *wrapperspb.Int32Value
+	// Try to detect schema and format options automatically.
+	// Any option specified explicitly will be honored.
+	Autodetect *wrapperspb.BoolValue
+	// Optional. Indicates if BigQuery should allow extra values that are not
+	// represented in the table schema.
+	// If true, the extra values are ignored.
+	// If false, records with extra columns are treated as bad records, and if
+	// there are too many bad records, an invalid error is returned in the job
+	// result.
+	// The default value is false.
+	// The sourceFormat property determines what BigQuery treats as an extra
+	// value:
+	//
+	//	CSV: Trailing columns
+	//	JSON: Named values that don't match any column names
+	//	Google Cloud Bigtable: This setting is ignored.
+	//	Google Cloud Datastore backups: This setting is ignored.
+	//	Avro: This setting is ignored.
+	//	ORC: This setting is ignored.
+	//	Parquet: This setting is ignored.
+	IgnoreUnknownValues *wrapperspb.BoolValue
+	// Optional. The compression type of the data source.
+	// Possible values include GZIP and NONE. The default value is NONE.
+	// This setting is ignored for Google Cloud Bigtable, Google Cloud Datastore
+	// backups, Avro, ORC and Parquet
+	// formats. An empty string is an invalid value.
+	Compression string
+	// Optional. Additional properties to set if sourceFormat is set to CSV.
+	CsvOptions *CsvOptions
+	// Optional. Additional properties to set if sourceFormat is set to JSON.
+	JsonOptions *JsonOptions
+	// Optional. Additional options if sourceFormat is set to BIGTABLE.
+	BigtableOptions *BigtableOptions
+	// Optional. Additional options if sourceFormat is set to GOOGLE_SHEETS.
+	GoogleSheetsOptions *GoogleSheetsOptions
+	// Optional. When set, configures hive partitioning support. Not all storage
+	// formats support hive partitioning -- requesting hive partitioning on an
+	// unsupported format will lead to an error, as will providing an invalid
+	// specification.
+	HivePartitioningOptions *HivePartitioningOptions
+	// Optional. The connection specifying the credentials to be used to read
+	// external storage, such as Azure Blob, Cloud Storage, or S3. The
+	// connection_id can have the form
+	// `{project_id}.{location_id};{connection_id}` or
+	// `projects/{project_id}/locations/{location_id}/connections/{connection_id}`.
+	ConnectionId string
+	// Defines the list of possible SQL data types to which the source decimal
+	// values are converted. This list and the precision and the scale parameters
+	// of the decimal field determine the target type. In the order of NUMERIC,
+	// BIGNUMERIC, and STRING, a
+	// type is picked if it is in the specified list and if it supports the
+	// precision and the scale. STRING supports all precision and scale values.
+	// If none of the listed types supports the precision and the scale, the type
+	// supporting the widest range in the specified list is picked, and if a value
+	// exceeds the supported range when reading the data, an error will be thrown.
+	//
+	// Example: Suppose the value of this field is ["NUMERIC", "BIGNUMERIC"].
+	// If (precision,scale) is:
+	//
+	// * (38,9) -> NUMERIC;
+	// * (39,9) -> BIGNUMERIC (NUMERIC cannot hold 30 integer digits);
+	// * (38,10) -> BIGNUMERIC (NUMERIC cannot hold 10 fractional digits);
+	// * (76,38) -> BIGNUMERIC;
+	// * (77,38) -> BIGNUMERIC (error if value exceeds supported range).
+	//
+	// This field cannot contain duplicate types. The order of the types in this
+	// field is ignored. For example, ["BIGNUMERIC", "NUMERIC"] is the same as
+	// ["NUMERIC", "BIGNUMERIC"] and NUMERIC always takes precedence over
+	// BIGNUMERIC.
+	//
+	// Defaults to ["NUMERIC", "STRING"] for ORC and ["NUMERIC"] for the other
+	// file formats.
+	DecimalTargetTypes []DecimalTargetType
+	// Optional. Additional properties to set if sourceFormat is set to AVRO.
+	AvroOptions *AvroOptions
+	// Optional. Load option to be used together with source_format
+	// newline-delimited JSON to indicate that a variant of JSON is being loaded.
+	// To load newline-delimited GeoJSON, specify GEOJSON (and source_format must
+	// be set to NEWLINE_DELIMITED_JSON).
+	JsonExtension JsonExtension
+	// Optional. Additional properties to set if sourceFormat is set to PARQUET.
+	ParquetOptions *ParquetOptions
+	// Optional. ObjectMetadata is used to create Object Tables. Object Tables
+	// contain a listing of objects (with their metadata) found at the
+	// source_uris. If ObjectMetadata is set, source_format should be omitted.
+	//
+	// Currently SIMPLE is the only supported Object Metadata type.
+	ObjectMetadata *ExternalDataConfiguration_ObjectMetadata
+	// Optional. When creating an external table, the user can provide a reference
+	// file with the table schema. This is enabled for the following formats:
+	// AVRO, PARQUET, ORC.
+	ReferenceFileSchemaUri *wrapperspb.StringValue
+	// Optional. Metadata Cache Mode for the table. Set this to enable caching of
+	// metadata from external data source.
+	MetadataCacheMode ExternalDataConfiguration_MetadataCacheMode
+	// Optional. Time zone used when parsing timestamp values that do not have
+	// specific time zone information (e.g. 2024-04-20 12:34:56). The expected
+	// format is a IANA timezone string (e.g. America/Los_Angeles).
+	TimeZone *string
+	// Optional. Format used to parse DATE values. Supports C-style and SQL-style
+	// values.
+	DateFormat *string
+	// Optional. Format used to parse DATETIME values. Supports C-style and
+	// SQL-style values.
+	DatetimeFormat *string
+	// Optional. Format used to parse TIME values. Supports C-style and SQL-style
+	// values.
+	TimeFormat *string
+	// Optional. Format used to parse TIMESTAMP values. Supports C-style and
+	// SQL-style values.
+	TimestampFormat *string
+	// Precisions (maximum number of total digits in base 10) for seconds
+	// of TIMESTAMP types that are allowed to the destination table for
+	// autodetection mode.
+	//
+	// Available for the formats: CSV, PARQUET, AVRO, and Iceberg External Table.
+	//
+	// Possible values include:
+	// Not Specified, [], or [6]: timestamp(6) for all auto detected TIMESTAMP
+	// columns
+	// [6, 12]: timestamp(6) for all auto detected TIMESTAMP columns that have
+	// less than 6 digits of subseconds.
+	//
+	//	timestamp(12) for all auto detected TIMESTAMP columns that have
+	//	more than 6 digits of subseconds.
+	//
+	// [12]: timestamp(12) for all auto detected TIMESTAMP columns.
+	//
+	// The order of the elements in this array is ignored.
+	// Inputs that have higher precision than the highest target precision in this
+	// array will be truncated.
+	TimestampTargetPrecision []int32
+}
+
+func (b0 ExternalDataConfiguration_builder) Build() *ExternalDataConfiguration {
+	m0 := &ExternalDataConfiguration{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.SourceUris = b.SourceUris
+	x.FileSetSpecType = b.FileSetSpecType
+	x.Schema = b.Schema
+	x.SourceFormat = b.SourceFormat
+	x.MaxBadRecords = b.MaxBadRecords
+	x.Autodetect = b.Autodetect
+	x.IgnoreUnknownValues = b.IgnoreUnknownValues
+	x.Compression = b.Compression
+	x.CsvOptions = b.CsvOptions
+	x.JsonOptions = b.JsonOptions
+	x.BigtableOptions = b.BigtableOptions
+	x.GoogleSheetsOptions = b.GoogleSheetsOptions
+	x.HivePartitioningOptions = b.HivePartitioningOptions
+	x.ConnectionId = b.ConnectionId
+	x.DecimalTargetTypes = b.DecimalTargetTypes
+	x.AvroOptions = b.AvroOptions
+	x.JsonExtension = b.JsonExtension
+	x.ParquetOptions = b.ParquetOptions
+	x.ObjectMetadata = b.ObjectMetadata
+	x.ReferenceFileSchemaUri = b.ReferenceFileSchemaUri
+	x.MetadataCacheMode = b.MetadataCacheMode
+	x.TimeZone = b.TimeZone
+	x.DateFormat = b.DateFormat
+	x.DatetimeFormat = b.DatetimeFormat
+	x.TimeFormat = b.TimeFormat
+	x.TimestampFormat = b.TimestampFormat
+	x.TimestampTargetPrecision = b.TimestampTargetPrecision
+	return m0
+}
+
 var File_google_cloud_bigquery_v2_external_data_config_proto protoreflect.FileDescriptor
 
 const file_google_cloud_bigquery_v2_external_data_config_proto_rawDesc = "" +
@@ -1497,18 +2711,6 @@ const file_google_cloud_bigquery_v2_external_data_config_proto_rawDesc = "" +
 	"\f_time_formatB\x13\n" +
 	"\x11_timestamp_formatBt\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\x17ExternalDataConfigProtoZ;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_external_data_config_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_external_data_config_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_external_data_config_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_external_data_config_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_external_data_config_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_external_data_config_proto_rawDesc), len(file_google_cloud_bigquery_v2_external_data_config_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_external_data_config_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_external_data_config_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_google_cloud_bigquery_v2_external_data_config_proto_msgTypes = make([]protoimpl.MessageInfo, 10)

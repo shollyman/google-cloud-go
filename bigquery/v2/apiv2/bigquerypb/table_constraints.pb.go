@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/table_constraints.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -39,7 +40,7 @@ const (
 
 // Represents the primary key constraint on a table's columns.
 type PrimaryKey struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. The columns that are composed of the primary key constraint.
 	Columns       []string `protobuf:"bytes,1,rep,name=columns,proto3" json:"columns,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -71,11 +72,6 @@ func (x *PrimaryKey) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PrimaryKey.ProtoReflect.Descriptor instead.
-func (*PrimaryKey) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_constraints_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *PrimaryKey) GetColumns() []string {
 	if x != nil {
 		return x.Columns
@@ -83,9 +79,28 @@ func (x *PrimaryKey) GetColumns() []string {
 	return nil
 }
 
+func (x *PrimaryKey) SetColumns(v []string) {
+	x.Columns = v
+}
+
+type PrimaryKey_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. The columns that are composed of the primary key constraint.
+	Columns []string
+}
+
+func (b0 PrimaryKey_builder) Build() *PrimaryKey {
+	m0 := &PrimaryKey{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Columns = b.Columns
+	return m0
+}
+
 // The pair of the foreign key column and primary key column.
 type ColumnReference struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. The column that composes the foreign key.
 	ReferencingColumn string `protobuf:"bytes,1,opt,name=referencing_column,json=referencingColumn,proto3" json:"referencing_column,omitempty"`
 	// Required. The column in the primary key that are referenced by the
@@ -120,11 +135,6 @@ func (x *ColumnReference) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ColumnReference.ProtoReflect.Descriptor instead.
-func (*ColumnReference) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_constraints_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *ColumnReference) GetReferencingColumn() string {
 	if x != nil {
 		return x.ReferencingColumn
@@ -139,9 +149,36 @@ func (x *ColumnReference) GetReferencedColumn() string {
 	return ""
 }
 
+func (x *ColumnReference) SetReferencingColumn(v string) {
+	x.ReferencingColumn = v
+}
+
+func (x *ColumnReference) SetReferencedColumn(v string) {
+	x.ReferencedColumn = v
+}
+
+type ColumnReference_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. The column that composes the foreign key.
+	ReferencingColumn string
+	// Required. The column in the primary key that are referenced by the
+	// referencing_column.
+	ReferencedColumn string
+}
+
+func (b0 ColumnReference_builder) Build() *ColumnReference {
+	m0 := &ColumnReference{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ReferencingColumn = b.ReferencingColumn
+	x.ReferencedColumn = b.ReferencedColumn
+	return m0
+}
+
 // Represents a foreign key constraint on a table's columns.
 type ForeignKey struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. Set only if the foreign key constraint is named.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Required. The table that holds the primary key and is referenced by this
@@ -178,11 +215,6 @@ func (x *ForeignKey) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ForeignKey.ProtoReflect.Descriptor instead.
-func (*ForeignKey) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_constraints_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *ForeignKey) GetName() string {
 	if x != nil {
 		return x.Name
@@ -204,9 +236,54 @@ func (x *ForeignKey) GetColumnReferences() []*ColumnReference {
 	return nil
 }
 
+func (x *ForeignKey) SetName(v string) {
+	x.Name = v
+}
+
+func (x *ForeignKey) SetReferencedTable(v *TableReference) {
+	x.ReferencedTable = v
+}
+
+func (x *ForeignKey) SetColumnReferences(v []*ColumnReference) {
+	x.ColumnReferences = v
+}
+
+func (x *ForeignKey) HasReferencedTable() bool {
+	if x == nil {
+		return false
+	}
+	return x.ReferencedTable != nil
+}
+
+func (x *ForeignKey) ClearReferencedTable() {
+	x.ReferencedTable = nil
+}
+
+type ForeignKey_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. Set only if the foreign key constraint is named.
+	Name string
+	// Required. The table that holds the primary key and is referenced by this
+	// foreign key.
+	ReferencedTable *TableReference
+	// Required. The columns that compose the foreign key.
+	ColumnReferences []*ColumnReference
+}
+
+func (b0 ForeignKey_builder) Build() *ForeignKey {
+	m0 := &ForeignKey{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Name = b.Name
+	x.ReferencedTable = b.ReferencedTable
+	x.ColumnReferences = b.ColumnReferences
+	return m0
+}
+
 // The TableConstraints defines the primary key and foreign key.
 type TableConstraints struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. Represents a primary key constraint on a table's columns.
 	// Present only if the table has a primary key.
 	// The primary key is not enforced.
@@ -243,11 +320,6 @@ func (x *TableConstraints) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TableConstraints.ProtoReflect.Descriptor instead.
-func (*TableConstraints) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_constraints_proto_rawDescGZIP(), []int{3}
-}
-
 func (x *TableConstraints) GetPrimaryKey() *PrimaryKey {
 	if x != nil {
 		return x.PrimaryKey
@@ -260,6 +332,46 @@ func (x *TableConstraints) GetForeignKeys() []*ForeignKey {
 		return x.ForeignKeys
 	}
 	return nil
+}
+
+func (x *TableConstraints) SetPrimaryKey(v *PrimaryKey) {
+	x.PrimaryKey = v
+}
+
+func (x *TableConstraints) SetForeignKeys(v []*ForeignKey) {
+	x.ForeignKeys = v
+}
+
+func (x *TableConstraints) HasPrimaryKey() bool {
+	if x == nil {
+		return false
+	}
+	return x.PrimaryKey != nil
+}
+
+func (x *TableConstraints) ClearPrimaryKey() {
+	x.PrimaryKey = nil
+}
+
+type TableConstraints_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. Represents a primary key constraint on a table's columns.
+	// Present only if the table has a primary key.
+	// The primary key is not enforced.
+	PrimaryKey *PrimaryKey
+	// Optional. Present only if the table has a foreign key.
+	// The foreign key is not enforced.
+	ForeignKeys []*ForeignKey
+}
+
+func (b0 TableConstraints_builder) Build() *TableConstraints {
+	m0 := &TableConstraints{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.PrimaryKey = b.PrimaryKey
+	x.ForeignKeys = b.ForeignKeys
+	return m0
 }
 
 var File_google_cloud_bigquery_v2_table_constraints_proto protoreflect.FileDescriptor
@@ -283,18 +395,6 @@ const file_google_cloud_bigquery_v2_table_constraints_proto_rawDesc = "" +
 	"primaryKey\x12L\n" +
 	"\fforeign_keys\x18\x02 \x03(\v2$.google.cloud.bigquery.v2.ForeignKeyB\x03\xe0A\x01R\vforeignKeysBr\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\x15TableConstraintsProtoZ;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_table_constraints_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_table_constraints_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_table_constraints_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_table_constraints_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_table_constraints_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_table_constraints_proto_rawDesc), len(file_google_cloud_bigquery_v2_table_constraints_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_table_constraints_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_table_constraints_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_google_cloud_bigquery_v2_table_constraints_proto_goTypes = []any{

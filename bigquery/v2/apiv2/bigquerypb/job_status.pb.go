@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/job_status.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -38,7 +39,7 @@ const (
 )
 
 type JobStatus struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. Final error result of the job. If present, indicates that the
 	// job has completed and was unsuccessful.
 	ErrorResult *ErrorProto `protobuf:"bytes,1,opt,name=error_result,json=errorResult,proto3" json:"error_result,omitempty"`
@@ -79,11 +80,6 @@ func (x *JobStatus) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use JobStatus.ProtoReflect.Descriptor instead.
-func (*JobStatus) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_status_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *JobStatus) GetErrorResult() *ErrorProto {
 	if x != nil {
 		return x.ErrorResult
@@ -105,6 +101,55 @@ func (x *JobStatus) GetState() string {
 	return ""
 }
 
+func (x *JobStatus) SetErrorResult(v *ErrorProto) {
+	x.ErrorResult = v
+}
+
+func (x *JobStatus) SetErrors(v []*ErrorProto) {
+	x.Errors = v
+}
+
+func (x *JobStatus) SetState(v string) {
+	x.State = v
+}
+
+func (x *JobStatus) HasErrorResult() bool {
+	if x == nil {
+		return false
+	}
+	return x.ErrorResult != nil
+}
+
+func (x *JobStatus) ClearErrorResult() {
+	x.ErrorResult = nil
+}
+
+type JobStatus_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. Final error result of the job. If present, indicates that the
+	// job has completed and was unsuccessful.
+	ErrorResult *ErrorProto
+	// Output only. The first errors encountered during the running of the job.
+	// The final message includes the number of errors that caused the process to
+	// stop. Errors here do not necessarily mean that the job has not completed or
+	// was unsuccessful.
+	Errors []*ErrorProto
+	// Output only. Running state of the job.  Valid states include 'PENDING',
+	// 'RUNNING', and 'DONE'.
+	State string
+}
+
+func (b0 JobStatus_builder) Build() *JobStatus {
+	m0 := &JobStatus{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ErrorResult = b.ErrorResult
+	x.Errors = b.Errors
+	x.State = b.State
+	return m0
+}
+
 var File_google_cloud_bigquery_v2_job_status_proto protoreflect.FileDescriptor
 
 const file_google_cloud_bigquery_v2_job_status_proto_rawDesc = "" +
@@ -115,18 +160,6 @@ const file_google_cloud_bigquery_v2_job_status_proto_rawDesc = "" +
 	"\x06errors\x18\x02 \x03(\v2$.google.cloud.bigquery.v2.ErrorProtoB\x03\xe0A\x03R\x06errors\x12\x19\n" +
 	"\x05state\x18\x03 \x01(\tB\x03\xe0A\x03R\x05stateBk\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\x0eJobStatusProtoZ;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_job_status_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_job_status_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_job_status_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_job_status_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_job_status_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_job_status_proto_rawDesc), len(file_google_cloud_bigquery_v2_job_status_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_job_status_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_job_status_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_google_cloud_bigquery_v2_job_status_proto_goTypes = []any{

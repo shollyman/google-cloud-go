@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/table_schema.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -81,11 +82,6 @@ func (ForeignTypeInfo_TypeSystem) Type() protoreflect.EnumType {
 
 func (x ForeignTypeInfo_TypeSystem) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use ForeignTypeInfo_TypeSystem.Descriptor instead.
-func (ForeignTypeInfo_TypeSystem) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_schema_proto_rawDescGZIP(), []int{1, 0}
 }
 
 // Rounding mode options that can be used when storing NUMERIC
@@ -149,11 +145,6 @@ func (x TableFieldSchema_RoundingMode) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use TableFieldSchema_RoundingMode.Descriptor instead.
-func (TableFieldSchema_RoundingMode) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_schema_proto_rawDescGZIP(), []int{4, 0}
-}
-
 // Dictates when system generated values are used to populate the field.
 type TableFieldSchema_GeneratedColumn_GeneratedMode int32
 
@@ -204,14 +195,9 @@ func (x TableFieldSchema_GeneratedColumn_GeneratedMode) Number() protoreflect.En
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use TableFieldSchema_GeneratedColumn_GeneratedMode.Descriptor instead.
-func (TableFieldSchema_GeneratedColumn_GeneratedMode) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_schema_proto_rawDescGZIP(), []int{4, 4, 0}
-}
-
 // Schema of a table
 type TableSchema struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Describes the fields in a table.
 	Fields []*TableFieldSchema `protobuf:"bytes,1,rep,name=fields,proto3" json:"fields,omitempty"`
 	// Optional. Specifies metadata of the foreign data type definition in field
@@ -247,11 +233,6 @@ func (x *TableSchema) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TableSchema.ProtoReflect.Descriptor instead.
-func (*TableSchema) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_schema_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *TableSchema) GetFields() []*TableFieldSchema {
 	if x != nil {
 		return x.Fields
@@ -266,10 +247,49 @@ func (x *TableSchema) GetForeignTypeInfo() *ForeignTypeInfo {
 	return nil
 }
 
+func (x *TableSchema) SetFields(v []*TableFieldSchema) {
+	x.Fields = v
+}
+
+func (x *TableSchema) SetForeignTypeInfo(v *ForeignTypeInfo) {
+	x.ForeignTypeInfo = v
+}
+
+func (x *TableSchema) HasForeignTypeInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.ForeignTypeInfo != nil
+}
+
+func (x *TableSchema) ClearForeignTypeInfo() {
+	x.ForeignTypeInfo = nil
+}
+
+type TableSchema_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Describes the fields in a table.
+	Fields []*TableFieldSchema
+	// Optional. Specifies metadata of the foreign data type definition in field
+	// schema
+	// ([TableFieldSchema.foreign_type_definition][google.cloud.bigquery.v2.TableFieldSchema.foreign_type_definition]).
+	ForeignTypeInfo *ForeignTypeInfo
+}
+
+func (b0 TableSchema_builder) Build() *TableSchema {
+	m0 := &TableSchema{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Fields = b.Fields
+	x.ForeignTypeInfo = b.ForeignTypeInfo
+	return m0
+}
+
 // Metadata about the foreign data type definition such as the system
 // in which the type is defined.
 type ForeignTypeInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Specifies the system which defines the foreign data type.
 	TypeSystem    ForeignTypeInfo_TypeSystem `protobuf:"varint,1,opt,name=type_system,json=typeSystem,proto3,enum=google.cloud.bigquery.v2.ForeignTypeInfo_TypeSystem" json:"type_system,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -301,11 +321,6 @@ func (x *ForeignTypeInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ForeignTypeInfo.ProtoReflect.Descriptor instead.
-func (*ForeignTypeInfo) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_schema_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *ForeignTypeInfo) GetTypeSystem() ForeignTypeInfo_TypeSystem {
 	if x != nil {
 		return x.TypeSystem
@@ -313,11 +328,30 @@ func (x *ForeignTypeInfo) GetTypeSystem() ForeignTypeInfo_TypeSystem {
 	return ForeignTypeInfo_TYPE_SYSTEM_UNSPECIFIED
 }
 
+func (x *ForeignTypeInfo) SetTypeSystem(v ForeignTypeInfo_TypeSystem) {
+	x.TypeSystem = v
+}
+
+type ForeignTypeInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Specifies the system which defines the foreign data type.
+	TypeSystem ForeignTypeInfo_TypeSystem
+}
+
+func (b0 ForeignTypeInfo_builder) Build() *ForeignTypeInfo {
+	m0 := &ForeignTypeInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TypeSystem = b.TypeSystem
+	return m0
+}
+
 // Data policy option. For more information, see
 // [Mask data by applying data policies to a
 // column](https://docs.cloud.google.com/bigquery/docs/column-data-masking#data-policies-on-column).
 type DataPolicyOption struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Data policy resource name in the form of
 	// projects/project_id/locations/location_id/dataPolicies/data_policy_id.
 	Name          *string `protobuf:"bytes,1,opt,name=name,proto3,oneof" json:"name,omitempty"`
@@ -350,11 +384,6 @@ func (x *DataPolicyOption) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DataPolicyOption.ProtoReflect.Descriptor instead.
-func (*DataPolicyOption) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_schema_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *DataPolicyOption) GetName() string {
 	if x != nil && x.Name != nil {
 		return *x.Name
@@ -362,11 +391,42 @@ func (x *DataPolicyOption) GetName() string {
 	return ""
 }
 
+func (x *DataPolicyOption) SetName(v string) {
+	x.Name = &v
+}
+
+func (x *DataPolicyOption) HasName() bool {
+	if x == nil {
+		return false
+	}
+	return x.Name != nil
+}
+
+func (x *DataPolicyOption) ClearName() {
+	x.Name = nil
+}
+
+type DataPolicyOption_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Data policy resource name in the form of
+	// projects/project_id/locations/location_id/dataPolicies/data_policy_id.
+	Name *string
+}
+
+func (b0 DataPolicyOption_builder) Build() *DataPolicyOption {
+	m0 := &DataPolicyOption{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Name = b.Name
+	return m0
+}
+
 // A list of data policy options. For more information, see
 // [Mask data by applying data policies to a
 // column](https://docs.cloud.google.com/bigquery/docs/column-data-masking#data-policies-on-column).
 type DataPolicyList struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Contains a list of data policy options. At most 9 data policies are
 	// allowed per field.
 	DataPolicies  []*DataPolicyOption `protobuf:"bytes,1,rep,name=data_policies,json=dataPolicies,proto3" json:"data_policies,omitempty"`
@@ -399,11 +459,6 @@ func (x *DataPolicyList) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DataPolicyList.ProtoReflect.Descriptor instead.
-func (*DataPolicyList) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_schema_proto_rawDescGZIP(), []int{3}
-}
-
 func (x *DataPolicyList) GetDataPolicies() []*DataPolicyOption {
 	if x != nil {
 		return x.DataPolicies
@@ -411,9 +466,29 @@ func (x *DataPolicyList) GetDataPolicies() []*DataPolicyOption {
 	return nil
 }
 
+func (x *DataPolicyList) SetDataPolicies(v []*DataPolicyOption) {
+	x.DataPolicies = v
+}
+
+type DataPolicyList_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Contains a list of data policy options. At most 9 data policies are
+	// allowed per field.
+	DataPolicies []*DataPolicyOption
+}
+
+func (b0 DataPolicyList_builder) Build() *DataPolicyList {
+	m0 := &DataPolicyList{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.DataPolicies = b.DataPolicies
+	return m0
+}
+
 // A field in TableSchema
 type TableFieldSchema struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. The field name. The name must contain only letters (a-z, A-Z),
 	// numbers (0-9), or underscores (_), and must start with a letter or
 	// underscore. The maximum length is 300 characters.
@@ -585,11 +660,6 @@ func (x *TableFieldSchema) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TableFieldSchema.ProtoReflect.Descriptor instead.
-func (*TableFieldSchema) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_schema_proto_rawDescGZIP(), []int{4}
-}
-
 func (x *TableFieldSchema) GetName() string {
 	if x != nil {
 		return x.Name
@@ -723,8 +793,356 @@ func (x *TableFieldSchema) GetGeneratedColumn() *TableFieldSchema_GeneratedColum
 	return nil
 }
 
+func (x *TableFieldSchema) SetName(v string) {
+	x.Name = v
+}
+
+func (x *TableFieldSchema) SetType(v string) {
+	x.Type = v
+}
+
+func (x *TableFieldSchema) SetMode(v string) {
+	x.Mode = v
+}
+
+func (x *TableFieldSchema) SetFields(v []*TableFieldSchema) {
+	x.Fields = v
+}
+
+func (x *TableFieldSchema) SetDescription(v *wrapperspb.StringValue) {
+	x.Description = v
+}
+
+func (x *TableFieldSchema) SetPolicyTags(v *TableFieldSchema_PolicyTagList) {
+	x.PolicyTags = v
+}
+
+func (x *TableFieldSchema) SetDataGovernanceTagsInfo(v *TableFieldSchema_DataGovernanceTagsInfo) {
+	x.DataGovernanceTagsInfo = v
+}
+
+func (x *TableFieldSchema) SetDataPolicies(v []*DataPolicyOption) {
+	x.DataPolicies = v
+}
+
+func (x *TableFieldSchema) SetDataPolicyList(v *DataPolicyList) {
+	x.DataPolicyList = v
+}
+
+func (x *TableFieldSchema) SetMaxLength(v int64) {
+	x.MaxLength = v
+}
+
+func (x *TableFieldSchema) SetPrecision(v int64) {
+	x.Precision = v
+}
+
+func (x *TableFieldSchema) SetScale(v int64) {
+	x.Scale = v
+}
+
+func (x *TableFieldSchema) SetTimestampPrecision(v *wrapperspb.Int64Value) {
+	x.TimestampPrecision = v
+}
+
+func (x *TableFieldSchema) SetRoundingMode(v TableFieldSchema_RoundingMode) {
+	x.RoundingMode = v
+}
+
+func (x *TableFieldSchema) SetCollation(v *wrapperspb.StringValue) {
+	x.Collation = v
+}
+
+func (x *TableFieldSchema) SetDefaultValueExpression(v *wrapperspb.StringValue) {
+	x.DefaultValueExpression = v
+}
+
+func (x *TableFieldSchema) SetRangeElementType(v *TableFieldSchema_FieldElementType) {
+	x.RangeElementType = v
+}
+
+func (x *TableFieldSchema) SetForeignTypeDefinition(v string) {
+	x.ForeignTypeDefinition = v
+}
+
+func (x *TableFieldSchema) SetGeneratedColumn(v *TableFieldSchema_GeneratedColumn) {
+	x.GeneratedColumn = v
+}
+
+func (x *TableFieldSchema) HasDescription() bool {
+	if x == nil {
+		return false
+	}
+	return x.Description != nil
+}
+
+func (x *TableFieldSchema) HasPolicyTags() bool {
+	if x == nil {
+		return false
+	}
+	return x.PolicyTags != nil
+}
+
+func (x *TableFieldSchema) HasDataGovernanceTagsInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.DataGovernanceTagsInfo != nil
+}
+
+func (x *TableFieldSchema) HasDataPolicyList() bool {
+	if x == nil {
+		return false
+	}
+	return x.DataPolicyList != nil
+}
+
+func (x *TableFieldSchema) HasTimestampPrecision() bool {
+	if x == nil {
+		return false
+	}
+	return x.TimestampPrecision != nil
+}
+
+func (x *TableFieldSchema) HasCollation() bool {
+	if x == nil {
+		return false
+	}
+	return x.Collation != nil
+}
+
+func (x *TableFieldSchema) HasDefaultValueExpression() bool {
+	if x == nil {
+		return false
+	}
+	return x.DefaultValueExpression != nil
+}
+
+func (x *TableFieldSchema) HasRangeElementType() bool {
+	if x == nil {
+		return false
+	}
+	return x.RangeElementType != nil
+}
+
+func (x *TableFieldSchema) HasGeneratedColumn() bool {
+	if x == nil {
+		return false
+	}
+	return x.GeneratedColumn != nil
+}
+
+func (x *TableFieldSchema) ClearDescription() {
+	x.Description = nil
+}
+
+func (x *TableFieldSchema) ClearPolicyTags() {
+	x.PolicyTags = nil
+}
+
+func (x *TableFieldSchema) ClearDataGovernanceTagsInfo() {
+	x.DataGovernanceTagsInfo = nil
+}
+
+func (x *TableFieldSchema) ClearDataPolicyList() {
+	x.DataPolicyList = nil
+}
+
+func (x *TableFieldSchema) ClearTimestampPrecision() {
+	x.TimestampPrecision = nil
+}
+
+func (x *TableFieldSchema) ClearCollation() {
+	x.Collation = nil
+}
+
+func (x *TableFieldSchema) ClearDefaultValueExpression() {
+	x.DefaultValueExpression = nil
+}
+
+func (x *TableFieldSchema) ClearRangeElementType() {
+	x.RangeElementType = nil
+}
+
+func (x *TableFieldSchema) ClearGeneratedColumn() {
+	x.GeneratedColumn = nil
+}
+
+type TableFieldSchema_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. The field name. The name must contain only letters (a-z, A-Z),
+	// numbers (0-9), or underscores (_), and must start with a letter or
+	// underscore. The maximum length is 300 characters.
+	Name string
+	// Required. The field data type. Possible values include:
+	//
+	// * STRING
+	// * BYTES
+	// * INTEGER (or INT64)
+	// * FLOAT (or FLOAT64)
+	// * BOOLEAN (or BOOL)
+	// * TIMESTAMP
+	// * DATE
+	// * TIME
+	// * DATETIME
+	// * GEOGRAPHY
+	// * NUMERIC
+	// * BIGNUMERIC
+	// * JSON
+	// * RECORD (or STRUCT)
+	// * RANGE
+	//
+	// Use of RECORD/STRUCT indicates that the field contains a nested schema.
+	Type string
+	// Optional. The field mode. Possible values include NULLABLE, REQUIRED and
+	// REPEATED. The default value is NULLABLE.
+	Mode string
+	// Optional. Describes the nested schema fields if the type property is set
+	// to RECORD.
+	Fields []*TableFieldSchema
+	// Optional. The field description. The maximum length is 1,024 characters.
+	Description *wrapperspb.StringValue
+	// Optional. The policy tags attached to this field, used for field-level
+	// access control. If not set, defaults to empty policy_tags.
+	PolicyTags *TableFieldSchema_PolicyTagList
+	// Optional. Specifies the data governance tags on this field. This field
+	// works with other column-level security fields as follows:
+	//
+	//   - **Precedence**: If a data governance tag is attached to a column, it
+	//     takes precedence over the policy tag attached to the column. However,
+	//     if a data policy is attached to a column, it takes precedence over the
+	//     data governance tag.
+	//   - **Patching behavior**: Describes how this field behaves during a
+	//     `Table.patch` schema update:
+	//   - **Unset**: If the `data_governance_tags_info` field is omitted from
+	//     the update request, the existing tags on the column are preserved.
+	//   - **Empty Field**: To clear data governance tags from a column, send
+	//     the `data_governance_tags_info` field as an empty object. This
+	//     removes all tags from the column.
+	//   - **Updating tags**: To replace an existing tag, send the field with
+	//     the new tag.
+	DataGovernanceTagsInfo *TableFieldSchema_DataGovernanceTagsInfo
+	// Optional. Data policies attached to this field, used for field-level access
+	// control.
+	DataPolicies []*DataPolicyOption
+	// Optional. Specifies data policies attached to this field, used for
+	// field-level access control. When set, this will be the source of truth for
+	// data policy information.
+	DataPolicyList *DataPolicyList
+	// Optional. Maximum length of values of this field for STRINGS or BYTES.
+	//
+	// If max_length is not specified, no maximum length constraint is imposed
+	// on this field.
+	//
+	// If type = "STRING", then max_length represents the maximum UTF-8
+	// length of strings in this field.
+	//
+	// If type = "BYTES", then max_length represents the maximum number of
+	// bytes in this field.
+	//
+	// It is invalid to set this field if type &ne; "STRING" and &ne; "BYTES".
+	MaxLength int64
+	// Optional. Precision (maximum number of total digits in base 10) and scale
+	// (maximum number of digits in the fractional part in base 10) constraints
+	// for values of this field for NUMERIC or BIGNUMERIC.
+	//
+	// It is invalid to set precision or scale if type &ne; "NUMERIC" and &ne;
+	// "BIGNUMERIC".
+	//
+	// If precision and scale are not specified, no value range constraint is
+	// imposed on this field insofar as values are permitted by the type.
+	//
+	// Values of this NUMERIC or BIGNUMERIC field must be in this range when:
+	//
+	//   - Precision (<var>P</var>) and scale (<var>S</var>) are specified:
+	//     [-10<sup><var>P</var>-<var>S</var></sup> + 10<sup>-<var>S</var></sup>,
+	//     10<sup><var>P</var>-<var>S</var></sup> - 10<sup>-<var>S</var></sup>]
+	//   - Precision (<var>P</var>) is specified but not scale (and thus scale is
+	//     interpreted to be equal to zero):
+	//     [-10<sup><var>P</var></sup> + 1, 10<sup><var>P</var></sup> - 1].
+	//
+	// Acceptable values for precision and scale if both are specified:
+	//
+	//   - If type = "NUMERIC":
+	//     1 &le; precision - scale &le; 29 and 0 &le; scale &le; 9.
+	//   - If type = "BIGNUMERIC":
+	//     1 &le; precision - scale &le; 38 and 0 &le; scale &le; 38.
+	//
+	// Acceptable values for precision if only precision is specified but not
+	// scale (and thus scale is interpreted to be equal to zero):
+	//
+	// * If type = "NUMERIC": 1 &le; precision &le; 29.
+	// * If type = "BIGNUMERIC": 1 &le; precision &le; 38.
+	//
+	// If scale is specified but not precision, then it is invalid.
+	Precision int64
+	// Optional. See documentation for precision.
+	Scale int64
+	// Optional. Precision (maximum number of total digits in base 10) for seconds
+	// of TIMESTAMP type.
+	//
+	// Possible values include:
+	// * 6 (Default, for TIMESTAMP type with microsecond precision)
+	// * 12 (For TIMESTAMP type with picosecond precision)
+	TimestampPrecision *wrapperspb.Int64Value
+	// Optional. Specifies the rounding mode to be used when storing values of
+	// NUMERIC and BIGNUMERIC type.
+	RoundingMode TableFieldSchema_RoundingMode
+	// Optional. Field collation can be set only when the type of field is STRING.
+	// The following values are supported:
+	//
+	// * 'und:ci': undetermined locale, case insensitive.
+	// * ”: empty string. Default to case-sensitive behavior.
+	Collation *wrapperspb.StringValue
+	// Optional. A SQL expression to specify the [default value]
+	// (https://cloud.google.com/bigquery/docs/default-values) for this field.
+	DefaultValueExpression *wrapperspb.StringValue
+	// Optional. The subtype of the RANGE, if the type of this field is RANGE. If
+	// the type is RANGE, this field is required. Values for the field element
+	// type can be the following:
+	//
+	// * DATE
+	// * DATETIME
+	// * TIMESTAMP
+	RangeElementType *TableFieldSchema_FieldElementType
+	// Optional. Definition of the foreign data type.
+	// Only valid for top-level schema fields (not nested fields).
+	// If the type is FOREIGN, this field is required.
+	ForeignTypeDefinition string
+	// Optional. Definition of how values are generated for the field.
+	// Only valid for top-level schema fields (not nested fields).
+	GeneratedColumn *TableFieldSchema_GeneratedColumn
+}
+
+func (b0 TableFieldSchema_builder) Build() *TableFieldSchema {
+	m0 := &TableFieldSchema{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Name = b.Name
+	x.Type = b.Type
+	x.Mode = b.Mode
+	x.Fields = b.Fields
+	x.Description = b.Description
+	x.PolicyTags = b.PolicyTags
+	x.DataGovernanceTagsInfo = b.DataGovernanceTagsInfo
+	x.DataPolicies = b.DataPolicies
+	x.DataPolicyList = b.DataPolicyList
+	x.MaxLength = b.MaxLength
+	x.Precision = b.Precision
+	x.Scale = b.Scale
+	x.TimestampPrecision = b.TimestampPrecision
+	x.RoundingMode = b.RoundingMode
+	x.Collation = b.Collation
+	x.DefaultValueExpression = b.DefaultValueExpression
+	x.RangeElementType = b.RangeElementType
+	x.ForeignTypeDefinition = b.ForeignTypeDefinition
+	x.GeneratedColumn = b.GeneratedColumn
+	return m0
+}
+
 type TableFieldSchema_PolicyTagList struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// A list of policy tag resource names. For example,
 	// "projects/1/locations/eu/taxonomies/2/policyTags/3". At most 1 policy tag
 	// is currently allowed.
@@ -758,11 +1176,6 @@ func (x *TableFieldSchema_PolicyTagList) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TableFieldSchema_PolicyTagList.ProtoReflect.Descriptor instead.
-func (*TableFieldSchema_PolicyTagList) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_schema_proto_rawDescGZIP(), []int{4, 0}
-}
-
 func (x *TableFieldSchema_PolicyTagList) GetNames() []string {
 	if x != nil {
 		return x.Names
@@ -770,8 +1183,29 @@ func (x *TableFieldSchema_PolicyTagList) GetNames() []string {
 	return nil
 }
 
+func (x *TableFieldSchema_PolicyTagList) SetNames(v []string) {
+	x.Names = v
+}
+
+type TableFieldSchema_PolicyTagList_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// A list of policy tag resource names. For example,
+	// "projects/1/locations/eu/taxonomies/2/policyTags/3". At most 1 policy tag
+	// is currently allowed.
+	Names []string
+}
+
+func (b0 TableFieldSchema_PolicyTagList_builder) Build() *TableFieldSchema_PolicyTagList {
+	m0 := &TableFieldSchema_PolicyTagList{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Names = b.Names
+	return m0
+}
+
 type TableFieldSchema_DataGovernanceTagsInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. The data governance tags added to this field are used for
 	// field-level access control. Only one data governance tag is currently
 	// supported on a field. Tag keys are globally unique. Tag key is expected
@@ -814,11 +1248,6 @@ func (x *TableFieldSchema_DataGovernanceTagsInfo) ProtoReflect() protoreflect.Me
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TableFieldSchema_DataGovernanceTagsInfo.ProtoReflect.Descriptor instead.
-func (*TableFieldSchema_DataGovernanceTagsInfo) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_schema_proto_rawDescGZIP(), []int{4, 1}
-}
-
 func (x *TableFieldSchema_DataGovernanceTagsInfo) GetDataGovernanceTags() map[string]string {
 	if x != nil {
 		return x.DataGovernanceTags
@@ -826,9 +1255,39 @@ func (x *TableFieldSchema_DataGovernanceTagsInfo) GetDataGovernanceTags() map[st
 	return nil
 }
 
+func (x *TableFieldSchema_DataGovernanceTagsInfo) SetDataGovernanceTags(v map[string]string) {
+	x.DataGovernanceTags = v
+}
+
+type TableFieldSchema_DataGovernanceTagsInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. The data governance tags added to this field are used for
+	// field-level access control. Only one data governance tag is currently
+	// supported on a field. Tag keys are globally unique. Tag key is expected
+	// to be in the namespaced format, for example "parent-id/pii" where
+	// parent-id is the ID of the parent organization or project resource for
+	// this tag key. Tag value is expected to be the short name, for example
+	// "sensitive". See [Tag
+	// definitions](https://cloud.google.com/iam/docs/tags-access-control#definitions)
+	// for more details. For example:
+	//
+	//	"parent-id/pii": "sensitive",
+	//	"myProject/cost_center": "sales"
+	DataGovernanceTags map[string]string
+}
+
+func (b0 TableFieldSchema_DataGovernanceTagsInfo_builder) Build() *TableFieldSchema_DataGovernanceTagsInfo {
+	m0 := &TableFieldSchema_DataGovernanceTagsInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.DataGovernanceTags = b.DataGovernanceTags
+	return m0
+}
+
 // Represents the type of a field element.
 type TableFieldSchema_FieldElementType struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. The type of a field element. For more information, see
 	// [TableFieldSchema.type][google.cloud.bigquery.v2.TableFieldSchema.type].
 	Type          string `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
@@ -861,11 +1320,6 @@ func (x *TableFieldSchema_FieldElementType) ProtoReflect() protoreflect.Message 
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TableFieldSchema_FieldElementType.ProtoReflect.Descriptor instead.
-func (*TableFieldSchema_FieldElementType) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_schema_proto_rawDescGZIP(), []int{4, 2}
-}
-
 func (x *TableFieldSchema_FieldElementType) GetType() string {
 	if x != nil {
 		return x.Type
@@ -873,9 +1327,29 @@ func (x *TableFieldSchema_FieldElementType) GetType() string {
 	return ""
 }
 
+func (x *TableFieldSchema_FieldElementType) SetType(v string) {
+	x.Type = v
+}
+
+type TableFieldSchema_FieldElementType_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. The type of a field element. For more information, see
+	// [TableFieldSchema.type][google.cloud.bigquery.v2.TableFieldSchema.type].
+	Type string
+}
+
+func (b0 TableFieldSchema_FieldElementType_builder) Build() *TableFieldSchema_FieldElementType {
+	m0 := &TableFieldSchema_FieldElementType{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Type = b.Type
+	return m0
+}
+
 // Definition of the expression used to generate the field.
 type TableFieldSchema_GeneratedExpressionInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. The generation expression (e.g. AI.EMBED(...)) used to generate
 	// the field.
 	GenerationExpression *string `protobuf:"bytes,1,opt,name=generation_expression,json=generationExpression,proto3,oneof" json:"generation_expression,omitempty"`
@@ -912,11 +1386,6 @@ func (x *TableFieldSchema_GeneratedExpressionInfo) ProtoReflect() protoreflect.M
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TableFieldSchema_GeneratedExpressionInfo.ProtoReflect.Descriptor instead.
-func (*TableFieldSchema_GeneratedExpressionInfo) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_schema_proto_rawDescGZIP(), []int{4, 3}
-}
-
 func (x *TableFieldSchema_GeneratedExpressionInfo) GetGenerationExpression() string {
 	if x != nil && x.GenerationExpression != nil {
 		return *x.GenerationExpression
@@ -938,10 +1407,77 @@ func (x *TableFieldSchema_GeneratedExpressionInfo) GetStored() bool {
 	return false
 }
 
+func (x *TableFieldSchema_GeneratedExpressionInfo) SetGenerationExpression(v string) {
+	x.GenerationExpression = &v
+}
+
+func (x *TableFieldSchema_GeneratedExpressionInfo) SetAsynchronous(v bool) {
+	x.Asynchronous = &v
+}
+
+func (x *TableFieldSchema_GeneratedExpressionInfo) SetStored(v bool) {
+	x.Stored = &v
+}
+
+func (x *TableFieldSchema_GeneratedExpressionInfo) HasGenerationExpression() bool {
+	if x == nil {
+		return false
+	}
+	return x.GenerationExpression != nil
+}
+
+func (x *TableFieldSchema_GeneratedExpressionInfo) HasAsynchronous() bool {
+	if x == nil {
+		return false
+	}
+	return x.Asynchronous != nil
+}
+
+func (x *TableFieldSchema_GeneratedExpressionInfo) HasStored() bool {
+	if x == nil {
+		return false
+	}
+	return x.Stored != nil
+}
+
+func (x *TableFieldSchema_GeneratedExpressionInfo) ClearGenerationExpression() {
+	x.GenerationExpression = nil
+}
+
+func (x *TableFieldSchema_GeneratedExpressionInfo) ClearAsynchronous() {
+	x.Asynchronous = nil
+}
+
+func (x *TableFieldSchema_GeneratedExpressionInfo) ClearStored() {
+	x.Stored = nil
+}
+
+type TableFieldSchema_GeneratedExpressionInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. The generation expression (e.g. AI.EMBED(...)) used to generate
+	// the field.
+	GenerationExpression *string
+	// Optional. Whether the column generation is done asynchronously.
+	Asynchronous *bool
+	// Optional. Whether the generated column is stored in the table.
+	Stored *bool
+}
+
+func (b0 TableFieldSchema_GeneratedExpressionInfo_builder) Build() *TableFieldSchema_GeneratedExpressionInfo {
+	m0 := &TableFieldSchema_GeneratedExpressionInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.GenerationExpression = b.GenerationExpression
+	x.Asynchronous = b.Asynchronous
+	x.Stored = b.Stored
+	return m0
+}
+
 // Optional. Definition of how values are generated for the field.
 // Only valid for top-level schema fields (not nested fields).
 type TableFieldSchema_GeneratedColumn struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. Dictates when system generated values are used to populate the
 	// field.
 	GeneratedMode *TableFieldSchema_GeneratedColumn_GeneratedMode `protobuf:"varint,1,opt,name=generated_mode,json=generatedMode,proto3,enum=google.cloud.bigquery.v2.TableFieldSchema_GeneratedColumn_GeneratedMode,oneof" json:"generated_mode,omitempty"`
@@ -980,11 +1516,6 @@ func (x *TableFieldSchema_GeneratedColumn) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TableFieldSchema_GeneratedColumn.ProtoReflect.Descriptor instead.
-func (*TableFieldSchema_GeneratedColumn) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_schema_proto_rawDescGZIP(), []int{4, 4}
-}
-
 func (x *TableFieldSchema_GeneratedColumn) GetGeneratedMode() TableFieldSchema_GeneratedColumn_GeneratedMode {
 	if x != nil && x.GeneratedMode != nil {
 		return *x.GeneratedMode
@@ -1006,6 +1537,104 @@ func (x *TableFieldSchema_GeneratedColumn) GetGeneratedExpressionInfo() *TableFi
 		}
 	}
 	return nil
+}
+
+func (x *TableFieldSchema_GeneratedColumn) SetGeneratedMode(v TableFieldSchema_GeneratedColumn_GeneratedMode) {
+	x.GeneratedMode = &v
+}
+
+func (x *TableFieldSchema_GeneratedColumn) SetGeneratedExpressionInfo(v *TableFieldSchema_GeneratedExpressionInfo) {
+	if v == nil {
+		x.Definition = nil
+		return
+	}
+	x.Definition = &TableFieldSchema_GeneratedColumn_GeneratedExpressionInfo{v}
+}
+
+func (x *TableFieldSchema_GeneratedColumn) HasGeneratedMode() bool {
+	if x == nil {
+		return false
+	}
+	return x.GeneratedMode != nil
+}
+
+func (x *TableFieldSchema_GeneratedColumn) HasDefinition() bool {
+	if x == nil {
+		return false
+	}
+	return x.Definition != nil
+}
+
+func (x *TableFieldSchema_GeneratedColumn) HasGeneratedExpressionInfo() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Definition.(*TableFieldSchema_GeneratedColumn_GeneratedExpressionInfo)
+	return ok
+}
+
+func (x *TableFieldSchema_GeneratedColumn) ClearGeneratedMode() {
+	x.GeneratedMode = nil
+}
+
+func (x *TableFieldSchema_GeneratedColumn) ClearDefinition() {
+	x.Definition = nil
+}
+
+func (x *TableFieldSchema_GeneratedColumn) ClearGeneratedExpressionInfo() {
+	if _, ok := x.Definition.(*TableFieldSchema_GeneratedColumn_GeneratedExpressionInfo); ok {
+		x.Definition = nil
+	}
+}
+
+const TableFieldSchema_GeneratedColumn_Definition_not_set_case case_TableFieldSchema_GeneratedColumn_Definition = 0
+const TableFieldSchema_GeneratedColumn_GeneratedExpressionInfo_case case_TableFieldSchema_GeneratedColumn_Definition = 3
+
+func (x *TableFieldSchema_GeneratedColumn) WhichDefinition() case_TableFieldSchema_GeneratedColumn_Definition {
+	if x == nil {
+		return TableFieldSchema_GeneratedColumn_Definition_not_set_case
+	}
+	switch x.Definition.(type) {
+	case *TableFieldSchema_GeneratedColumn_GeneratedExpressionInfo:
+		return TableFieldSchema_GeneratedColumn_GeneratedExpressionInfo_case
+	default:
+		return TableFieldSchema_GeneratedColumn_Definition_not_set_case
+	}
+}
+
+type TableFieldSchema_GeneratedColumn_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. Dictates when system generated values are used to populate the
+	// field.
+	GeneratedMode *TableFieldSchema_GeneratedColumn_GeneratedMode
+	// Captures the metadata for the generated column.
+
+	// Fields of oneof Definition:
+	// Definition of the expression used to generate the field.
+	GeneratedExpressionInfo *TableFieldSchema_GeneratedExpressionInfo
+	// -- end of Definition
+}
+
+func (b0 TableFieldSchema_GeneratedColumn_builder) Build() *TableFieldSchema_GeneratedColumn {
+	m0 := &TableFieldSchema_GeneratedColumn{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.GeneratedMode = b.GeneratedMode
+	if b.GeneratedExpressionInfo != nil {
+		x.Definition = &TableFieldSchema_GeneratedColumn_GeneratedExpressionInfo{b.GeneratedExpressionInfo}
+	}
+	return m0
+}
+
+type case_TableFieldSchema_GeneratedColumn_Definition protoreflect.FieldNumber
+
+func (x case_TableFieldSchema_GeneratedColumn_Definition) String() string {
+	md := file_google_cloud_bigquery_v2_table_schema_proto_msgTypes[9].Descriptor()
+	if x == 0 {
+		return "not set"
+	}
+	return protoimpl.X.MessageFieldStringOf(md, protoreflect.FieldNumber(x))
 }
 
 type isTableFieldSchema_GeneratedColumn_Definition interface {
@@ -1094,18 +1723,6 @@ const file_google_cloud_bigquery_v2_table_schema_proto_rawDesc = "" +
 	"\x19ROUND_HALF_AWAY_FROM_ZERO\x10\x01\x12\x13\n" +
 	"\x0fROUND_HALF_EVEN\x10\x02Bm\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\x10TableSchemaProtoZ;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_table_schema_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_table_schema_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_table_schema_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_table_schema_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_table_schema_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_table_schema_proto_rawDesc), len(file_google_cloud_bigquery_v2_table_schema_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_table_schema_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_table_schema_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
 var file_google_cloud_bigquery_v2_table_schema_proto_msgTypes = make([]protoimpl.MessageInfo, 11)

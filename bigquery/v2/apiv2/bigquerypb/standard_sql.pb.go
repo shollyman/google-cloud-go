@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/standard_sql.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -148,11 +149,6 @@ func (x StandardSqlDataType_TypeKind) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use StandardSqlDataType_TypeKind.Descriptor instead.
-func (StandardSqlDataType_TypeKind) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_standard_sql_proto_rawDescGZIP(), []int{0, 0}
-}
-
 // The data type of a variable such as a function argument.
 // Examples include:
 //
@@ -196,7 +192,7 @@ func (StandardSqlDataType_TypeKind) EnumDescriptor() ([]byte, []int) {
 //	  "rangeElementType": {"typeKind": "DATE"}
 //	}
 type StandardSqlDataType struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. The top level type of this field.
 	// Can be any GoogleSQL data type (e.g., "INT64", "DATE", "ARRAY").
 	TypeKind StandardSqlDataType_TypeKind `protobuf:"varint,1,opt,name=type_kind,json=typeKind,proto3,enum=google.cloud.bigquery.v2.StandardSqlDataType_TypeKind" json:"type_kind,omitempty"`
@@ -235,11 +231,6 @@ func (x *StandardSqlDataType) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use StandardSqlDataType.ProtoReflect.Descriptor instead.
-func (*StandardSqlDataType) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_standard_sql_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *StandardSqlDataType) GetTypeKind() StandardSqlDataType_TypeKind {
@@ -283,6 +274,153 @@ func (x *StandardSqlDataType) GetRangeElementType() *StandardSqlDataType {
 	return nil
 }
 
+func (x *StandardSqlDataType) SetTypeKind(v StandardSqlDataType_TypeKind) {
+	x.TypeKind = v
+}
+
+func (x *StandardSqlDataType) SetArrayElementType(v *StandardSqlDataType) {
+	if v == nil {
+		x.SubType = nil
+		return
+	}
+	x.SubType = &StandardSqlDataType_ArrayElementType{v}
+}
+
+func (x *StandardSqlDataType) SetStructType(v *StandardSqlStructType) {
+	if v == nil {
+		x.SubType = nil
+		return
+	}
+	x.SubType = &StandardSqlDataType_StructType{v}
+}
+
+func (x *StandardSqlDataType) SetRangeElementType(v *StandardSqlDataType) {
+	if v == nil {
+		x.SubType = nil
+		return
+	}
+	x.SubType = &StandardSqlDataType_RangeElementType{v}
+}
+
+func (x *StandardSqlDataType) HasSubType() bool {
+	if x == nil {
+		return false
+	}
+	return x.SubType != nil
+}
+
+func (x *StandardSqlDataType) HasArrayElementType() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.SubType.(*StandardSqlDataType_ArrayElementType)
+	return ok
+}
+
+func (x *StandardSqlDataType) HasStructType() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.SubType.(*StandardSqlDataType_StructType)
+	return ok
+}
+
+func (x *StandardSqlDataType) HasRangeElementType() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.SubType.(*StandardSqlDataType_RangeElementType)
+	return ok
+}
+
+func (x *StandardSqlDataType) ClearSubType() {
+	x.SubType = nil
+}
+
+func (x *StandardSqlDataType) ClearArrayElementType() {
+	if _, ok := x.SubType.(*StandardSqlDataType_ArrayElementType); ok {
+		x.SubType = nil
+	}
+}
+
+func (x *StandardSqlDataType) ClearStructType() {
+	if _, ok := x.SubType.(*StandardSqlDataType_StructType); ok {
+		x.SubType = nil
+	}
+}
+
+func (x *StandardSqlDataType) ClearRangeElementType() {
+	if _, ok := x.SubType.(*StandardSqlDataType_RangeElementType); ok {
+		x.SubType = nil
+	}
+}
+
+const StandardSqlDataType_SubType_not_set_case case_StandardSqlDataType_SubType = 0
+const StandardSqlDataType_ArrayElementType_case case_StandardSqlDataType_SubType = 2
+const StandardSqlDataType_StructType_case case_StandardSqlDataType_SubType = 3
+const StandardSqlDataType_RangeElementType_case case_StandardSqlDataType_SubType = 4
+
+func (x *StandardSqlDataType) WhichSubType() case_StandardSqlDataType_SubType {
+	if x == nil {
+		return StandardSqlDataType_SubType_not_set_case
+	}
+	switch x.SubType.(type) {
+	case *StandardSqlDataType_ArrayElementType:
+		return StandardSqlDataType_ArrayElementType_case
+	case *StandardSqlDataType_StructType:
+		return StandardSqlDataType_StructType_case
+	case *StandardSqlDataType_RangeElementType:
+		return StandardSqlDataType_RangeElementType_case
+	default:
+		return StandardSqlDataType_SubType_not_set_case
+	}
+}
+
+type StandardSqlDataType_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. The top level type of this field.
+	// Can be any GoogleSQL data type (e.g., "INT64", "DATE", "ARRAY").
+	TypeKind StandardSqlDataType_TypeKind
+	// For complex types, the sub type information.
+
+	// Fields of oneof SubType:
+	// The type of the array's elements, if type_kind = "ARRAY".
+	ArrayElementType *StandardSqlDataType
+	// The fields of this struct, in order, if type_kind = "STRUCT".
+	StructType *StandardSqlStructType
+	// The type of the range's elements, if type_kind = "RANGE".
+	RangeElementType *StandardSqlDataType
+	// -- end of SubType
+}
+
+func (b0 StandardSqlDataType_builder) Build() *StandardSqlDataType {
+	m0 := &StandardSqlDataType{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TypeKind = b.TypeKind
+	if b.ArrayElementType != nil {
+		x.SubType = &StandardSqlDataType_ArrayElementType{b.ArrayElementType}
+	}
+	if b.StructType != nil {
+		x.SubType = &StandardSqlDataType_StructType{b.StructType}
+	}
+	if b.RangeElementType != nil {
+		x.SubType = &StandardSqlDataType_RangeElementType{b.RangeElementType}
+	}
+	return m0
+}
+
+type case_StandardSqlDataType_SubType protoreflect.FieldNumber
+
+func (x case_StandardSqlDataType_SubType) String() string {
+	md := file_google_cloud_bigquery_v2_standard_sql_proto_msgTypes[0].Descriptor()
+	if x == 0 {
+		return "not set"
+	}
+	return protoimpl.X.MessageFieldStringOf(md, protoreflect.FieldNumber(x))
+}
+
 type isStandardSqlDataType_SubType interface {
 	isStandardSqlDataType_SubType()
 }
@@ -310,7 +448,7 @@ func (*StandardSqlDataType_RangeElementType) isStandardSqlDataType_SubType() {}
 
 // A field or a column.
 type StandardSqlField struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. The name of this field. Can be absent for struct fields.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Optional. The type of this parameter. Absent if not explicitly
@@ -346,11 +484,6 @@ func (x *StandardSqlField) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use StandardSqlField.ProtoReflect.Descriptor instead.
-func (*StandardSqlField) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_standard_sql_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *StandardSqlField) GetName() string {
 	if x != nil {
 		return x.Name
@@ -365,9 +498,48 @@ func (x *StandardSqlField) GetType() *StandardSqlDataType {
 	return nil
 }
 
+func (x *StandardSqlField) SetName(v string) {
+	x.Name = v
+}
+
+func (x *StandardSqlField) SetType(v *StandardSqlDataType) {
+	x.Type = v
+}
+
+func (x *StandardSqlField) HasType() bool {
+	if x == nil {
+		return false
+	}
+	return x.Type != nil
+}
+
+func (x *StandardSqlField) ClearType() {
+	x.Type = nil
+}
+
+type StandardSqlField_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. The name of this field. Can be absent for struct fields.
+	Name string
+	// Optional. The type of this parameter. Absent if not explicitly
+	// specified (e.g., CREATE FUNCTION statement can omit the return type;
+	// in this case the output parameter does not have this "type" field).
+	Type *StandardSqlDataType
+}
+
+func (b0 StandardSqlField_builder) Build() *StandardSqlField {
+	m0 := &StandardSqlField{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Name = b.Name
+	x.Type = b.Type
+	return m0
+}
+
 // The representation of a SQL STRUCT type.
 type StandardSqlStructType struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Fields within the struct.
 	Fields        []*StandardSqlField `protobuf:"bytes,1,rep,name=fields,proto3" json:"fields,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -399,11 +571,6 @@ func (x *StandardSqlStructType) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use StandardSqlStructType.ProtoReflect.Descriptor instead.
-func (*StandardSqlStructType) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_standard_sql_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *StandardSqlStructType) GetFields() []*StandardSqlField {
 	if x != nil {
 		return x.Fields
@@ -411,9 +578,28 @@ func (x *StandardSqlStructType) GetFields() []*StandardSqlField {
 	return nil
 }
 
+func (x *StandardSqlStructType) SetFields(v []*StandardSqlField) {
+	x.Fields = v
+}
+
+type StandardSqlStructType_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Fields within the struct.
+	Fields []*StandardSqlField
+}
+
+func (b0 StandardSqlStructType_builder) Build() *StandardSqlStructType {
+	m0 := &StandardSqlStructType{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Fields = b.Fields
+	return m0
+}
+
 // A table type
 type StandardSqlTableType struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The columns in this table type
 	Columns       []*StandardSqlField `protobuf:"bytes,1,rep,name=columns,proto3" json:"columns,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -445,16 +631,30 @@ func (x *StandardSqlTableType) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use StandardSqlTableType.ProtoReflect.Descriptor instead.
-func (*StandardSqlTableType) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_standard_sql_proto_rawDescGZIP(), []int{3}
-}
-
 func (x *StandardSqlTableType) GetColumns() []*StandardSqlField {
 	if x != nil {
 		return x.Columns
 	}
 	return nil
+}
+
+func (x *StandardSqlTableType) SetColumns(v []*StandardSqlField) {
+	x.Columns = v
+}
+
+type StandardSqlTableType_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The columns in this table type
+	Columns []*StandardSqlField
+}
+
+func (b0 StandardSqlTableType_builder) Build() *StandardSqlTableType {
+	m0 := &StandardSqlTableType{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Columns = b.Columns
+	return m0
 }
 
 var File_google_cloud_bigquery_v2_standard_sql_proto protoreflect.FileDescriptor
@@ -501,18 +701,6 @@ const file_google_cloud_bigquery_v2_standard_sql_proto_rawDesc = "" +
 	"\x14StandardSqlTableType\x12D\n" +
 	"\acolumns\x18\x01 \x03(\v2*.google.cloud.bigquery.v2.StandardSqlFieldR\acolumnsBm\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\x10StandardSqlProtoZ;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_standard_sql_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_standard_sql_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_standard_sql_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_standard_sql_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_standard_sql_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_standard_sql_proto_rawDesc), len(file_google_cloud_bigquery_v2_standard_sql_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_standard_sql_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_standard_sql_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_google_cloud_bigquery_v2_standard_sql_proto_msgTypes = make([]protoimpl.MessageInfo, 4)

@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/biglake_config.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -81,11 +82,6 @@ func (x BigLakeConfiguration_FileFormat) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use BigLakeConfiguration_FileFormat.Descriptor instead.
-func (BigLakeConfiguration_FileFormat) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_biglake_config_proto_rawDescGZIP(), []int{0, 0}
-}
-
 // Supported table formats for BigQuery tables for Apache Iceberg.
 type BigLakeConfiguration_TableFormat int32
 
@@ -130,15 +126,10 @@ func (x BigLakeConfiguration_TableFormat) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use BigLakeConfiguration_TableFormat.Descriptor instead.
-func (BigLakeConfiguration_TableFormat) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_biglake_config_proto_rawDescGZIP(), []int{0, 1}
-}
-
 // Configuration for BigQuery tables for Apache Iceberg (formerly BigLake
 // managed tables.)
 type BigLakeConfiguration struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. The connection specifying the credentials to be used to read and
 	// write to external storage, such as Cloud Storage. The connection_id can
 	// have the form `{project}.{location}.{connection_id}` or
@@ -181,11 +172,6 @@ func (x *BigLakeConfiguration) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use BigLakeConfiguration.ProtoReflect.Descriptor instead.
-func (*BigLakeConfiguration) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_biglake_config_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *BigLakeConfiguration) GetConnectionId() string {
 	if x != nil {
 		return x.ConnectionId
@@ -214,6 +200,51 @@ func (x *BigLakeConfiguration) GetTableFormat() BigLakeConfiguration_TableFormat
 	return BigLakeConfiguration_TABLE_FORMAT_UNSPECIFIED
 }
 
+func (x *BigLakeConfiguration) SetConnectionId(v string) {
+	x.ConnectionId = v
+}
+
+func (x *BigLakeConfiguration) SetStorageUri(v string) {
+	x.StorageUri = v
+}
+
+func (x *BigLakeConfiguration) SetFileFormat(v BigLakeConfiguration_FileFormat) {
+	x.FileFormat = v
+}
+
+func (x *BigLakeConfiguration) SetTableFormat(v BigLakeConfiguration_TableFormat) {
+	x.TableFormat = v
+}
+
+type BigLakeConfiguration_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. The connection specifying the credentials to be used to read and
+	// write to external storage, such as Cloud Storage. The connection_id can
+	// have the form `{project}.{location}.{connection_id}` or
+	// `projects/{project}/locations/{location}/connections/{connection_id}".
+	ConnectionId string
+	// Optional. The fully qualified location prefix of the external folder where
+	// table data is stored. The '*' wildcard character is not allowed. The URI
+	// should be in the format `gs://bucket/path_to_table/`
+	StorageUri string
+	// Optional. The file format the table data is stored in.
+	FileFormat BigLakeConfiguration_FileFormat
+	// Optional. The table format the metadata only snapshots are stored in.
+	TableFormat BigLakeConfiguration_TableFormat
+}
+
+func (b0 BigLakeConfiguration_builder) Build() *BigLakeConfiguration {
+	m0 := &BigLakeConfiguration{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ConnectionId = b.ConnectionId
+	x.StorageUri = b.StorageUri
+	x.FileFormat = b.FileFormat
+	x.TableFormat = b.TableFormat
+	return m0
+}
+
 var File_google_cloud_bigquery_v2_biglake_config_proto protoreflect.FileDescriptor
 
 const file_google_cloud_bigquery_v2_biglake_config_proto_rawDesc = "" +
@@ -234,18 +265,6 @@ const file_google_cloud_bigquery_v2_biglake_config_proto_rawDesc = "" +
 	"\x18TABLE_FORMAT_UNSPECIFIED\x10\x00\x12\v\n" +
 	"\aICEBERG\x10\x01Bq\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\x12BigLakeConfigProtoP\x01Z;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_biglake_config_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_biglake_config_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_biglake_config_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_biglake_config_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_biglake_config_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_biglake_config_proto_rawDesc), len(file_google_cloud_bigquery_v2_biglake_config_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_biglake_config_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_biglake_config_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_google_cloud_bigquery_v2_biglake_config_proto_msgTypes = make([]protoimpl.MessageInfo, 1)

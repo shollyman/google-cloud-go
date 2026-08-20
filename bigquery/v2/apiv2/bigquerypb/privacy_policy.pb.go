@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/privacy_policy.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -94,14 +95,9 @@ func (x JoinRestrictionPolicy_JoinCondition) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use JoinRestrictionPolicy_JoinCondition.Descriptor instead.
-func (JoinRestrictionPolicy_JoinCondition) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_privacy_policy_proto_rawDescGZIP(), []int{2, 0}
-}
-
 // Represents privacy policy associated with "aggregation threshold" method.
 type AggregationThresholdPolicy struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. The threshold for the "aggregation threshold" policy.
 	Threshold *int64 `protobuf:"varint,1,opt,name=threshold,proto3,oneof" json:"threshold,omitempty"`
 	// Optional. The privacy unit column(s) associated with this policy.
@@ -141,11 +137,6 @@ func (x *AggregationThresholdPolicy) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use AggregationThresholdPolicy.ProtoReflect.Descriptor instead.
-func (*AggregationThresholdPolicy) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_privacy_policy_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *AggregationThresholdPolicy) GetThreshold() int64 {
 	if x != nil && x.Threshold != nil {
 		return *x.Threshold
@@ -160,9 +151,52 @@ func (x *AggregationThresholdPolicy) GetPrivacyUnitColumns() []string {
 	return nil
 }
 
+func (x *AggregationThresholdPolicy) SetThreshold(v int64) {
+	x.Threshold = &v
+}
+
+func (x *AggregationThresholdPolicy) SetPrivacyUnitColumns(v []string) {
+	x.PrivacyUnitColumns = v
+}
+
+func (x *AggregationThresholdPolicy) HasThreshold() bool {
+	if x == nil {
+		return false
+	}
+	return x.Threshold != nil
+}
+
+func (x *AggregationThresholdPolicy) ClearThreshold() {
+	x.Threshold = nil
+}
+
+type AggregationThresholdPolicy_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. The threshold for the "aggregation threshold" policy.
+	Threshold *int64
+	// Optional. The privacy unit column(s) associated with this policy.
+	// For now, only one column per data source object (table, view) is allowed as
+	// a privacy unit column.
+	// Representing as a repeated field in metadata for extensibility to
+	// multiple columns in future.
+	// Duplicates and Repeated struct fields are not allowed.
+	// For nested fields, use dot notation ("outer.inner")
+	PrivacyUnitColumns []string
+}
+
+func (b0 AggregationThresholdPolicy_builder) Build() *AggregationThresholdPolicy {
+	m0 := &AggregationThresholdPolicy{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Threshold = b.Threshold
+	x.PrivacyUnitColumns = b.PrivacyUnitColumns
+	return m0
+}
+
 // Represents privacy policy associated with "differential privacy" method.
 type DifferentialPrivacyPolicy struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. The maximum epsilon value that a query can consume. If the
 	// subscriber specifies epsilon as a parameter in a SELECT query, it must be
 	// less than or equal to this value. The epsilon parameter controls the amount
@@ -248,11 +282,6 @@ func (x *DifferentialPrivacyPolicy) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DifferentialPrivacyPolicy.ProtoReflect.Descriptor instead.
-func (*DifferentialPrivacyPolicy) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_privacy_policy_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *DifferentialPrivacyPolicy) GetMaxEpsilonPerQuery() float64 {
 	if x != nil && x.MaxEpsilonPerQuery != nil {
 		return *x.MaxEpsilonPerQuery
@@ -309,11 +338,207 @@ func (x *DifferentialPrivacyPolicy) GetDeltaBudgetRemaining() float64 {
 	return 0
 }
 
+func (x *DifferentialPrivacyPolicy) SetMaxEpsilonPerQuery(v float64) {
+	x.MaxEpsilonPerQuery = &v
+}
+
+func (x *DifferentialPrivacyPolicy) SetDeltaPerQuery(v float64) {
+	x.DeltaPerQuery = &v
+}
+
+func (x *DifferentialPrivacyPolicy) SetMaxGroupsContributed(v int64) {
+	x.MaxGroupsContributed = &v
+}
+
+func (x *DifferentialPrivacyPolicy) SetPrivacyUnitColumn(v string) {
+	x.PrivacyUnitColumn = &v
+}
+
+func (x *DifferentialPrivacyPolicy) SetEpsilonBudget(v float64) {
+	x.EpsilonBudget = &v
+}
+
+func (x *DifferentialPrivacyPolicy) SetDeltaBudget(v float64) {
+	x.DeltaBudget = &v
+}
+
+func (x *DifferentialPrivacyPolicy) SetEpsilonBudgetRemaining(v float64) {
+	x.EpsilonBudgetRemaining = &v
+}
+
+func (x *DifferentialPrivacyPolicy) SetDeltaBudgetRemaining(v float64) {
+	x.DeltaBudgetRemaining = &v
+}
+
+func (x *DifferentialPrivacyPolicy) HasMaxEpsilonPerQuery() bool {
+	if x == nil {
+		return false
+	}
+	return x.MaxEpsilonPerQuery != nil
+}
+
+func (x *DifferentialPrivacyPolicy) HasDeltaPerQuery() bool {
+	if x == nil {
+		return false
+	}
+	return x.DeltaPerQuery != nil
+}
+
+func (x *DifferentialPrivacyPolicy) HasMaxGroupsContributed() bool {
+	if x == nil {
+		return false
+	}
+	return x.MaxGroupsContributed != nil
+}
+
+func (x *DifferentialPrivacyPolicy) HasPrivacyUnitColumn() bool {
+	if x == nil {
+		return false
+	}
+	return x.PrivacyUnitColumn != nil
+}
+
+func (x *DifferentialPrivacyPolicy) HasEpsilonBudget() bool {
+	if x == nil {
+		return false
+	}
+	return x.EpsilonBudget != nil
+}
+
+func (x *DifferentialPrivacyPolicy) HasDeltaBudget() bool {
+	if x == nil {
+		return false
+	}
+	return x.DeltaBudget != nil
+}
+
+func (x *DifferentialPrivacyPolicy) HasEpsilonBudgetRemaining() bool {
+	if x == nil {
+		return false
+	}
+	return x.EpsilonBudgetRemaining != nil
+}
+
+func (x *DifferentialPrivacyPolicy) HasDeltaBudgetRemaining() bool {
+	if x == nil {
+		return false
+	}
+	return x.DeltaBudgetRemaining != nil
+}
+
+func (x *DifferentialPrivacyPolicy) ClearMaxEpsilonPerQuery() {
+	x.MaxEpsilonPerQuery = nil
+}
+
+func (x *DifferentialPrivacyPolicy) ClearDeltaPerQuery() {
+	x.DeltaPerQuery = nil
+}
+
+func (x *DifferentialPrivacyPolicy) ClearMaxGroupsContributed() {
+	x.MaxGroupsContributed = nil
+}
+
+func (x *DifferentialPrivacyPolicy) ClearPrivacyUnitColumn() {
+	x.PrivacyUnitColumn = nil
+}
+
+func (x *DifferentialPrivacyPolicy) ClearEpsilonBudget() {
+	x.EpsilonBudget = nil
+}
+
+func (x *DifferentialPrivacyPolicy) ClearDeltaBudget() {
+	x.DeltaBudget = nil
+}
+
+func (x *DifferentialPrivacyPolicy) ClearEpsilonBudgetRemaining() {
+	x.EpsilonBudgetRemaining = nil
+}
+
+func (x *DifferentialPrivacyPolicy) ClearDeltaBudgetRemaining() {
+	x.DeltaBudgetRemaining = nil
+}
+
+type DifferentialPrivacyPolicy_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. The maximum epsilon value that a query can consume. If the
+	// subscriber specifies epsilon as a parameter in a SELECT query, it must be
+	// less than or equal to this value. The epsilon parameter controls the amount
+	// of noise that is added to the groups — a higher epsilon means less noise.
+	MaxEpsilonPerQuery *float64
+	// Optional. The delta value that is used per query. Delta represents the
+	// probability that any row will fail to be epsilon differentially private.
+	// Indicates the risk associated with exposing aggregate rows in the result of
+	// a query.
+	DeltaPerQuery *float64
+	// Optional. The maximum groups contributed value that is used per query.
+	// Represents the maximum number of groups to which each protected entity can
+	// contribute. Changing this value does not improve or worsen privacy. The
+	// best value for accuracy and utility depends on the query and data.
+	MaxGroupsContributed *int64
+	// Optional. The privacy unit column associated with this policy. Differential
+	// privacy policies can only have one privacy unit column per data source
+	// object (table, view).
+	PrivacyUnitColumn *string
+	// Optional. The total epsilon budget for all queries against the
+	// privacy-protected view. Each subscriber query against this view charges the
+	// amount of epsilon they request in their query. If there is sufficient
+	// budget, then the subscriber query attempts to complete. It might still fail
+	// due to other reasons, in which case the charge is refunded. If there is
+	// insufficient budget the query is rejected. There might be multiple charge
+	// attempts if a single query references multiple views. In this case there
+	// must be sufficient budget for all charges or the query is rejected and
+	// charges are refunded in best effort. The budget does not have a refresh
+	// policy and can only be updated via ALTER VIEW or circumvented by creating a
+	// new view that can be queried with a fresh budget.
+	EpsilonBudget *float64
+	// Optional. The total delta budget for all queries against the
+	// privacy-protected view. Each subscriber query against this view charges the
+	// amount of delta that is pre-defined by the contributor through the privacy
+	// policy delta_per_query field. If there is sufficient budget, then the
+	// subscriber query attempts to complete. It might still fail due to other
+	// reasons, in which case the charge is refunded. If there is insufficient
+	// budget the query is rejected. There might be multiple charge attempts if a
+	// single query references multiple views. In this case there must be
+	// sufficient budget for all charges or the query is rejected and charges are
+	// refunded in best effort. The budget does not have a refresh policy and can
+	// only be updated via ALTER VIEW or circumvented by creating a new view that
+	// can be queried with a fresh budget.
+	DeltaBudget *float64
+	// Output only. The epsilon budget remaining. If budget is exhausted, no more
+	// queries are allowed. Note that the budget for queries that are in progress
+	// is deducted before the query executes. If the query fails or is cancelled
+	// then the budget is refunded. In this case the amount of budget remaining
+	// can increase.
+	EpsilonBudgetRemaining *float64
+	// Output only. The delta budget remaining. If budget is exhausted, no more
+	// queries are allowed. Note that the budget for queries that are in progress
+	// is deducted before the query executes. If the query fails or is cancelled
+	// then the budget is refunded. In this case the amount of budget remaining
+	// can increase.
+	DeltaBudgetRemaining *float64
+}
+
+func (b0 DifferentialPrivacyPolicy_builder) Build() *DifferentialPrivacyPolicy {
+	m0 := &DifferentialPrivacyPolicy{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.MaxEpsilonPerQuery = b.MaxEpsilonPerQuery
+	x.DeltaPerQuery = b.DeltaPerQuery
+	x.MaxGroupsContributed = b.MaxGroupsContributed
+	x.PrivacyUnitColumn = b.PrivacyUnitColumn
+	x.EpsilonBudget = b.EpsilonBudget
+	x.DeltaBudget = b.DeltaBudget
+	x.EpsilonBudgetRemaining = b.EpsilonBudgetRemaining
+	x.DeltaBudgetRemaining = b.DeltaBudgetRemaining
+	return m0
+}
+
 // Represents privacy policy associated with "join restrictions". Join
 // restriction gives data providers the ability to enforce joins on the
 // 'join_allowed_columns' when data is queried from a privacy protected view.
 type JoinRestrictionPolicy struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. Specifies if a join is required or not on queries for the view.
 	// Default is JOIN_CONDITION_UNSPECIFIED.
 	JoinCondition *JoinRestrictionPolicy_JoinCondition `protobuf:"varint,1,opt,name=join_condition,json=joinCondition,proto3,enum=google.cloud.bigquery.v2.JoinRestrictionPolicy_JoinCondition,oneof" json:"join_condition,omitempty"`
@@ -350,11 +575,6 @@ func (x *JoinRestrictionPolicy) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use JoinRestrictionPolicy.ProtoReflect.Descriptor instead.
-func (*JoinRestrictionPolicy) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_privacy_policy_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *JoinRestrictionPolicy) GetJoinCondition() JoinRestrictionPolicy_JoinCondition {
 	if x != nil && x.JoinCondition != nil {
 		return *x.JoinCondition
@@ -369,10 +589,50 @@ func (x *JoinRestrictionPolicy) GetJoinAllowedColumns() []string {
 	return nil
 }
 
+func (x *JoinRestrictionPolicy) SetJoinCondition(v JoinRestrictionPolicy_JoinCondition) {
+	x.JoinCondition = &v
+}
+
+func (x *JoinRestrictionPolicy) SetJoinAllowedColumns(v []string) {
+	x.JoinAllowedColumns = v
+}
+
+func (x *JoinRestrictionPolicy) HasJoinCondition() bool {
+	if x == nil {
+		return false
+	}
+	return x.JoinCondition != nil
+}
+
+func (x *JoinRestrictionPolicy) ClearJoinCondition() {
+	x.JoinCondition = nil
+}
+
+type JoinRestrictionPolicy_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. Specifies if a join is required or not on queries for the view.
+	// Default is JOIN_CONDITION_UNSPECIFIED.
+	JoinCondition *JoinRestrictionPolicy_JoinCondition
+	// Optional. The only columns that joins are allowed on.
+	// This field is must be specified for join_conditions JOIN_ANY and JOIN_ALL
+	// and it cannot be set for JOIN_BLOCKED.
+	JoinAllowedColumns []string
+}
+
+func (b0 JoinRestrictionPolicy_builder) Build() *JoinRestrictionPolicy {
+	m0 := &JoinRestrictionPolicy{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.JoinCondition = b.JoinCondition
+	x.JoinAllowedColumns = b.JoinAllowedColumns
+	return m0
+}
+
 // Represents privacy policy that contains the privacy requirements specified by
 // the data owner. Currently, this is only supported on views.
 type PrivacyPolicy struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Privacy policy associated with this requirement specification. Only one of
 	// the privacy methods is allowed per data source object.
 	//
@@ -415,11 +675,6 @@ func (x *PrivacyPolicy) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PrivacyPolicy.ProtoReflect.Descriptor instead.
-func (*PrivacyPolicy) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_privacy_policy_proto_rawDescGZIP(), []int{3}
-}
-
 func (x *PrivacyPolicy) GetPrivacyPolicy() isPrivacyPolicy_PrivacyPolicy {
 	if x != nil {
 		return x.PrivacyPolicy
@@ -450,6 +705,137 @@ func (x *PrivacyPolicy) GetJoinRestrictionPolicy() *JoinRestrictionPolicy {
 		return x.JoinRestrictionPolicy
 	}
 	return nil
+}
+
+func (x *PrivacyPolicy) SetAggregationThresholdPolicy(v *AggregationThresholdPolicy) {
+	if v == nil {
+		x.PrivacyPolicy = nil
+		return
+	}
+	x.PrivacyPolicy = &PrivacyPolicy_AggregationThresholdPolicy{v}
+}
+
+func (x *PrivacyPolicy) SetDifferentialPrivacyPolicy(v *DifferentialPrivacyPolicy) {
+	if v == nil {
+		x.PrivacyPolicy = nil
+		return
+	}
+	x.PrivacyPolicy = &PrivacyPolicy_DifferentialPrivacyPolicy{v}
+}
+
+func (x *PrivacyPolicy) SetJoinRestrictionPolicy(v *JoinRestrictionPolicy) {
+	x.JoinRestrictionPolicy = v
+}
+
+func (x *PrivacyPolicy) HasPrivacyPolicy() bool {
+	if x == nil {
+		return false
+	}
+	return x.PrivacyPolicy != nil
+}
+
+func (x *PrivacyPolicy) HasAggregationThresholdPolicy() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.PrivacyPolicy.(*PrivacyPolicy_AggregationThresholdPolicy)
+	return ok
+}
+
+func (x *PrivacyPolicy) HasDifferentialPrivacyPolicy() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.PrivacyPolicy.(*PrivacyPolicy_DifferentialPrivacyPolicy)
+	return ok
+}
+
+func (x *PrivacyPolicy) HasJoinRestrictionPolicy() bool {
+	if x == nil {
+		return false
+	}
+	return x.JoinRestrictionPolicy != nil
+}
+
+func (x *PrivacyPolicy) ClearPrivacyPolicy() {
+	x.PrivacyPolicy = nil
+}
+
+func (x *PrivacyPolicy) ClearAggregationThresholdPolicy() {
+	if _, ok := x.PrivacyPolicy.(*PrivacyPolicy_AggregationThresholdPolicy); ok {
+		x.PrivacyPolicy = nil
+	}
+}
+
+func (x *PrivacyPolicy) ClearDifferentialPrivacyPolicy() {
+	if _, ok := x.PrivacyPolicy.(*PrivacyPolicy_DifferentialPrivacyPolicy); ok {
+		x.PrivacyPolicy = nil
+	}
+}
+
+func (x *PrivacyPolicy) ClearJoinRestrictionPolicy() {
+	x.JoinRestrictionPolicy = nil
+}
+
+const PrivacyPolicy_PrivacyPolicy_not_set_case case_PrivacyPolicy_PrivacyPolicy = 0
+const PrivacyPolicy_AggregationThresholdPolicy_case case_PrivacyPolicy_PrivacyPolicy = 2
+const PrivacyPolicy_DifferentialPrivacyPolicy_case case_PrivacyPolicy_PrivacyPolicy = 3
+
+func (x *PrivacyPolicy) WhichPrivacyPolicy() case_PrivacyPolicy_PrivacyPolicy {
+	if x == nil {
+		return PrivacyPolicy_PrivacyPolicy_not_set_case
+	}
+	switch x.PrivacyPolicy.(type) {
+	case *PrivacyPolicy_AggregationThresholdPolicy:
+		return PrivacyPolicy_AggregationThresholdPolicy_case
+	case *PrivacyPolicy_DifferentialPrivacyPolicy:
+		return PrivacyPolicy_DifferentialPrivacyPolicy_case
+	default:
+		return PrivacyPolicy_PrivacyPolicy_not_set_case
+	}
+}
+
+type PrivacyPolicy_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Privacy policy associated with this requirement specification. Only one of
+	// the privacy methods is allowed per data source object.
+
+	// Fields of oneof PrivacyPolicy:
+	// Optional. Policy used for aggregation thresholds.
+	AggregationThresholdPolicy *AggregationThresholdPolicy
+	// Optional. Policy used for differential privacy.
+	DifferentialPrivacyPolicy *DifferentialPrivacyPolicy
+	// -- end of PrivacyPolicy
+	// Optional. Join restriction policy is outside of the one of policies, since
+	// this policy can be set along with other policies. This policy gives data
+	// providers the ability to enforce joins on the 'join_allowed_columns' when
+	// data is queried from a privacy protected view.
+	JoinRestrictionPolicy *JoinRestrictionPolicy
+}
+
+func (b0 PrivacyPolicy_builder) Build() *PrivacyPolicy {
+	m0 := &PrivacyPolicy{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.AggregationThresholdPolicy != nil {
+		x.PrivacyPolicy = &PrivacyPolicy_AggregationThresholdPolicy{b.AggregationThresholdPolicy}
+	}
+	if b.DifferentialPrivacyPolicy != nil {
+		x.PrivacyPolicy = &PrivacyPolicy_DifferentialPrivacyPolicy{b.DifferentialPrivacyPolicy}
+	}
+	x.JoinRestrictionPolicy = b.JoinRestrictionPolicy
+	return m0
+}
+
+type case_PrivacyPolicy_PrivacyPolicy protoreflect.FieldNumber
+
+func (x case_PrivacyPolicy_PrivacyPolicy) String() string {
+	md := file_google_cloud_bigquery_v2_privacy_policy_proto_msgTypes[3].Descriptor()
+	if x == 0 {
+		return "not set"
+	}
+	return protoimpl.X.MessageFieldStringOf(md, protoreflect.FieldNumber(x))
 }
 
 type isPrivacyPolicy_PrivacyPolicy interface {
@@ -514,18 +900,6 @@ const file_google_cloud_bigquery_v2_privacy_policy_proto_rawDesc = "" +
 	"\x0eprivacy_policyB\x1a\n" +
 	"\x18_join_restriction_policyBo\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\x12PrivacyPolicyProtoZ;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_privacy_policy_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_privacy_policy_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_privacy_policy_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_privacy_policy_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_privacy_policy_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_privacy_policy_proto_rawDesc), len(file_google_cloud_bigquery_v2_privacy_policy_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_privacy_policy_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_privacy_policy_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_google_cloud_bigquery_v2_privacy_policy_proto_msgTypes = make([]protoimpl.MessageInfo, 4)

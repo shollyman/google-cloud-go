@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/table.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -97,11 +98,6 @@ func (x TableReplicationInfo_ReplicationStatus) Number() protoreflect.EnumNumber
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use TableReplicationInfo_ReplicationStatus.Descriptor instead.
-func (TableReplicationInfo_ReplicationStatus) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_proto_rawDescGZIP(), []int{0, 0}
-}
-
 // TableMetadataView specifies which table information is returned.
 type GetTableRequest_TableMetadataView int32
 
@@ -161,15 +157,10 @@ func (x GetTableRequest_TableMetadataView) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use GetTableRequest_TableMetadataView.Descriptor instead.
-func (GetTableRequest_TableMetadataView) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_proto_rawDescGZIP(), []int{9, 0}
-}
-
 // Replication info of a table created using `AS REPLICA` DDL like:
 // `CREATE MATERIALIZED VIEW mv1 AS REPLICA OF src_mv`
 type TableReplicationInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Source table reference that is replicated.
 	SourceTable *TableReference `protobuf:"bytes,1,opt,name=source_table,json=sourceTable,proto3" json:"source_table,omitempty"`
 	// Optional. Specifies the interval at which the source table is polled for
@@ -214,11 +205,6 @@ func (x *TableReplicationInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TableReplicationInfo.ProtoReflect.Descriptor instead.
-func (*TableReplicationInfo) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *TableReplicationInfo) GetSourceTable() *TableReference {
 	if x != nil {
 		return x.SourceTable
@@ -254,9 +240,83 @@ func (x *TableReplicationInfo) GetReplicationError() *ErrorProto {
 	return nil
 }
 
+func (x *TableReplicationInfo) SetSourceTable(v *TableReference) {
+	x.SourceTable = v
+}
+
+func (x *TableReplicationInfo) SetReplicationIntervalMs(v int64) {
+	x.ReplicationIntervalMs = v
+}
+
+func (x *TableReplicationInfo) SetReplicatedSourceLastRefreshTime(v int64) {
+	x.ReplicatedSourceLastRefreshTime = v
+}
+
+func (x *TableReplicationInfo) SetReplicationStatus(v TableReplicationInfo_ReplicationStatus) {
+	x.ReplicationStatus = v
+}
+
+func (x *TableReplicationInfo) SetReplicationError(v *ErrorProto) {
+	x.ReplicationError = v
+}
+
+func (x *TableReplicationInfo) HasSourceTable() bool {
+	if x == nil {
+		return false
+	}
+	return x.SourceTable != nil
+}
+
+func (x *TableReplicationInfo) HasReplicationError() bool {
+	if x == nil {
+		return false
+	}
+	return x.ReplicationError != nil
+}
+
+func (x *TableReplicationInfo) ClearSourceTable() {
+	x.SourceTable = nil
+}
+
+func (x *TableReplicationInfo) ClearReplicationError() {
+	x.ReplicationError = nil
+}
+
+type TableReplicationInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Source table reference that is replicated.
+	SourceTable *TableReference
+	// Optional. Specifies the interval at which the source table is polled for
+	// updates.
+	// It's Optional. If not specified, default replication interval would be
+	// applied.
+	ReplicationIntervalMs int64
+	// Optional. Output only. If source is a materialized view, this field
+	// signifies the last refresh time of the source.
+	ReplicatedSourceLastRefreshTime int64
+	// Optional. Output only. Replication status of configured replication.
+	ReplicationStatus TableReplicationInfo_ReplicationStatus
+	// Optional. Output only. Replication error that will permanently stopped
+	// table replication.
+	ReplicationError *ErrorProto
+}
+
+func (b0 TableReplicationInfo_builder) Build() *TableReplicationInfo {
+	m0 := &TableReplicationInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.SourceTable = b.SourceTable
+	x.ReplicationIntervalMs = b.ReplicationIntervalMs
+	x.ReplicatedSourceLastRefreshTime = b.ReplicatedSourceLastRefreshTime
+	x.ReplicationStatus = b.ReplicationStatus
+	x.ReplicationError = b.ReplicationError
+	return m0
+}
+
 // Describes the definition of a logical view.
 type ViewDefinition struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. A query that BigQuery executes when the view is referenced.
 	Query string `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
 	// Describes user-defined function resources used in the query.
@@ -306,11 +366,6 @@ func (x *ViewDefinition) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ViewDefinition.ProtoReflect.Descriptor instead.
-func (*ViewDefinition) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *ViewDefinition) GetQuery() string {
 	if x != nil {
 		return x.Query
@@ -353,10 +408,94 @@ func (x *ViewDefinition) GetForeignDefinitions() []*ForeignViewDefinition {
 	return nil
 }
 
+func (x *ViewDefinition) SetQuery(v string) {
+	x.Query = v
+}
+
+func (x *ViewDefinition) SetUserDefinedFunctionResources(v []*UserDefinedFunctionResource) {
+	x.UserDefinedFunctionResources = v
+}
+
+func (x *ViewDefinition) SetUseLegacySql(v *wrapperspb.BoolValue) {
+	x.UseLegacySql = v
+}
+
+func (x *ViewDefinition) SetUseExplicitColumnNames(v bool) {
+	x.UseExplicitColumnNames = v
+}
+
+func (x *ViewDefinition) SetPrivacyPolicy(v *PrivacyPolicy) {
+	x.PrivacyPolicy = v
+}
+
+func (x *ViewDefinition) SetForeignDefinitions(v []*ForeignViewDefinition) {
+	x.ForeignDefinitions = v
+}
+
+func (x *ViewDefinition) HasUseLegacySql() bool {
+	if x == nil {
+		return false
+	}
+	return x.UseLegacySql != nil
+}
+
+func (x *ViewDefinition) HasPrivacyPolicy() bool {
+	if x == nil {
+		return false
+	}
+	return x.PrivacyPolicy != nil
+}
+
+func (x *ViewDefinition) ClearUseLegacySql() {
+	x.UseLegacySql = nil
+}
+
+func (x *ViewDefinition) ClearPrivacyPolicy() {
+	x.PrivacyPolicy = nil
+}
+
+type ViewDefinition_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. A query that BigQuery executes when the view is referenced.
+	Query string
+	// Describes user-defined function resources used in the query.
+	UserDefinedFunctionResources []*UserDefinedFunctionResource
+	// Specifies whether to use BigQuery's legacy SQL for this view.
+	// The default value is true. If set to false, the view uses
+	// BigQuery's
+	// [GoogleSQL](https://docs.cloud.google.com/bigquery/docs/introduction-sql).
+	//
+	// Queries and views that reference this view must use the same flag value.
+	// A wrapper is used here because the default value is True.
+	UseLegacySql *wrapperspb.BoolValue
+	// True if the column names are explicitly specified. For example by using the
+	// 'CREATE VIEW v(c1, c2) AS ...' syntax.
+	// Can only be set for GoogleSQL views.
+	UseExplicitColumnNames bool
+	// Optional. Specifies the privacy policy for the view.
+	PrivacyPolicy *PrivacyPolicy
+	// Optional. Foreign view representations.
+	ForeignDefinitions []*ForeignViewDefinition
+}
+
+func (b0 ViewDefinition_builder) Build() *ViewDefinition {
+	m0 := &ViewDefinition{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Query = b.Query
+	x.UserDefinedFunctionResources = b.UserDefinedFunctionResources
+	x.UseLegacySql = b.UseLegacySql
+	x.UseExplicitColumnNames = b.UseExplicitColumnNames
+	x.PrivacyPolicy = b.PrivacyPolicy
+	x.ForeignDefinitions = b.ForeignDefinitions
+	return m0
+}
+
 // A view can be represented in multiple ways. Each representation has its own
 // dialect. This message stores the metadata required for these representations.
 type ForeignViewDefinition struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. The query that defines the view.
 	Query string `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
 	// Optional. Represents the dialect of the query.
@@ -390,11 +529,6 @@ func (x *ForeignViewDefinition) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ForeignViewDefinition.ProtoReflect.Descriptor instead.
-func (*ForeignViewDefinition) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *ForeignViewDefinition) GetQuery() string {
 	if x != nil {
 		return x.Query
@@ -409,9 +543,35 @@ func (x *ForeignViewDefinition) GetDialect() string {
 	return ""
 }
 
+func (x *ForeignViewDefinition) SetQuery(v string) {
+	x.Query = v
+}
+
+func (x *ForeignViewDefinition) SetDialect(v string) {
+	x.Dialect = v
+}
+
+type ForeignViewDefinition_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. The query that defines the view.
+	Query string
+	// Optional. Represents the dialect of the query.
+	Dialect string
+}
+
+func (b0 ForeignViewDefinition_builder) Build() *ForeignViewDefinition {
+	m0 := &ForeignViewDefinition{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Query = b.Query
+	x.Dialect = b.Dialect
+	return m0
+}
+
 // Definition and configuration of a materialized view.
 type MaterializedViewDefinition struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. A query whose results are persisted.
 	Query string `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
 	// Output only. The time when this materialized view was last refreshed, in
@@ -458,11 +618,6 @@ func (x *MaterializedViewDefinition) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use MaterializedViewDefinition.ProtoReflect.Descriptor instead.
-func (*MaterializedViewDefinition) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_proto_rawDescGZIP(), []int{3}
-}
-
 func (x *MaterializedViewDefinition) GetQuery() string {
 	if x != nil {
 		return x.Query
@@ -498,11 +653,98 @@ func (x *MaterializedViewDefinition) GetAllowNonIncrementalDefinition() *wrapper
 	return nil
 }
 
+func (x *MaterializedViewDefinition) SetQuery(v string) {
+	x.Query = v
+}
+
+func (x *MaterializedViewDefinition) SetLastRefreshTime(v int64) {
+	x.LastRefreshTime = v
+}
+
+func (x *MaterializedViewDefinition) SetEnableRefresh(v *wrapperspb.BoolValue) {
+	x.EnableRefresh = v
+}
+
+func (x *MaterializedViewDefinition) SetRefreshIntervalMs(v *wrapperspb.UInt64Value) {
+	x.RefreshIntervalMs = v
+}
+
+func (x *MaterializedViewDefinition) SetAllowNonIncrementalDefinition(v *wrapperspb.BoolValue) {
+	x.AllowNonIncrementalDefinition = v
+}
+
+func (x *MaterializedViewDefinition) HasEnableRefresh() bool {
+	if x == nil {
+		return false
+	}
+	return x.EnableRefresh != nil
+}
+
+func (x *MaterializedViewDefinition) HasRefreshIntervalMs() bool {
+	if x == nil {
+		return false
+	}
+	return x.RefreshIntervalMs != nil
+}
+
+func (x *MaterializedViewDefinition) HasAllowNonIncrementalDefinition() bool {
+	if x == nil {
+		return false
+	}
+	return x.AllowNonIncrementalDefinition != nil
+}
+
+func (x *MaterializedViewDefinition) ClearEnableRefresh() {
+	x.EnableRefresh = nil
+}
+
+func (x *MaterializedViewDefinition) ClearRefreshIntervalMs() {
+	x.RefreshIntervalMs = nil
+}
+
+func (x *MaterializedViewDefinition) ClearAllowNonIncrementalDefinition() {
+	x.AllowNonIncrementalDefinition = nil
+}
+
+type MaterializedViewDefinition_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. A query whose results are persisted.
+	Query string
+	// Output only. The time when this materialized view was last refreshed, in
+	// milliseconds since the epoch.
+	LastRefreshTime int64
+	// Optional. Enable automatic refresh of the materialized view when the base
+	// table is updated. The default value is "true".
+	EnableRefresh *wrapperspb.BoolValue
+	// Optional. The maximum frequency at which this materialized view will be
+	// refreshed. The default value is "1800000" (30 minutes).
+	RefreshIntervalMs *wrapperspb.UInt64Value
+	// Optional. This option declares the intention to construct a materialized
+	// view that isn't refreshed incrementally. Non-incremental materialized views
+	// support an expanded range of SQL queries. The
+	// `allow_non_incremental_definition` option can't be changed after the
+	// materialized view is created.
+	AllowNonIncrementalDefinition *wrapperspb.BoolValue
+}
+
+func (b0 MaterializedViewDefinition_builder) Build() *MaterializedViewDefinition {
+	m0 := &MaterializedViewDefinition{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Query = b.Query
+	x.LastRefreshTime = b.LastRefreshTime
+	x.EnableRefresh = b.EnableRefresh
+	x.RefreshIntervalMs = b.RefreshIntervalMs
+	x.AllowNonIncrementalDefinition = b.AllowNonIncrementalDefinition
+	return m0
+}
+
 // Status of a materialized view.
 // The last refresh timestamp status is omitted here, but is present in the
 // MaterializedViewDefinition message.
 type MaterializedViewStatus struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. Refresh watermark of materialized view. The base tables' data
 	// were collected into the materialized view cache until this time.
 	RefreshWatermark *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=refresh_watermark,json=refreshWatermark,proto3" json:"refresh_watermark,omitempty"`
@@ -538,11 +780,6 @@ func (x *MaterializedViewStatus) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use MaterializedViewStatus.ProtoReflect.Descriptor instead.
-func (*MaterializedViewStatus) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_proto_rawDescGZIP(), []int{4}
-}
-
 func (x *MaterializedViewStatus) GetRefreshWatermark() *timestamppb.Timestamp {
 	if x != nil {
 		return x.RefreshWatermark
@@ -557,9 +794,59 @@ func (x *MaterializedViewStatus) GetLastRefreshStatus() *ErrorProto {
 	return nil
 }
 
+func (x *MaterializedViewStatus) SetRefreshWatermark(v *timestamppb.Timestamp) {
+	x.RefreshWatermark = v
+}
+
+func (x *MaterializedViewStatus) SetLastRefreshStatus(v *ErrorProto) {
+	x.LastRefreshStatus = v
+}
+
+func (x *MaterializedViewStatus) HasRefreshWatermark() bool {
+	if x == nil {
+		return false
+	}
+	return x.RefreshWatermark != nil
+}
+
+func (x *MaterializedViewStatus) HasLastRefreshStatus() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastRefreshStatus != nil
+}
+
+func (x *MaterializedViewStatus) ClearRefreshWatermark() {
+	x.RefreshWatermark = nil
+}
+
+func (x *MaterializedViewStatus) ClearLastRefreshStatus() {
+	x.LastRefreshStatus = nil
+}
+
+type MaterializedViewStatus_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. Refresh watermark of materialized view. The base tables' data
+	// were collected into the materialized view cache until this time.
+	RefreshWatermark *timestamppb.Timestamp
+	// Output only. Error result of the last automatic refresh. If present,
+	// indicates that the last automatic refresh was unsuccessful.
+	LastRefreshStatus *ErrorProto
+}
+
+func (b0 MaterializedViewStatus_builder) Build() *MaterializedViewStatus {
+	m0 := &MaterializedViewStatus{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.RefreshWatermark = b.RefreshWatermark
+	x.LastRefreshStatus = b.LastRefreshStatus
+	return m0
+}
+
 // Information about base table and snapshot time of the snapshot.
 type SnapshotDefinition struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Reference describing the ID of the table that was snapshot.
 	BaseTableReference *TableReference `protobuf:"bytes,1,opt,name=base_table_reference,json=baseTableReference,proto3" json:"base_table_reference,omitempty"`
 	// Required. The time at which the base table was snapshot. This value is
@@ -594,11 +881,6 @@ func (x *SnapshotDefinition) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SnapshotDefinition.ProtoReflect.Descriptor instead.
-func (*SnapshotDefinition) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_proto_rawDescGZIP(), []int{5}
-}
-
 func (x *SnapshotDefinition) GetBaseTableReference() *TableReference {
 	if x != nil {
 		return x.BaseTableReference
@@ -613,9 +895,58 @@ func (x *SnapshotDefinition) GetSnapshotTime() *timestamppb.Timestamp {
 	return nil
 }
 
+func (x *SnapshotDefinition) SetBaseTableReference(v *TableReference) {
+	x.BaseTableReference = v
+}
+
+func (x *SnapshotDefinition) SetSnapshotTime(v *timestamppb.Timestamp) {
+	x.SnapshotTime = v
+}
+
+func (x *SnapshotDefinition) HasBaseTableReference() bool {
+	if x == nil {
+		return false
+	}
+	return x.BaseTableReference != nil
+}
+
+func (x *SnapshotDefinition) HasSnapshotTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.SnapshotTime != nil
+}
+
+func (x *SnapshotDefinition) ClearBaseTableReference() {
+	x.BaseTableReference = nil
+}
+
+func (x *SnapshotDefinition) ClearSnapshotTime() {
+	x.SnapshotTime = nil
+}
+
+type SnapshotDefinition_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Reference describing the ID of the table that was snapshot.
+	BaseTableReference *TableReference
+	// Required. The time at which the base table was snapshot. This value is
+	// reported in the JSON response using RFC3339 format.
+	SnapshotTime *timestamppb.Timestamp
+}
+
+func (b0 SnapshotDefinition_builder) Build() *SnapshotDefinition {
+	m0 := &SnapshotDefinition{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.BaseTableReference = b.BaseTableReference
+	x.SnapshotTime = b.SnapshotTime
+	return m0
+}
+
 // Information about base table and clone time of a table clone.
 type CloneDefinition struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Reference describing the ID of the table that was cloned.
 	BaseTableReference *TableReference `protobuf:"bytes,1,opt,name=base_table_reference,json=baseTableReference,proto3" json:"base_table_reference,omitempty"`
 	// Required. The time at which the base table was cloned. This value is
@@ -650,11 +981,6 @@ func (x *CloneDefinition) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CloneDefinition.ProtoReflect.Descriptor instead.
-func (*CloneDefinition) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_proto_rawDescGZIP(), []int{6}
-}
-
 func (x *CloneDefinition) GetBaseTableReference() *TableReference {
 	if x != nil {
 		return x.BaseTableReference
@@ -669,8 +995,57 @@ func (x *CloneDefinition) GetCloneTime() *timestamppb.Timestamp {
 	return nil
 }
 
+func (x *CloneDefinition) SetBaseTableReference(v *TableReference) {
+	x.BaseTableReference = v
+}
+
+func (x *CloneDefinition) SetCloneTime(v *timestamppb.Timestamp) {
+	x.CloneTime = v
+}
+
+func (x *CloneDefinition) HasBaseTableReference() bool {
+	if x == nil {
+		return false
+	}
+	return x.BaseTableReference != nil
+}
+
+func (x *CloneDefinition) HasCloneTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.CloneTime != nil
+}
+
+func (x *CloneDefinition) ClearBaseTableReference() {
+	x.BaseTableReference = nil
+}
+
+func (x *CloneDefinition) ClearCloneTime() {
+	x.CloneTime = nil
+}
+
+type CloneDefinition_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Reference describing the ID of the table that was cloned.
+	BaseTableReference *TableReference
+	// Required. The time at which the base table was cloned. This value is
+	// reported in the JSON response using RFC3339 format.
+	CloneTime *timestamppb.Timestamp
+}
+
+func (b0 CloneDefinition_builder) Build() *CloneDefinition {
+	m0 := &CloneDefinition{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.BaseTableReference = b.BaseTableReference
+	x.CloneTime = b.CloneTime
+	return m0
+}
+
 type Streamingbuffer struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. A lower-bound estimate of the number of bytes currently in
 	// the streaming buffer.
 	EstimatedBytes uint64 `protobuf:"varint,1,opt,name=estimated_bytes,json=estimatedBytes,proto3" json:"estimated_bytes,omitempty"`
@@ -710,11 +1085,6 @@ func (x *Streamingbuffer) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Streamingbuffer.ProtoReflect.Descriptor instead.
-func (*Streamingbuffer) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_proto_rawDescGZIP(), []int{7}
-}
-
 func (x *Streamingbuffer) GetEstimatedBytes() uint64 {
 	if x != nil {
 		return x.EstimatedBytes
@@ -736,8 +1106,45 @@ func (x *Streamingbuffer) GetOldestEntryTime() uint64 {
 	return 0
 }
 
+func (x *Streamingbuffer) SetEstimatedBytes(v uint64) {
+	x.EstimatedBytes = v
+}
+
+func (x *Streamingbuffer) SetEstimatedRows(v uint64) {
+	x.EstimatedRows = v
+}
+
+func (x *Streamingbuffer) SetOldestEntryTime(v uint64) {
+	x.OldestEntryTime = v
+}
+
+type Streamingbuffer_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. A lower-bound estimate of the number of bytes currently in
+	// the streaming buffer.
+	EstimatedBytes uint64
+	// Output only. A lower-bound estimate of the number of rows currently in the
+	// streaming buffer.
+	EstimatedRows uint64
+	// Output only. Contains the timestamp of the oldest entry in the streaming
+	// buffer, in milliseconds since the epoch, if the streaming buffer is
+	// available.
+	OldestEntryTime uint64
+}
+
+func (b0 Streamingbuffer_builder) Build() *Streamingbuffer {
+	m0 := &Streamingbuffer{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.EstimatedBytes = b.EstimatedBytes
+	x.EstimatedRows = b.EstimatedRows
+	x.OldestEntryTime = b.OldestEntryTime
+	return m0
+}
+
 type Table struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The type of resource ID.
 	Kind string `protobuf:"bytes,1,opt,name=kind,proto3" json:"kind,omitempty"`
 	// Output only. A hash of this resource.
@@ -950,11 +1357,6 @@ func (x *Table) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Table.ProtoReflect.Descriptor instead.
-func (*Table) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *Table) GetKind() string {
@@ -1314,9 +1716,868 @@ func (x *Table) GetExternalCatalogTableOptions() *ExternalCatalogTableOptions {
 	return nil
 }
 
+func (x *Table) SetKind(v string) {
+	x.Kind = v
+}
+
+func (x *Table) SetEtag(v string) {
+	x.Etag = v
+}
+
+func (x *Table) SetId(v string) {
+	x.Id = v
+}
+
+func (x *Table) SetSelfLink(v string) {
+	x.SelfLink = v
+}
+
+func (x *Table) SetTableReference(v *TableReference) {
+	x.TableReference = v
+}
+
+func (x *Table) SetFriendlyName(v *wrapperspb.StringValue) {
+	x.FriendlyName = v
+}
+
+func (x *Table) SetDescription(v *wrapperspb.StringValue) {
+	x.Description = v
+}
+
+func (x *Table) SetLabels(v map[string]string) {
+	x.Labels = v
+}
+
+func (x *Table) SetSchema(v *TableSchema) {
+	x.Schema = v
+}
+
+func (x *Table) SetTimePartitioning(v *TimePartitioning) {
+	x.TimePartitioning = v
+}
+
+func (x *Table) SetRangePartitioning(v *RangePartitioning) {
+	x.RangePartitioning = v
+}
+
+func (x *Table) SetClustering(v *Clustering) {
+	x.Clustering = v
+}
+
+func (x *Table) SetRequirePartitionFilter(v *wrapperspb.BoolValue) {
+	x.RequirePartitionFilter = v
+}
+
+func (x *Table) SetPartitionDefinition(v *PartitioningDefinition) {
+	x.PartitionDefinition = v
+}
+
+func (x *Table) SetNumBytes(v *wrapperspb.Int64Value) {
+	x.NumBytes = v
+}
+
+func (x *Table) SetNumPhysicalBytes(v *wrapperspb.Int64Value) {
+	x.NumPhysicalBytes = v
+}
+
+func (x *Table) SetNumLongTermBytes(v *wrapperspb.Int64Value) {
+	x.NumLongTermBytes = v
+}
+
+func (x *Table) SetNumRows(v *wrapperspb.UInt64Value) {
+	x.NumRows = v
+}
+
+func (x *Table) SetCreationTime(v int64) {
+	x.CreationTime = v
+}
+
+func (x *Table) SetExpirationTime(v *wrapperspb.Int64Value) {
+	x.ExpirationTime = v
+}
+
+func (x *Table) SetLastModifiedTime(v uint64) {
+	x.LastModifiedTime = v
+}
+
+func (x *Table) SetType(v string) {
+	x.Type = v
+}
+
+func (x *Table) SetView(v *ViewDefinition) {
+	x.View = v
+}
+
+func (x *Table) SetMaterializedView(v *MaterializedViewDefinition) {
+	x.MaterializedView = v
+}
+
+func (x *Table) SetMaterializedViewStatus(v *MaterializedViewStatus) {
+	x.MaterializedViewStatus = v
+}
+
+func (x *Table) SetExternalDataConfiguration(v *ExternalDataConfiguration) {
+	x.ExternalDataConfiguration = v
+}
+
+func (x *Table) SetBiglakeConfiguration(v *BigLakeConfiguration) {
+	x.BiglakeConfiguration = v
+}
+
+func (x *Table) SetManagedTableType(v ManagedTableType) {
+	x.ManagedTableType = v
+}
+
+func (x *Table) SetLocation(v string) {
+	x.Location = v
+}
+
+func (x *Table) SetStreamingBuffer(v *Streamingbuffer) {
+	x.StreamingBuffer = v
+}
+
+func (x *Table) SetEncryptionConfiguration(v *EncryptionConfiguration) {
+	x.EncryptionConfiguration = v
+}
+
+func (x *Table) SetSnapshotDefinition(v *SnapshotDefinition) {
+	x.SnapshotDefinition = v
+}
+
+func (x *Table) SetDefaultCollation(v *wrapperspb.StringValue) {
+	x.DefaultCollation = v
+}
+
+func (x *Table) SetDefaultRoundingMode(v TableFieldSchema_RoundingMode) {
+	x.DefaultRoundingMode = v
+}
+
+func (x *Table) SetCloneDefinition(v *CloneDefinition) {
+	x.CloneDefinition = v
+}
+
+func (x *Table) SetNumTimeTravelPhysicalBytes(v *wrapperspb.Int64Value) {
+	x.NumTimeTravelPhysicalBytes = v
+}
+
+func (x *Table) SetNumTotalLogicalBytes(v *wrapperspb.Int64Value) {
+	x.NumTotalLogicalBytes = v
+}
+
+func (x *Table) SetNumActiveLogicalBytes(v *wrapperspb.Int64Value) {
+	x.NumActiveLogicalBytes = v
+}
+
+func (x *Table) SetNumLongTermLogicalBytes(v *wrapperspb.Int64Value) {
+	x.NumLongTermLogicalBytes = v
+}
+
+func (x *Table) SetNumCurrentPhysicalBytes(v *wrapperspb.Int64Value) {
+	x.NumCurrentPhysicalBytes = v
+}
+
+func (x *Table) SetNumTotalPhysicalBytes(v *wrapperspb.Int64Value) {
+	x.NumTotalPhysicalBytes = v
+}
+
+func (x *Table) SetNumActivePhysicalBytes(v *wrapperspb.Int64Value) {
+	x.NumActivePhysicalBytes = v
+}
+
+func (x *Table) SetNumLongTermPhysicalBytes(v *wrapperspb.Int64Value) {
+	x.NumLongTermPhysicalBytes = v
+}
+
+func (x *Table) SetNumPartitions(v *wrapperspb.Int64Value) {
+	x.NumPartitions = v
+}
+
+func (x *Table) SetMaxStaleness(v string) {
+	x.MaxStaleness = v
+}
+
+func (x *Table) SetRestrictions(v *RestrictionConfig) {
+	x.Restrictions = v
+}
+
+func (x *Table) SetTableConstraints(v *TableConstraints) {
+	x.TableConstraints = v
+}
+
+func (x *Table) SetResourceTags(v map[string]string) {
+	x.ResourceTags = v
+}
+
+func (x *Table) SetTableReplicationInfo(v *TableReplicationInfo) {
+	x.TableReplicationInfo = v
+}
+
+func (x *Table) SetReplicas(v []*TableReference) {
+	x.Replicas = v
+}
+
+func (x *Table) SetExternalCatalogTableOptions(v *ExternalCatalogTableOptions) {
+	x.ExternalCatalogTableOptions = v
+}
+
+func (x *Table) HasTableReference() bool {
+	if x == nil {
+		return false
+	}
+	return x.TableReference != nil
+}
+
+func (x *Table) HasFriendlyName() bool {
+	if x == nil {
+		return false
+	}
+	return x.FriendlyName != nil
+}
+
+func (x *Table) HasDescription() bool {
+	if x == nil {
+		return false
+	}
+	return x.Description != nil
+}
+
+func (x *Table) HasSchema() bool {
+	if x == nil {
+		return false
+	}
+	return x.Schema != nil
+}
+
+func (x *Table) HasTimePartitioning() bool {
+	if x == nil {
+		return false
+	}
+	return x.TimePartitioning != nil
+}
+
+func (x *Table) HasRangePartitioning() bool {
+	if x == nil {
+		return false
+	}
+	return x.RangePartitioning != nil
+}
+
+func (x *Table) HasClustering() bool {
+	if x == nil {
+		return false
+	}
+	return x.Clustering != nil
+}
+
+func (x *Table) HasRequirePartitionFilter() bool {
+	if x == nil {
+		return false
+	}
+	return x.RequirePartitionFilter != nil
+}
+
+func (x *Table) HasPartitionDefinition() bool {
+	if x == nil {
+		return false
+	}
+	return x.PartitionDefinition != nil
+}
+
+func (x *Table) HasNumBytes() bool {
+	if x == nil {
+		return false
+	}
+	return x.NumBytes != nil
+}
+
+func (x *Table) HasNumPhysicalBytes() bool {
+	if x == nil {
+		return false
+	}
+	return x.NumPhysicalBytes != nil
+}
+
+func (x *Table) HasNumLongTermBytes() bool {
+	if x == nil {
+		return false
+	}
+	return x.NumLongTermBytes != nil
+}
+
+func (x *Table) HasNumRows() bool {
+	if x == nil {
+		return false
+	}
+	return x.NumRows != nil
+}
+
+func (x *Table) HasExpirationTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.ExpirationTime != nil
+}
+
+func (x *Table) HasView() bool {
+	if x == nil {
+		return false
+	}
+	return x.View != nil
+}
+
+func (x *Table) HasMaterializedView() bool {
+	if x == nil {
+		return false
+	}
+	return x.MaterializedView != nil
+}
+
+func (x *Table) HasMaterializedViewStatus() bool {
+	if x == nil {
+		return false
+	}
+	return x.MaterializedViewStatus != nil
+}
+
+func (x *Table) HasExternalDataConfiguration() bool {
+	if x == nil {
+		return false
+	}
+	return x.ExternalDataConfiguration != nil
+}
+
+func (x *Table) HasBiglakeConfiguration() bool {
+	if x == nil {
+		return false
+	}
+	return x.BiglakeConfiguration != nil
+}
+
+func (x *Table) HasStreamingBuffer() bool {
+	if x == nil {
+		return false
+	}
+	return x.StreamingBuffer != nil
+}
+
+func (x *Table) HasEncryptionConfiguration() bool {
+	if x == nil {
+		return false
+	}
+	return x.EncryptionConfiguration != nil
+}
+
+func (x *Table) HasSnapshotDefinition() bool {
+	if x == nil {
+		return false
+	}
+	return x.SnapshotDefinition != nil
+}
+
+func (x *Table) HasDefaultCollation() bool {
+	if x == nil {
+		return false
+	}
+	return x.DefaultCollation != nil
+}
+
+func (x *Table) HasCloneDefinition() bool {
+	if x == nil {
+		return false
+	}
+	return x.CloneDefinition != nil
+}
+
+func (x *Table) HasNumTimeTravelPhysicalBytes() bool {
+	if x == nil {
+		return false
+	}
+	return x.NumTimeTravelPhysicalBytes != nil
+}
+
+func (x *Table) HasNumTotalLogicalBytes() bool {
+	if x == nil {
+		return false
+	}
+	return x.NumTotalLogicalBytes != nil
+}
+
+func (x *Table) HasNumActiveLogicalBytes() bool {
+	if x == nil {
+		return false
+	}
+	return x.NumActiveLogicalBytes != nil
+}
+
+func (x *Table) HasNumLongTermLogicalBytes() bool {
+	if x == nil {
+		return false
+	}
+	return x.NumLongTermLogicalBytes != nil
+}
+
+func (x *Table) HasNumCurrentPhysicalBytes() bool {
+	if x == nil {
+		return false
+	}
+	return x.NumCurrentPhysicalBytes != nil
+}
+
+func (x *Table) HasNumTotalPhysicalBytes() bool {
+	if x == nil {
+		return false
+	}
+	return x.NumTotalPhysicalBytes != nil
+}
+
+func (x *Table) HasNumActivePhysicalBytes() bool {
+	if x == nil {
+		return false
+	}
+	return x.NumActivePhysicalBytes != nil
+}
+
+func (x *Table) HasNumLongTermPhysicalBytes() bool {
+	if x == nil {
+		return false
+	}
+	return x.NumLongTermPhysicalBytes != nil
+}
+
+func (x *Table) HasNumPartitions() bool {
+	if x == nil {
+		return false
+	}
+	return x.NumPartitions != nil
+}
+
+func (x *Table) HasRestrictions() bool {
+	if x == nil {
+		return false
+	}
+	return x.Restrictions != nil
+}
+
+func (x *Table) HasTableConstraints() bool {
+	if x == nil {
+		return false
+	}
+	return x.TableConstraints != nil
+}
+
+func (x *Table) HasTableReplicationInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.TableReplicationInfo != nil
+}
+
+func (x *Table) HasExternalCatalogTableOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.ExternalCatalogTableOptions != nil
+}
+
+func (x *Table) ClearTableReference() {
+	x.TableReference = nil
+}
+
+func (x *Table) ClearFriendlyName() {
+	x.FriendlyName = nil
+}
+
+func (x *Table) ClearDescription() {
+	x.Description = nil
+}
+
+func (x *Table) ClearSchema() {
+	x.Schema = nil
+}
+
+func (x *Table) ClearTimePartitioning() {
+	x.TimePartitioning = nil
+}
+
+func (x *Table) ClearRangePartitioning() {
+	x.RangePartitioning = nil
+}
+
+func (x *Table) ClearClustering() {
+	x.Clustering = nil
+}
+
+func (x *Table) ClearRequirePartitionFilter() {
+	x.RequirePartitionFilter = nil
+}
+
+func (x *Table) ClearPartitionDefinition() {
+	x.PartitionDefinition = nil
+}
+
+func (x *Table) ClearNumBytes() {
+	x.NumBytes = nil
+}
+
+func (x *Table) ClearNumPhysicalBytes() {
+	x.NumPhysicalBytes = nil
+}
+
+func (x *Table) ClearNumLongTermBytes() {
+	x.NumLongTermBytes = nil
+}
+
+func (x *Table) ClearNumRows() {
+	x.NumRows = nil
+}
+
+func (x *Table) ClearExpirationTime() {
+	x.ExpirationTime = nil
+}
+
+func (x *Table) ClearView() {
+	x.View = nil
+}
+
+func (x *Table) ClearMaterializedView() {
+	x.MaterializedView = nil
+}
+
+func (x *Table) ClearMaterializedViewStatus() {
+	x.MaterializedViewStatus = nil
+}
+
+func (x *Table) ClearExternalDataConfiguration() {
+	x.ExternalDataConfiguration = nil
+}
+
+func (x *Table) ClearBiglakeConfiguration() {
+	x.BiglakeConfiguration = nil
+}
+
+func (x *Table) ClearStreamingBuffer() {
+	x.StreamingBuffer = nil
+}
+
+func (x *Table) ClearEncryptionConfiguration() {
+	x.EncryptionConfiguration = nil
+}
+
+func (x *Table) ClearSnapshotDefinition() {
+	x.SnapshotDefinition = nil
+}
+
+func (x *Table) ClearDefaultCollation() {
+	x.DefaultCollation = nil
+}
+
+func (x *Table) ClearCloneDefinition() {
+	x.CloneDefinition = nil
+}
+
+func (x *Table) ClearNumTimeTravelPhysicalBytes() {
+	x.NumTimeTravelPhysicalBytes = nil
+}
+
+func (x *Table) ClearNumTotalLogicalBytes() {
+	x.NumTotalLogicalBytes = nil
+}
+
+func (x *Table) ClearNumActiveLogicalBytes() {
+	x.NumActiveLogicalBytes = nil
+}
+
+func (x *Table) ClearNumLongTermLogicalBytes() {
+	x.NumLongTermLogicalBytes = nil
+}
+
+func (x *Table) ClearNumCurrentPhysicalBytes() {
+	x.NumCurrentPhysicalBytes = nil
+}
+
+func (x *Table) ClearNumTotalPhysicalBytes() {
+	x.NumTotalPhysicalBytes = nil
+}
+
+func (x *Table) ClearNumActivePhysicalBytes() {
+	x.NumActivePhysicalBytes = nil
+}
+
+func (x *Table) ClearNumLongTermPhysicalBytes() {
+	x.NumLongTermPhysicalBytes = nil
+}
+
+func (x *Table) ClearNumPartitions() {
+	x.NumPartitions = nil
+}
+
+func (x *Table) ClearRestrictions() {
+	x.Restrictions = nil
+}
+
+func (x *Table) ClearTableConstraints() {
+	x.TableConstraints = nil
+}
+
+func (x *Table) ClearTableReplicationInfo() {
+	x.TableReplicationInfo = nil
+}
+
+func (x *Table) ClearExternalCatalogTableOptions() {
+	x.ExternalCatalogTableOptions = nil
+}
+
+type Table_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The type of resource ID.
+	Kind string
+	// Output only. A hash of this resource.
+	Etag string
+	// Output only. An opaque ID uniquely identifying the table.
+	Id string
+	// Output only. A URL that can be used to access this resource again.
+	SelfLink string
+	// Required. Reference describing the ID of this table.
+	TableReference *TableReference
+	// Optional. A descriptive name for this table.
+	FriendlyName *wrapperspb.StringValue
+	// Optional. A user-friendly description of this table.
+	Description *wrapperspb.StringValue
+	// The labels associated with this table. You can use these to organize and
+	// group your tables. Label keys and values can be no longer than 63
+	// characters, can only contain lowercase letters, numeric characters,
+	// underscores and dashes. International characters are allowed. Label values
+	// are optional. Label keys must start with a letter and each label in the
+	// list must have a different key.
+	Labels map[string]string
+	// Optional. Describes the schema of this table.
+	Schema *TableSchema
+	// If specified, configures time-based partitioning for this table.
+	TimePartitioning *TimePartitioning
+	// If specified, configures range partitioning for this table.
+	RangePartitioning *RangePartitioning
+	// Clustering specification for the table. Must be specified with time-based
+	// partitioning, data in the table will be first partitioned and subsequently
+	// clustered.
+	Clustering *Clustering
+	// Optional. If set to true, queries over this table require
+	// a partition filter that can be used for partition elimination to be
+	// specified.
+	RequirePartitionFilter *wrapperspb.BoolValue
+	// Optional. The partition information for all table formats, including
+	// managed partitioned tables, hive partitioned tables, iceberg partitioned,
+	// and metastore partitioned tables. This field is only populated for
+	// metastore partitioned tables. For other table formats, this is an output
+	// only field.
+	PartitionDefinition *PartitioningDefinition
+	// Output only. The size of this table in logical bytes, excluding any data in
+	// the streaming buffer.
+	NumBytes *wrapperspb.Int64Value
+	// Output only. The physical size of this table in bytes. This includes
+	// storage used for time travel.
+	NumPhysicalBytes *wrapperspb.Int64Value
+	// Output only. The number of logical bytes in the table that are considered
+	// "long-term storage".
+	NumLongTermBytes *wrapperspb.Int64Value
+	// Output only. The number of rows of data in this table, excluding any data
+	// in the streaming buffer.
+	NumRows *wrapperspb.UInt64Value
+	// Output only. The time when this table was created, in milliseconds since
+	// the epoch.
+	CreationTime int64
+	// Optional. The time when this table expires, in milliseconds since the
+	// epoch. If not present, the table will persist indefinitely. Expired tables
+	// will be deleted and their storage reclaimed.  The defaultTableExpirationMs
+	// property of the encapsulating dataset can be used to set a default
+	// expirationTime on newly created tables.
+	ExpirationTime *wrapperspb.Int64Value
+	// Output only. The time when this table was last modified, in milliseconds
+	// since the epoch.
+	LastModifiedTime uint64
+	// Output only. Describes the table type. The following values are supported:
+	//
+	//   - `TABLE`: A normal BigQuery table.
+	//   - `VIEW`: A virtual table defined by a SQL query.
+	//   - `EXTERNAL`: A table that references data stored in an external storage
+	//     system, such as Google Cloud Storage.
+	//   - `MATERIALIZED_VIEW`: A precomputed view defined by a SQL query.
+	//   - `SNAPSHOT`: An immutable BigQuery table that preserves the contents of a
+	//     base table at a particular time. See additional information on
+	//     [table
+	//     snapshots](https://cloud.google.com/bigquery/docs/table-snapshots-intro).
+	//
+	// The default value is `TABLE`.
+	Type string
+	// Optional. The view definition.
+	View *ViewDefinition
+	// Optional. The materialized view definition.
+	MaterializedView *MaterializedViewDefinition
+	// Output only. The materialized view status.
+	MaterializedViewStatus *MaterializedViewStatus
+	// Optional. Describes the data format, location, and other properties of
+	// a table stored outside of BigQuery. By defining these properties, the data
+	// source can then be queried as if it were a standard BigQuery table.
+	ExternalDataConfiguration *ExternalDataConfiguration
+	// Optional. Specifies the configuration of a BigQuery table for Apache
+	// Iceberg.
+	BiglakeConfiguration *BigLakeConfiguration
+	// Optional. If set, overrides the default managed table type configured in
+	// the dataset.
+	ManagedTableType ManagedTableType
+	// Output only. The geographic location where the table resides. This value
+	// is inherited from the dataset.
+	Location string
+	// Output only. Contains information regarding this table's streaming buffer,
+	// if one is present. This field will be absent if the table is not being
+	// streamed to or if there is no data in the streaming buffer.
+	StreamingBuffer *Streamingbuffer
+	// Custom encryption configuration (e.g., Cloud KMS keys).
+	EncryptionConfiguration *EncryptionConfiguration
+	// Output only. Contains information about the snapshot. This value is set via
+	// snapshot creation.
+	SnapshotDefinition *SnapshotDefinition
+	// Optional. Defines the default collation specification of new STRING fields
+	// in the table. During table creation or update, if a STRING field is added
+	// to this table without explicit collation specified, then the table inherits
+	// the table default collation. A change to this field affects only fields
+	// added afterwards, and does not alter the existing fields.
+	// The following values are supported:
+	//
+	// * 'und:ci': undetermined locale, case insensitive.
+	// * ”: empty string. Default to case-sensitive behavior.
+	DefaultCollation *wrapperspb.StringValue
+	// Optional. Defines the default rounding mode specification of new decimal
+	// fields (NUMERIC OR BIGNUMERIC) in the table. During table creation or
+	// update, if a decimal field is added to this table without an explicit
+	// rounding mode specified, then the field inherits the table default
+	// rounding mode. Changing this field doesn't affect existing fields.
+	DefaultRoundingMode TableFieldSchema_RoundingMode
+	// Output only. Contains information about the clone. This value is set via
+	// the clone operation.
+	CloneDefinition *CloneDefinition
+	// Output only. Number of physical bytes used by time travel storage (deleted
+	// or changed data). This data is not kept in real time, and might be delayed
+	// by a few seconds to a few minutes.
+	NumTimeTravelPhysicalBytes *wrapperspb.Int64Value
+	// Output only. Total number of logical bytes in the table or materialized
+	// view.
+	NumTotalLogicalBytes *wrapperspb.Int64Value
+	// Output only. Number of logical bytes that are less than 90 days old.
+	NumActiveLogicalBytes *wrapperspb.Int64Value
+	// Output only. Number of logical bytes that are more than 90 days old.
+	NumLongTermLogicalBytes *wrapperspb.Int64Value
+	// Output only. Number of physical bytes used by current live data storage.
+	// This data is not kept in real time, and might be delayed by a few seconds
+	// to a few minutes.
+	NumCurrentPhysicalBytes *wrapperspb.Int64Value
+	// Output only. The physical size of this table in bytes. This also includes
+	// storage used for time travel. This data is not kept in real time, and might
+	// be delayed by a few seconds to a few minutes.
+	NumTotalPhysicalBytes *wrapperspb.Int64Value
+	// Output only. Number of physical bytes less than 90 days old. This data is
+	// not kept in real time, and might be delayed by a few seconds to a few
+	// minutes.
+	NumActivePhysicalBytes *wrapperspb.Int64Value
+	// Output only. Number of physical bytes more than 90 days old.
+	// This data is not kept in real time, and might be delayed by a few seconds
+	// to a few minutes.
+	NumLongTermPhysicalBytes *wrapperspb.Int64Value
+	// Output only. The number of partitions present in the table or materialized
+	// view. This data is not kept in real time, and might be delayed by a few
+	// seconds to a few minutes.
+	NumPartitions *wrapperspb.Int64Value
+	// Optional. The maximum staleness of data that could be returned when the
+	// table (or stale MV) is queried. Staleness encoded as a string encoding
+	// of sql IntervalValue type.
+	MaxStaleness string
+	// Optional. Output only. Restriction config for table. If set, restrict
+	// certain accesses on the table based on the config. See [Data
+	// egress](https://cloud.google.com/bigquery/docs/analytics-hub-introduction#data_egress)
+	// for more details.
+	Restrictions *RestrictionConfig
+	// Optional. Tables Primary Key and Foreign Key information
+	TableConstraints *TableConstraints
+	// Optional. The [tags](https://cloud.google.com/bigquery/docs/tags) attached
+	// to this table. Tag keys are globally unique. Tag key is expected to be in
+	// the namespaced format, for example "123456789012/environment" where
+	// 123456789012 is the ID of the parent organization or project resource for
+	// this tag key. Tag value is expected to be the short name, for example
+	// "Production". See [Tag
+	// definitions](https://cloud.google.com/iam/docs/tags-access-control#definitions)
+	// for more details.
+	ResourceTags map[string]string
+	// Optional. Table replication info for table created `AS REPLICA` DDL like:
+	// `CREATE MATERIALIZED VIEW mv1 AS REPLICA OF src_mv`
+	TableReplicationInfo *TableReplicationInfo
+	// Optional. Output only. Table references of all replicas currently active on
+	// the table.
+	Replicas []*TableReference
+	// Optional. Options defining open source compatible table.
+	ExternalCatalogTableOptions *ExternalCatalogTableOptions
+}
+
+func (b0 Table_builder) Build() *Table {
+	m0 := &Table{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Kind = b.Kind
+	x.Etag = b.Etag
+	x.Id = b.Id
+	x.SelfLink = b.SelfLink
+	x.TableReference = b.TableReference
+	x.FriendlyName = b.FriendlyName
+	x.Description = b.Description
+	x.Labels = b.Labels
+	x.Schema = b.Schema
+	x.TimePartitioning = b.TimePartitioning
+	x.RangePartitioning = b.RangePartitioning
+	x.Clustering = b.Clustering
+	x.RequirePartitionFilter = b.RequirePartitionFilter
+	x.PartitionDefinition = b.PartitionDefinition
+	x.NumBytes = b.NumBytes
+	x.NumPhysicalBytes = b.NumPhysicalBytes
+	x.NumLongTermBytes = b.NumLongTermBytes
+	x.NumRows = b.NumRows
+	x.CreationTime = b.CreationTime
+	x.ExpirationTime = b.ExpirationTime
+	x.LastModifiedTime = b.LastModifiedTime
+	x.Type = b.Type
+	x.View = b.View
+	x.MaterializedView = b.MaterializedView
+	x.MaterializedViewStatus = b.MaterializedViewStatus
+	x.ExternalDataConfiguration = b.ExternalDataConfiguration
+	x.BiglakeConfiguration = b.BiglakeConfiguration
+	x.ManagedTableType = b.ManagedTableType
+	x.Location = b.Location
+	x.StreamingBuffer = b.StreamingBuffer
+	x.EncryptionConfiguration = b.EncryptionConfiguration
+	x.SnapshotDefinition = b.SnapshotDefinition
+	x.DefaultCollation = b.DefaultCollation
+	x.DefaultRoundingMode = b.DefaultRoundingMode
+	x.CloneDefinition = b.CloneDefinition
+	x.NumTimeTravelPhysicalBytes = b.NumTimeTravelPhysicalBytes
+	x.NumTotalLogicalBytes = b.NumTotalLogicalBytes
+	x.NumActiveLogicalBytes = b.NumActiveLogicalBytes
+	x.NumLongTermLogicalBytes = b.NumLongTermLogicalBytes
+	x.NumCurrentPhysicalBytes = b.NumCurrentPhysicalBytes
+	x.NumTotalPhysicalBytes = b.NumTotalPhysicalBytes
+	x.NumActivePhysicalBytes = b.NumActivePhysicalBytes
+	x.NumLongTermPhysicalBytes = b.NumLongTermPhysicalBytes
+	x.NumPartitions = b.NumPartitions
+	x.MaxStaleness = b.MaxStaleness
+	x.Restrictions = b.Restrictions
+	x.TableConstraints = b.TableConstraints
+	x.ResourceTags = b.ResourceTags
+	x.TableReplicationInfo = b.TableReplicationInfo
+	x.Replicas = b.Replicas
+	x.ExternalCatalogTableOptions = b.ExternalCatalogTableOptions
+	return m0
+}
+
 // Request format for getting table metadata.
 type GetTableRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the requested table
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. Dataset ID of the requested table
@@ -1363,11 +2624,6 @@ func (x *GetTableRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetTableRequest.ProtoReflect.Descriptor instead.
-func (*GetTableRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_proto_rawDescGZIP(), []int{9}
-}
-
 func (x *GetTableRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -1403,9 +2659,63 @@ func (x *GetTableRequest) GetView() GetTableRequest_TableMetadataView {
 	return GetTableRequest_TABLE_METADATA_VIEW_UNSPECIFIED
 }
 
+func (x *GetTableRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *GetTableRequest) SetDatasetId(v string) {
+	x.DatasetId = v
+}
+
+func (x *GetTableRequest) SetTableId(v string) {
+	x.TableId = v
+}
+
+func (x *GetTableRequest) SetSelectedFields(v string) {
+	x.SelectedFields = v
+}
+
+func (x *GetTableRequest) SetView(v GetTableRequest_TableMetadataView) {
+	x.View = v
+}
+
+type GetTableRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the requested table
+	ProjectId string
+	// Required. Dataset ID of the requested table
+	DatasetId string
+	// Required. Table ID of the requested table
+	TableId string
+	// List of table schema fields to return (comma-separated).
+	// If unspecified, all fields are returned.
+	// A fieldMask cannot be used here because the fields will automatically be
+	// converted from camelCase to snake_case and the conversion will fail if
+	// there are underscores. Since these are fields in BigQuery table schemas,
+	// underscores are allowed.
+	SelectedFields string
+	// Optional. Specifies the view that determines which table information is
+	// returned. By default, basic table information and storage statistics
+	// (STORAGE_STATS) are returned.
+	View GetTableRequest_TableMetadataView
+}
+
+func (b0 GetTableRequest_builder) Build() *GetTableRequest {
+	m0 := &GetTableRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.DatasetId = b.DatasetId
+	x.TableId = b.TableId
+	x.SelectedFields = b.SelectedFields
+	x.View = b.View
+	return m0
+}
+
 // Request format for inserting table metadata.
 type InsertTableRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the new table
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. Dataset ID of the new table
@@ -1441,11 +2751,6 @@ func (x *InsertTableRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use InsertTableRequest.ProtoReflect.Descriptor instead.
-func (*InsertTableRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_proto_rawDescGZIP(), []int{10}
-}
-
 func (x *InsertTableRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -1467,8 +2772,52 @@ func (x *InsertTableRequest) GetTable() *Table {
 	return nil
 }
 
+func (x *InsertTableRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *InsertTableRequest) SetDatasetId(v string) {
+	x.DatasetId = v
+}
+
+func (x *InsertTableRequest) SetTable(v *Table) {
+	x.Table = v
+}
+
+func (x *InsertTableRequest) HasTable() bool {
+	if x == nil {
+		return false
+	}
+	return x.Table != nil
+}
+
+func (x *InsertTableRequest) ClearTable() {
+	x.Table = nil
+}
+
+type InsertTableRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the new table
+	ProjectId string
+	// Required. Dataset ID of the new table
+	DatasetId string
+	// Required. A tables resource to insert
+	Table *Table
+}
+
+func (b0 InsertTableRequest_builder) Build() *InsertTableRequest {
+	m0 := &InsertTableRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.DatasetId = b.DatasetId
+	x.Table = b.Table
+	return m0
+}
+
 type UpdateOrPatchTableRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the table to update
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. Dataset ID of the table to update
@@ -1508,11 +2857,6 @@ func (x *UpdateOrPatchTableRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateOrPatchTableRequest.ProtoReflect.Descriptor instead.
-func (*UpdateOrPatchTableRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_proto_rawDescGZIP(), []int{11}
-}
-
 func (x *UpdateOrPatchTableRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -1548,9 +2892,67 @@ func (x *UpdateOrPatchTableRequest) GetAutodetectSchema() bool {
 	return false
 }
 
+func (x *UpdateOrPatchTableRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *UpdateOrPatchTableRequest) SetDatasetId(v string) {
+	x.DatasetId = v
+}
+
+func (x *UpdateOrPatchTableRequest) SetTableId(v string) {
+	x.TableId = v
+}
+
+func (x *UpdateOrPatchTableRequest) SetTable(v *Table) {
+	x.Table = v
+}
+
+func (x *UpdateOrPatchTableRequest) SetAutodetectSchema(v bool) {
+	x.AutodetectSchema = v
+}
+
+func (x *UpdateOrPatchTableRequest) HasTable() bool {
+	if x == nil {
+		return false
+	}
+	return x.Table != nil
+}
+
+func (x *UpdateOrPatchTableRequest) ClearTable() {
+	x.Table = nil
+}
+
+type UpdateOrPatchTableRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the table to update
+	ProjectId string
+	// Required. Dataset ID of the table to update
+	DatasetId string
+	// Required. Table ID of the table to update
+	TableId string
+	// Required. A tables resource which will replace or patch the specified table
+	Table *Table
+	// Optional. When true will autodetect schema, else will keep original schema.
+	AutodetectSchema bool
+}
+
+func (b0 UpdateOrPatchTableRequest_builder) Build() *UpdateOrPatchTableRequest {
+	m0 := &UpdateOrPatchTableRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.DatasetId = b.DatasetId
+	x.TableId = b.TableId
+	x.Table = b.Table
+	x.AutodetectSchema = b.AutodetectSchema
+	return m0
+}
+
 // Request format for deleting a table.
 type DeleteTableRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the table to delete
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. Dataset ID of the table to delete
@@ -1586,11 +2988,6 @@ func (x *DeleteTableRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteTableRequest.ProtoReflect.Descriptor instead.
-func (*DeleteTableRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_proto_rawDescGZIP(), []int{12}
-}
-
 func (x *DeleteTableRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -1612,9 +3009,42 @@ func (x *DeleteTableRequest) GetTableId() string {
 	return ""
 }
 
+func (x *DeleteTableRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *DeleteTableRequest) SetDatasetId(v string) {
+	x.DatasetId = v
+}
+
+func (x *DeleteTableRequest) SetTableId(v string) {
+	x.TableId = v
+}
+
+type DeleteTableRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the table to delete
+	ProjectId string
+	// Required. Dataset ID of the table to delete
+	DatasetId string
+	// Required. Table ID of the table to delete
+	TableId string
+}
+
+func (b0 DeleteTableRequest_builder) Build() *DeleteTableRequest {
+	m0 := &DeleteTableRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.DatasetId = b.DatasetId
+	x.TableId = b.TableId
+	return m0
+}
+
 // Request format for enumerating tables.
 type ListTablesRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the tables to list
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. Dataset ID of the tables to list
@@ -1654,11 +3084,6 @@ func (x *ListTablesRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListTablesRequest.ProtoReflect.Descriptor instead.
-func (*ListTablesRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_proto_rawDescGZIP(), []int{13}
-}
-
 func (x *ListTablesRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -1687,9 +3112,62 @@ func (x *ListTablesRequest) GetPageToken() string {
 	return ""
 }
 
+func (x *ListTablesRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *ListTablesRequest) SetDatasetId(v string) {
+	x.DatasetId = v
+}
+
+func (x *ListTablesRequest) SetMaxResults(v *wrapperspb.UInt32Value) {
+	x.MaxResults = v
+}
+
+func (x *ListTablesRequest) SetPageToken(v string) {
+	x.PageToken = v
+}
+
+func (x *ListTablesRequest) HasMaxResults() bool {
+	if x == nil {
+		return false
+	}
+	return x.MaxResults != nil
+}
+
+func (x *ListTablesRequest) ClearMaxResults() {
+	x.MaxResults = nil
+}
+
+type ListTablesRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the tables to list
+	ProjectId string
+	// Required. Dataset ID of the tables to list
+	DatasetId string
+	// The maximum number of results to return in a single response page.
+	// Leverage the page tokens to iterate through the entire collection.
+	MaxResults *wrapperspb.UInt32Value
+	// Page token, returned by a previous call, to request the next page of
+	// results
+	PageToken string
+}
+
+func (b0 ListTablesRequest_builder) Build() *ListTablesRequest {
+	m0 := &ListTablesRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.DatasetId = b.DatasetId
+	x.MaxResults = b.MaxResults
+	x.PageToken = b.PageToken
+	return m0
+}
+
 // Information about a logical view.
 type ListFormatView struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// True if view is defined in legacy SQL dialect,
 	// false if in GoogleSQL.
 	UseLegacySql *wrapperspb.BoolValue `protobuf:"bytes,1,opt,name=use_legacy_sql,json=useLegacySql,proto3" json:"use_legacy_sql,omitempty"`
@@ -1724,11 +3202,6 @@ func (x *ListFormatView) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListFormatView.ProtoReflect.Descriptor instead.
-func (*ListFormatView) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_proto_rawDescGZIP(), []int{14}
-}
-
 func (x *ListFormatView) GetUseLegacySql() *wrapperspb.BoolValue {
 	if x != nil {
 		return x.UseLegacySql
@@ -1743,8 +3216,57 @@ func (x *ListFormatView) GetPrivacyPolicy() *PrivacyPolicy {
 	return nil
 }
 
+func (x *ListFormatView) SetUseLegacySql(v *wrapperspb.BoolValue) {
+	x.UseLegacySql = v
+}
+
+func (x *ListFormatView) SetPrivacyPolicy(v *PrivacyPolicy) {
+	x.PrivacyPolicy = v
+}
+
+func (x *ListFormatView) HasUseLegacySql() bool {
+	if x == nil {
+		return false
+	}
+	return x.UseLegacySql != nil
+}
+
+func (x *ListFormatView) HasPrivacyPolicy() bool {
+	if x == nil {
+		return false
+	}
+	return x.PrivacyPolicy != nil
+}
+
+func (x *ListFormatView) ClearUseLegacySql() {
+	x.UseLegacySql = nil
+}
+
+func (x *ListFormatView) ClearPrivacyPolicy() {
+	x.PrivacyPolicy = nil
+}
+
+type ListFormatView_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// True if view is defined in legacy SQL dialect,
+	// false if in GoogleSQL.
+	UseLegacySql *wrapperspb.BoolValue
+	// Specifies the privacy policy for the view.
+	PrivacyPolicy *PrivacyPolicy
+}
+
+func (b0 ListFormatView_builder) Build() *ListFormatView {
+	m0 := &ListFormatView{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.UseLegacySql = b.UseLegacySql
+	x.PrivacyPolicy = b.PrivacyPolicy
+	return m0
+}
+
 type ListFormatTable struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The resource type.
 	Kind string `protobuf:"bytes,1,opt,name=kind,proto3" json:"kind,omitempty"`
 	// An opaque ID of the table.
@@ -1803,11 +3325,6 @@ func (x *ListFormatTable) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListFormatTable.ProtoReflect.Descriptor instead.
-func (*ListFormatTable) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *ListFormatTable) GetKind() string {
@@ -1901,9 +3418,194 @@ func (x *ListFormatTable) GetRequirePartitionFilter() *wrapperspb.BoolValue {
 	return nil
 }
 
+func (x *ListFormatTable) SetKind(v string) {
+	x.Kind = v
+}
+
+func (x *ListFormatTable) SetId(v string) {
+	x.Id = v
+}
+
+func (x *ListFormatTable) SetTableReference(v *TableReference) {
+	x.TableReference = v
+}
+
+func (x *ListFormatTable) SetFriendlyName(v *wrapperspb.StringValue) {
+	x.FriendlyName = v
+}
+
+func (x *ListFormatTable) SetType(v string) {
+	x.Type = v
+}
+
+func (x *ListFormatTable) SetTimePartitioning(v *TimePartitioning) {
+	x.TimePartitioning = v
+}
+
+func (x *ListFormatTable) SetRangePartitioning(v *RangePartitioning) {
+	x.RangePartitioning = v
+}
+
+func (x *ListFormatTable) SetClustering(v *Clustering) {
+	x.Clustering = v
+}
+
+func (x *ListFormatTable) SetLabels(v map[string]string) {
+	x.Labels = v
+}
+
+func (x *ListFormatTable) SetView(v *ListFormatView) {
+	x.View = v
+}
+
+func (x *ListFormatTable) SetCreationTime(v int64) {
+	x.CreationTime = v
+}
+
+func (x *ListFormatTable) SetExpirationTime(v int64) {
+	x.ExpirationTime = v
+}
+
+func (x *ListFormatTable) SetRequirePartitionFilter(v *wrapperspb.BoolValue) {
+	x.RequirePartitionFilter = v
+}
+
+func (x *ListFormatTable) HasTableReference() bool {
+	if x == nil {
+		return false
+	}
+	return x.TableReference != nil
+}
+
+func (x *ListFormatTable) HasFriendlyName() bool {
+	if x == nil {
+		return false
+	}
+	return x.FriendlyName != nil
+}
+
+func (x *ListFormatTable) HasTimePartitioning() bool {
+	if x == nil {
+		return false
+	}
+	return x.TimePartitioning != nil
+}
+
+func (x *ListFormatTable) HasRangePartitioning() bool {
+	if x == nil {
+		return false
+	}
+	return x.RangePartitioning != nil
+}
+
+func (x *ListFormatTable) HasClustering() bool {
+	if x == nil {
+		return false
+	}
+	return x.Clustering != nil
+}
+
+func (x *ListFormatTable) HasView() bool {
+	if x == nil {
+		return false
+	}
+	return x.View != nil
+}
+
+func (x *ListFormatTable) HasRequirePartitionFilter() bool {
+	if x == nil {
+		return false
+	}
+	return x.RequirePartitionFilter != nil
+}
+
+func (x *ListFormatTable) ClearTableReference() {
+	x.TableReference = nil
+}
+
+func (x *ListFormatTable) ClearFriendlyName() {
+	x.FriendlyName = nil
+}
+
+func (x *ListFormatTable) ClearTimePartitioning() {
+	x.TimePartitioning = nil
+}
+
+func (x *ListFormatTable) ClearRangePartitioning() {
+	x.RangePartitioning = nil
+}
+
+func (x *ListFormatTable) ClearClustering() {
+	x.Clustering = nil
+}
+
+func (x *ListFormatTable) ClearView() {
+	x.View = nil
+}
+
+func (x *ListFormatTable) ClearRequirePartitionFilter() {
+	x.RequirePartitionFilter = nil
+}
+
+type ListFormatTable_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The resource type.
+	Kind string
+	// An opaque ID of the table.
+	Id string
+	// A reference uniquely identifying table.
+	TableReference *TableReference
+	// The user-friendly name for this table.
+	FriendlyName *wrapperspb.StringValue
+	// The type of table.
+	Type string
+	// The time-based partitioning for this table.
+	TimePartitioning *TimePartitioning
+	// The range partitioning for this table.
+	RangePartitioning *RangePartitioning
+	// Clustering specification for this table, if configured.
+	Clustering *Clustering
+	// The labels associated with this table. You can use these to organize
+	// and group your tables.
+	Labels map[string]string
+	// Additional details for a view.
+	View *ListFormatView
+	// Output only. The time when this table was created, in milliseconds since
+	// the epoch.
+	CreationTime int64
+	// The time when this table expires, in milliseconds since the
+	// epoch. If not present, the table will persist indefinitely. Expired tables
+	// will be deleted and their storage reclaimed.
+	ExpirationTime int64
+	// Optional. If set to true, queries including this table must specify a
+	// partition filter. This filter is used for partition elimination.
+	RequirePartitionFilter *wrapperspb.BoolValue
+}
+
+func (b0 ListFormatTable_builder) Build() *ListFormatTable {
+	m0 := &ListFormatTable{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Kind = b.Kind
+	x.Id = b.Id
+	x.TableReference = b.TableReference
+	x.FriendlyName = b.FriendlyName
+	x.Type = b.Type
+	x.TimePartitioning = b.TimePartitioning
+	x.RangePartitioning = b.RangePartitioning
+	x.Clustering = b.Clustering
+	x.Labels = b.Labels
+	x.View = b.View
+	x.CreationTime = b.CreationTime
+	x.ExpirationTime = b.ExpirationTime
+	x.RequirePartitionFilter = b.RequirePartitionFilter
+	return m0
+}
+
 // Partial projection of the metadata for a given table in a list response.
 type TableList struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The type of list.
 	Kind string `protobuf:"bytes,1,opt,name=kind,proto3" json:"kind,omitempty"`
 	// A hash of this page of results.
@@ -1943,11 +3645,6 @@ func (x *TableList) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TableList.ProtoReflect.Descriptor instead.
-func (*TableList) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_table_proto_rawDescGZIP(), []int{16}
-}
-
 func (x *TableList) GetKind() string {
 	if x != nil {
 		return x.Kind
@@ -1981,6 +3678,64 @@ func (x *TableList) GetTotalItems() *wrapperspb.Int32Value {
 		return x.TotalItems
 	}
 	return nil
+}
+
+func (x *TableList) SetKind(v string) {
+	x.Kind = v
+}
+
+func (x *TableList) SetEtag(v string) {
+	x.Etag = v
+}
+
+func (x *TableList) SetNextPageToken(v string) {
+	x.NextPageToken = v
+}
+
+func (x *TableList) SetTables(v []*ListFormatTable) {
+	x.Tables = v
+}
+
+func (x *TableList) SetTotalItems(v *wrapperspb.Int32Value) {
+	x.TotalItems = v
+}
+
+func (x *TableList) HasTotalItems() bool {
+	if x == nil {
+		return false
+	}
+	return x.TotalItems != nil
+}
+
+func (x *TableList) ClearTotalItems() {
+	x.TotalItems = nil
+}
+
+type TableList_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The type of list.
+	Kind string
+	// A hash of this page of results.
+	Etag string
+	// A token to request the next page of results.
+	NextPageToken string
+	// Tables in the requested dataset.
+	Tables []*ListFormatTable
+	// The total number of tables in the dataset.
+	TotalItems *wrapperspb.Int32Value
+}
+
+func (b0 TableList_builder) Build() *TableList {
+	m0 := &TableList{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Kind = b.Kind
+	x.Etag = b.Etag
+	x.NextPageToken = b.NextPageToken
+	x.Tables = b.Tables
+	x.TotalItems = b.TotalItems
+	return m0
 }
 
 var File_google_cloud_bigquery_v2_table_proto protoreflect.FileDescriptor
@@ -2177,18 +3932,6 @@ const file_google_cloud_bigquery_v2_table_proto_rawDesc = "" +
 	"ListTables\x12+.google.cloud.bigquery.v2.ListTablesRequest\x1a#.google.cloud.bigquery.v2.TableList\"K\x82\xd3\xe4\x93\x02E\x12C/bigquery/v2/projects/{project_id=*}/datasets/{dataset_id=*}/tables\x1a\xae\x01\xcaA\x17bigquery.googleapis.com\xd2A\x90\x01https://www.googleapis.com/auth/bigquery,https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-onlyBg\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\n" +
 	"TableProtoZ;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_table_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_table_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_table_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_table_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_table_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_table_proto_rawDesc), len(file_google_cloud_bigquery_v2_table_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_table_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_table_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_google_cloud_bigquery_v2_table_proto_msgTypes = make([]protoimpl.MessageInfo, 20)

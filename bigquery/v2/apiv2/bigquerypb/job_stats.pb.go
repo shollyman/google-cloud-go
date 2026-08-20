@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/job_stats.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -95,11 +96,6 @@ func (x ReservationEdition) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use ReservationEdition.Descriptor instead.
-func (ReservationEdition) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{0}
-}
-
 // Indicates the type of compute mode.
 type ExplainQueryStage_ComputeMode int32
 
@@ -146,11 +142,6 @@ func (ExplainQueryStage_ComputeMode) Type() protoreflect.EnumType {
 
 func (x ExplainQueryStage_ComputeMode) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use ExplainQueryStage_ComputeMode.Descriptor instead.
-func (ExplainQueryStage_ComputeMode) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{1, 0}
 }
 
 // Indicates the high-level reason for no/partial acceleration
@@ -217,11 +208,6 @@ func (x BiEngineReason_Code) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use BiEngineReason_Code.Descriptor instead.
-func (BiEngineReason_Code) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{5, 0}
-}
-
 // Indicates the type of BI Engine acceleration.
 type BiEngineStatistics_BiEngineMode int32
 
@@ -275,11 +261,6 @@ func (BiEngineStatistics_BiEngineMode) Type() protoreflect.EnumType {
 
 func (x BiEngineStatistics_BiEngineMode) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use BiEngineStatistics_BiEngineMode.Descriptor instead.
-func (BiEngineStatistics_BiEngineMode) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{6, 0}
 }
 
 // Indicates the type of BI Engine acceleration.
@@ -339,11 +320,6 @@ func (BiEngineStatistics_BiEngineAccelerationMode) Type() protoreflect.EnumType 
 
 func (x BiEngineStatistics_BiEngineAccelerationMode) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use BiEngineStatistics_BiEngineAccelerationMode.Descriptor instead.
-func (BiEngineStatistics_BiEngineAccelerationMode) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{6, 1}
 }
 
 // Indicates the high-level reason for the scenario when no search index was
@@ -496,11 +472,6 @@ func (x IndexUnusedReason_Code) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use IndexUnusedReason_Code.Descriptor instead.
-func (IndexUnusedReason_Code) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{7, 0}
-}
-
 // Indicates the high-level reason for the scenario when stored columns
 // cannot be used in the query.
 type StoredColumnsUsage_StoredColumnsUnusedReason_Code int32
@@ -567,11 +538,6 @@ func (x StoredColumnsUsage_StoredColumnsUnusedReason_Code) Number() protoreflect
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use StoredColumnsUsage_StoredColumnsUnusedReason_Code.Descriptor instead.
-func (StoredColumnsUsage_StoredColumnsUnusedReason_Code) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{9, 0, 0}
-}
-
 // Indicates the type of search index usage in the entire search query. In
 // this context, "usage" means that an index lookup is attempted to prune
 // base table data, with effectiveness depending on the selectivity of the
@@ -632,11 +598,6 @@ func (x SearchStatistics_IndexUsageMode) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use SearchStatistics_IndexUsageMode.Descriptor instead.
-func (SearchStatistics_IndexUsageMode) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{10, 0}
-}
-
 // Indicates the type of vector index usage in the entire vector search query.
 type VectorSearchStatistics_IndexUsageMode int32
 
@@ -695,11 +656,6 @@ func (x VectorSearchStatistics_IndexUsageMode) Number() protoreflect.EnumNumber 
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use VectorSearchStatistics_IndexUsageMode.Descriptor instead.
-func (VectorSearchStatistics_IndexUsageMode) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{11, 0}
-}
-
 // Reason why incremental query results are/were not written by the query.
 type IncrementalResultStats_DisabledReason int32
 
@@ -747,11 +703,6 @@ func (IncrementalResultStats_DisabledReason) Type() protoreflect.EnumType {
 
 func (x IncrementalResultStats_DisabledReason) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use IncrementalResultStats_DisabledReason.Descriptor instead.
-func (IncrementalResultStats_DisabledReason) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{14, 0}
 }
 
 // The cloud provider hosting the object storage.
@@ -806,11 +757,6 @@ func (x ObjectStorageStats_CloudProvider) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use ObjectStorageStats_CloudProvider.Descriptor instead.
-func (ObjectStorageStats_CloudProvider) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{16, 0}
-}
-
 // Training type.
 type MlStatistics_TrainingType int32
 
@@ -858,11 +804,6 @@ func (MlStatistics_TrainingType) Type() protoreflect.EnumType {
 
 func (x MlStatistics_TrainingType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use MlStatistics_TrainingType.Descriptor instead.
-func (MlStatistics_TrainingType) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{20, 0}
 }
 
 // Describes how the job is evaluated.
@@ -913,11 +854,6 @@ func (x ScriptStatistics_EvaluationKind) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use ScriptStatistics_EvaluationKind.Descriptor instead.
-func (ScriptStatistics_EvaluationKind) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{21, 0}
-}
-
 // Enum to specify the DML mode used.
 type DmlStats_DmlMode int32
 
@@ -964,11 +900,6 @@ func (DmlStats_DmlMode) Type() protoreflect.EnumType {
 
 func (x DmlStats_DmlMode) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use DmlStats_DmlMode.Descriptor instead.
-func (DmlStats_DmlMode) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{25, 0}
 }
 
 // Reason for disabling fine-grained DML. Additional values may be added in
@@ -1023,11 +954,6 @@ func (DmlStats_FineGrainedDmlUnusedReason) Type() protoreflect.EnumType {
 
 func (x DmlStats_FineGrainedDmlUnusedReason) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use DmlStats_FineGrainedDmlUnusedReason.Descriptor instead.
-func (DmlStats_FineGrainedDmlUnusedReason) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{25, 1}
 }
 
 // Reason why a materialized view was not chosen for a query. For more
@@ -1128,11 +1054,6 @@ func (x MaterializedView_RejectedReason) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use MaterializedView_RejectedReason.Descriptor instead.
-func (MaterializedView_RejectedReason) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{36, 0}
-}
-
 // Reasons for not using metadata caching.
 type TableMetadataCacheUsage_UnusedReason int32
 
@@ -1187,14 +1108,9 @@ func (x TableMetadataCacheUsage_UnusedReason) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use TableMetadataCacheUsage_UnusedReason.Descriptor instead.
-func (TableMetadataCacheUsage_UnusedReason) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{38, 0}
-}
-
 // An operation within a stage.
 type ExplainQueryStep struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Machine-readable operation type.
 	Kind string `protobuf:"bytes,1,opt,name=kind,proto3" json:"kind,omitempty"`
 	// Human-readable description of the step(s).
@@ -1228,11 +1144,6 @@ func (x *ExplainQueryStep) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ExplainQueryStep.ProtoReflect.Descriptor instead.
-func (*ExplainQueryStep) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *ExplainQueryStep) GetKind() string {
 	if x != nil {
 		return x.Kind
@@ -1247,9 +1158,35 @@ func (x *ExplainQueryStep) GetSubsteps() []string {
 	return nil
 }
 
+func (x *ExplainQueryStep) SetKind(v string) {
+	x.Kind = v
+}
+
+func (x *ExplainQueryStep) SetSubsteps(v []string) {
+	x.Substeps = v
+}
+
+type ExplainQueryStep_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Machine-readable operation type.
+	Kind string
+	// Human-readable description of the step(s).
+	Substeps []string
+}
+
+func (b0 ExplainQueryStep_builder) Build() *ExplainQueryStep {
+	m0 := &ExplainQueryStep{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Kind = b.Kind
+	x.Substeps = b.Substeps
+	return m0
+}
+
 // A single stage of query execution.
 type ExplainQueryStage struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Human-readable name for the stage.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Unique ID for the stage within the plan.
@@ -1342,11 +1279,6 @@ func (x *ExplainQueryStage) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ExplainQueryStage.ProtoReflect.Descriptor instead.
-func (*ExplainQueryStage) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *ExplainQueryStage) GetName() string {
@@ -1566,9 +1498,505 @@ func (x *ExplainQueryStage) GetComputeMode() ExplainQueryStage_ComputeMode {
 	return ExplainQueryStage_COMPUTE_MODE_UNSPECIFIED
 }
 
+func (x *ExplainQueryStage) SetName(v string) {
+	x.Name = v
+}
+
+func (x *ExplainQueryStage) SetId(v *wrapperspb.Int64Value) {
+	x.Id = v
+}
+
+func (x *ExplainQueryStage) SetStartMs(v int64) {
+	x.StartMs = v
+}
+
+func (x *ExplainQueryStage) SetEndMs(v int64) {
+	x.EndMs = v
+}
+
+func (x *ExplainQueryStage) SetInputStages(v []int64) {
+	x.InputStages = v
+}
+
+func (x *ExplainQueryStage) SetWaitRatioAvg(v *wrapperspb.DoubleValue) {
+	x.WaitRatioAvg = v
+}
+
+func (x *ExplainQueryStage) SetWaitMsAvg(v *wrapperspb.Int64Value) {
+	x.WaitMsAvg = v
+}
+
+func (x *ExplainQueryStage) SetWaitRatioMax(v *wrapperspb.DoubleValue) {
+	x.WaitRatioMax = v
+}
+
+func (x *ExplainQueryStage) SetWaitMsMax(v *wrapperspb.Int64Value) {
+	x.WaitMsMax = v
+}
+
+func (x *ExplainQueryStage) SetReadRatioAvg(v *wrapperspb.DoubleValue) {
+	x.ReadRatioAvg = v
+}
+
+func (x *ExplainQueryStage) SetReadMsAvg(v *wrapperspb.Int64Value) {
+	x.ReadMsAvg = v
+}
+
+func (x *ExplainQueryStage) SetReadRatioMax(v *wrapperspb.DoubleValue) {
+	x.ReadRatioMax = v
+}
+
+func (x *ExplainQueryStage) SetReadMsMax(v *wrapperspb.Int64Value) {
+	x.ReadMsMax = v
+}
+
+func (x *ExplainQueryStage) SetComputeRatioAvg(v *wrapperspb.DoubleValue) {
+	x.ComputeRatioAvg = v
+}
+
+func (x *ExplainQueryStage) SetComputeMsAvg(v *wrapperspb.Int64Value) {
+	x.ComputeMsAvg = v
+}
+
+func (x *ExplainQueryStage) SetComputeRatioMax(v *wrapperspb.DoubleValue) {
+	x.ComputeRatioMax = v
+}
+
+func (x *ExplainQueryStage) SetComputeMsMax(v *wrapperspb.Int64Value) {
+	x.ComputeMsMax = v
+}
+
+func (x *ExplainQueryStage) SetWriteRatioAvg(v *wrapperspb.DoubleValue) {
+	x.WriteRatioAvg = v
+}
+
+func (x *ExplainQueryStage) SetWriteMsAvg(v *wrapperspb.Int64Value) {
+	x.WriteMsAvg = v
+}
+
+func (x *ExplainQueryStage) SetWriteRatioMax(v *wrapperspb.DoubleValue) {
+	x.WriteRatioMax = v
+}
+
+func (x *ExplainQueryStage) SetWriteMsMax(v *wrapperspb.Int64Value) {
+	x.WriteMsMax = v
+}
+
+func (x *ExplainQueryStage) SetShuffleOutputBytes(v *wrapperspb.Int64Value) {
+	x.ShuffleOutputBytes = v
+}
+
+func (x *ExplainQueryStage) SetShuffleOutputBytesSpilled(v *wrapperspb.Int64Value) {
+	x.ShuffleOutputBytesSpilled = v
+}
+
+func (x *ExplainQueryStage) SetRecordsRead(v *wrapperspb.Int64Value) {
+	x.RecordsRead = v
+}
+
+func (x *ExplainQueryStage) SetRecordsWritten(v *wrapperspb.Int64Value) {
+	x.RecordsWritten = v
+}
+
+func (x *ExplainQueryStage) SetParallelInputs(v *wrapperspb.Int64Value) {
+	x.ParallelInputs = v
+}
+
+func (x *ExplainQueryStage) SetCompletedParallelInputs(v *wrapperspb.Int64Value) {
+	x.CompletedParallelInputs = v
+}
+
+func (x *ExplainQueryStage) SetStatus(v string) {
+	x.Status = v
+}
+
+func (x *ExplainQueryStage) SetSteps(v []*ExplainQueryStep) {
+	x.Steps = v
+}
+
+func (x *ExplainQueryStage) SetSlotMs(v *wrapperspb.Int64Value) {
+	x.SlotMs = v
+}
+
+func (x *ExplainQueryStage) SetComputeMode(v ExplainQueryStage_ComputeMode) {
+	x.ComputeMode = v
+}
+
+func (x *ExplainQueryStage) HasId() bool {
+	if x == nil {
+		return false
+	}
+	return x.Id != nil
+}
+
+func (x *ExplainQueryStage) HasWaitRatioAvg() bool {
+	if x == nil {
+		return false
+	}
+	return x.WaitRatioAvg != nil
+}
+
+func (x *ExplainQueryStage) HasWaitMsAvg() bool {
+	if x == nil {
+		return false
+	}
+	return x.WaitMsAvg != nil
+}
+
+func (x *ExplainQueryStage) HasWaitRatioMax() bool {
+	if x == nil {
+		return false
+	}
+	return x.WaitRatioMax != nil
+}
+
+func (x *ExplainQueryStage) HasWaitMsMax() bool {
+	if x == nil {
+		return false
+	}
+	return x.WaitMsMax != nil
+}
+
+func (x *ExplainQueryStage) HasReadRatioAvg() bool {
+	if x == nil {
+		return false
+	}
+	return x.ReadRatioAvg != nil
+}
+
+func (x *ExplainQueryStage) HasReadMsAvg() bool {
+	if x == nil {
+		return false
+	}
+	return x.ReadMsAvg != nil
+}
+
+func (x *ExplainQueryStage) HasReadRatioMax() bool {
+	if x == nil {
+		return false
+	}
+	return x.ReadRatioMax != nil
+}
+
+func (x *ExplainQueryStage) HasReadMsMax() bool {
+	if x == nil {
+		return false
+	}
+	return x.ReadMsMax != nil
+}
+
+func (x *ExplainQueryStage) HasComputeRatioAvg() bool {
+	if x == nil {
+		return false
+	}
+	return x.ComputeRatioAvg != nil
+}
+
+func (x *ExplainQueryStage) HasComputeMsAvg() bool {
+	if x == nil {
+		return false
+	}
+	return x.ComputeMsAvg != nil
+}
+
+func (x *ExplainQueryStage) HasComputeRatioMax() bool {
+	if x == nil {
+		return false
+	}
+	return x.ComputeRatioMax != nil
+}
+
+func (x *ExplainQueryStage) HasComputeMsMax() bool {
+	if x == nil {
+		return false
+	}
+	return x.ComputeMsMax != nil
+}
+
+func (x *ExplainQueryStage) HasWriteRatioAvg() bool {
+	if x == nil {
+		return false
+	}
+	return x.WriteRatioAvg != nil
+}
+
+func (x *ExplainQueryStage) HasWriteMsAvg() bool {
+	if x == nil {
+		return false
+	}
+	return x.WriteMsAvg != nil
+}
+
+func (x *ExplainQueryStage) HasWriteRatioMax() bool {
+	if x == nil {
+		return false
+	}
+	return x.WriteRatioMax != nil
+}
+
+func (x *ExplainQueryStage) HasWriteMsMax() bool {
+	if x == nil {
+		return false
+	}
+	return x.WriteMsMax != nil
+}
+
+func (x *ExplainQueryStage) HasShuffleOutputBytes() bool {
+	if x == nil {
+		return false
+	}
+	return x.ShuffleOutputBytes != nil
+}
+
+func (x *ExplainQueryStage) HasShuffleOutputBytesSpilled() bool {
+	if x == nil {
+		return false
+	}
+	return x.ShuffleOutputBytesSpilled != nil
+}
+
+func (x *ExplainQueryStage) HasRecordsRead() bool {
+	if x == nil {
+		return false
+	}
+	return x.RecordsRead != nil
+}
+
+func (x *ExplainQueryStage) HasRecordsWritten() bool {
+	if x == nil {
+		return false
+	}
+	return x.RecordsWritten != nil
+}
+
+func (x *ExplainQueryStage) HasParallelInputs() bool {
+	if x == nil {
+		return false
+	}
+	return x.ParallelInputs != nil
+}
+
+func (x *ExplainQueryStage) HasCompletedParallelInputs() bool {
+	if x == nil {
+		return false
+	}
+	return x.CompletedParallelInputs != nil
+}
+
+func (x *ExplainQueryStage) HasSlotMs() bool {
+	if x == nil {
+		return false
+	}
+	return x.SlotMs != nil
+}
+
+func (x *ExplainQueryStage) ClearId() {
+	x.Id = nil
+}
+
+func (x *ExplainQueryStage) ClearWaitRatioAvg() {
+	x.WaitRatioAvg = nil
+}
+
+func (x *ExplainQueryStage) ClearWaitMsAvg() {
+	x.WaitMsAvg = nil
+}
+
+func (x *ExplainQueryStage) ClearWaitRatioMax() {
+	x.WaitRatioMax = nil
+}
+
+func (x *ExplainQueryStage) ClearWaitMsMax() {
+	x.WaitMsMax = nil
+}
+
+func (x *ExplainQueryStage) ClearReadRatioAvg() {
+	x.ReadRatioAvg = nil
+}
+
+func (x *ExplainQueryStage) ClearReadMsAvg() {
+	x.ReadMsAvg = nil
+}
+
+func (x *ExplainQueryStage) ClearReadRatioMax() {
+	x.ReadRatioMax = nil
+}
+
+func (x *ExplainQueryStage) ClearReadMsMax() {
+	x.ReadMsMax = nil
+}
+
+func (x *ExplainQueryStage) ClearComputeRatioAvg() {
+	x.ComputeRatioAvg = nil
+}
+
+func (x *ExplainQueryStage) ClearComputeMsAvg() {
+	x.ComputeMsAvg = nil
+}
+
+func (x *ExplainQueryStage) ClearComputeRatioMax() {
+	x.ComputeRatioMax = nil
+}
+
+func (x *ExplainQueryStage) ClearComputeMsMax() {
+	x.ComputeMsMax = nil
+}
+
+func (x *ExplainQueryStage) ClearWriteRatioAvg() {
+	x.WriteRatioAvg = nil
+}
+
+func (x *ExplainQueryStage) ClearWriteMsAvg() {
+	x.WriteMsAvg = nil
+}
+
+func (x *ExplainQueryStage) ClearWriteRatioMax() {
+	x.WriteRatioMax = nil
+}
+
+func (x *ExplainQueryStage) ClearWriteMsMax() {
+	x.WriteMsMax = nil
+}
+
+func (x *ExplainQueryStage) ClearShuffleOutputBytes() {
+	x.ShuffleOutputBytes = nil
+}
+
+func (x *ExplainQueryStage) ClearShuffleOutputBytesSpilled() {
+	x.ShuffleOutputBytesSpilled = nil
+}
+
+func (x *ExplainQueryStage) ClearRecordsRead() {
+	x.RecordsRead = nil
+}
+
+func (x *ExplainQueryStage) ClearRecordsWritten() {
+	x.RecordsWritten = nil
+}
+
+func (x *ExplainQueryStage) ClearParallelInputs() {
+	x.ParallelInputs = nil
+}
+
+func (x *ExplainQueryStage) ClearCompletedParallelInputs() {
+	x.CompletedParallelInputs = nil
+}
+
+func (x *ExplainQueryStage) ClearSlotMs() {
+	x.SlotMs = nil
+}
+
+type ExplainQueryStage_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Human-readable name for the stage.
+	Name string
+	// Unique ID for the stage within the plan.
+	Id *wrapperspb.Int64Value
+	// Stage start time represented as milliseconds since the epoch.
+	StartMs int64
+	// Stage end time represented as milliseconds since the epoch.
+	EndMs int64
+	// IDs for stages that are inputs to this stage.
+	InputStages []int64
+	// Relative amount of time the average shard spent waiting to be
+	// scheduled.
+	WaitRatioAvg *wrapperspb.DoubleValue
+	// Milliseconds the average shard spent waiting to be scheduled.
+	WaitMsAvg *wrapperspb.Int64Value
+	// Relative amount of time the slowest shard spent waiting to be
+	// scheduled.
+	WaitRatioMax *wrapperspb.DoubleValue
+	// Milliseconds the slowest shard spent waiting to be scheduled.
+	WaitMsMax *wrapperspb.Int64Value
+	// Relative amount of time the average shard spent reading input.
+	ReadRatioAvg *wrapperspb.DoubleValue
+	// Milliseconds the average shard spent reading input.
+	ReadMsAvg *wrapperspb.Int64Value
+	// Relative amount of time the slowest shard spent reading input.
+	ReadRatioMax *wrapperspb.DoubleValue
+	// Milliseconds the slowest shard spent reading input.
+	ReadMsMax *wrapperspb.Int64Value
+	// Relative amount of time the average shard spent on CPU-bound tasks.
+	ComputeRatioAvg *wrapperspb.DoubleValue
+	// Milliseconds the average shard spent on CPU-bound tasks.
+	ComputeMsAvg *wrapperspb.Int64Value
+	// Relative amount of time the slowest shard spent on CPU-bound tasks.
+	ComputeRatioMax *wrapperspb.DoubleValue
+	// Milliseconds the slowest shard spent on CPU-bound tasks.
+	ComputeMsMax *wrapperspb.Int64Value
+	// Relative amount of time the average shard spent on writing output.
+	WriteRatioAvg *wrapperspb.DoubleValue
+	// Milliseconds the average shard spent on writing output.
+	WriteMsAvg *wrapperspb.Int64Value
+	// Relative amount of time the slowest shard spent on writing output.
+	WriteRatioMax *wrapperspb.DoubleValue
+	// Milliseconds the slowest shard spent on writing output.
+	WriteMsMax *wrapperspb.Int64Value
+	// Total number of bytes written to shuffle.
+	ShuffleOutputBytes *wrapperspb.Int64Value
+	// Total number of bytes written to shuffle and spilled to disk.
+	ShuffleOutputBytesSpilled *wrapperspb.Int64Value
+	// Number of records read into the stage.
+	RecordsRead *wrapperspb.Int64Value
+	// Number of records written by the stage.
+	RecordsWritten *wrapperspb.Int64Value
+	// Number of parallel input segments to be processed
+	ParallelInputs *wrapperspb.Int64Value
+	// Number of parallel input segments completed.
+	CompletedParallelInputs *wrapperspb.Int64Value
+	// Current status for this stage.
+	Status string
+	// List of operations within the stage in dependency order (approximately
+	// chronological).
+	Steps []*ExplainQueryStep
+	// Slot-milliseconds used by the stage.
+	SlotMs *wrapperspb.Int64Value
+	// Output only. Compute mode for this stage.
+	ComputeMode ExplainQueryStage_ComputeMode
+}
+
+func (b0 ExplainQueryStage_builder) Build() *ExplainQueryStage {
+	m0 := &ExplainQueryStage{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Name = b.Name
+	x.Id = b.Id
+	x.StartMs = b.StartMs
+	x.EndMs = b.EndMs
+	x.InputStages = b.InputStages
+	x.WaitRatioAvg = b.WaitRatioAvg
+	x.WaitMsAvg = b.WaitMsAvg
+	x.WaitRatioMax = b.WaitRatioMax
+	x.WaitMsMax = b.WaitMsMax
+	x.ReadRatioAvg = b.ReadRatioAvg
+	x.ReadMsAvg = b.ReadMsAvg
+	x.ReadRatioMax = b.ReadRatioMax
+	x.ReadMsMax = b.ReadMsMax
+	x.ComputeRatioAvg = b.ComputeRatioAvg
+	x.ComputeMsAvg = b.ComputeMsAvg
+	x.ComputeRatioMax = b.ComputeRatioMax
+	x.ComputeMsMax = b.ComputeMsMax
+	x.WriteRatioAvg = b.WriteRatioAvg
+	x.WriteMsAvg = b.WriteMsAvg
+	x.WriteRatioMax = b.WriteRatioMax
+	x.WriteMsMax = b.WriteMsMax
+	x.ShuffleOutputBytes = b.ShuffleOutputBytes
+	x.ShuffleOutputBytesSpilled = b.ShuffleOutputBytesSpilled
+	x.RecordsRead = b.RecordsRead
+	x.RecordsWritten = b.RecordsWritten
+	x.ParallelInputs = b.ParallelInputs
+	x.CompletedParallelInputs = b.CompletedParallelInputs
+	x.Status = b.Status
+	x.Steps = b.Steps
+	x.SlotMs = b.SlotMs
+	x.ComputeMode = b.ComputeMode
+	return m0
+}
+
 // Summary of the state of query execution at a given time.
 type QueryTimelineSample struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Milliseconds elapsed since the start of query execution.
 	ElapsedMs *wrapperspb.Int64Value `protobuf:"bytes,1,opt,name=elapsed_ms,json=elapsedMs,proto3" json:"elapsed_ms,omitempty"`
 	// Cumulative slot-ms consumed by the query.
@@ -1615,11 +2043,6 @@ func (x *QueryTimelineSample) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use QueryTimelineSample.ProtoReflect.Descriptor instead.
-func (*QueryTimelineSample) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *QueryTimelineSample) GetElapsedMs() *wrapperspb.Int64Value {
@@ -1671,6 +2094,149 @@ func (x *QueryTimelineSample) GetEstimatedRunnableUnits() *wrapperspb.Int64Value
 	return nil
 }
 
+func (x *QueryTimelineSample) SetElapsedMs(v *wrapperspb.Int64Value) {
+	x.ElapsedMs = v
+}
+
+func (x *QueryTimelineSample) SetTotalSlotMs(v *wrapperspb.Int64Value) {
+	x.TotalSlotMs = v
+}
+
+func (x *QueryTimelineSample) SetPendingUnits(v *wrapperspb.Int64Value) {
+	x.PendingUnits = v
+}
+
+func (x *QueryTimelineSample) SetCompletedUnits(v *wrapperspb.Int64Value) {
+	x.CompletedUnits = v
+}
+
+func (x *QueryTimelineSample) SetActiveUnits(v *wrapperspb.Int64Value) {
+	x.ActiveUnits = v
+}
+
+func (x *QueryTimelineSample) SetShuffleRamUsageRatio(v *wrapperspb.DoubleValue) {
+	x.ShuffleRamUsageRatio = v
+}
+
+func (x *QueryTimelineSample) SetEstimatedRunnableUnits(v *wrapperspb.Int64Value) {
+	x.EstimatedRunnableUnits = v
+}
+
+func (x *QueryTimelineSample) HasElapsedMs() bool {
+	if x == nil {
+		return false
+	}
+	return x.ElapsedMs != nil
+}
+
+func (x *QueryTimelineSample) HasTotalSlotMs() bool {
+	if x == nil {
+		return false
+	}
+	return x.TotalSlotMs != nil
+}
+
+func (x *QueryTimelineSample) HasPendingUnits() bool {
+	if x == nil {
+		return false
+	}
+	return x.PendingUnits != nil
+}
+
+func (x *QueryTimelineSample) HasCompletedUnits() bool {
+	if x == nil {
+		return false
+	}
+	return x.CompletedUnits != nil
+}
+
+func (x *QueryTimelineSample) HasActiveUnits() bool {
+	if x == nil {
+		return false
+	}
+	return x.ActiveUnits != nil
+}
+
+func (x *QueryTimelineSample) HasShuffleRamUsageRatio() bool {
+	if x == nil {
+		return false
+	}
+	return x.ShuffleRamUsageRatio != nil
+}
+
+func (x *QueryTimelineSample) HasEstimatedRunnableUnits() bool {
+	if x == nil {
+		return false
+	}
+	return x.EstimatedRunnableUnits != nil
+}
+
+func (x *QueryTimelineSample) ClearElapsedMs() {
+	x.ElapsedMs = nil
+}
+
+func (x *QueryTimelineSample) ClearTotalSlotMs() {
+	x.TotalSlotMs = nil
+}
+
+func (x *QueryTimelineSample) ClearPendingUnits() {
+	x.PendingUnits = nil
+}
+
+func (x *QueryTimelineSample) ClearCompletedUnits() {
+	x.CompletedUnits = nil
+}
+
+func (x *QueryTimelineSample) ClearActiveUnits() {
+	x.ActiveUnits = nil
+}
+
+func (x *QueryTimelineSample) ClearShuffleRamUsageRatio() {
+	x.ShuffleRamUsageRatio = nil
+}
+
+func (x *QueryTimelineSample) ClearEstimatedRunnableUnits() {
+	x.EstimatedRunnableUnits = nil
+}
+
+type QueryTimelineSample_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Milliseconds elapsed since the start of query execution.
+	ElapsedMs *wrapperspb.Int64Value
+	// Cumulative slot-ms consumed by the query.
+	TotalSlotMs *wrapperspb.Int64Value
+	// Total units of work remaining for the query. This number can be revised
+	// (increased or decreased) while the query is running.
+	PendingUnits *wrapperspb.Int64Value
+	// Total parallel units of work completed by this query.
+	CompletedUnits *wrapperspb.Int64Value
+	// Total number of active workers. This does not correspond directly to
+	// slot usage. This is the largest value observed since the last sample.
+	ActiveUnits *wrapperspb.Int64Value
+	// Total shuffle usage ratio in shuffle RAM per reservation of this query.
+	// This will be provided for reservation customers only.
+	ShuffleRamUsageRatio *wrapperspb.DoubleValue
+	// Units of work that can be scheduled immediately. Providing additional slots
+	// for these units of work will accelerate the query, if no other query in
+	// the reservation needs additional slots.
+	EstimatedRunnableUnits *wrapperspb.Int64Value
+}
+
+func (b0 QueryTimelineSample_builder) Build() *QueryTimelineSample {
+	m0 := &QueryTimelineSample{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ElapsedMs = b.ElapsedMs
+	x.TotalSlotMs = b.TotalSlotMs
+	x.PendingUnits = b.PendingUnits
+	x.CompletedUnits = b.CompletedUnits
+	x.ActiveUnits = b.ActiveUnits
+	x.ShuffleRamUsageRatio = b.ShuffleRamUsageRatio
+	x.EstimatedRunnableUnits = b.EstimatedRunnableUnits
+	return m0
+}
+
 // The external service cost is a portion of the total cost, these costs are not
 // additive with total_bytes_billed. Moreover, this field only track external
 // service costs that will show up as BigQuery costs (e.g. training BigQuery
@@ -1683,7 +2249,7 @@ func (x *QueryTimelineSample) GetEstimatedRunnableUnits() *wrapperspb.Int64Value
 // billing purposes.
 // Output only.
 type ExternalServiceCost struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// External service name.
 	ExternalService string `protobuf:"bytes,1,opt,name=external_service,json=externalService,proto3" json:"external_service,omitempty"`
 	// External service cost in terms of bigquery bytes processed.
@@ -1729,11 +2295,6 @@ func (x *ExternalServiceCost) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ExternalServiceCost.ProtoReflect.Descriptor instead.
-func (*ExternalServiceCost) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{3}
-}
-
 func (x *ExternalServiceCost) GetExternalService() string {
 	if x != nil {
 		return x.ExternalService
@@ -1776,10 +2337,101 @@ func (x *ExternalServiceCost) GetBillingMethod() string {
 	return ""
 }
 
+func (x *ExternalServiceCost) SetExternalService(v string) {
+	x.ExternalService = v
+}
+
+func (x *ExternalServiceCost) SetBytesProcessed(v *wrapperspb.Int64Value) {
+	x.BytesProcessed = v
+}
+
+func (x *ExternalServiceCost) SetBytesBilled(v *wrapperspb.Int64Value) {
+	x.BytesBilled = v
+}
+
+func (x *ExternalServiceCost) SetSlotMs(v *wrapperspb.Int64Value) {
+	x.SlotMs = v
+}
+
+func (x *ExternalServiceCost) SetReservedSlotCount(v int64) {
+	x.ReservedSlotCount = v
+}
+
+func (x *ExternalServiceCost) SetBillingMethod(v string) {
+	x.BillingMethod = v
+}
+
+func (x *ExternalServiceCost) HasBytesProcessed() bool {
+	if x == nil {
+		return false
+	}
+	return x.BytesProcessed != nil
+}
+
+func (x *ExternalServiceCost) HasBytesBilled() bool {
+	if x == nil {
+		return false
+	}
+	return x.BytesBilled != nil
+}
+
+func (x *ExternalServiceCost) HasSlotMs() bool {
+	if x == nil {
+		return false
+	}
+	return x.SlotMs != nil
+}
+
+func (x *ExternalServiceCost) ClearBytesProcessed() {
+	x.BytesProcessed = nil
+}
+
+func (x *ExternalServiceCost) ClearBytesBilled() {
+	x.BytesBilled = nil
+}
+
+func (x *ExternalServiceCost) ClearSlotMs() {
+	x.SlotMs = nil
+}
+
+type ExternalServiceCost_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// External service name.
+	ExternalService string
+	// External service cost in terms of bigquery bytes processed.
+	BytesProcessed *wrapperspb.Int64Value
+	// External service cost in terms of bigquery bytes billed.
+	BytesBilled *wrapperspb.Int64Value
+	// External service cost in terms of bigquery slot milliseconds.
+	SlotMs *wrapperspb.Int64Value
+	// Non-preemptable reserved slots used for external job.
+	// For example, reserved slots for Cloua AI Platform job are the VM usages
+	// converted to BigQuery slot with equivalent mount of price.
+	ReservedSlotCount int64
+	// The billing method used for the external job.
+	// This field, set to `SERVICES_SKU`, is only used when billing under the
+	// services SKU. Otherwise, it is unspecified for backward compatibility.
+	BillingMethod string
+}
+
+func (b0 ExternalServiceCost_builder) Build() *ExternalServiceCost {
+	m0 := &ExternalServiceCost{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ExternalService = b.ExternalService
+	x.BytesProcessed = b.BytesProcessed
+	x.BytesBilled = b.BytesBilled
+	x.SlotMs = b.SlotMs
+	x.ReservedSlotCount = b.ReservedSlotCount
+	x.BillingMethod = b.BillingMethod
+	return m0
+}
+
 // Statistics for the EXPORT DATA statement as part of Query Job. EXTRACT
 // JOB statistics are populated in JobStatistics4.
 type ExportDataStatistics struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Number of destination files generated in case of EXPORT DATA
 	// statement only.
 	FileCount *wrapperspb.Int64Value `protobuf:"bytes,1,opt,name=file_count,json=fileCount,proto3" json:"file_count,omitempty"`
@@ -1815,11 +2467,6 @@ func (x *ExportDataStatistics) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ExportDataStatistics.ProtoReflect.Descriptor instead.
-func (*ExportDataStatistics) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{4}
-}
-
 func (x *ExportDataStatistics) GetFileCount() *wrapperspb.Int64Value {
 	if x != nil {
 		return x.FileCount
@@ -1834,9 +2481,59 @@ func (x *ExportDataStatistics) GetRowCount() *wrapperspb.Int64Value {
 	return nil
 }
 
+func (x *ExportDataStatistics) SetFileCount(v *wrapperspb.Int64Value) {
+	x.FileCount = v
+}
+
+func (x *ExportDataStatistics) SetRowCount(v *wrapperspb.Int64Value) {
+	x.RowCount = v
+}
+
+func (x *ExportDataStatistics) HasFileCount() bool {
+	if x == nil {
+		return false
+	}
+	return x.FileCount != nil
+}
+
+func (x *ExportDataStatistics) HasRowCount() bool {
+	if x == nil {
+		return false
+	}
+	return x.RowCount != nil
+}
+
+func (x *ExportDataStatistics) ClearFileCount() {
+	x.FileCount = nil
+}
+
+func (x *ExportDataStatistics) ClearRowCount() {
+	x.RowCount = nil
+}
+
+type ExportDataStatistics_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Number of destination files generated in case of EXPORT DATA
+	// statement only.
+	FileCount *wrapperspb.Int64Value
+	// [Alpha] Number of destination rows generated in case of EXPORT DATA
+	// statement only.
+	RowCount *wrapperspb.Int64Value
+}
+
+func (b0 ExportDataStatistics_builder) Build() *ExportDataStatistics {
+	m0 := &ExportDataStatistics{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.FileCount = b.FileCount
+	x.RowCount = b.RowCount
+	return m0
+}
+
 // Reason why BI Engine didn't accelerate the query (or sub-query).
 type BiEngineReason struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. High-level BI Engine reason for partial or disabled
 	// acceleration
 	Code BiEngineReason_Code `protobuf:"varint,1,opt,name=code,proto3,enum=google.cloud.bigquery.v2.BiEngineReason_Code" json:"code,omitempty"`
@@ -1872,11 +2569,6 @@ func (x *BiEngineReason) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use BiEngineReason.ProtoReflect.Descriptor instead.
-func (*BiEngineReason) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{5}
-}
-
 func (x *BiEngineReason) GetCode() BiEngineReason_Code {
 	if x != nil {
 		return x.Code
@@ -1891,10 +2583,38 @@ func (x *BiEngineReason) GetMessage() string {
 	return ""
 }
 
+func (x *BiEngineReason) SetCode(v BiEngineReason_Code) {
+	x.Code = v
+}
+
+func (x *BiEngineReason) SetMessage(v string) {
+	x.Message = v
+}
+
+type BiEngineReason_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. High-level BI Engine reason for partial or disabled
+	// acceleration
+	Code BiEngineReason_Code
+	// Output only. Free form human-readable reason for partial or disabled
+	// acceleration.
+	Message string
+}
+
+func (b0 BiEngineReason_builder) Build() *BiEngineReason {
+	m0 := &BiEngineReason{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Code = b.Code
+	x.Message = b.Message
+	return m0
+}
+
 // Statistics for a BI Engine specific query.
 // Populated as part of JobStatistics2
 type BiEngineStatistics struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. Specifies which mode of BI Engine acceleration was performed
 	// (if any).
 	BiEngineMode BiEngineStatistics_BiEngineMode `protobuf:"varint,1,opt,name=bi_engine_mode,json=biEngineMode,proto3,enum=google.cloud.bigquery.v2.BiEngineStatistics_BiEngineMode" json:"bi_engine_mode,omitempty"`
@@ -1934,11 +2654,6 @@ func (x *BiEngineStatistics) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use BiEngineStatistics.ProtoReflect.Descriptor instead.
-func (*BiEngineStatistics) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{6}
-}
-
 func (x *BiEngineStatistics) GetBiEngineMode() BiEngineStatistics_BiEngineMode {
 	if x != nil {
 		return x.BiEngineMode
@@ -1960,10 +2675,47 @@ func (x *BiEngineStatistics) GetBiEngineReasons() []*BiEngineReason {
 	return nil
 }
 
+func (x *BiEngineStatistics) SetBiEngineMode(v BiEngineStatistics_BiEngineMode) {
+	x.BiEngineMode = v
+}
+
+func (x *BiEngineStatistics) SetAccelerationMode(v BiEngineStatistics_BiEngineAccelerationMode) {
+	x.AccelerationMode = v
+}
+
+func (x *BiEngineStatistics) SetBiEngineReasons(v []*BiEngineReason) {
+	x.BiEngineReasons = v
+}
+
+type BiEngineStatistics_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. Specifies which mode of BI Engine acceleration was performed
+	// (if any).
+	BiEngineMode BiEngineStatistics_BiEngineMode
+	// Output only. Specifies which mode of BI Engine acceleration was performed
+	// (if any).
+	AccelerationMode BiEngineStatistics_BiEngineAccelerationMode
+	// In case of DISABLED or PARTIAL bi_engine_mode, these contain the
+	// explanatory reasons as to why BI Engine could not accelerate.
+	// In case the full query was accelerated, this field is not populated.
+	BiEngineReasons []*BiEngineReason
+}
+
+func (b0 BiEngineStatistics_builder) Build() *BiEngineStatistics {
+	m0 := &BiEngineStatistics{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.BiEngineMode = b.BiEngineMode
+	x.AccelerationMode = b.AccelerationMode
+	x.BiEngineReasons = b.BiEngineReasons
+	return m0
+}
+
 // Reason about why no search index was used in the search query (or
 // sub-query).
 type IndexUnusedReason struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Specifies the high-level reason for the scenario when no search index was
 	// used.
 	Code *IndexUnusedReason_Code `protobuf:"varint,1,opt,name=code,proto3,enum=google.cloud.bigquery.v2.IndexUnusedReason_Code,oneof" json:"code,omitempty"`
@@ -2004,11 +2756,6 @@ func (x *IndexUnusedReason) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use IndexUnusedReason.ProtoReflect.Descriptor instead.
-func (*IndexUnusedReason) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{7}
-}
-
 func (x *IndexUnusedReason) GetCode() IndexUnusedReason_Code {
 	if x != nil && x.Code != nil {
 		return *x.Code
@@ -2037,9 +2784,96 @@ func (x *IndexUnusedReason) GetIndexName() string {
 	return ""
 }
 
+func (x *IndexUnusedReason) SetCode(v IndexUnusedReason_Code) {
+	x.Code = &v
+}
+
+func (x *IndexUnusedReason) SetMessage(v string) {
+	x.Message = &v
+}
+
+func (x *IndexUnusedReason) SetBaseTable(v *TableReference) {
+	x.BaseTable = v
+}
+
+func (x *IndexUnusedReason) SetIndexName(v string) {
+	x.IndexName = &v
+}
+
+func (x *IndexUnusedReason) HasCode() bool {
+	if x == nil {
+		return false
+	}
+	return x.Code != nil
+}
+
+func (x *IndexUnusedReason) HasMessage() bool {
+	if x == nil {
+		return false
+	}
+	return x.Message != nil
+}
+
+func (x *IndexUnusedReason) HasBaseTable() bool {
+	if x == nil {
+		return false
+	}
+	return x.BaseTable != nil
+}
+
+func (x *IndexUnusedReason) HasIndexName() bool {
+	if x == nil {
+		return false
+	}
+	return x.IndexName != nil
+}
+
+func (x *IndexUnusedReason) ClearCode() {
+	x.Code = nil
+}
+
+func (x *IndexUnusedReason) ClearMessage() {
+	x.Message = nil
+}
+
+func (x *IndexUnusedReason) ClearBaseTable() {
+	x.BaseTable = nil
+}
+
+func (x *IndexUnusedReason) ClearIndexName() {
+	x.IndexName = nil
+}
+
+type IndexUnusedReason_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Specifies the high-level reason for the scenario when no search index was
+	// used.
+	Code *IndexUnusedReason_Code
+	// Free form human-readable reason for the scenario when no search index was
+	// used.
+	Message *string
+	// Specifies the base table involved in the reason that no search index was
+	// used.
+	BaseTable *TableReference
+	// Specifies the name of the unused search index, if available.
+	IndexName *string
+}
+
+func (b0 IndexUnusedReason_builder) Build() *IndexUnusedReason {
+	m0 := &IndexUnusedReason{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Code = b.Code
+	x.Message = b.Message
+	x.BaseTable = b.BaseTable
+	x.IndexName = b.IndexName
+	return m0
+}
+
 // Statistics for index pruning.
 type IndexPruningStats struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The base table reference.
 	BaseTable *TableReference `protobuf:"bytes,1,opt,name=base_table,json=baseTable,proto3,oneof" json:"base_table,omitempty"`
 	// The index id.
@@ -2077,11 +2911,6 @@ func (x *IndexPruningStats) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use IndexPruningStats.ProtoReflect.Descriptor instead.
-func (*IndexPruningStats) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{8}
-}
-
 func (x *IndexPruningStats) GetBaseTable() *TableReference {
 	if x != nil {
 		return x.BaseTable
@@ -2110,9 +2939,93 @@ func (x *IndexPruningStats) GetPostIndexPruningParallelInputCount() int64 {
 	return 0
 }
 
+func (x *IndexPruningStats) SetBaseTable(v *TableReference) {
+	x.BaseTable = v
+}
+
+func (x *IndexPruningStats) SetIndexId(v string) {
+	x.IndexId = &v
+}
+
+func (x *IndexPruningStats) SetPreIndexPruningParallelInputCount(v int64) {
+	x.PreIndexPruningParallelInputCount = &v
+}
+
+func (x *IndexPruningStats) SetPostIndexPruningParallelInputCount(v int64) {
+	x.PostIndexPruningParallelInputCount = &v
+}
+
+func (x *IndexPruningStats) HasBaseTable() bool {
+	if x == nil {
+		return false
+	}
+	return x.BaseTable != nil
+}
+
+func (x *IndexPruningStats) HasIndexId() bool {
+	if x == nil {
+		return false
+	}
+	return x.IndexId != nil
+}
+
+func (x *IndexPruningStats) HasPreIndexPruningParallelInputCount() bool {
+	if x == nil {
+		return false
+	}
+	return x.PreIndexPruningParallelInputCount != nil
+}
+
+func (x *IndexPruningStats) HasPostIndexPruningParallelInputCount() bool {
+	if x == nil {
+		return false
+	}
+	return x.PostIndexPruningParallelInputCount != nil
+}
+
+func (x *IndexPruningStats) ClearBaseTable() {
+	x.BaseTable = nil
+}
+
+func (x *IndexPruningStats) ClearIndexId() {
+	x.IndexId = nil
+}
+
+func (x *IndexPruningStats) ClearPreIndexPruningParallelInputCount() {
+	x.PreIndexPruningParallelInputCount = nil
+}
+
+func (x *IndexPruningStats) ClearPostIndexPruningParallelInputCount() {
+	x.PostIndexPruningParallelInputCount = nil
+}
+
+type IndexPruningStats_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The base table reference.
+	BaseTable *TableReference
+	// The index id.
+	IndexId *string
+	// The number of parallel inputs before index pruning.
+	PreIndexPruningParallelInputCount *int64
+	// The number of parallel inputs after index pruning.
+	PostIndexPruningParallelInputCount *int64
+}
+
+func (b0 IndexPruningStats_builder) Build() *IndexPruningStats {
+	m0 := &IndexPruningStats{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.BaseTable = b.BaseTable
+	x.IndexId = b.IndexId
+	x.PreIndexPruningParallelInputCount = b.PreIndexPruningParallelInputCount
+	x.PostIndexPruningParallelInputCount = b.PostIndexPruningParallelInputCount
+	return m0
+}
+
 // Indicates the stored columns usage in the query.
 type StoredColumnsUsage struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Specifies whether the query was accelerated with stored columns.
 	IsQueryAccelerated *bool `protobuf:"varint,1,opt,name=is_query_accelerated,json=isQueryAccelerated,proto3,oneof" json:"is_query_accelerated,omitempty"`
 	// Specifies the base table.
@@ -2148,11 +3061,6 @@ func (x *StoredColumnsUsage) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use StoredColumnsUsage.ProtoReflect.Descriptor instead.
-func (*StoredColumnsUsage) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{9}
-}
-
 func (x *StoredColumnsUsage) GetIsQueryAccelerated() bool {
 	if x != nil && x.IsQueryAccelerated != nil {
 		return *x.IsQueryAccelerated
@@ -2174,10 +3082,65 @@ func (x *StoredColumnsUsage) GetStoredColumnsUnusedReasons() []*StoredColumnsUsa
 	return nil
 }
 
+func (x *StoredColumnsUsage) SetIsQueryAccelerated(v bool) {
+	x.IsQueryAccelerated = &v
+}
+
+func (x *StoredColumnsUsage) SetBaseTable(v *TableReference) {
+	x.BaseTable = v
+}
+
+func (x *StoredColumnsUsage) SetStoredColumnsUnusedReasons(v []*StoredColumnsUsage_StoredColumnsUnusedReason) {
+	x.StoredColumnsUnusedReasons = v
+}
+
+func (x *StoredColumnsUsage) HasIsQueryAccelerated() bool {
+	if x == nil {
+		return false
+	}
+	return x.IsQueryAccelerated != nil
+}
+
+func (x *StoredColumnsUsage) HasBaseTable() bool {
+	if x == nil {
+		return false
+	}
+	return x.BaseTable != nil
+}
+
+func (x *StoredColumnsUsage) ClearIsQueryAccelerated() {
+	x.IsQueryAccelerated = nil
+}
+
+func (x *StoredColumnsUsage) ClearBaseTable() {
+	x.BaseTable = nil
+}
+
+type StoredColumnsUsage_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Specifies whether the query was accelerated with stored columns.
+	IsQueryAccelerated *bool
+	// Specifies the base table.
+	BaseTable *TableReference
+	// If stored columns were not used, explain why.
+	StoredColumnsUnusedReasons []*StoredColumnsUsage_StoredColumnsUnusedReason
+}
+
+func (b0 StoredColumnsUsage_builder) Build() *StoredColumnsUsage {
+	m0 := &StoredColumnsUsage{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.IsQueryAccelerated = b.IsQueryAccelerated
+	x.BaseTable = b.BaseTable
+	x.StoredColumnsUnusedReasons = b.StoredColumnsUnusedReasons
+	return m0
+}
+
 // Statistics for a search query.
 // Populated as part of JobStatistics2.
 type SearchStatistics struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Specifies the index usage mode for the query.
 	IndexUsageMode SearchStatistics_IndexUsageMode `protobuf:"varint,1,opt,name=index_usage_mode,json=indexUsageMode,proto3,enum=google.cloud.bigquery.v2.SearchStatistics_IndexUsageMode" json:"index_usage_mode,omitempty"`
 	// When `indexUsageMode` is `UNUSED` or `PARTIALLY_USED`, this field explains
@@ -2218,11 +3181,6 @@ func (x *SearchStatistics) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SearchStatistics.ProtoReflect.Descriptor instead.
-func (*SearchStatistics) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{10}
-}
-
 func (x *SearchStatistics) GetIndexUsageMode() SearchStatistics_IndexUsageMode {
 	if x != nil {
 		return x.IndexUsageMode
@@ -2244,10 +3202,48 @@ func (x *SearchStatistics) GetIndexPruningStats() []*IndexPruningStats {
 	return nil
 }
 
+func (x *SearchStatistics) SetIndexUsageMode(v SearchStatistics_IndexUsageMode) {
+	x.IndexUsageMode = v
+}
+
+func (x *SearchStatistics) SetIndexUnusedReasons(v []*IndexUnusedReason) {
+	x.IndexUnusedReasons = v
+}
+
+func (x *SearchStatistics) SetIndexPruningStats(v []*IndexPruningStats) {
+	x.IndexPruningStats = v
+}
+
+type SearchStatistics_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Specifies the index usage mode for the query.
+	IndexUsageMode SearchStatistics_IndexUsageMode
+	// When `indexUsageMode` is `UNUSED` or `PARTIALLY_USED`, this field explains
+	// why indexes were not used in all or part of the search query. If
+	// `indexUsageMode` is `FULLY_USED`, this field is not populated.
+	IndexUnusedReasons []*IndexUnusedReason
+	// Search index pruning statistics, one for each base table that has a search
+	// index. If a base table does not have a search index or the index does not
+	// help with pruning on the base table, then there is no pruning statistics
+	// for that table.
+	IndexPruningStats []*IndexPruningStats
+}
+
+func (b0 SearchStatistics_builder) Build() *SearchStatistics {
+	m0 := &SearchStatistics{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.IndexUsageMode = b.IndexUsageMode
+	x.IndexUnusedReasons = b.IndexUnusedReasons
+	x.IndexPruningStats = b.IndexPruningStats
+	return m0
+}
+
 // Statistics for a vector search query.
 // Populated as part of JobStatistics2.
 type VectorSearchStatistics struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Specifies the index usage mode for the query.
 	IndexUsageMode VectorSearchStatistics_IndexUsageMode `protobuf:"varint,1,opt,name=index_usage_mode,json=indexUsageMode,proto3,enum=google.cloud.bigquery.v2.VectorSearchStatistics_IndexUsageMode" json:"index_usage_mode,omitempty"`
 	// When `indexUsageMode` is `UNUSED` or `PARTIALLY_USED`, this field explains
@@ -2286,11 +3282,6 @@ func (x *VectorSearchStatistics) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use VectorSearchStatistics.ProtoReflect.Descriptor instead.
-func (*VectorSearchStatistics) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{11}
-}
-
 func (x *VectorSearchStatistics) GetIndexUsageMode() VectorSearchStatistics_IndexUsageMode {
 	if x != nil {
 		return x.IndexUsageMode
@@ -2312,9 +3303,45 @@ func (x *VectorSearchStatistics) GetStoredColumnsUsages() []*StoredColumnsUsage 
 	return nil
 }
 
+func (x *VectorSearchStatistics) SetIndexUsageMode(v VectorSearchStatistics_IndexUsageMode) {
+	x.IndexUsageMode = v
+}
+
+func (x *VectorSearchStatistics) SetIndexUnusedReasons(v []*IndexUnusedReason) {
+	x.IndexUnusedReasons = v
+}
+
+func (x *VectorSearchStatistics) SetStoredColumnsUsages(v []*StoredColumnsUsage) {
+	x.StoredColumnsUsages = v
+}
+
+type VectorSearchStatistics_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Specifies the index usage mode for the query.
+	IndexUsageMode VectorSearchStatistics_IndexUsageMode
+	// When `indexUsageMode` is `UNUSED` or `PARTIALLY_USED`, this field explains
+	// why indexes were not used in all or part of the vector search query. If
+	// `indexUsageMode` is `FULLY_USED`, this field is not populated.
+	IndexUnusedReasons []*IndexUnusedReason
+	// Specifies the usage of stored columns in the query when stored columns are
+	// used in the query.
+	StoredColumnsUsages []*StoredColumnsUsage
+}
+
+func (b0 VectorSearchStatistics_builder) Build() *VectorSearchStatistics {
+	m0 := &VectorSearchStatistics{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.IndexUsageMode = b.IndexUsageMode
+	x.IndexUnusedReasons = b.IndexUnusedReasons
+	x.StoredColumnsUsages = b.StoredColumnsUsages
+	return m0
+}
+
 // Query optimization information for a QUERY job.
 type QueryInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. Information about query optimizations.
 	OptimizationDetails *structpb.Struct `protobuf:"bytes,2,opt,name=optimization_details,json=optimizationDetails,proto3" json:"optimization_details,omitempty"`
 	unknownFields       protoimpl.UnknownFields
@@ -2346,11 +3373,6 @@ func (x *QueryInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use QueryInfo.ProtoReflect.Descriptor instead.
-func (*QueryInfo) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{12}
-}
-
 func (x *QueryInfo) GetOptimizationDetails() *structpb.Struct {
 	if x != nil {
 		return x.OptimizationDetails
@@ -2358,9 +3380,39 @@ func (x *QueryInfo) GetOptimizationDetails() *structpb.Struct {
 	return nil
 }
 
+func (x *QueryInfo) SetOptimizationDetails(v *structpb.Struct) {
+	x.OptimizationDetails = v
+}
+
+func (x *QueryInfo) HasOptimizationDetails() bool {
+	if x == nil {
+		return false
+	}
+	return x.OptimizationDetails != nil
+}
+
+func (x *QueryInfo) ClearOptimizationDetails() {
+	x.OptimizationDetails = nil
+}
+
+type QueryInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. Information about query optimizations.
+	OptimizationDetails *structpb.Struct
+}
+
+func (b0 QueryInfo_builder) Build() *QueryInfo {
+	m0 := &QueryInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.OptimizationDetails = b.OptimizationDetails
+	return m0
+}
+
 // Statistics for a LOAD query.
 type LoadQueryStatistics struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. Number of source files in a LOAD query.
 	InputFiles *wrapperspb.Int64Value `protobuf:"bytes,1,opt,name=input_files,json=inputFiles,proto3" json:"input_files,omitempty"`
 	// Output only. Number of bytes of source data in a LOAD query.
@@ -2407,11 +3459,6 @@ func (x *LoadQueryStatistics) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use LoadQueryStatistics.ProtoReflect.Descriptor instead.
-func (*LoadQueryStatistics) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{13}
-}
-
 func (x *LoadQueryStatistics) GetInputFiles() *wrapperspb.Int64Value {
 	if x != nil {
 		return x.InputFiles
@@ -2447,10 +3494,119 @@ func (x *LoadQueryStatistics) GetBadRecords() *wrapperspb.Int64Value {
 	return nil
 }
 
+func (x *LoadQueryStatistics) SetInputFiles(v *wrapperspb.Int64Value) {
+	x.InputFiles = v
+}
+
+func (x *LoadQueryStatistics) SetInputFileBytes(v *wrapperspb.Int64Value) {
+	x.InputFileBytes = v
+}
+
+func (x *LoadQueryStatistics) SetOutputRows(v *wrapperspb.Int64Value) {
+	x.OutputRows = v
+}
+
+func (x *LoadQueryStatistics) SetOutputBytes(v *wrapperspb.Int64Value) {
+	x.OutputBytes = v
+}
+
+func (x *LoadQueryStatistics) SetBadRecords(v *wrapperspb.Int64Value) {
+	x.BadRecords = v
+}
+
+func (x *LoadQueryStatistics) HasInputFiles() bool {
+	if x == nil {
+		return false
+	}
+	return x.InputFiles != nil
+}
+
+func (x *LoadQueryStatistics) HasInputFileBytes() bool {
+	if x == nil {
+		return false
+	}
+	return x.InputFileBytes != nil
+}
+
+func (x *LoadQueryStatistics) HasOutputRows() bool {
+	if x == nil {
+		return false
+	}
+	return x.OutputRows != nil
+}
+
+func (x *LoadQueryStatistics) HasOutputBytes() bool {
+	if x == nil {
+		return false
+	}
+	return x.OutputBytes != nil
+}
+
+func (x *LoadQueryStatistics) HasBadRecords() bool {
+	if x == nil {
+		return false
+	}
+	return x.BadRecords != nil
+}
+
+func (x *LoadQueryStatistics) ClearInputFiles() {
+	x.InputFiles = nil
+}
+
+func (x *LoadQueryStatistics) ClearInputFileBytes() {
+	x.InputFileBytes = nil
+}
+
+func (x *LoadQueryStatistics) ClearOutputRows() {
+	x.OutputRows = nil
+}
+
+func (x *LoadQueryStatistics) ClearOutputBytes() {
+	x.OutputBytes = nil
+}
+
+func (x *LoadQueryStatistics) ClearBadRecords() {
+	x.BadRecords = nil
+}
+
+type LoadQueryStatistics_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. Number of source files in a LOAD query.
+	InputFiles *wrapperspb.Int64Value
+	// Output only. Number of bytes of source data in a LOAD query.
+	InputFileBytes *wrapperspb.Int64Value
+	// Output only. Number of rows imported in a LOAD query.
+	// Note that while a LOAD query is in the running state, this value may
+	// change.
+	OutputRows *wrapperspb.Int64Value
+	// Output only. Size of the loaded data in bytes. Note that while a LOAD query
+	// is in the running state, this value may change.
+	OutputBytes *wrapperspb.Int64Value
+	// Output only. The number of bad records encountered while processing a LOAD
+	// query. Note that if the job has failed because of more bad records
+	// encountered than the maximum allowed in the load job configuration, then
+	// this number can be less than the total number of bad records present in the
+	// input data.
+	BadRecords *wrapperspb.Int64Value
+}
+
+func (b0 LoadQueryStatistics_builder) Build() *LoadQueryStatistics {
+	m0 := &LoadQueryStatistics{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.InputFiles = b.InputFiles
+	x.InputFileBytes = b.InputFileBytes
+	x.OutputRows = b.OutputRows
+	x.OutputBytes = b.OutputBytes
+	x.BadRecords = b.BadRecords
+	return m0
+}
+
 // Statistics related to Incremental Query Results. Populated as part of
 // JobStatistics2. This feature is not yet available.
 type IncrementalResultStats struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. Reason why incremental query results are/were not written by
 	// the query.
 	DisabledReason IncrementalResultStats_DisabledReason `protobuf:"varint,1,opt,name=disabled_reason,json=disabledReason,proto3,enum=google.cloud.bigquery.v2.IncrementalResultStats_DisabledReason" json:"disabled_reason,omitempty"`
@@ -2503,11 +3659,6 @@ func (x *IncrementalResultStats) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use IncrementalResultStats.ProtoReflect.Descriptor instead.
-func (*IncrementalResultStats) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{14}
-}
-
 func (x *IncrementalResultStats) GetDisabledReason() IncrementalResultStats_DisabledReason {
 	if x != nil {
 		return x.DisabledReason
@@ -2557,9 +3708,134 @@ func (x *IncrementalResultStats) GetIncrementalRowCount() int64 {
 	return 0
 }
 
+func (x *IncrementalResultStats) SetDisabledReason(v IncrementalResultStats_DisabledReason) {
+	x.DisabledReason = v
+}
+
+func (x *IncrementalResultStats) SetDisabledReasonDetails(v string) {
+	x.DisabledReasonDetails = v
+}
+
+func (x *IncrementalResultStats) SetResultSetLastReplaceTime(v *timestamppb.Timestamp) {
+	x.ResultSetLastReplaceTime = v
+}
+
+func (x *IncrementalResultStats) SetResultSetLastModifyTime(v *timestamppb.Timestamp) {
+	x.ResultSetLastModifyTime = v
+}
+
+func (x *IncrementalResultStats) SetFirstIncrementalRowTime(v *timestamppb.Timestamp) {
+	x.FirstIncrementalRowTime = v
+}
+
+func (x *IncrementalResultStats) SetLastIncrementalRowTime(v *timestamppb.Timestamp) {
+	x.LastIncrementalRowTime = v
+}
+
+func (x *IncrementalResultStats) SetIncrementalRowCount(v int64) {
+	x.IncrementalRowCount = &v
+}
+
+func (x *IncrementalResultStats) HasResultSetLastReplaceTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.ResultSetLastReplaceTime != nil
+}
+
+func (x *IncrementalResultStats) HasResultSetLastModifyTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.ResultSetLastModifyTime != nil
+}
+
+func (x *IncrementalResultStats) HasFirstIncrementalRowTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.FirstIncrementalRowTime != nil
+}
+
+func (x *IncrementalResultStats) HasLastIncrementalRowTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastIncrementalRowTime != nil
+}
+
+func (x *IncrementalResultStats) HasIncrementalRowCount() bool {
+	if x == nil {
+		return false
+	}
+	return x.IncrementalRowCount != nil
+}
+
+func (x *IncrementalResultStats) ClearResultSetLastReplaceTime() {
+	x.ResultSetLastReplaceTime = nil
+}
+
+func (x *IncrementalResultStats) ClearResultSetLastModifyTime() {
+	x.ResultSetLastModifyTime = nil
+}
+
+func (x *IncrementalResultStats) ClearFirstIncrementalRowTime() {
+	x.FirstIncrementalRowTime = nil
+}
+
+func (x *IncrementalResultStats) ClearLastIncrementalRowTime() {
+	x.LastIncrementalRowTime = nil
+}
+
+func (x *IncrementalResultStats) ClearIncrementalRowCount() {
+	x.IncrementalRowCount = nil
+}
+
+type IncrementalResultStats_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. Reason why incremental query results are/were not written by
+	// the query.
+	DisabledReason IncrementalResultStats_DisabledReason
+	// Output only. Additional human-readable clarification, if available, for
+	// DisabledReason.
+	DisabledReasonDetails string
+	// Output only. The time at which the result table's contents were completely
+	// replaced. May be absent if no results have been written or the query has
+	// completed.
+	ResultSetLastReplaceTime *timestamppb.Timestamp
+	// Output only. The time at which the result table's contents were modified.
+	// May be absent if no results have been written or the query has completed.
+	ResultSetLastModifyTime *timestamppb.Timestamp
+	// Output only. The time at which the first incremental result was written. If
+	// the query needed to restart internally, this only describes the final
+	// attempt.
+	FirstIncrementalRowTime *timestamppb.Timestamp
+	// Output only. The time at which the last incremental result was written.
+	// Does not include the final result written after query completion.
+	LastIncrementalRowTime *timestamppb.Timestamp
+	// Output only. Number of rows that were in the latest result set before query
+	// completion.
+	IncrementalRowCount *int64
+}
+
+func (b0 IncrementalResultStats_builder) Build() *IncrementalResultStats {
+	m0 := &IncrementalResultStats{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.DisabledReason = b.DisabledReason
+	x.DisabledReasonDetails = b.DisabledReasonDetails
+	x.ResultSetLastReplaceTime = b.ResultSetLastReplaceTime
+	x.ResultSetLastModifyTime = b.ResultSetLastModifyTime
+	x.FirstIncrementalRowTime = b.FirstIncrementalRowTime
+	x.LastIncrementalRowTime = b.LastIncrementalRowTime
+	x.IncrementalRowCount = b.IncrementalRowCount
+	return m0
+}
+
 // Statistics for a query job.
 type JobStatistics2 struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. Describes execution plan for the query.
 	QueryPlan []*ExplainQueryStage `protobuf:"bytes,1,rep,name=query_plan,json=queryPlan,proto3" json:"query_plan,omitempty"`
 	// Output only. The original estimate of bytes processed for the job.
@@ -2840,11 +4116,6 @@ func (x *JobStatistics2) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use JobStatistics2.ProtoReflect.Descriptor instead.
-func (*JobStatistics2) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *JobStatistics2) GetQueryPlan() []*ExplainQueryStage {
@@ -3162,9 +4433,873 @@ func (x *JobStatistics2) GetObjectStorageStats() []*ObjectStorageStats {
 	return nil
 }
 
+func (x *JobStatistics2) SetQueryPlan(v []*ExplainQueryStage) {
+	x.QueryPlan = v
+}
+
+func (x *JobStatistics2) SetEstimatedBytesProcessed(v *wrapperspb.Int64Value) {
+	x.EstimatedBytesProcessed = v
+}
+
+func (x *JobStatistics2) SetTimeline(v []*QueryTimelineSample) {
+	x.Timeline = v
+}
+
+func (x *JobStatistics2) SetTotalPartitionsProcessed(v *wrapperspb.Int64Value) {
+	x.TotalPartitionsProcessed = v
+}
+
+func (x *JobStatistics2) SetTotalBytesProcessed(v *wrapperspb.Int64Value) {
+	x.TotalBytesProcessed = v
+}
+
+func (x *JobStatistics2) SetTotalBytesProcessedAccuracy(v string) {
+	x.TotalBytesProcessedAccuracy = v
+}
+
+func (x *JobStatistics2) SetTotalBytesBilled(v *wrapperspb.Int64Value) {
+	x.TotalBytesBilled = v
+}
+
+func (x *JobStatistics2) SetBillingTier(v *wrapperspb.Int32Value) {
+	x.BillingTier = v
+}
+
+func (x *JobStatistics2) SetTotalSlotMs(v *wrapperspb.Int64Value) {
+	x.TotalSlotMs = v
+}
+
+func (x *JobStatistics2) SetTotalServicesSkuSlotMs(v int64) {
+	x.TotalServicesSkuSlotMs = &v
+}
+
+func (x *JobStatistics2) SetCacheHit(v *wrapperspb.BoolValue) {
+	x.CacheHit = v
+}
+
+func (x *JobStatistics2) SetReferencedTables(v []*TableReference) {
+	x.ReferencedTables = v
+}
+
+func (x *JobStatistics2) SetReferencedRoutines(v []*RoutineReference) {
+	x.ReferencedRoutines = v
+}
+
+func (x *JobStatistics2) SetReferencedPropertyGraphs(v []*PropertyGraphReference) {
+	x.ReferencedPropertyGraphs = v
+}
+
+func (x *JobStatistics2) SetSchema(v *TableSchema) {
+	x.Schema = v
+}
+
+func (x *JobStatistics2) SetNumDmlAffectedRows(v *wrapperspb.Int64Value) {
+	x.NumDmlAffectedRows = v
+}
+
+func (x *JobStatistics2) SetDmlStats(v *DmlStats) {
+	x.DmlStats = v
+}
+
+func (x *JobStatistics2) SetUndeclaredQueryParameters(v []*QueryParameter) {
+	x.UndeclaredQueryParameters = v
+}
+
+func (x *JobStatistics2) SetStatementType(v string) {
+	x.StatementType = v
+}
+
+func (x *JobStatistics2) SetDdlOperationPerformed(v string) {
+	x.DdlOperationPerformed = v
+}
+
+func (x *JobStatistics2) SetDdlTargetTable(v *TableReference) {
+	x.DdlTargetTable = v
+}
+
+func (x *JobStatistics2) SetDdlDestinationTable(v *TableReference) {
+	x.DdlDestinationTable = v
+}
+
+func (x *JobStatistics2) SetDdlTargetRowAccessPolicy(v *RowAccessPolicyReference) {
+	x.DdlTargetRowAccessPolicy = v
+}
+
+func (x *JobStatistics2) SetDdlAffectedRowAccessPolicyCount(v *wrapperspb.Int64Value) {
+	x.DdlAffectedRowAccessPolicyCount = v
+}
+
+func (x *JobStatistics2) SetDdlTargetRoutine(v *RoutineReference) {
+	x.DdlTargetRoutine = v
+}
+
+func (x *JobStatistics2) SetDdlTargetDataset(v *DatasetReference) {
+	x.DdlTargetDataset = v
+}
+
+func (x *JobStatistics2) SetMlStatistics(v *MlStatistics) {
+	x.MlStatistics = v
+}
+
+func (x *JobStatistics2) SetExportDataStatistics(v *ExportDataStatistics) {
+	x.ExportDataStatistics = v
+}
+
+func (x *JobStatistics2) SetExternalServiceCosts(v []*ExternalServiceCost) {
+	x.ExternalServiceCosts = v
+}
+
+func (x *JobStatistics2) SetBiEngineStatistics(v *BiEngineStatistics) {
+	x.BiEngineStatistics = v
+}
+
+func (x *JobStatistics2) SetLoadQueryStatistics(v *LoadQueryStatistics) {
+	x.LoadQueryStatistics = v
+}
+
+func (x *JobStatistics2) SetDclTargetTable(v *TableReference) {
+	x.DclTargetTable = v
+}
+
+func (x *JobStatistics2) SetDclTargetView(v *TableReference) {
+	x.DclTargetView = v
+}
+
+func (x *JobStatistics2) SetDclTargetDataset(v *DatasetReference) {
+	x.DclTargetDataset = v
+}
+
+func (x *JobStatistics2) SetSearchStatistics(v *SearchStatistics) {
+	x.SearchStatistics = v
+}
+
+func (x *JobStatistics2) SetVectorSearchStatistics(v *VectorSearchStatistics) {
+	x.VectorSearchStatistics = v
+}
+
+func (x *JobStatistics2) SetPerformanceInsights(v *PerformanceInsights) {
+	x.PerformanceInsights = v
+}
+
+func (x *JobStatistics2) SetQueryInfo(v *QueryInfo) {
+	x.QueryInfo = v
+}
+
+func (x *JobStatistics2) SetSparkStatistics(v *SparkStatistics) {
+	x.SparkStatistics = v
+}
+
+func (x *JobStatistics2) SetTransferredBytes(v *wrapperspb.Int64Value) {
+	x.TransferredBytes = v
+}
+
+func (x *JobStatistics2) SetMaterializedViewStatistics(v *MaterializedViewStatistics) {
+	x.MaterializedViewStatistics = v
+}
+
+func (x *JobStatistics2) SetMetadataCacheStatistics(v *MetadataCacheStatistics) {
+	x.MetadataCacheStatistics = v
+}
+
+func (x *JobStatistics2) SetIncrementalResultStats(v *IncrementalResultStats) {
+	x.IncrementalResultStats = v
+}
+
+func (x *JobStatistics2) SetGenAiStats(v *GenAiStats) {
+	x.GenAiStats = v
+}
+
+func (x *JobStatistics2) SetObjectStorageStats(v []*ObjectStorageStats) {
+	x.ObjectStorageStats = v
+}
+
+func (x *JobStatistics2) HasEstimatedBytesProcessed() bool {
+	if x == nil {
+		return false
+	}
+	return x.EstimatedBytesProcessed != nil
+}
+
+func (x *JobStatistics2) HasTotalPartitionsProcessed() bool {
+	if x == nil {
+		return false
+	}
+	return x.TotalPartitionsProcessed != nil
+}
+
+func (x *JobStatistics2) HasTotalBytesProcessed() bool {
+	if x == nil {
+		return false
+	}
+	return x.TotalBytesProcessed != nil
+}
+
+func (x *JobStatistics2) HasTotalBytesBilled() bool {
+	if x == nil {
+		return false
+	}
+	return x.TotalBytesBilled != nil
+}
+
+func (x *JobStatistics2) HasBillingTier() bool {
+	if x == nil {
+		return false
+	}
+	return x.BillingTier != nil
+}
+
+func (x *JobStatistics2) HasTotalSlotMs() bool {
+	if x == nil {
+		return false
+	}
+	return x.TotalSlotMs != nil
+}
+
+func (x *JobStatistics2) HasTotalServicesSkuSlotMs() bool {
+	if x == nil {
+		return false
+	}
+	return x.TotalServicesSkuSlotMs != nil
+}
+
+func (x *JobStatistics2) HasCacheHit() bool {
+	if x == nil {
+		return false
+	}
+	return x.CacheHit != nil
+}
+
+func (x *JobStatistics2) HasSchema() bool {
+	if x == nil {
+		return false
+	}
+	return x.Schema != nil
+}
+
+func (x *JobStatistics2) HasNumDmlAffectedRows() bool {
+	if x == nil {
+		return false
+	}
+	return x.NumDmlAffectedRows != nil
+}
+
+func (x *JobStatistics2) HasDmlStats() bool {
+	if x == nil {
+		return false
+	}
+	return x.DmlStats != nil
+}
+
+func (x *JobStatistics2) HasDdlTargetTable() bool {
+	if x == nil {
+		return false
+	}
+	return x.DdlTargetTable != nil
+}
+
+func (x *JobStatistics2) HasDdlDestinationTable() bool {
+	if x == nil {
+		return false
+	}
+	return x.DdlDestinationTable != nil
+}
+
+func (x *JobStatistics2) HasDdlTargetRowAccessPolicy() bool {
+	if x == nil {
+		return false
+	}
+	return x.DdlTargetRowAccessPolicy != nil
+}
+
+func (x *JobStatistics2) HasDdlAffectedRowAccessPolicyCount() bool {
+	if x == nil {
+		return false
+	}
+	return x.DdlAffectedRowAccessPolicyCount != nil
+}
+
+func (x *JobStatistics2) HasDdlTargetRoutine() bool {
+	if x == nil {
+		return false
+	}
+	return x.DdlTargetRoutine != nil
+}
+
+func (x *JobStatistics2) HasDdlTargetDataset() bool {
+	if x == nil {
+		return false
+	}
+	return x.DdlTargetDataset != nil
+}
+
+func (x *JobStatistics2) HasMlStatistics() bool {
+	if x == nil {
+		return false
+	}
+	return x.MlStatistics != nil
+}
+
+func (x *JobStatistics2) HasExportDataStatistics() bool {
+	if x == nil {
+		return false
+	}
+	return x.ExportDataStatistics != nil
+}
+
+func (x *JobStatistics2) HasBiEngineStatistics() bool {
+	if x == nil {
+		return false
+	}
+	return x.BiEngineStatistics != nil
+}
+
+func (x *JobStatistics2) HasLoadQueryStatistics() bool {
+	if x == nil {
+		return false
+	}
+	return x.LoadQueryStatistics != nil
+}
+
+func (x *JobStatistics2) HasDclTargetTable() bool {
+	if x == nil {
+		return false
+	}
+	return x.DclTargetTable != nil
+}
+
+func (x *JobStatistics2) HasDclTargetView() bool {
+	if x == nil {
+		return false
+	}
+	return x.DclTargetView != nil
+}
+
+func (x *JobStatistics2) HasDclTargetDataset() bool {
+	if x == nil {
+		return false
+	}
+	return x.DclTargetDataset != nil
+}
+
+func (x *JobStatistics2) HasSearchStatistics() bool {
+	if x == nil {
+		return false
+	}
+	return x.SearchStatistics != nil
+}
+
+func (x *JobStatistics2) HasVectorSearchStatistics() bool {
+	if x == nil {
+		return false
+	}
+	return x.VectorSearchStatistics != nil
+}
+
+func (x *JobStatistics2) HasPerformanceInsights() bool {
+	if x == nil {
+		return false
+	}
+	return x.PerformanceInsights != nil
+}
+
+func (x *JobStatistics2) HasQueryInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.QueryInfo != nil
+}
+
+func (x *JobStatistics2) HasSparkStatistics() bool {
+	if x == nil {
+		return false
+	}
+	return x.SparkStatistics != nil
+}
+
+func (x *JobStatistics2) HasTransferredBytes() bool {
+	if x == nil {
+		return false
+	}
+	return x.TransferredBytes != nil
+}
+
+func (x *JobStatistics2) HasMaterializedViewStatistics() bool {
+	if x == nil {
+		return false
+	}
+	return x.MaterializedViewStatistics != nil
+}
+
+func (x *JobStatistics2) HasMetadataCacheStatistics() bool {
+	if x == nil {
+		return false
+	}
+	return x.MetadataCacheStatistics != nil
+}
+
+func (x *JobStatistics2) HasIncrementalResultStats() bool {
+	if x == nil {
+		return false
+	}
+	return x.IncrementalResultStats != nil
+}
+
+func (x *JobStatistics2) HasGenAiStats() bool {
+	if x == nil {
+		return false
+	}
+	return x.GenAiStats != nil
+}
+
+func (x *JobStatistics2) ClearEstimatedBytesProcessed() {
+	x.EstimatedBytesProcessed = nil
+}
+
+func (x *JobStatistics2) ClearTotalPartitionsProcessed() {
+	x.TotalPartitionsProcessed = nil
+}
+
+func (x *JobStatistics2) ClearTotalBytesProcessed() {
+	x.TotalBytesProcessed = nil
+}
+
+func (x *JobStatistics2) ClearTotalBytesBilled() {
+	x.TotalBytesBilled = nil
+}
+
+func (x *JobStatistics2) ClearBillingTier() {
+	x.BillingTier = nil
+}
+
+func (x *JobStatistics2) ClearTotalSlotMs() {
+	x.TotalSlotMs = nil
+}
+
+func (x *JobStatistics2) ClearTotalServicesSkuSlotMs() {
+	x.TotalServicesSkuSlotMs = nil
+}
+
+func (x *JobStatistics2) ClearCacheHit() {
+	x.CacheHit = nil
+}
+
+func (x *JobStatistics2) ClearSchema() {
+	x.Schema = nil
+}
+
+func (x *JobStatistics2) ClearNumDmlAffectedRows() {
+	x.NumDmlAffectedRows = nil
+}
+
+func (x *JobStatistics2) ClearDmlStats() {
+	x.DmlStats = nil
+}
+
+func (x *JobStatistics2) ClearDdlTargetTable() {
+	x.DdlTargetTable = nil
+}
+
+func (x *JobStatistics2) ClearDdlDestinationTable() {
+	x.DdlDestinationTable = nil
+}
+
+func (x *JobStatistics2) ClearDdlTargetRowAccessPolicy() {
+	x.DdlTargetRowAccessPolicy = nil
+}
+
+func (x *JobStatistics2) ClearDdlAffectedRowAccessPolicyCount() {
+	x.DdlAffectedRowAccessPolicyCount = nil
+}
+
+func (x *JobStatistics2) ClearDdlTargetRoutine() {
+	x.DdlTargetRoutine = nil
+}
+
+func (x *JobStatistics2) ClearDdlTargetDataset() {
+	x.DdlTargetDataset = nil
+}
+
+func (x *JobStatistics2) ClearMlStatistics() {
+	x.MlStatistics = nil
+}
+
+func (x *JobStatistics2) ClearExportDataStatistics() {
+	x.ExportDataStatistics = nil
+}
+
+func (x *JobStatistics2) ClearBiEngineStatistics() {
+	x.BiEngineStatistics = nil
+}
+
+func (x *JobStatistics2) ClearLoadQueryStatistics() {
+	x.LoadQueryStatistics = nil
+}
+
+func (x *JobStatistics2) ClearDclTargetTable() {
+	x.DclTargetTable = nil
+}
+
+func (x *JobStatistics2) ClearDclTargetView() {
+	x.DclTargetView = nil
+}
+
+func (x *JobStatistics2) ClearDclTargetDataset() {
+	x.DclTargetDataset = nil
+}
+
+func (x *JobStatistics2) ClearSearchStatistics() {
+	x.SearchStatistics = nil
+}
+
+func (x *JobStatistics2) ClearVectorSearchStatistics() {
+	x.VectorSearchStatistics = nil
+}
+
+func (x *JobStatistics2) ClearPerformanceInsights() {
+	x.PerformanceInsights = nil
+}
+
+func (x *JobStatistics2) ClearQueryInfo() {
+	x.QueryInfo = nil
+}
+
+func (x *JobStatistics2) ClearSparkStatistics() {
+	x.SparkStatistics = nil
+}
+
+func (x *JobStatistics2) ClearTransferredBytes() {
+	x.TransferredBytes = nil
+}
+
+func (x *JobStatistics2) ClearMaterializedViewStatistics() {
+	x.MaterializedViewStatistics = nil
+}
+
+func (x *JobStatistics2) ClearMetadataCacheStatistics() {
+	x.MetadataCacheStatistics = nil
+}
+
+func (x *JobStatistics2) ClearIncrementalResultStats() {
+	x.IncrementalResultStats = nil
+}
+
+func (x *JobStatistics2) ClearGenAiStats() {
+	x.GenAiStats = nil
+}
+
+type JobStatistics2_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. Describes execution plan for the query.
+	QueryPlan []*ExplainQueryStage
+	// Output only. The original estimate of bytes processed for the job.
+	EstimatedBytesProcessed *wrapperspb.Int64Value
+	// Output only. Describes a timeline of job execution.
+	Timeline []*QueryTimelineSample
+	// Output only. Total number of partitions processed from all partitioned
+	// tables referenced in the job.
+	TotalPartitionsProcessed *wrapperspb.Int64Value
+	// Output only. Total bytes processed for the job.
+	TotalBytesProcessed *wrapperspb.Int64Value
+	// Output only. For dry-run jobs, totalBytesProcessed is an estimate and this
+	// field specifies the accuracy of the estimate. Possible values can be:
+	// UNKNOWN: accuracy of the estimate is unknown.
+	// PRECISE: estimate is precise.
+	// LOWER_BOUND: estimate is lower bound of what the query would cost.
+	// UPPER_BOUND: estimate is upper bound of what the query would cost.
+	TotalBytesProcessedAccuracy string
+	// Output only. If the project is configured to use on-demand pricing,
+	// then this field contains the total bytes billed for the job.
+	// If the project is configured to use flat-rate pricing, then you are
+	// not billed for bytes and this field is informational only.
+	TotalBytesBilled *wrapperspb.Int64Value
+	// Output only. Billing tier for the job. This is a BigQuery-specific concept
+	// which is not related to the Google Cloud notion of "free tier". The value
+	// here is a measure of the query's resource consumption relative to the
+	// amount of data scanned. For on-demand queries, the limit is 100, and all
+	// queries within this limit are billed at the standard on-demand rates.
+	// On-demand queries that exceed this limit will fail with a
+	// billingTierLimitExceeded error.
+	BillingTier *wrapperspb.Int32Value
+	// Output only. Slot-milliseconds for the job.
+	TotalSlotMs *wrapperspb.Int64Value
+	// Output only. Total slot milliseconds for the job that ran on external
+	// services and billed on the services SKU. This field is only populated for
+	// jobs that have external service costs, and is the total of the usage for
+	// costs whose billing method is `"SERVICES_SKU"`.
+	TotalServicesSkuSlotMs *int64
+	// Output only. Whether the query result was fetched from the query cache.
+	CacheHit *wrapperspb.BoolValue
+	// Output only. Referenced tables for the job.
+	ReferencedTables []*TableReference
+	// Output only. Referenced routines for the job.
+	ReferencedRoutines []*RoutineReference
+	// Output only. Referenced property graphs for the job. Queries that reference
+	// more than 50 property graphs will not have a complete list.
+	ReferencedPropertyGraphs []*PropertyGraphReference
+	// Output only. The schema of the results. Present only for successful dry
+	// run of non-legacy SQL queries.
+	Schema *TableSchema
+	// Output only. The number of rows affected by a DML statement. Present
+	// only for DML statements INSERT, UPDATE or DELETE.
+	NumDmlAffectedRows *wrapperspb.Int64Value
+	// Output only. Detailed statistics for DML statements INSERT, UPDATE, DELETE,
+	// MERGE or TRUNCATE.
+	DmlStats *DmlStats
+	// Output only. GoogleSQL only: list of undeclared query
+	// parameters detected during a dry run validation.
+	UndeclaredQueryParameters []*QueryParameter
+	// Output only. The type of query statement, if valid.
+	// Possible values:
+	//
+	// * `SELECT`:
+	// [`SELECT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax#select_list)
+	// statement.
+	// * `ASSERT`:
+	// [`ASSERT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/debugging-statements#assert)
+	// statement.
+	// * `INSERT`:
+	// [`INSERT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/dml-syntax#insert_statement)
+	// statement.
+	// * `UPDATE`:
+	// [`UPDATE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/dml-syntax#update_statement)
+	// statement.
+	// * `DELETE`:
+	// [`DELETE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-manipulation-language)
+	// statement.
+	// * `MERGE`:
+	// [`MERGE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-manipulation-language)
+	// statement.
+	// * `CREATE_TABLE`: [`CREATE
+	// TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_table_statement)
+	// statement, without `AS SELECT`.
+	// * `CREATE_TABLE_AS_SELECT`: [`CREATE TABLE AS
+	// SELECT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_table_statement)
+	// statement.
+	// * `CREATE_VIEW`: [`CREATE
+	// VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_view_statement)
+	// statement.
+	// * `CREATE_MODEL`: [`CREATE
+	// MODEL`](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-create#create_model_statement)
+	// statement.
+	// * `CREATE_MATERIALIZED_VIEW`: [`CREATE MATERIALIZED
+	// VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_materialized_view_statement)
+	// statement.
+	// * `CREATE_FUNCTION`: [`CREATE
+	// FUNCTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_function_statement)
+	// statement.
+	// * `CREATE_TABLE_FUNCTION`: [`CREATE TABLE
+	// FUNCTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_table_function_statement)
+	// statement.
+	// * `CREATE_PROCEDURE`: [`CREATE
+	// PROCEDURE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_procedure)
+	// statement.
+	// * `CREATE_ROW_ACCESS_POLICY`: [`CREATE ROW ACCESS
+	// POLICY`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_row_access_policy_statement)
+	// statement.
+	// * `CREATE_SCHEMA`: [`CREATE
+	// SCHEMA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_schema_statement)
+	// statement.
+	// * `CREATE_SNAPSHOT_TABLE`: [`CREATE SNAPSHOT
+	// TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_snapshot_table_statement)
+	// statement.
+	// * `CREATE_SEARCH_INDEX`: [`CREATE SEARCH
+	// INDEX`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_search_index_statement)
+	// statement.
+	// * `DROP_TABLE`: [`DROP
+	// TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_table_statement)
+	// statement.
+	// * `DROP_EXTERNAL_TABLE`: [`DROP EXTERNAL
+	// TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_external_table_statement)
+	// statement.
+	// * `DROP_VIEW`: [`DROP
+	// VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_view_statement)
+	// statement.
+	// * `DROP_MODEL`: [`DROP
+	// MODEL`](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-drop-model)
+	// statement.
+	//   - `DROP_MATERIALIZED_VIEW`: [`DROP MATERIALIZED
+	//     VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_materialized_view_statement)
+	//
+	// statement.
+	// * `DROP_FUNCTION` : [`DROP
+	// FUNCTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_function_statement)
+	// statement.
+	// * `DROP_TABLE_FUNCTION` : [`DROP TABLE
+	// FUNCTION`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_table_function)
+	// statement.
+	// * `DROP_PROCEDURE`: [`DROP
+	// PROCEDURE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_procedure_statement)
+	// statement.
+	// * `DROP_SEARCH_INDEX`: [`DROP SEARCH
+	// INDEX`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_search_index)
+	// statement.
+	// * `DROP_SCHEMA`: [`DROP
+	// SCHEMA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_schema_statement)
+	// statement.
+	// * `DROP_SNAPSHOT_TABLE`: [`DROP SNAPSHOT
+	// TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_snapshot_table_statement)
+	// statement.
+	// * `DROP_ROW_ACCESS_POLICY`: [`DROP [ALL] ROW ACCESS
+	// POLICY|POLICIES`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#drop_row_access_policy_statement)
+	// statement.
+	// * `ALTER_TABLE`: [`ALTER
+	// TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_table_set_options_statement)
+	// statement.
+	// * `ALTER_VIEW`: [`ALTER
+	// VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_view_set_options_statement)
+	// statement.
+	// * `ALTER_MATERIALIZED_VIEW`: [`ALTER MATERIALIZED
+	// VIEW`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_materialized_view_set_options_statement)
+	// statement.
+	// * `ALTER_SCHEMA`: [`ALTER
+	// SCHEMA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#alter_schema_set_options_statement)
+	// statement.
+	// * `SCRIPT`:
+	// [`SCRIPT`](https://cloud.google.com/bigquery/docs/reference/standard-sql/procedural-language).
+	// * `TRUNCATE_TABLE`: [`TRUNCATE
+	// TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/dml-syntax#truncate_table_statement)
+	// statement.
+	// * `CREATE_EXTERNAL_TABLE`: [`CREATE EXTERNAL
+	// TABLE`](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#create_external_table_statement)
+	// statement.
+	// * `EXPORT_DATA`: [`EXPORT
+	// DATA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/other-statements#export_data_statement)
+	// statement.
+	// * `EXPORT_MODEL`: [`EXPORT
+	// MODEL`](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-export-model)
+	// statement.
+	// * `LOAD_DATA`: [`LOAD
+	// DATA`](https://cloud.google.com/bigquery/docs/reference/standard-sql/other-statements#load_data_statement)
+	// statement.
+	// * `CALL`:
+	// [`CALL`](https://cloud.google.com/bigquery/docs/reference/standard-sql/procedural-language#call)
+	// statement.
+	StatementType string
+	// Output only. The DDL operation performed, possibly
+	// dependent on the pre-existence of the DDL target.
+	DdlOperationPerformed string
+	// Output only. The DDL target table. Present only for
+	// CREATE/DROP TABLE/VIEW and DROP ALL ROW ACCESS POLICIES queries.
+	DdlTargetTable *TableReference
+	// Output only. The table after rename. Present only for ALTER TABLE RENAME TO
+	// query.
+	DdlDestinationTable *TableReference
+	// Output only. The DDL target row access policy. Present only for
+	// CREATE/DROP ROW ACCESS POLICY queries.
+	DdlTargetRowAccessPolicy *RowAccessPolicyReference
+	// Output only. The number of row access policies affected by a DDL statement.
+	// Present only for DROP ALL ROW ACCESS POLICIES queries.
+	DdlAffectedRowAccessPolicyCount *wrapperspb.Int64Value
+	// Output only. [Beta] The DDL target routine. Present only for
+	// CREATE/DROP FUNCTION/PROCEDURE queries.
+	DdlTargetRoutine *RoutineReference
+	// Output only. The DDL target dataset. Present only for CREATE/ALTER/DROP
+	// SCHEMA(dataset) queries.
+	DdlTargetDataset *DatasetReference
+	// Output only. Statistics of a BigQuery ML training job.
+	MlStatistics *MlStatistics
+	// Output only. Stats for EXPORT DATA statement.
+	ExportDataStatistics *ExportDataStatistics
+	// Output only. Job cost breakdown as bigquery internal cost and external
+	// service costs.
+	ExternalServiceCosts []*ExternalServiceCost
+	// Output only. BI Engine specific Statistics.
+	BiEngineStatistics *BiEngineStatistics
+	// Output only. Statistics for a LOAD query.
+	LoadQueryStatistics *LoadQueryStatistics
+	// Output only. Referenced table for DCL statement.
+	DclTargetTable *TableReference
+	// Output only. Referenced view for DCL statement.
+	DclTargetView *TableReference
+	// Output only. Referenced dataset for DCL statement.
+	DclTargetDataset *DatasetReference
+	// Output only. Search query specific statistics.
+	SearchStatistics *SearchStatistics
+	// Output only. Vector Search query specific statistics.
+	VectorSearchStatistics *VectorSearchStatistics
+	// Output only. Performance insights.
+	PerformanceInsights *PerformanceInsights
+	// Output only. Query optimization information for a QUERY job.
+	QueryInfo *QueryInfo
+	// Output only. Statistics of a Spark procedure job.
+	SparkStatistics *SparkStatistics
+	// Output only. Total bytes transferred for BigQuery Omni queries from the
+	// remote cloud back to Google Cloud. This tracks data movement over
+	// Google-managed connections (like query results). It doesn't include input
+	// data read from the external data lake (for example, S3) because that data
+	// stays within the remote cloud.
+	TransferredBytes *wrapperspb.Int64Value
+	// Output only. Statistics of materialized views of a query job.
+	MaterializedViewStatistics *MaterializedViewStatistics
+	// Output only. Statistics of metadata cache usage in a query for BigLake
+	// tables.
+	MetadataCacheStatistics *MetadataCacheStatistics
+	// Output only. Statistics related to incremental query results, if enabled
+	// for the query. This feature is not yet available.
+	IncrementalResultStats *IncrementalResultStats
+	// Output only. Statistics related to GenAI usage in the query.
+	GenAiStats *GenAiStats
+	// Output only. Storage and caching statistics per cloud provider for queries
+	// over object storage.
+	ObjectStorageStats []*ObjectStorageStats
+}
+
+func (b0 JobStatistics2_builder) Build() *JobStatistics2 {
+	m0 := &JobStatistics2{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.QueryPlan = b.QueryPlan
+	x.EstimatedBytesProcessed = b.EstimatedBytesProcessed
+	x.Timeline = b.Timeline
+	x.TotalPartitionsProcessed = b.TotalPartitionsProcessed
+	x.TotalBytesProcessed = b.TotalBytesProcessed
+	x.TotalBytesProcessedAccuracy = b.TotalBytesProcessedAccuracy
+	x.TotalBytesBilled = b.TotalBytesBilled
+	x.BillingTier = b.BillingTier
+	x.TotalSlotMs = b.TotalSlotMs
+	x.TotalServicesSkuSlotMs = b.TotalServicesSkuSlotMs
+	x.CacheHit = b.CacheHit
+	x.ReferencedTables = b.ReferencedTables
+	x.ReferencedRoutines = b.ReferencedRoutines
+	x.ReferencedPropertyGraphs = b.ReferencedPropertyGraphs
+	x.Schema = b.Schema
+	x.NumDmlAffectedRows = b.NumDmlAffectedRows
+	x.DmlStats = b.DmlStats
+	x.UndeclaredQueryParameters = b.UndeclaredQueryParameters
+	x.StatementType = b.StatementType
+	x.DdlOperationPerformed = b.DdlOperationPerformed
+	x.DdlTargetTable = b.DdlTargetTable
+	x.DdlDestinationTable = b.DdlDestinationTable
+	x.DdlTargetRowAccessPolicy = b.DdlTargetRowAccessPolicy
+	x.DdlAffectedRowAccessPolicyCount = b.DdlAffectedRowAccessPolicyCount
+	x.DdlTargetRoutine = b.DdlTargetRoutine
+	x.DdlTargetDataset = b.DdlTargetDataset
+	x.MlStatistics = b.MlStatistics
+	x.ExportDataStatistics = b.ExportDataStatistics
+	x.ExternalServiceCosts = b.ExternalServiceCosts
+	x.BiEngineStatistics = b.BiEngineStatistics
+	x.LoadQueryStatistics = b.LoadQueryStatistics
+	x.DclTargetTable = b.DclTargetTable
+	x.DclTargetView = b.DclTargetView
+	x.DclTargetDataset = b.DclTargetDataset
+	x.SearchStatistics = b.SearchStatistics
+	x.VectorSearchStatistics = b.VectorSearchStatistics
+	x.PerformanceInsights = b.PerformanceInsights
+	x.QueryInfo = b.QueryInfo
+	x.SparkStatistics = b.SparkStatistics
+	x.TransferredBytes = b.TransferredBytes
+	x.MaterializedViewStatistics = b.MaterializedViewStatistics
+	x.MetadataCacheStatistics = b.MetadataCacheStatistics
+	x.IncrementalResultStats = b.IncrementalResultStats
+	x.GenAiStats = b.GenAiStats
+	x.ObjectStorageStats = b.ObjectStorageStats
+	return m0
+}
+
 // Storage and caching statistics for object storage.
 type ObjectStorageStats struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The cloud provider for this block of statistics.
 	CloudProvider *ObjectStorageStats_CloudProvider `protobuf:"varint,1,opt,name=cloud_provider,json=cloudProvider,proto3,enum=google.cloud.bigquery.v2.ObjectStorageStats_CloudProvider,oneof" json:"cloud_provider,omitempty"`
 	// Total bytes read directly from the cloud provider's storage.
@@ -3201,11 +5336,6 @@ func (x *ObjectStorageStats) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ObjectStorageStats.ProtoReflect.Descriptor instead.
-func (*ObjectStorageStats) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{16}
-}
-
 func (x *ObjectStorageStats) GetCloudProvider() ObjectStorageStats_CloudProvider {
 	if x != nil && x.CloudProvider != nil {
 		return *x.CloudProvider
@@ -3227,9 +5357,76 @@ func (x *ObjectStorageStats) GetCacheBytesRead() int64 {
 	return 0
 }
 
+func (x *ObjectStorageStats) SetCloudProvider(v ObjectStorageStats_CloudProvider) {
+	x.CloudProvider = &v
+}
+
+func (x *ObjectStorageStats) SetObjectStorageBytesRead(v int64) {
+	x.ObjectStorageBytesRead = &v
+}
+
+func (x *ObjectStorageStats) SetCacheBytesRead(v int64) {
+	x.CacheBytesRead = &v
+}
+
+func (x *ObjectStorageStats) HasCloudProvider() bool {
+	if x == nil {
+		return false
+	}
+	return x.CloudProvider != nil
+}
+
+func (x *ObjectStorageStats) HasObjectStorageBytesRead() bool {
+	if x == nil {
+		return false
+	}
+	return x.ObjectStorageBytesRead != nil
+}
+
+func (x *ObjectStorageStats) HasCacheBytesRead() bool {
+	if x == nil {
+		return false
+	}
+	return x.CacheBytesRead != nil
+}
+
+func (x *ObjectStorageStats) ClearCloudProvider() {
+	x.CloudProvider = nil
+}
+
+func (x *ObjectStorageStats) ClearObjectStorageBytesRead() {
+	x.ObjectStorageBytesRead = nil
+}
+
+func (x *ObjectStorageStats) ClearCacheBytesRead() {
+	x.CacheBytesRead = nil
+}
+
+type ObjectStorageStats_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The cloud provider for this block of statistics.
+	CloudProvider *ObjectStorageStats_CloudProvider
+	// Total bytes read directly from the cloud provider's storage.
+	ObjectStorageBytesRead *int64
+	// Total bytes read from the GCP Lakehouse-internal cache, avoiding an
+	// object storage read.
+	CacheBytesRead *int64
+}
+
+func (b0 ObjectStorageStats_builder) Build() *ObjectStorageStats {
+	m0 := &ObjectStorageStats{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.CloudProvider = b.CloudProvider
+	x.ObjectStorageBytesRead = b.ObjectStorageBytesRead
+	x.CacheBytesRead = b.CacheBytesRead
+	return m0
+}
+
 // Statistics for a load job.
 type JobStatistics3 struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. Number of source files in a load job.
 	InputFiles *wrapperspb.Int64Value `protobuf:"bytes,1,opt,name=input_files,json=inputFiles,proto3" json:"input_files,omitempty"`
 	// Output only. Number of bytes of source data in a load job.
@@ -3277,11 +5474,6 @@ func (x *JobStatistics3) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use JobStatistics3.ProtoReflect.Descriptor instead.
-func (*JobStatistics3) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{17}
-}
-
 func (x *JobStatistics3) GetInputFiles() *wrapperspb.Int64Value {
 	if x != nil {
 		return x.InputFiles
@@ -3324,9 +5516,124 @@ func (x *JobStatistics3) GetTimeline() []*QueryTimelineSample {
 	return nil
 }
 
+func (x *JobStatistics3) SetInputFiles(v *wrapperspb.Int64Value) {
+	x.InputFiles = v
+}
+
+func (x *JobStatistics3) SetInputFileBytes(v *wrapperspb.Int64Value) {
+	x.InputFileBytes = v
+}
+
+func (x *JobStatistics3) SetOutputRows(v *wrapperspb.Int64Value) {
+	x.OutputRows = v
+}
+
+func (x *JobStatistics3) SetOutputBytes(v *wrapperspb.Int64Value) {
+	x.OutputBytes = v
+}
+
+func (x *JobStatistics3) SetBadRecords(v *wrapperspb.Int64Value) {
+	x.BadRecords = v
+}
+
+func (x *JobStatistics3) SetTimeline(v []*QueryTimelineSample) {
+	x.Timeline = v
+}
+
+func (x *JobStatistics3) HasInputFiles() bool {
+	if x == nil {
+		return false
+	}
+	return x.InputFiles != nil
+}
+
+func (x *JobStatistics3) HasInputFileBytes() bool {
+	if x == nil {
+		return false
+	}
+	return x.InputFileBytes != nil
+}
+
+func (x *JobStatistics3) HasOutputRows() bool {
+	if x == nil {
+		return false
+	}
+	return x.OutputRows != nil
+}
+
+func (x *JobStatistics3) HasOutputBytes() bool {
+	if x == nil {
+		return false
+	}
+	return x.OutputBytes != nil
+}
+
+func (x *JobStatistics3) HasBadRecords() bool {
+	if x == nil {
+		return false
+	}
+	return x.BadRecords != nil
+}
+
+func (x *JobStatistics3) ClearInputFiles() {
+	x.InputFiles = nil
+}
+
+func (x *JobStatistics3) ClearInputFileBytes() {
+	x.InputFileBytes = nil
+}
+
+func (x *JobStatistics3) ClearOutputRows() {
+	x.OutputRows = nil
+}
+
+func (x *JobStatistics3) ClearOutputBytes() {
+	x.OutputBytes = nil
+}
+
+func (x *JobStatistics3) ClearBadRecords() {
+	x.BadRecords = nil
+}
+
+type JobStatistics3_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. Number of source files in a load job.
+	InputFiles *wrapperspb.Int64Value
+	// Output only. Number of bytes of source data in a load job.
+	InputFileBytes *wrapperspb.Int64Value
+	// Output only. Number of rows imported in a load job.
+	// Note that while an import job is in the running state, this
+	// value may change.
+	OutputRows *wrapperspb.Int64Value
+	// Output only. Size of the loaded data in bytes. Note
+	// that while a load job is in the running state, this value may change.
+	OutputBytes *wrapperspb.Int64Value
+	// Output only. The number of bad records encountered. Note that if the job
+	// has failed because of more bad records encountered than the maximum
+	// allowed in the load job configuration, then this number can be less than
+	// the total number of bad records present in the input data.
+	BadRecords *wrapperspb.Int64Value
+	// Output only. Describes a timeline of job execution.
+	Timeline []*QueryTimelineSample
+}
+
+func (b0 JobStatistics3_builder) Build() *JobStatistics3 {
+	m0 := &JobStatistics3{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.InputFiles = b.InputFiles
+	x.InputFileBytes = b.InputFileBytes
+	x.OutputRows = b.OutputRows
+	x.OutputBytes = b.OutputBytes
+	x.BadRecords = b.BadRecords
+	x.Timeline = b.Timeline
+	return m0
+}
+
 // Statistics for an extract job.
 type JobStatistics4 struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. Number of files per destination URI or URI pattern
 	// specified in the extract configuration. These values will be in the same
 	// order as the URIs specified in the 'destinationUris' field.
@@ -3367,11 +5674,6 @@ func (x *JobStatistics4) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use JobStatistics4.ProtoReflect.Descriptor instead.
-func (*JobStatistics4) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{18}
-}
-
 func (x *JobStatistics4) GetDestinationUriFileCounts() []int64 {
 	if x != nil {
 		return x.DestinationUriFileCounts
@@ -3393,9 +5695,58 @@ func (x *JobStatistics4) GetTimeline() []*QueryTimelineSample {
 	return nil
 }
 
+func (x *JobStatistics4) SetDestinationUriFileCounts(v []int64) {
+	x.DestinationUriFileCounts = v
+}
+
+func (x *JobStatistics4) SetInputBytes(v *wrapperspb.Int64Value) {
+	x.InputBytes = v
+}
+
+func (x *JobStatistics4) SetTimeline(v []*QueryTimelineSample) {
+	x.Timeline = v
+}
+
+func (x *JobStatistics4) HasInputBytes() bool {
+	if x == nil {
+		return false
+	}
+	return x.InputBytes != nil
+}
+
+func (x *JobStatistics4) ClearInputBytes() {
+	x.InputBytes = nil
+}
+
+type JobStatistics4_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. Number of files per destination URI or URI pattern
+	// specified in the extract configuration. These values will be in the same
+	// order as the URIs specified in the 'destinationUris' field.
+	DestinationUriFileCounts []int64
+	// Output only. Number of user bytes extracted into the result. This is the
+	// byte count as computed by BigQuery for billing purposes
+	// and doesn't have any relationship with the number of actual
+	// result bytes extracted in the desired format.
+	InputBytes *wrapperspb.Int64Value
+	// Output only. Describes a timeline of job execution.
+	Timeline []*QueryTimelineSample
+}
+
+func (b0 JobStatistics4_builder) Build() *JobStatistics4 {
+	m0 := &JobStatistics4{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.DestinationUriFileCounts = b.DestinationUriFileCounts
+	x.InputBytes = b.InputBytes
+	x.Timeline = b.Timeline
+	return m0
+}
+
 // Statistics for a copy job.
 type CopyJobStatistics struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. Number of rows copied to the destination table.
 	CopiedRows *wrapperspb.Int64Value `protobuf:"bytes,1,opt,name=copied_rows,json=copiedRows,proto3" json:"copied_rows,omitempty"`
 	// Output only. Number of logical bytes copied to the destination table.
@@ -3432,11 +5783,6 @@ func (x *CopyJobStatistics) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CopyJobStatistics.ProtoReflect.Descriptor instead.
-func (*CopyJobStatistics) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{19}
-}
-
 func (x *CopyJobStatistics) GetCopiedRows() *wrapperspb.Int64Value {
 	if x != nil {
 		return x.CopiedRows
@@ -3458,9 +5804,65 @@ func (x *CopyJobStatistics) GetRemoteDestinationRegion() string {
 	return ""
 }
 
+func (x *CopyJobStatistics) SetCopiedRows(v *wrapperspb.Int64Value) {
+	x.CopiedRows = v
+}
+
+func (x *CopyJobStatistics) SetCopiedLogicalBytes(v *wrapperspb.Int64Value) {
+	x.CopiedLogicalBytes = v
+}
+
+func (x *CopyJobStatistics) SetRemoteDestinationRegion(v string) {
+	x.RemoteDestinationRegion = v
+}
+
+func (x *CopyJobStatistics) HasCopiedRows() bool {
+	if x == nil {
+		return false
+	}
+	return x.CopiedRows != nil
+}
+
+func (x *CopyJobStatistics) HasCopiedLogicalBytes() bool {
+	if x == nil {
+		return false
+	}
+	return x.CopiedLogicalBytes != nil
+}
+
+func (x *CopyJobStatistics) ClearCopiedRows() {
+	x.CopiedRows = nil
+}
+
+func (x *CopyJobStatistics) ClearCopiedLogicalBytes() {
+	x.CopiedLogicalBytes = nil
+}
+
+type CopyJobStatistics_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. Number of rows copied to the destination table.
+	CopiedRows *wrapperspb.Int64Value
+	// Output only. Number of logical bytes copied to the destination table.
+	CopiedLogicalBytes *wrapperspb.Int64Value
+	// Output only. Destination region for a cross-region copy job. Not set for
+	// in-region copy jobs.
+	RemoteDestinationRegion string
+}
+
+func (b0 CopyJobStatistics_builder) Build() *CopyJobStatistics {
+	m0 := &CopyJobStatistics{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.CopiedRows = b.CopiedRows
+	x.CopiedLogicalBytes = b.CopiedLogicalBytes
+	x.RemoteDestinationRegion = b.RemoteDestinationRegion
+	return m0
+}
+
 // Job statistics specific to a BigQuery ML training job.
 type MlStatistics struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. Maximum number of iterations specified as max_iterations in
 	// the 'CREATE MODEL' query. The actual number of iterations may be less than
 	// this number due to early stop.
@@ -3506,11 +5908,6 @@ func (x *MlStatistics) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use MlStatistics.ProtoReflect.Descriptor instead.
-func (*MlStatistics) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{20}
-}
-
 func (x *MlStatistics) GetMaxIterations() int64 {
 	if x != nil {
 		return x.MaxIterations
@@ -3546,9 +5943,62 @@ func (x *MlStatistics) GetHparamTrials() []*Model_HparamTuningTrial {
 	return nil
 }
 
+func (x *MlStatistics) SetMaxIterations(v int64) {
+	x.MaxIterations = v
+}
+
+func (x *MlStatistics) SetIterationResults(v []*Model_TrainingRun_IterationResult) {
+	x.IterationResults = v
+}
+
+func (x *MlStatistics) SetModelType(v Model_ModelType) {
+	x.ModelType = v
+}
+
+func (x *MlStatistics) SetTrainingType(v MlStatistics_TrainingType) {
+	x.TrainingType = v
+}
+
+func (x *MlStatistics) SetHparamTrials(v []*Model_HparamTuningTrial) {
+	x.HparamTrials = v
+}
+
+type MlStatistics_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. Maximum number of iterations specified as max_iterations in
+	// the 'CREATE MODEL' query. The actual number of iterations may be less than
+	// this number due to early stop.
+	MaxIterations int64
+	// Results for all completed iterations.
+	// Empty for [hyperparameter tuning
+	// jobs](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview).
+	IterationResults []*Model_TrainingRun_IterationResult
+	// Output only. The type of the model that is being trained.
+	ModelType Model_ModelType
+	// Output only. Training type of the job.
+	TrainingType MlStatistics_TrainingType
+	// Output only. Trials of a [hyperparameter tuning
+	// job](https://cloud.google.com/bigquery-ml/docs/reference/standard-sql/bigqueryml-syntax-hp-tuning-overview)
+	// sorted by trial_id.
+	HparamTrials []*Model_HparamTuningTrial
+}
+
+func (b0 MlStatistics_builder) Build() *MlStatistics {
+	m0 := &MlStatistics{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.MaxIterations = b.MaxIterations
+	x.IterationResults = b.IterationResults
+	x.ModelType = b.ModelType
+	x.TrainingType = b.TrainingType
+	x.HparamTrials = b.HparamTrials
+	return m0
+}
+
 // Job statistics specific to the child job of a script.
 type ScriptStatistics struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Whether this child job was a statement or expression.
 	EvaluationKind ScriptStatistics_EvaluationKind `protobuf:"varint,1,opt,name=evaluation_kind,json=evaluationKind,proto3,enum=google.cloud.bigquery.v2.ScriptStatistics_EvaluationKind" json:"evaluation_kind,omitempty"`
 	// Stack trace showing the line/column/procedure name of each frame on the
@@ -3584,11 +6034,6 @@ func (x *ScriptStatistics) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ScriptStatistics.ProtoReflect.Descriptor instead.
-func (*ScriptStatistics) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{21}
-}
-
 func (x *ScriptStatistics) GetEvaluationKind() ScriptStatistics_EvaluationKind {
 	if x != nil {
 		return x.EvaluationKind
@@ -3603,9 +6048,37 @@ func (x *ScriptStatistics) GetStackFrames() []*ScriptStatistics_ScriptStackFrame
 	return nil
 }
 
+func (x *ScriptStatistics) SetEvaluationKind(v ScriptStatistics_EvaluationKind) {
+	x.EvaluationKind = v
+}
+
+func (x *ScriptStatistics) SetStackFrames(v []*ScriptStatistics_ScriptStackFrame) {
+	x.StackFrames = v
+}
+
+type ScriptStatistics_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Whether this child job was a statement or expression.
+	EvaluationKind ScriptStatistics_EvaluationKind
+	// Stack trace showing the line/column/procedure name of each frame on the
+	// stack at the point where the current evaluation happened. The leaf frame
+	// is first, the primary script is last. Never empty.
+	StackFrames []*ScriptStatistics_ScriptStackFrame
+}
+
+func (b0 ScriptStatistics_builder) Build() *ScriptStatistics {
+	m0 := &ScriptStatistics{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.EvaluationKind = b.EvaluationKind
+	x.StackFrames = b.StackFrames
+	return m0
+}
+
 // Statistics for row-level security.
 type RowLevelSecurityStatistics struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Whether any accessed data was protected by row access policies.
 	RowLevelSecurityApplied bool `protobuf:"varint,1,opt,name=row_level_security_applied,json=rowLevelSecurityApplied,proto3" json:"row_level_security_applied,omitempty"`
 	unknownFields           protoimpl.UnknownFields
@@ -3637,11 +6110,6 @@ func (x *RowLevelSecurityStatistics) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RowLevelSecurityStatistics.ProtoReflect.Descriptor instead.
-func (*RowLevelSecurityStatistics) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{22}
-}
-
 func (x *RowLevelSecurityStatistics) GetRowLevelSecurityApplied() bool {
 	if x != nil {
 		return x.RowLevelSecurityApplied
@@ -3649,9 +6117,28 @@ func (x *RowLevelSecurityStatistics) GetRowLevelSecurityApplied() bool {
 	return false
 }
 
+func (x *RowLevelSecurityStatistics) SetRowLevelSecurityApplied(v bool) {
+	x.RowLevelSecurityApplied = v
+}
+
+type RowLevelSecurityStatistics_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Whether any accessed data was protected by row access policies.
+	RowLevelSecurityApplied bool
+}
+
+func (b0 RowLevelSecurityStatistics_builder) Build() *RowLevelSecurityStatistics {
+	m0 := &RowLevelSecurityStatistics{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.RowLevelSecurityApplied = b.RowLevelSecurityApplied
+	return m0
+}
+
 // Statistics for data-masking.
 type DataMaskingStatistics struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Whether any accessed data was protected by the data masking.
 	DataMaskingApplied bool `protobuf:"varint,1,opt,name=data_masking_applied,json=dataMaskingApplied,proto3" json:"data_masking_applied,omitempty"`
 	unknownFields      protoimpl.UnknownFields
@@ -3683,11 +6170,6 @@ func (x *DataMaskingStatistics) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DataMaskingStatistics.ProtoReflect.Descriptor instead.
-func (*DataMaskingStatistics) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{23}
-}
-
 func (x *DataMaskingStatistics) GetDataMaskingApplied() bool {
 	if x != nil {
 		return x.DataMaskingApplied
@@ -3695,9 +6177,28 @@ func (x *DataMaskingStatistics) GetDataMaskingApplied() bool {
 	return false
 }
 
+func (x *DataMaskingStatistics) SetDataMaskingApplied(v bool) {
+	x.DataMaskingApplied = v
+}
+
+type DataMaskingStatistics_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Whether any accessed data was protected by the data masking.
+	DataMaskingApplied bool
+}
+
+func (b0 DataMaskingStatistics_builder) Build() *DataMaskingStatistics {
+	m0 := &DataMaskingStatistics{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.DataMaskingApplied = b.DataMaskingApplied
+	return m0
+}
+
 // Statistics for a single job execution.
 type JobStatistics struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. Creation time of this job, in milliseconds since the epoch.
 	// This field will be present on all jobs.
 	CreationTime int64 `protobuf:"varint,1,opt,name=creation_time,json=creationTime,proto3" json:"creation_time,omitempty"`
@@ -3795,11 +6296,6 @@ func (x *JobStatistics) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use JobStatistics.ProtoReflect.Descriptor instead.
-func (*JobStatistics) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *JobStatistics) GetCreationTime() int64 {
@@ -3970,9 +6466,354 @@ func (x *JobStatistics) GetParentGlobalQueryJob() *JobReference {
 	return nil
 }
 
+func (x *JobStatistics) SetCreationTime(v int64) {
+	x.CreationTime = v
+}
+
+func (x *JobStatistics) SetStartTime(v int64) {
+	x.StartTime = v
+}
+
+func (x *JobStatistics) SetEndTime(v int64) {
+	x.EndTime = v
+}
+
+func (x *JobStatistics) SetTotalBytesProcessed(v *wrapperspb.Int64Value) {
+	x.TotalBytesProcessed = v
+}
+
+func (x *JobStatistics) SetCompletionRatio(v *wrapperspb.DoubleValue) {
+	x.CompletionRatio = v
+}
+
+func (x *JobStatistics) SetQuotaDeferments(v []string) {
+	x.QuotaDeferments = v
+}
+
+func (x *JobStatistics) SetQuery(v *JobStatistics2) {
+	x.Query = v
+}
+
+func (x *JobStatistics) SetLoad(v *JobStatistics3) {
+	x.Load = v
+}
+
+func (x *JobStatistics) SetExtract(v *JobStatistics4) {
+	x.Extract = v
+}
+
+func (x *JobStatistics) SetCopy(v *CopyJobStatistics) {
+	x.Copy = v
+}
+
+func (x *JobStatistics) SetTotalSlotMs(v *wrapperspb.Int64Value) {
+	x.TotalSlotMs = v
+}
+
+func (x *JobStatistics) SetReservationId(v string) {
+	x.ReservationId = v
+}
+
+func (x *JobStatistics) SetNumChildJobs(v int64) {
+	x.NumChildJobs = v
+}
+
+func (x *JobStatistics) SetParentJobId(v string) {
+	x.ParentJobId = v
+}
+
+func (x *JobStatistics) SetScriptStatistics(v *ScriptStatistics) {
+	x.ScriptStatistics = v
+}
+
+func (x *JobStatistics) SetRowLevelSecurityStatistics(v *RowLevelSecurityStatistics) {
+	x.RowLevelSecurityStatistics = v
+}
+
+func (x *JobStatistics) SetDataMaskingStatistics(v *DataMaskingStatistics) {
+	x.DataMaskingStatistics = v
+}
+
+func (x *JobStatistics) SetTransactionInfo(v *JobStatistics_TransactionInfo) {
+	x.TransactionInfo = v
+}
+
+func (x *JobStatistics) SetSessionInfo(v *SessionInfo) {
+	x.SessionInfo = v
+}
+
+func (x *JobStatistics) SetFinalExecutionDurationMs(v int64) {
+	x.FinalExecutionDurationMs = v
+}
+
+func (x *JobStatistics) SetEdition(v ReservationEdition) {
+	x.Edition = v
+}
+
+func (x *JobStatistics) SetReservationGroupPath(v []string) {
+	x.ReservationGroupPath = v
+}
+
+func (x *JobStatistics) SetGlobalQueryRemoteRegions(v []string) {
+	x.GlobalQueryRemoteRegions = v
+}
+
+func (x *JobStatistics) SetParentGlobalQueryJob(v *JobReference) {
+	x.ParentGlobalQueryJob = v
+}
+
+func (x *JobStatistics) HasTotalBytesProcessed() bool {
+	if x == nil {
+		return false
+	}
+	return x.TotalBytesProcessed != nil
+}
+
+func (x *JobStatistics) HasCompletionRatio() bool {
+	if x == nil {
+		return false
+	}
+	return x.CompletionRatio != nil
+}
+
+func (x *JobStatistics) HasQuery() bool {
+	if x == nil {
+		return false
+	}
+	return x.Query != nil
+}
+
+func (x *JobStatistics) HasLoad() bool {
+	if x == nil {
+		return false
+	}
+	return x.Load != nil
+}
+
+func (x *JobStatistics) HasExtract() bool {
+	if x == nil {
+		return false
+	}
+	return x.Extract != nil
+}
+
+func (x *JobStatistics) HasCopy() bool {
+	if x == nil {
+		return false
+	}
+	return x.Copy != nil
+}
+
+func (x *JobStatistics) HasTotalSlotMs() bool {
+	if x == nil {
+		return false
+	}
+	return x.TotalSlotMs != nil
+}
+
+func (x *JobStatistics) HasScriptStatistics() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScriptStatistics != nil
+}
+
+func (x *JobStatistics) HasRowLevelSecurityStatistics() bool {
+	if x == nil {
+		return false
+	}
+	return x.RowLevelSecurityStatistics != nil
+}
+
+func (x *JobStatistics) HasDataMaskingStatistics() bool {
+	if x == nil {
+		return false
+	}
+	return x.DataMaskingStatistics != nil
+}
+
+func (x *JobStatistics) HasTransactionInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.TransactionInfo != nil
+}
+
+func (x *JobStatistics) HasSessionInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.SessionInfo != nil
+}
+
+func (x *JobStatistics) HasParentGlobalQueryJob() bool {
+	if x == nil {
+		return false
+	}
+	return x.ParentGlobalQueryJob != nil
+}
+
+func (x *JobStatistics) ClearTotalBytesProcessed() {
+	x.TotalBytesProcessed = nil
+}
+
+func (x *JobStatistics) ClearCompletionRatio() {
+	x.CompletionRatio = nil
+}
+
+func (x *JobStatistics) ClearQuery() {
+	x.Query = nil
+}
+
+func (x *JobStatistics) ClearLoad() {
+	x.Load = nil
+}
+
+func (x *JobStatistics) ClearExtract() {
+	x.Extract = nil
+}
+
+func (x *JobStatistics) ClearCopy() {
+	x.Copy = nil
+}
+
+func (x *JobStatistics) ClearTotalSlotMs() {
+	x.TotalSlotMs = nil
+}
+
+func (x *JobStatistics) ClearScriptStatistics() {
+	x.ScriptStatistics = nil
+}
+
+func (x *JobStatistics) ClearRowLevelSecurityStatistics() {
+	x.RowLevelSecurityStatistics = nil
+}
+
+func (x *JobStatistics) ClearDataMaskingStatistics() {
+	x.DataMaskingStatistics = nil
+}
+
+func (x *JobStatistics) ClearTransactionInfo() {
+	x.TransactionInfo = nil
+}
+
+func (x *JobStatistics) ClearSessionInfo() {
+	x.SessionInfo = nil
+}
+
+func (x *JobStatistics) ClearParentGlobalQueryJob() {
+	x.ParentGlobalQueryJob = nil
+}
+
+type JobStatistics_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. Creation time of this job, in milliseconds since the epoch.
+	// This field will be present on all jobs.
+	CreationTime int64
+	// Output only. Start time of this job, in milliseconds since the epoch.
+	// This field will be present when the job transitions from the PENDING state
+	// to either RUNNING or DONE.
+	StartTime int64
+	// Output only. End time of this job, in milliseconds since the epoch. This
+	// field will be present whenever a job is in the DONE state.
+	EndTime int64
+	// Output only. Total bytes processed for the job.
+	TotalBytesProcessed *wrapperspb.Int64Value
+	// Output only. [TrustedTester] Job progress (0.0 -> 1.0) for LOAD and
+	// EXTRACT jobs.
+	CompletionRatio *wrapperspb.DoubleValue
+	// Output only. Quotas which delayed this job's start time.
+	QuotaDeferments []string
+	// Output only. Statistics for a query job.
+	Query *JobStatistics2
+	// Output only. Statistics for a load job.
+	Load *JobStatistics3
+	// Output only. Statistics for an extract job.
+	Extract *JobStatistics4
+	// Output only. Statistics for a copy job.
+	Copy *CopyJobStatistics
+	// Output only. Slot-milliseconds for the job.
+	TotalSlotMs *wrapperspb.Int64Value
+	// Output only. Name of the primary reservation assigned to this job. Note
+	// that this could be different than reservations reported in the reservation
+	// usage field if parent reservations were used to execute this job.
+	ReservationId string
+	// Output only. Number of child jobs executed.
+	NumChildJobs int64
+	// Output only. If this is a child job, specifies the job ID of the parent.
+	ParentJobId string
+	// Output only. If this a child job of a script, specifies information about
+	// the context of this job within the script.
+	ScriptStatistics *ScriptStatistics
+	// Output only. Statistics for row-level security. Present only for query and
+	// extract jobs.
+	RowLevelSecurityStatistics *RowLevelSecurityStatistics
+	// Output only. Statistics for data-masking. Present only for query and
+	// extract jobs.
+	DataMaskingStatistics *DataMaskingStatistics
+	// Output only. [Alpha] Information of the multi-statement transaction if this
+	// job is part of one.
+	//
+	// This property is only expected on a child job or a job that is in a
+	// session. A script parent job is not part of the transaction started in the
+	// script.
+	TransactionInfo *JobStatistics_TransactionInfo
+	// Output only. Information of the session if this job is part of one.
+	SessionInfo *SessionInfo
+	// Output only. The duration in milliseconds of the execution of the final
+	// attempt of this job, as BigQuery may internally re-attempt to execute the
+	// job.
+	FinalExecutionDurationMs int64
+	// Output only. Name of edition corresponding to the reservation for this job
+	// at the time of this update.
+	Edition ReservationEdition
+	// Output only. The reservation group path of the reservation assigned to this
+	// job. This field has a limit of 10 nested reservation groups. This is to
+	// maintain consistency between reservatins info schema and jobs info schema.
+	// The first reservation group is the root reservation group and the last is
+	// the leaf or lowest level reservation group.
+	ReservationGroupPath []string
+	// Output only. Regions where the global query accesses data.
+	GlobalQueryRemoteRegions []string
+	// Output only. The global query that created this job.
+	ParentGlobalQueryJob *JobReference
+}
+
+func (b0 JobStatistics_builder) Build() *JobStatistics {
+	m0 := &JobStatistics{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.CreationTime = b.CreationTime
+	x.StartTime = b.StartTime
+	x.EndTime = b.EndTime
+	x.TotalBytesProcessed = b.TotalBytesProcessed
+	x.CompletionRatio = b.CompletionRatio
+	x.QuotaDeferments = b.QuotaDeferments
+	x.Query = b.Query
+	x.Load = b.Load
+	x.Extract = b.Extract
+	x.Copy = b.Copy
+	x.TotalSlotMs = b.TotalSlotMs
+	x.ReservationId = b.ReservationId
+	x.NumChildJobs = b.NumChildJobs
+	x.ParentJobId = b.ParentJobId
+	x.ScriptStatistics = b.ScriptStatistics
+	x.RowLevelSecurityStatistics = b.RowLevelSecurityStatistics
+	x.DataMaskingStatistics = b.DataMaskingStatistics
+	x.TransactionInfo = b.TransactionInfo
+	x.SessionInfo = b.SessionInfo
+	x.FinalExecutionDurationMs = b.FinalExecutionDurationMs
+	x.Edition = b.Edition
+	x.ReservationGroupPath = b.ReservationGroupPath
+	x.GlobalQueryRemoteRegions = b.GlobalQueryRemoteRegions
+	x.ParentGlobalQueryJob = b.ParentGlobalQueryJob
+	return m0
+}
+
 // Detailed statistics for DML statements
 type DmlStats struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. Number of inserted Rows. Populated by DML INSERT and MERGE
 	// statements
 	InsertedRowCount *wrapperspb.Int64Value `protobuf:"bytes,1,opt,name=inserted_row_count,json=insertedRowCount,proto3" json:"inserted_row_count,omitempty"`
@@ -4015,11 +6856,6 @@ func (x *DmlStats) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DmlStats.ProtoReflect.Descriptor instead.
-func (*DmlStats) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{25}
-}
-
 func (x *DmlStats) GetInsertedRowCount() *wrapperspb.Int64Value {
 	if x != nil {
 		return x.InsertedRowCount
@@ -4055,9 +6891,92 @@ func (x *DmlStats) GetFineGrainedDmlUnusedReason() DmlStats_FineGrainedDmlUnused
 	return DmlStats_FINE_GRAINED_DML_UNUSED_REASON_UNSPECIFIED
 }
 
+func (x *DmlStats) SetInsertedRowCount(v *wrapperspb.Int64Value) {
+	x.InsertedRowCount = v
+}
+
+func (x *DmlStats) SetDeletedRowCount(v *wrapperspb.Int64Value) {
+	x.DeletedRowCount = v
+}
+
+func (x *DmlStats) SetUpdatedRowCount(v *wrapperspb.Int64Value) {
+	x.UpdatedRowCount = v
+}
+
+func (x *DmlStats) SetDmlMode(v DmlStats_DmlMode) {
+	x.DmlMode = v
+}
+
+func (x *DmlStats) SetFineGrainedDmlUnusedReason(v DmlStats_FineGrainedDmlUnusedReason) {
+	x.FineGrainedDmlUnusedReason = v
+}
+
+func (x *DmlStats) HasInsertedRowCount() bool {
+	if x == nil {
+		return false
+	}
+	return x.InsertedRowCount != nil
+}
+
+func (x *DmlStats) HasDeletedRowCount() bool {
+	if x == nil {
+		return false
+	}
+	return x.DeletedRowCount != nil
+}
+
+func (x *DmlStats) HasUpdatedRowCount() bool {
+	if x == nil {
+		return false
+	}
+	return x.UpdatedRowCount != nil
+}
+
+func (x *DmlStats) ClearInsertedRowCount() {
+	x.InsertedRowCount = nil
+}
+
+func (x *DmlStats) ClearDeletedRowCount() {
+	x.DeletedRowCount = nil
+}
+
+func (x *DmlStats) ClearUpdatedRowCount() {
+	x.UpdatedRowCount = nil
+}
+
+type DmlStats_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. Number of inserted Rows. Populated by DML INSERT and MERGE
+	// statements
+	InsertedRowCount *wrapperspb.Int64Value
+	// Output only. Number of deleted Rows. populated by DML DELETE, MERGE and
+	// TRUNCATE statements.
+	DeletedRowCount *wrapperspb.Int64Value
+	// Output only. Number of updated Rows. Populated by DML UPDATE and MERGE
+	// statements.
+	UpdatedRowCount *wrapperspb.Int64Value
+	// Output only. DML mode used.
+	DmlMode DmlStats_DmlMode
+	// Output only. Reason for disabling fine-grained DML if applicable.
+	FineGrainedDmlUnusedReason DmlStats_FineGrainedDmlUnusedReason
+}
+
+func (b0 DmlStats_builder) Build() *DmlStats {
+	m0 := &DmlStats{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.InsertedRowCount = b.InsertedRowCount
+	x.DeletedRowCount = b.DeletedRowCount
+	x.UpdatedRowCount = b.UpdatedRowCount
+	x.DmlMode = b.DmlMode
+	x.FineGrainedDmlUnusedReason = b.FineGrainedDmlUnusedReason
+	return m0
+}
+
 // Performance insights for the job.
 type PerformanceInsights struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. Average execution ms of previous runs. Indicates the job ran
 	// slow compared to previous executions. To find previous executions, use
 	// INFORMATION_SCHEMA tables and filter jobs with same query hash.
@@ -4100,11 +7019,6 @@ func (x *PerformanceInsights) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PerformanceInsights.ProtoReflect.Descriptor instead.
-func (*PerformanceInsights) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{26}
-}
-
 func (x *PerformanceInsights) GetAvgPreviousExecutionMs() int64 {
 	if x != nil {
 		return x.AvgPreviousExecutionMs
@@ -4133,10 +7047,55 @@ func (x *PerformanceInsights) GetTableChangeInsights() []*TableChangeInsight {
 	return nil
 }
 
+func (x *PerformanceInsights) SetAvgPreviousExecutionMs(v int64) {
+	x.AvgPreviousExecutionMs = v
+}
+
+func (x *PerformanceInsights) SetStagePerformanceStandaloneInsights(v []*StagePerformanceStandaloneInsight) {
+	x.StagePerformanceStandaloneInsights = v
+}
+
+func (x *PerformanceInsights) SetStagePerformanceChangeInsights(v []*StagePerformanceChangeInsight) {
+	x.StagePerformanceChangeInsights = v
+}
+
+func (x *PerformanceInsights) SetTableChangeInsights(v []*TableChangeInsight) {
+	x.TableChangeInsights = v
+}
+
+type PerformanceInsights_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. Average execution ms of previous runs. Indicates the job ran
+	// slow compared to previous executions. To find previous executions, use
+	// INFORMATION_SCHEMA tables and filter jobs with same query hash.
+	AvgPreviousExecutionMs int64
+	// Output only. Standalone query stage performance insights, for exploring
+	// potential improvements.
+	StagePerformanceStandaloneInsights []*StagePerformanceStandaloneInsight
+	// Output only. Query stage performance insights compared to previous runs,
+	// for diagnosing performance regression.
+	StagePerformanceChangeInsights []*StagePerformanceChangeInsight
+	// Output only. Performance insights for table-level attributes that changed
+	// compared to previous runs.
+	TableChangeInsights []*TableChangeInsight
+}
+
+func (b0 PerformanceInsights_builder) Build() *PerformanceInsights {
+	m0 := &PerformanceInsights{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.AvgPreviousExecutionMs = b.AvgPreviousExecutionMs
+	x.StagePerformanceStandaloneInsights = b.StagePerformanceStandaloneInsights
+	x.StagePerformanceChangeInsights = b.StagePerformanceChangeInsights
+	x.TableChangeInsights = b.TableChangeInsights
+	return m0
+}
+
 // Performance insights compared to the previous executions for a specific
 // stage.
 type StagePerformanceChangeInsight struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. The stage id that the insight mapped to.
 	StageId int64 `protobuf:"varint,1,opt,name=stage_id,json=stageId,proto3" json:"stage_id,omitempty"`
 	// Output only. Input data change insight of the query stage.
@@ -4170,11 +7129,6 @@ func (x *StagePerformanceChangeInsight) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use StagePerformanceChangeInsight.ProtoReflect.Descriptor instead.
-func (*StagePerformanceChangeInsight) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{27}
-}
-
 func (x *StagePerformanceChangeInsight) GetStageId() int64 {
 	if x != nil {
 		return x.StageId
@@ -4189,9 +7143,46 @@ func (x *StagePerformanceChangeInsight) GetInputDataChange() *InputDataChange {
 	return nil
 }
 
+func (x *StagePerformanceChangeInsight) SetStageId(v int64) {
+	x.StageId = v
+}
+
+func (x *StagePerformanceChangeInsight) SetInputDataChange(v *InputDataChange) {
+	x.InputDataChange = v
+}
+
+func (x *StagePerformanceChangeInsight) HasInputDataChange() bool {
+	if x == nil {
+		return false
+	}
+	return x.InputDataChange != nil
+}
+
+func (x *StagePerformanceChangeInsight) ClearInputDataChange() {
+	x.InputDataChange = nil
+}
+
+type StagePerformanceChangeInsight_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. The stage id that the insight mapped to.
+	StageId int64
+	// Output only. Input data change insight of the query stage.
+	InputDataChange *InputDataChange
+}
+
+func (b0 StagePerformanceChangeInsight_builder) Build() *StagePerformanceChangeInsight {
+	m0 := &StagePerformanceChangeInsight{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.StageId = b.StageId
+	x.InputDataChange = b.InputDataChange
+	return m0
+}
+
 // Details about the input data change insight.
 type InputDataChange struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. Records read difference percentage compared to a previous run.
 	RecordsReadDiffPercentage float32 `protobuf:"fixed32,1,opt,name=records_read_diff_percentage,json=recordsReadDiffPercentage,proto3" json:"records_read_diff_percentage,omitempty"`
 	unknownFields             protoimpl.UnknownFields
@@ -4223,11 +7214,6 @@ func (x *InputDataChange) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use InputDataChange.ProtoReflect.Descriptor instead.
-func (*InputDataChange) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{28}
-}
-
 func (x *InputDataChange) GetRecordsReadDiffPercentage() float32 {
 	if x != nil {
 		return x.RecordsReadDiffPercentage
@@ -4235,9 +7221,28 @@ func (x *InputDataChange) GetRecordsReadDiffPercentage() float32 {
 	return 0
 }
 
+func (x *InputDataChange) SetRecordsReadDiffPercentage(v float32) {
+	x.RecordsReadDiffPercentage = v
+}
+
+type InputDataChange_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. Records read difference percentage compared to a previous run.
+	RecordsReadDiffPercentage float32
+}
+
+func (b0 InputDataChange_builder) Build() *InputDataChange {
+	m0 := &InputDataChange{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.RecordsReadDiffPercentage = b.RecordsReadDiffPercentage
+	return m0
+}
+
 // Standalone performance insights for a specific stage.
 type StagePerformanceStandaloneInsight struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. The stage id that the insight mapped to.
 	StageId int64 `protobuf:"varint,1,opt,name=stage_id,json=stageId,proto3" json:"stage_id,omitempty"`
 	// Output only. True if the stage has a slot contention issue.
@@ -4278,11 +7283,6 @@ func (x *StagePerformanceStandaloneInsight) ProtoReflect() protoreflect.Message 
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use StagePerformanceStandaloneInsight.ProtoReflect.Descriptor instead.
-func (*StagePerformanceStandaloneInsight) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{29}
 }
 
 func (x *StagePerformanceStandaloneInsight) GetStageId() int64 {
@@ -4327,9 +7327,97 @@ func (x *StagePerformanceStandaloneInsight) GetPartitionSkew() *PartitionSkew {
 	return nil
 }
 
+func (x *StagePerformanceStandaloneInsight) SetStageId(v int64) {
+	x.StageId = v
+}
+
+func (x *StagePerformanceStandaloneInsight) SetSlotContention(v bool) {
+	x.SlotContention = &v
+}
+
+func (x *StagePerformanceStandaloneInsight) SetInsufficientShuffleQuota(v bool) {
+	x.InsufficientShuffleQuota = &v
+}
+
+func (x *StagePerformanceStandaloneInsight) SetBiEngineReasons(v []*BiEngineReason) {
+	x.BiEngineReasons = v
+}
+
+func (x *StagePerformanceStandaloneInsight) SetHighCardinalityJoins(v []*HighCardinalityJoin) {
+	x.HighCardinalityJoins = v
+}
+
+func (x *StagePerformanceStandaloneInsight) SetPartitionSkew(v *PartitionSkew) {
+	x.PartitionSkew = v
+}
+
+func (x *StagePerformanceStandaloneInsight) HasSlotContention() bool {
+	if x == nil {
+		return false
+	}
+	return x.SlotContention != nil
+}
+
+func (x *StagePerformanceStandaloneInsight) HasInsufficientShuffleQuota() bool {
+	if x == nil {
+		return false
+	}
+	return x.InsufficientShuffleQuota != nil
+}
+
+func (x *StagePerformanceStandaloneInsight) HasPartitionSkew() bool {
+	if x == nil {
+		return false
+	}
+	return x.PartitionSkew != nil
+}
+
+func (x *StagePerformanceStandaloneInsight) ClearSlotContention() {
+	x.SlotContention = nil
+}
+
+func (x *StagePerformanceStandaloneInsight) ClearInsufficientShuffleQuota() {
+	x.InsufficientShuffleQuota = nil
+}
+
+func (x *StagePerformanceStandaloneInsight) ClearPartitionSkew() {
+	x.PartitionSkew = nil
+}
+
+type StagePerformanceStandaloneInsight_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. The stage id that the insight mapped to.
+	StageId int64
+	// Output only. True if the stage has a slot contention issue.
+	SlotContention *bool
+	// Output only. True if the stage has insufficient shuffle quota.
+	InsufficientShuffleQuota *bool
+	// Output only. If present, the stage had the following reasons for being
+	// disqualified from BI Engine execution.
+	BiEngineReasons []*BiEngineReason
+	// Output only. High cardinality joins in the stage.
+	HighCardinalityJoins []*HighCardinalityJoin
+	// Output only. Partition skew in the stage.
+	PartitionSkew *PartitionSkew
+}
+
+func (b0 StagePerformanceStandaloneInsight_builder) Build() *StagePerformanceStandaloneInsight {
+	m0 := &StagePerformanceStandaloneInsight{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.StageId = b.StageId
+	x.SlotContention = b.SlotContention
+	x.InsufficientShuffleQuota = b.InsufficientShuffleQuota
+	x.BiEngineReasons = b.BiEngineReasons
+	x.HighCardinalityJoins = b.HighCardinalityJoins
+	x.PartitionSkew = b.PartitionSkew
+	return m0
+}
+
 // High cardinality join detailed information.
 type HighCardinalityJoin struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. Count of left input rows.
 	LeftRows int64 `protobuf:"varint,1,opt,name=left_rows,json=leftRows,proto3" json:"left_rows,omitempty"`
 	// Output only. Count of right input rows.
@@ -4367,11 +7455,6 @@ func (x *HighCardinalityJoin) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use HighCardinalityJoin.ProtoReflect.Descriptor instead.
-func (*HighCardinalityJoin) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{30}
-}
-
 func (x *HighCardinalityJoin) GetLeftRows() int64 {
 	if x != nil {
 		return x.LeftRows
@@ -4400,9 +7483,49 @@ func (x *HighCardinalityJoin) GetStepIndex() int32 {
 	return 0
 }
 
+func (x *HighCardinalityJoin) SetLeftRows(v int64) {
+	x.LeftRows = v
+}
+
+func (x *HighCardinalityJoin) SetRightRows(v int64) {
+	x.RightRows = v
+}
+
+func (x *HighCardinalityJoin) SetOutputRows(v int64) {
+	x.OutputRows = v
+}
+
+func (x *HighCardinalityJoin) SetStepIndex(v int32) {
+	x.StepIndex = v
+}
+
+type HighCardinalityJoin_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. Count of left input rows.
+	LeftRows int64
+	// Output only. Count of right input rows.
+	RightRows int64
+	// Output only. Count of the output rows.
+	OutputRows int64
+	// Output only. The index of the join operator in the ExplainQueryStep lists.
+	StepIndex int32
+}
+
+func (b0 HighCardinalityJoin_builder) Build() *HighCardinalityJoin {
+	m0 := &HighCardinalityJoin{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.LeftRows = b.LeftRows
+	x.RightRows = b.RightRows
+	x.OutputRows = b.OutputRows
+	x.StepIndex = b.StepIndex
+	return m0
+}
+
 // Partition skew detailed information.
 type PartitionSkew struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. Source stages which produce skewed data.
 	SkewSources   []*PartitionSkew_SkewSource `protobuf:"bytes,1,rep,name=skew_sources,json=skewSources,proto3" json:"skew_sources,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -4434,11 +7557,6 @@ func (x *PartitionSkew) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PartitionSkew.ProtoReflect.Descriptor instead.
-func (*PartitionSkew) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{31}
-}
-
 func (x *PartitionSkew) GetSkewSources() []*PartitionSkew_SkewSource {
 	if x != nil {
 		return x.SkewSources
@@ -4446,10 +7564,29 @@ func (x *PartitionSkew) GetSkewSources() []*PartitionSkew_SkewSource {
 	return nil
 }
 
+func (x *PartitionSkew) SetSkewSources(v []*PartitionSkew_SkewSource) {
+	x.SkewSources = v
+}
+
+type PartitionSkew_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. Source stages which produce skewed data.
+	SkewSources []*PartitionSkew_SkewSource
+}
+
+func (b0 PartitionSkew_builder) Build() *PartitionSkew {
+	m0 := &PartitionSkew{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.SkewSources = b.SkewSources
+	return m0
+}
+
 // Table-level performance insights compared to previous runs. These insights
 // don't apply to specific query stages, rather they apply to the whole table.
 type TableChangeInsight struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. The table that was queried.
 	TableReference *TableReference `protobuf:"bytes,1,opt,name=table_reference,json=tableReference,proto3" json:"table_reference,omitempty"`
 	// Output only. If present, indicates that the table's metadata column index
@@ -4488,11 +7625,6 @@ func (x *TableChangeInsight) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TableChangeInsight.ProtoReflect.Descriptor instead.
-func (*TableChangeInsight) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{32}
-}
-
 func (x *TableChangeInsight) GetTableReference() *TableReference {
 	if x != nil {
 		return x.TableReference
@@ -4514,9 +7646,78 @@ func (x *TableChangeInsight) GetMetadataCacheNotUsedButUsedPreviously() bool {
 	return false
 }
 
+func (x *TableChangeInsight) SetTableReference(v *TableReference) {
+	x.TableReference = v
+}
+
+func (x *TableChangeInsight) SetMetadataCacheStalenessInsight(v *MetadataCacheStalenessInsight) {
+	x.MetadataCacheStalenessInsight = v
+}
+
+func (x *TableChangeInsight) SetMetadataCacheNotUsedButUsedPreviously(v bool) {
+	x.MetadataCacheNotUsedButUsedPreviously = &v
+}
+
+func (x *TableChangeInsight) HasTableReference() bool {
+	if x == nil {
+		return false
+	}
+	return x.TableReference != nil
+}
+
+func (x *TableChangeInsight) HasMetadataCacheStalenessInsight() bool {
+	if x == nil {
+		return false
+	}
+	return x.MetadataCacheStalenessInsight != nil
+}
+
+func (x *TableChangeInsight) HasMetadataCacheNotUsedButUsedPreviously() bool {
+	if x == nil {
+		return false
+	}
+	return x.MetadataCacheNotUsedButUsedPreviously != nil
+}
+
+func (x *TableChangeInsight) ClearTableReference() {
+	x.TableReference = nil
+}
+
+func (x *TableChangeInsight) ClearMetadataCacheStalenessInsight() {
+	x.MetadataCacheStalenessInsight = nil
+}
+
+func (x *TableChangeInsight) ClearMetadataCacheNotUsedButUsedPreviously() {
+	x.MetadataCacheNotUsedButUsedPreviously = nil
+}
+
+type TableChangeInsight_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. The table that was queried.
+	TableReference *TableReference
+	// Output only. If present, indicates that the table's metadata column index
+	// staleness has increased significantly compared to previous jobs with the
+	// same query hash.
+	MetadataCacheStalenessInsight *MetadataCacheStalenessInsight
+	// Output only. True if the table's column metadata index was not used in the
+	// current job, but was used in a previous job with the same query hash.
+	MetadataCacheNotUsedButUsedPreviously *bool
+}
+
+func (b0 TableChangeInsight_builder) Build() *TableChangeInsight {
+	m0 := &TableChangeInsight{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TableReference = b.TableReference
+	x.MetadataCacheStalenessInsight = b.MetadataCacheStalenessInsight
+	x.MetadataCacheNotUsedButUsedPreviously = b.MetadataCacheNotUsedButUsedPreviously
+	return m0
+}
+
 // Column Metadata Index staleness detailed infnormation.
 type MetadataCacheStalenessInsight struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. Average column metadata index staleness of previous runs with
 	// the same query hash.
 	AvgPreviousStalenessMs *durationpb.Duration `protobuf:"bytes,1,opt,name=avg_previous_staleness_ms,json=avgPreviousStalenessMs,proto3" json:"avg_previous_staleness_ms,omitempty"`
@@ -4552,11 +7753,6 @@ func (x *MetadataCacheStalenessInsight) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use MetadataCacheStalenessInsight.ProtoReflect.Descriptor instead.
-func (*MetadataCacheStalenessInsight) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{33}
-}
-
 func (x *MetadataCacheStalenessInsight) GetAvgPreviousStalenessMs() *durationpb.Duration {
 	if x != nil {
 		return x.AvgPreviousStalenessMs
@@ -4571,10 +7767,49 @@ func (x *MetadataCacheStalenessInsight) GetStalenessPercentageIncrease() float64
 	return 0
 }
 
+func (x *MetadataCacheStalenessInsight) SetAvgPreviousStalenessMs(v *durationpb.Duration) {
+	x.AvgPreviousStalenessMs = v
+}
+
+func (x *MetadataCacheStalenessInsight) SetStalenessPercentageIncrease(v float64) {
+	x.StalenessPercentageIncrease = v
+}
+
+func (x *MetadataCacheStalenessInsight) HasAvgPreviousStalenessMs() bool {
+	if x == nil {
+		return false
+	}
+	return x.AvgPreviousStalenessMs != nil
+}
+
+func (x *MetadataCacheStalenessInsight) ClearAvgPreviousStalenessMs() {
+	x.AvgPreviousStalenessMs = nil
+}
+
+type MetadataCacheStalenessInsight_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. Average column metadata index staleness of previous runs with
+	// the same query hash.
+	AvgPreviousStalenessMs *durationpb.Duration
+	// Output only. The percent increase in staleness between the current job and
+	// the average staleness of previous jobs with the same query hash.
+	StalenessPercentageIncrease float64
+}
+
+func (b0 MetadataCacheStalenessInsight_builder) Build() *MetadataCacheStalenessInsight {
+	m0 := &MetadataCacheStalenessInsight{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.AvgPreviousStalenessMs = b.AvgPreviousStalenessMs
+	x.StalenessPercentageIncrease = b.StalenessPercentageIncrease
+	return m0
+}
+
 // Statistics for a BigSpark query.
 // Populated as part of JobStatistics2
 type SparkStatistics struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. Spark job ID if a Spark job is created successfully.
 	SparkJobId *string `protobuf:"bytes,1,opt,name=spark_job_id,json=sparkJobId,proto3,oneof" json:"spark_job_id,omitempty"`
 	// Output only. Location where the Spark job is executed.
@@ -4641,11 +7876,6 @@ func (x *SparkStatistics) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SparkStatistics.ProtoReflect.Descriptor instead.
-func (*SparkStatistics) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{34}
-}
-
 func (x *SparkStatistics) GetSparkJobId() string {
 	if x != nil && x.SparkJobId != nil {
 		return *x.SparkJobId
@@ -4688,9 +7918,143 @@ func (x *SparkStatistics) GetGcsStagingBucket() string {
 	return ""
 }
 
+func (x *SparkStatistics) SetSparkJobId(v string) {
+	x.SparkJobId = &v
+}
+
+func (x *SparkStatistics) SetSparkJobLocation(v string) {
+	x.SparkJobLocation = &v
+}
+
+func (x *SparkStatistics) SetEndpoints(v map[string]string) {
+	x.Endpoints = v
+}
+
+func (x *SparkStatistics) SetLoggingInfo(v *SparkStatistics_LoggingInfo) {
+	x.LoggingInfo = v
+}
+
+func (x *SparkStatistics) SetKmsKeyName(v string) {
+	x.KmsKeyName = &v
+}
+
+func (x *SparkStatistics) SetGcsStagingBucket(v string) {
+	x.GcsStagingBucket = &v
+}
+
+func (x *SparkStatistics) HasSparkJobId() bool {
+	if x == nil {
+		return false
+	}
+	return x.SparkJobId != nil
+}
+
+func (x *SparkStatistics) HasSparkJobLocation() bool {
+	if x == nil {
+		return false
+	}
+	return x.SparkJobLocation != nil
+}
+
+func (x *SparkStatistics) HasLoggingInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.LoggingInfo != nil
+}
+
+func (x *SparkStatistics) HasKmsKeyName() bool {
+	if x == nil {
+		return false
+	}
+	return x.KmsKeyName != nil
+}
+
+func (x *SparkStatistics) HasGcsStagingBucket() bool {
+	if x == nil {
+		return false
+	}
+	return x.GcsStagingBucket != nil
+}
+
+func (x *SparkStatistics) ClearSparkJobId() {
+	x.SparkJobId = nil
+}
+
+func (x *SparkStatistics) ClearSparkJobLocation() {
+	x.SparkJobLocation = nil
+}
+
+func (x *SparkStatistics) ClearLoggingInfo() {
+	x.LoggingInfo = nil
+}
+
+func (x *SparkStatistics) ClearKmsKeyName() {
+	x.KmsKeyName = nil
+}
+
+func (x *SparkStatistics) ClearGcsStagingBucket() {
+	x.GcsStagingBucket = nil
+}
+
+type SparkStatistics_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. Spark job ID if a Spark job is created successfully.
+	SparkJobId *string
+	// Output only. Location where the Spark job is executed.
+	// A location is selected by BigQueury for jobs configured to run in a
+	// multi-region.
+	SparkJobLocation *string
+	// Output only. Endpoints returned from Dataproc.
+	// Key list:
+	//   - history_server_endpoint: A link to Spark job UI.
+	Endpoints map[string]string
+	// Output only. Logging info is used to generate a link to Cloud Logging.
+	LoggingInfo *SparkStatistics_LoggingInfo
+	// Output only. The Cloud KMS encryption key that is used to protect the
+	// resources created by the Spark job. If the Spark procedure uses the invoker
+	// security mode, the Cloud KMS encryption key is either inferred from the
+	// provided system variable,
+	// `@@spark_proc_properties.kms_key_name`, or the default key of the BigQuery
+	// job's project (if the CMEK organization policy is enforced). Otherwise, the
+	// Cloud KMS key is either inferred from the Spark connection associated with
+	// the procedure (if it is provided), or from the default key of the Spark
+	// connection's project if the CMEK organization policy is enforced.
+	//
+	// Example:
+	//
+	// * `projects/[kms_project_id]/locations/[region]/keyRings/[key_region]/cryptoKeys/[key]`
+	KmsKeyName *string
+	// Output only. The Google Cloud Storage bucket that is used as the default
+	// file system by the Spark application. This field is only filled when the
+	// Spark procedure uses the invoker security mode. The `gcsStagingBucket`
+	// bucket is inferred from the `@@spark_proc_properties.staging_bucket` system
+	// variable (if it is provided). Otherwise, BigQuery creates a default staging
+	// bucket for the job and returns the bucket name in this field.
+	//
+	// Example:
+	//
+	// * `gs://[bucket_name]`
+	GcsStagingBucket *string
+}
+
+func (b0 SparkStatistics_builder) Build() *SparkStatistics {
+	m0 := &SparkStatistics{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.SparkJobId = b.SparkJobId
+	x.SparkJobLocation = b.SparkJobLocation
+	x.Endpoints = b.Endpoints
+	x.LoggingInfo = b.LoggingInfo
+	x.KmsKeyName = b.KmsKeyName
+	x.GcsStagingBucket = b.GcsStagingBucket
+	return m0
+}
+
 // Statistics of materialized views considered in a query job.
 type MaterializedViewStatistics struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Materialized views considered for the query job. Only certain materialized
 	// views are used. For a detailed list, see the child message.
 	//
@@ -4726,11 +8090,6 @@ func (x *MaterializedViewStatistics) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use MaterializedViewStatistics.ProtoReflect.Descriptor instead.
-func (*MaterializedViewStatistics) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{35}
-}
-
 func (x *MaterializedViewStatistics) GetMaterializedView() []*MaterializedView {
 	if x != nil {
 		return x.MaterializedView
@@ -4738,9 +8097,32 @@ func (x *MaterializedViewStatistics) GetMaterializedView() []*MaterializedView {
 	return nil
 }
 
+func (x *MaterializedViewStatistics) SetMaterializedView(v []*MaterializedView) {
+	x.MaterializedView = v
+}
+
+type MaterializedViewStatistics_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Materialized views considered for the query job. Only certain materialized
+	// views are used. For a detailed list, see the child message.
+	//
+	// If many materialized views are considered, then the list might be
+	// incomplete.
+	MaterializedView []*MaterializedView
+}
+
+func (b0 MaterializedViewStatistics_builder) Build() *MaterializedViewStatistics {
+	m0 := &MaterializedViewStatistics{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.MaterializedView = b.MaterializedView
+	return m0
+}
+
 // A materialized view considered for a query job.
 type MaterializedView struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The candidate materialized view.
 	TableReference *TableReference `protobuf:"bytes,1,opt,name=table_reference,json=tableReference,proto3,oneof" json:"table_reference,omitempty"`
 	// Whether the materialized view is chosen for the query.
@@ -4785,11 +8167,6 @@ func (x *MaterializedView) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use MaterializedView.ProtoReflect.Descriptor instead.
-func (*MaterializedView) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{36}
-}
-
 func (x *MaterializedView) GetTableReference() *TableReference {
 	if x != nil {
 		return x.TableReference
@@ -4818,9 +8195,100 @@ func (x *MaterializedView) GetRejectedReason() MaterializedView_RejectedReason {
 	return MaterializedView_REJECTED_REASON_UNSPECIFIED
 }
 
+func (x *MaterializedView) SetTableReference(v *TableReference) {
+	x.TableReference = v
+}
+
+func (x *MaterializedView) SetChosen(v bool) {
+	x.Chosen = &v
+}
+
+func (x *MaterializedView) SetEstimatedBytesSaved(v int64) {
+	x.EstimatedBytesSaved = &v
+}
+
+func (x *MaterializedView) SetRejectedReason(v MaterializedView_RejectedReason) {
+	x.RejectedReason = &v
+}
+
+func (x *MaterializedView) HasTableReference() bool {
+	if x == nil {
+		return false
+	}
+	return x.TableReference != nil
+}
+
+func (x *MaterializedView) HasChosen() bool {
+	if x == nil {
+		return false
+	}
+	return x.Chosen != nil
+}
+
+func (x *MaterializedView) HasEstimatedBytesSaved() bool {
+	if x == nil {
+		return false
+	}
+	return x.EstimatedBytesSaved != nil
+}
+
+func (x *MaterializedView) HasRejectedReason() bool {
+	if x == nil {
+		return false
+	}
+	return x.RejectedReason != nil
+}
+
+func (x *MaterializedView) ClearTableReference() {
+	x.TableReference = nil
+}
+
+func (x *MaterializedView) ClearChosen() {
+	x.Chosen = nil
+}
+
+func (x *MaterializedView) ClearEstimatedBytesSaved() {
+	x.EstimatedBytesSaved = nil
+}
+
+func (x *MaterializedView) ClearRejectedReason() {
+	x.RejectedReason = nil
+}
+
+type MaterializedView_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The candidate materialized view.
+	TableReference *TableReference
+	// Whether the materialized view is chosen for the query.
+	//
+	// A materialized view can be chosen to rewrite multiple parts of the same
+	// query. If a materialized view is chosen to rewrite any part of the query,
+	// then this field is true, even if the materialized view was not chosen to
+	// rewrite others parts.
+	Chosen *bool
+	// If present, specifies a best-effort estimation of the bytes saved by using
+	// the materialized view rather than its base tables.
+	EstimatedBytesSaved *int64
+	// If present, specifies the reason why the materialized view was not chosen
+	// for the query.
+	RejectedReason *MaterializedView_RejectedReason
+}
+
+func (b0 MaterializedView_builder) Build() *MaterializedView {
+	m0 := &MaterializedView{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TableReference = b.TableReference
+	x.Chosen = b.Chosen
+	x.EstimatedBytesSaved = b.EstimatedBytesSaved
+	x.RejectedReason = b.RejectedReason
+	return m0
+}
+
 // The column metadata index pruning statistics.
 type PruningStats struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The number of partitions matched.
 	PostCmetaPruningPartitionCount *int64 `protobuf:"varint,1,opt,name=post_cmeta_pruning_partition_count,json=postCmetaPruningPartitionCount,proto3,oneof" json:"post_cmeta_pruning_partition_count,omitempty"`
 	// The number of parallel inputs scanned.
@@ -4856,11 +8324,6 @@ func (x *PruningStats) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PruningStats.ProtoReflect.Descriptor instead.
-func (*PruningStats) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{37}
-}
-
 func (x *PruningStats) GetPostCmetaPruningPartitionCount() int64 {
 	if x != nil && x.PostCmetaPruningPartitionCount != nil {
 		return *x.PostCmetaPruningPartitionCount
@@ -4882,10 +8345,76 @@ func (x *PruningStats) GetPostCmetaPruningParallelInputCount() int64 {
 	return 0
 }
 
+func (x *PruningStats) SetPostCmetaPruningPartitionCount(v int64) {
+	x.PostCmetaPruningPartitionCount = &v
+}
+
+func (x *PruningStats) SetPreCmetaPruningParallelInputCount(v int64) {
+	x.PreCmetaPruningParallelInputCount = &v
+}
+
+func (x *PruningStats) SetPostCmetaPruningParallelInputCount(v int64) {
+	x.PostCmetaPruningParallelInputCount = &v
+}
+
+func (x *PruningStats) HasPostCmetaPruningPartitionCount() bool {
+	if x == nil {
+		return false
+	}
+	return x.PostCmetaPruningPartitionCount != nil
+}
+
+func (x *PruningStats) HasPreCmetaPruningParallelInputCount() bool {
+	if x == nil {
+		return false
+	}
+	return x.PreCmetaPruningParallelInputCount != nil
+}
+
+func (x *PruningStats) HasPostCmetaPruningParallelInputCount() bool {
+	if x == nil {
+		return false
+	}
+	return x.PostCmetaPruningParallelInputCount != nil
+}
+
+func (x *PruningStats) ClearPostCmetaPruningPartitionCount() {
+	x.PostCmetaPruningPartitionCount = nil
+}
+
+func (x *PruningStats) ClearPreCmetaPruningParallelInputCount() {
+	x.PreCmetaPruningParallelInputCount = nil
+}
+
+func (x *PruningStats) ClearPostCmetaPruningParallelInputCount() {
+	x.PostCmetaPruningParallelInputCount = nil
+}
+
+type PruningStats_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The number of partitions matched.
+	PostCmetaPruningPartitionCount *int64
+	// The number of parallel inputs scanned.
+	PreCmetaPruningParallelInputCount *int64
+	// The number of parallel inputs matched.
+	PostCmetaPruningParallelInputCount *int64
+}
+
+func (b0 PruningStats_builder) Build() *PruningStats {
+	m0 := &PruningStats{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.PostCmetaPruningPartitionCount = b.PostCmetaPruningPartitionCount
+	x.PreCmetaPruningParallelInputCount = b.PreCmetaPruningParallelInputCount
+	x.PostCmetaPruningParallelInputCount = b.PostCmetaPruningParallelInputCount
+	return m0
+}
+
 // Table level detail on the usage of metadata caching. Only set for Metadata
 // caching eligible tables referenced in the query.
 type TableMetadataCacheUsage struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Metadata caching eligible table referenced in the query.
 	TableReference *TableReference `protobuf:"bytes,1,opt,name=table_reference,json=tableReference,proto3,oneof" json:"table_reference,omitempty"`
 	// Reason for not using metadata caching for the table.
@@ -4930,11 +8459,6 @@ func (x *TableMetadataCacheUsage) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TableMetadataCacheUsage.ProtoReflect.Descriptor instead.
-func (*TableMetadataCacheUsage) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{38}
-}
-
 func (x *TableMetadataCacheUsage) GetTableReference() *TableReference {
 	if x != nil {
 		return x.TableReference
@@ -4977,9 +8501,121 @@ func (x *TableMetadataCacheUsage) GetPruningStats() *PruningStats {
 	return nil
 }
 
+func (x *TableMetadataCacheUsage) SetTableReference(v *TableReference) {
+	x.TableReference = v
+}
+
+func (x *TableMetadataCacheUsage) SetUnusedReason(v TableMetadataCacheUsage_UnusedReason) {
+	x.UnusedReason = &v
+}
+
+func (x *TableMetadataCacheUsage) SetExplanation(v string) {
+	x.Explanation = &v
+}
+
+func (x *TableMetadataCacheUsage) SetStaleness(v *durationpb.Duration) {
+	x.Staleness = v
+}
+
+func (x *TableMetadataCacheUsage) SetTableType(v string) {
+	x.TableType = v
+}
+
+func (x *TableMetadataCacheUsage) SetPruningStats(v *PruningStats) {
+	x.PruningStats = v
+}
+
+func (x *TableMetadataCacheUsage) HasTableReference() bool {
+	if x == nil {
+		return false
+	}
+	return x.TableReference != nil
+}
+
+func (x *TableMetadataCacheUsage) HasUnusedReason() bool {
+	if x == nil {
+		return false
+	}
+	return x.UnusedReason != nil
+}
+
+func (x *TableMetadataCacheUsage) HasExplanation() bool {
+	if x == nil {
+		return false
+	}
+	return x.Explanation != nil
+}
+
+func (x *TableMetadataCacheUsage) HasStaleness() bool {
+	if x == nil {
+		return false
+	}
+	return x.Staleness != nil
+}
+
+func (x *TableMetadataCacheUsage) HasPruningStats() bool {
+	if x == nil {
+		return false
+	}
+	return x.PruningStats != nil
+}
+
+func (x *TableMetadataCacheUsage) ClearTableReference() {
+	x.TableReference = nil
+}
+
+func (x *TableMetadataCacheUsage) ClearUnusedReason() {
+	x.UnusedReason = nil
+}
+
+func (x *TableMetadataCacheUsage) ClearExplanation() {
+	x.Explanation = nil
+}
+
+func (x *TableMetadataCacheUsage) ClearStaleness() {
+	x.Staleness = nil
+}
+
+func (x *TableMetadataCacheUsage) ClearPruningStats() {
+	x.PruningStats = nil
+}
+
+type TableMetadataCacheUsage_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Metadata caching eligible table referenced in the query.
+	TableReference *TableReference
+	// Reason for not using metadata caching for the table.
+	UnusedReason *TableMetadataCacheUsage_UnusedReason
+	// Free form human-readable reason metadata caching was unused for
+	// the job.
+	Explanation *string
+	// Duration since last refresh as of this job for managed tables (indicates
+	// metadata cache staleness as seen by this job).
+	Staleness *durationpb.Duration
+	// [Table
+	// type](https://cloud.google.com/bigquery/docs/reference/rest/v2/tables#Table.FIELDS.type).
+	TableType string
+	// The column metadata index pruning statistics.
+	PruningStats *PruningStats
+}
+
+func (b0 TableMetadataCacheUsage_builder) Build() *TableMetadataCacheUsage {
+	m0 := &TableMetadataCacheUsage{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TableReference = b.TableReference
+	x.UnusedReason = b.UnusedReason
+	x.Explanation = b.Explanation
+	x.Staleness = b.Staleness
+	x.TableType = b.TableType
+	x.PruningStats = b.PruningStats
+	return m0
+}
+
 // Statistics for metadata caching in queried tables.
 type MetadataCacheStatistics struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Set for the Metadata caching eligible tables referenced in the query.
 	TableMetadataCacheUsage []*TableMetadataCacheUsage `protobuf:"bytes,1,rep,name=table_metadata_cache_usage,json=tableMetadataCacheUsage,proto3" json:"table_metadata_cache_usage,omitempty"`
 	unknownFields           protoimpl.UnknownFields
@@ -5011,11 +8647,6 @@ func (x *MetadataCacheStatistics) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use MetadataCacheStatistics.ProtoReflect.Descriptor instead.
-func (*MetadataCacheStatistics) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{39}
-}
-
 func (x *MetadataCacheStatistics) GetTableMetadataCacheUsage() []*TableMetadataCacheUsage {
 	if x != nil {
 		return x.TableMetadataCacheUsage
@@ -5023,9 +8654,28 @@ func (x *MetadataCacheStatistics) GetTableMetadataCacheUsage() []*TableMetadataC
 	return nil
 }
 
+func (x *MetadataCacheStatistics) SetTableMetadataCacheUsage(v []*TableMetadataCacheUsage) {
+	x.TableMetadataCacheUsage = v
+}
+
+type MetadataCacheStatistics_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Set for the Metadata caching eligible tables referenced in the query.
+	TableMetadataCacheUsage []*TableMetadataCacheUsage
+}
+
+func (b0 MetadataCacheStatistics_builder) Build() *MetadataCacheStatistics {
+	m0 := &MetadataCacheStatistics{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TableMetadataCacheUsage = b.TableMetadataCacheUsage
+	return m0
+}
+
 // If the stored column was not used, explain why.
 type StoredColumnsUsage_StoredColumnsUnusedReason struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Specifies the high-level reason for the unused scenario, each reason must
 	// have a code associated.
 	Code *StoredColumnsUsage_StoredColumnsUnusedReason_Code `protobuf:"varint,1,opt,name=code,proto3,enum=google.cloud.bigquery.v2.StoredColumnsUsage_StoredColumnsUnusedReason_Code,oneof" json:"code,omitempty"`
@@ -5064,11 +8714,6 @@ func (x *StoredColumnsUsage_StoredColumnsUnusedReason) ProtoReflect() protorefle
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use StoredColumnsUsage_StoredColumnsUnusedReason.ProtoReflect.Descriptor instead.
-func (*StoredColumnsUsage_StoredColumnsUnusedReason) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{9, 0}
-}
-
 func (x *StoredColumnsUsage_StoredColumnsUnusedReason) GetCode() StoredColumnsUsage_StoredColumnsUnusedReason_Code {
 	if x != nil && x.Code != nil {
 		return *x.Code
@@ -5090,6 +8735,64 @@ func (x *StoredColumnsUsage_StoredColumnsUnusedReason) GetUncoveredColumns() []s
 	return nil
 }
 
+func (x *StoredColumnsUsage_StoredColumnsUnusedReason) SetCode(v StoredColumnsUsage_StoredColumnsUnusedReason_Code) {
+	x.Code = &v
+}
+
+func (x *StoredColumnsUsage_StoredColumnsUnusedReason) SetMessage(v string) {
+	x.Message = &v
+}
+
+func (x *StoredColumnsUsage_StoredColumnsUnusedReason) SetUncoveredColumns(v []string) {
+	x.UncoveredColumns = v
+}
+
+func (x *StoredColumnsUsage_StoredColumnsUnusedReason) HasCode() bool {
+	if x == nil {
+		return false
+	}
+	return x.Code != nil
+}
+
+func (x *StoredColumnsUsage_StoredColumnsUnusedReason) HasMessage() bool {
+	if x == nil {
+		return false
+	}
+	return x.Message != nil
+}
+
+func (x *StoredColumnsUsage_StoredColumnsUnusedReason) ClearCode() {
+	x.Code = nil
+}
+
+func (x *StoredColumnsUsage_StoredColumnsUnusedReason) ClearMessage() {
+	x.Message = nil
+}
+
+type StoredColumnsUsage_StoredColumnsUnusedReason_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Specifies the high-level reason for the unused scenario, each reason must
+	// have a code associated.
+	Code *StoredColumnsUsage_StoredColumnsUnusedReason_Code
+	// Specifies the detailed description for the scenario.
+	Message *string
+	// Specifies which columns were not covered by the stored columns for the
+	// specified code up to 20 columns. This is populated when the code is
+	// STORED_COLUMNS_COVER_INSUFFICIENT and BASE_TABLE_HAS_CLS.
+	UncoveredColumns []string
+}
+
+func (b0 StoredColumnsUsage_StoredColumnsUnusedReason_builder) Build() *StoredColumnsUsage_StoredColumnsUnusedReason {
+	m0 := &StoredColumnsUsage_StoredColumnsUnusedReason{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Code = b.Code
+	x.Message = b.Message
+	x.UncoveredColumns = b.UncoveredColumns
+	return m0
+}
+
 // Represents the location of the statement/expression being evaluated.
 // Line and column numbers are defined as follows:
 //
@@ -5106,7 +8809,7 @@ func (x *StoredColumnsUsage_StoredColumnsUnusedReason) GetUncoveredColumns() []s
 //     will advance the next character to column 9.  A TAB on column 9, 10, 11,
 //     12, 13, 14, 15, or 16 will advance the next character to column 17.
 type ScriptStatistics_ScriptStackFrame struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. One-based start line.
 	StartLine int32 `protobuf:"varint,1,opt,name=start_line,json=startLine,proto3" json:"start_line,omitempty"`
 	// Output only. One-based start column.
@@ -5147,11 +8850,6 @@ func (x *ScriptStatistics_ScriptStackFrame) ProtoReflect() protoreflect.Message 
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ScriptStatistics_ScriptStackFrame.ProtoReflect.Descriptor instead.
-func (*ScriptStatistics_ScriptStackFrame) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{21, 0}
 }
 
 func (x *ScriptStatistics_ScriptStackFrame) GetStartLine() int32 {
@@ -5196,9 +8894,64 @@ func (x *ScriptStatistics_ScriptStackFrame) GetText() string {
 	return ""
 }
 
+func (x *ScriptStatistics_ScriptStackFrame) SetStartLine(v int32) {
+	x.StartLine = v
+}
+
+func (x *ScriptStatistics_ScriptStackFrame) SetStartColumn(v int32) {
+	x.StartColumn = v
+}
+
+func (x *ScriptStatistics_ScriptStackFrame) SetEndLine(v int32) {
+	x.EndLine = v
+}
+
+func (x *ScriptStatistics_ScriptStackFrame) SetEndColumn(v int32) {
+	x.EndColumn = v
+}
+
+func (x *ScriptStatistics_ScriptStackFrame) SetProcedureId(v string) {
+	x.ProcedureId = v
+}
+
+func (x *ScriptStatistics_ScriptStackFrame) SetText(v string) {
+	x.Text = v
+}
+
+type ScriptStatistics_ScriptStackFrame_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. One-based start line.
+	StartLine int32
+	// Output only. One-based start column.
+	StartColumn int32
+	// Output only. One-based end line.
+	EndLine int32
+	// Output only. One-based end column.
+	EndColumn int32
+	// Output only. Name of the active procedure, empty if in a top-level
+	// script.
+	ProcedureId string
+	// Output only. Text of the current statement/expression.
+	Text string
+}
+
+func (b0 ScriptStatistics_ScriptStackFrame_builder) Build() *ScriptStatistics_ScriptStackFrame {
+	m0 := &ScriptStatistics_ScriptStackFrame{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.StartLine = b.StartLine
+	x.StartColumn = b.StartColumn
+	x.EndLine = b.EndLine
+	x.EndColumn = b.EndColumn
+	x.ProcedureId = b.ProcedureId
+	x.Text = b.Text
+	return m0
+}
+
 // [Alpha] Information of a multi-statement transaction.
 type JobStatistics_TransactionInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. [Alpha] Id of the transaction.
 	TransactionId string `protobuf:"bytes,1,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -5230,11 +8983,6 @@ func (x *JobStatistics_TransactionInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use JobStatistics_TransactionInfo.ProtoReflect.Descriptor instead.
-func (*JobStatistics_TransactionInfo) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{24, 0}
-}
-
 func (x *JobStatistics_TransactionInfo) GetTransactionId() string {
 	if x != nil {
 		return x.TransactionId
@@ -5242,9 +8990,28 @@ func (x *JobStatistics_TransactionInfo) GetTransactionId() string {
 	return ""
 }
 
+func (x *JobStatistics_TransactionInfo) SetTransactionId(v string) {
+	x.TransactionId = v
+}
+
+type JobStatistics_TransactionInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. [Alpha] Id of the transaction.
+	TransactionId string
+}
+
+func (b0 JobStatistics_TransactionInfo_builder) Build() *JobStatistics_TransactionInfo {
+	m0 := &JobStatistics_TransactionInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TransactionId = b.TransactionId
+	return m0
+}
+
 // Details about source stages which produce skewed data.
 type PartitionSkew_SkewSource struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. Stage id of the skew source stage.
 	StageId int64 `protobuf:"varint,1,opt,name=stage_id,json=stageId,proto3" json:"stage_id,omitempty"`
 	// Output only. Median partition output size (in bytes) for this stage.
@@ -5283,11 +9050,6 @@ func (x *PartitionSkew_SkewSource) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PartitionSkew_SkewSource.ProtoReflect.Descriptor instead.
-func (*PartitionSkew_SkewSource) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{31, 0}
-}
-
 func (x *PartitionSkew_SkewSource) GetStageId() int64 {
 	if x != nil {
 		return x.StageId
@@ -5316,9 +9078,50 @@ func (x *PartitionSkew_SkewSource) GetOutputBytesMax() int64 {
 	return 0
 }
 
+func (x *PartitionSkew_SkewSource) SetStageId(v int64) {
+	x.StageId = v
+}
+
+func (x *PartitionSkew_SkewSource) SetOutputBytesMedian(v int64) {
+	x.OutputBytesMedian = v
+}
+
+func (x *PartitionSkew_SkewSource) SetOutputBytesP95(v int64) {
+	x.OutputBytesP95 = v
+}
+
+func (x *PartitionSkew_SkewSource) SetOutputBytesMax(v int64) {
+	x.OutputBytesMax = v
+}
+
+type PartitionSkew_SkewSource_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. Stage id of the skew source stage.
+	StageId int64
+	// Output only. Median partition output size (in bytes) for this stage.
+	OutputBytesMedian int64
+	// Output only. 95-th percentile of partition output size (in bytes) for
+	// this stage.
+	OutputBytesP95 int64
+	// Output only. Max partition output size (in bytes) for this stage.
+	OutputBytesMax int64
+}
+
+func (b0 PartitionSkew_SkewSource_builder) Build() *PartitionSkew_SkewSource {
+	m0 := &PartitionSkew_SkewSource{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.StageId = b.StageId
+	x.OutputBytesMedian = b.OutputBytesMedian
+	x.OutputBytesP95 = b.OutputBytesP95
+	x.OutputBytesMax = b.OutputBytesMax
+	return m0
+}
+
 // Spark job logs can be filtered by these fields in Cloud Logging.
 type SparkStatistics_LoggingInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. Resource type used for logging.
 	ResourceType string `protobuf:"bytes,1,opt,name=resource_type,json=resourceType,proto3" json:"resource_type,omitempty"`
 	// Output only. Project ID where the Spark logs were written.
@@ -5352,11 +9155,6 @@ func (x *SparkStatistics_LoggingInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SparkStatistics_LoggingInfo.ProtoReflect.Descriptor instead.
-func (*SparkStatistics_LoggingInfo) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP(), []int{34, 0}
-}
-
 func (x *SparkStatistics_LoggingInfo) GetResourceType() string {
 	if x != nil {
 		return x.ResourceType
@@ -5369,6 +9167,32 @@ func (x *SparkStatistics_LoggingInfo) GetProjectId() string {
 		return x.ProjectId
 	}
 	return ""
+}
+
+func (x *SparkStatistics_LoggingInfo) SetResourceType(v string) {
+	x.ResourceType = v
+}
+
+func (x *SparkStatistics_LoggingInfo) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+type SparkStatistics_LoggingInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. Resource type used for logging.
+	ResourceType string
+	// Output only. Project ID where the Spark logs were written.
+	ProjectId string
+}
+
+func (b0 SparkStatistics_LoggingInfo_builder) Build() *SparkStatistics_LoggingInfo {
+	m0 := &SparkStatistics_LoggingInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ResourceType = b.ResourceType
+	x.ProjectId = b.ProjectId
+	return m0
 }
 
 var File_google_cloud_bigquery_v2_job_stats_proto protoreflect.FileDescriptor
@@ -5868,18 +9692,6 @@ const file_google_cloud_bigquery_v2_job_stats_proto_rawDesc = "" +
 	"!cloudkms.googleapis.com/CryptoKey\x12Sprojects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}\xeaA\"\n" +
 	"\x1dstorage.googleapis.com/Bucket\x12\x01*\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\rJobStatsProtoZ;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_job_stats_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_job_stats_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_job_stats_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_job_stats_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_job_stats_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_job_stats_proto_rawDesc), len(file_google_cloud_bigquery_v2_job_stats_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_job_stats_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_job_stats_proto_enumTypes = make([]protoimpl.EnumInfo, 17)
 var file_google_cloud_bigquery_v2_job_stats_proto_msgTypes = make([]protoimpl.MessageInfo, 46)

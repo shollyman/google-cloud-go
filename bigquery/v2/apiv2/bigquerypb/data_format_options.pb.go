@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/data_format_options.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -90,14 +91,9 @@ func (x DataFormatOptions_TimestampOutputFormat) Number() protoreflect.EnumNumbe
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use DataFormatOptions_TimestampOutputFormat.Descriptor instead.
-func (DataFormatOptions_TimestampOutputFormat) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_data_format_options_proto_rawDescGZIP(), []int{0, 0}
-}
-
 // Options for data format adjustments.
 type DataFormatOptions struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. Output timestamp as usec int64. Default is false.
 	UseInt64Timestamp bool `protobuf:"varint,1,opt,name=use_int64_timestamp,json=useInt64Timestamp,proto3" json:"use_int64_timestamp,omitempty"`
 	// Optional. The API output format for a timestamp.
@@ -133,11 +129,6 @@ func (x *DataFormatOptions) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DataFormatOptions.ProtoReflect.Descriptor instead.
-func (*DataFormatOptions) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_data_format_options_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *DataFormatOptions) GetUseInt64Timestamp() bool {
 	if x != nil {
 		return x.UseInt64Timestamp
@@ -150,6 +141,34 @@ func (x *DataFormatOptions) GetTimestampOutputFormat() DataFormatOptions_Timesta
 		return x.TimestampOutputFormat
 	}
 	return DataFormatOptions_TIMESTAMP_OUTPUT_FORMAT_UNSPECIFIED
+}
+
+func (x *DataFormatOptions) SetUseInt64Timestamp(v bool) {
+	x.UseInt64Timestamp = v
+}
+
+func (x *DataFormatOptions) SetTimestampOutputFormat(v DataFormatOptions_TimestampOutputFormat) {
+	x.TimestampOutputFormat = v
+}
+
+type DataFormatOptions_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. Output timestamp as usec int64. Default is false.
+	UseInt64Timestamp bool
+	// Optional. The API output format for a timestamp.
+	// This offers more explicit control over the timestamp output format
+	// as compared to the existing `use_int64_timestamp` option.
+	TimestampOutputFormat DataFormatOptions_TimestampOutputFormat
+}
+
+func (b0 DataFormatOptions_builder) Build() *DataFormatOptions {
+	m0 := &DataFormatOptions{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.UseInt64Timestamp = b.UseInt64Timestamp
+	x.TimestampOutputFormat = b.TimestampOutputFormat
+	return m0
 }
 
 var File_google_cloud_bigquery_v2_data_format_options_proto protoreflect.FileDescriptor
@@ -166,18 +185,6 @@ const file_google_cloud_bigquery_v2_data_format_options_proto_rawDesc = "" +
 	"\x05INT64\x10\x02\x12\x12\n" +
 	"\x0eISO8601_STRING\x10\x03Bs\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\x16DataFormatOptionsProtoZ;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_data_format_options_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_data_format_options_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_data_format_options_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_data_format_options_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_data_format_options_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_data_format_options_proto_rawDesc), len(file_google_cloud_bigquery_v2_data_format_options_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_data_format_options_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_data_format_options_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_google_cloud_bigquery_v2_data_format_options_proto_msgTypes = make([]protoimpl.MessageInfo, 1)

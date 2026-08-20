@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/restriction_config.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -83,13 +84,8 @@ func (x RestrictionConfig_RestrictionType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use RestrictionConfig_RestrictionType.Descriptor instead.
-func (RestrictionConfig_RestrictionType) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_restriction_config_proto_rawDescGZIP(), []int{0, 0}
-}
-
 type RestrictionConfig struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. Specifies the type of dataset/table restriction.
 	Type          RestrictionConfig_RestrictionType `protobuf:"varint,1,opt,name=type,proto3,enum=google.cloud.bigquery.v2.RestrictionConfig_RestrictionType" json:"type,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -121,16 +117,30 @@ func (x *RestrictionConfig) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RestrictionConfig.ProtoReflect.Descriptor instead.
-func (*RestrictionConfig) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_restriction_config_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *RestrictionConfig) GetType() RestrictionConfig_RestrictionType {
 	if x != nil {
 		return x.Type
 	}
 	return RestrictionConfig_RESTRICTION_TYPE_UNSPECIFIED
+}
+
+func (x *RestrictionConfig) SetType(v RestrictionConfig_RestrictionType) {
+	x.Type = v
+}
+
+type RestrictionConfig_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. Specifies the type of dataset/table restriction.
+	Type RestrictionConfig_RestrictionType
+}
+
+func (b0 RestrictionConfig_builder) Build() *RestrictionConfig {
+	m0 := &RestrictionConfig{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Type = b.Type
+	return m0
 }
 
 var File_google_cloud_bigquery_v2_restriction_config_proto protoreflect.FileDescriptor
@@ -144,18 +154,6 @@ const file_google_cloud_bigquery_v2_restriction_config_proto_rawDesc = "" +
 	"\x1cRESTRICTION_TYPE_UNSPECIFIED\x10\x00\x12\x1a\n" +
 	"\x16RESTRICTED_DATA_EGRESS\x10\x01Bu\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\x16RestrictionConfigProtoP\x01Z;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_restriction_config_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_restriction_config_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_restriction_config_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_restriction_config_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_restriction_config_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_restriction_config_proto_rawDesc), len(file_google_cloud_bigquery_v2_restriction_config_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_restriction_config_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_restriction_config_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_google_cloud_bigquery_v2_restriction_config_proto_msgTypes = make([]protoimpl.MessageInfo, 1)

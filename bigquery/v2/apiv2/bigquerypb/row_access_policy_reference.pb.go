@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/row_access_policy_reference.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -39,7 +40,7 @@ const (
 
 // Id path of a row access policy.
 type RowAccessPolicyReference struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. The ID of the project containing this row access policy.
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. The ID of the dataset containing this row access policy.
@@ -79,11 +80,6 @@ func (x *RowAccessPolicyReference) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RowAccessPolicyReference.ProtoReflect.Descriptor instead.
-func (*RowAccessPolicyReference) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_row_access_policy_reference_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *RowAccessPolicyReference) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -112,6 +108,48 @@ func (x *RowAccessPolicyReference) GetPolicyId() string {
 	return ""
 }
 
+func (x *RowAccessPolicyReference) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *RowAccessPolicyReference) SetDatasetId(v string) {
+	x.DatasetId = v
+}
+
+func (x *RowAccessPolicyReference) SetTableId(v string) {
+	x.TableId = v
+}
+
+func (x *RowAccessPolicyReference) SetPolicyId(v string) {
+	x.PolicyId = v
+}
+
+type RowAccessPolicyReference_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. The ID of the project containing this row access policy.
+	ProjectId string
+	// Required. The ID of the dataset containing this row access policy.
+	DatasetId string
+	// Required. The ID of the table containing this row access policy.
+	TableId string
+	// Required. The ID of the row access policy. The ID must contain only
+	// letters (a-z, A-Z), numbers (0-9), or underscores (_). The maximum
+	// length is 256 characters.
+	PolicyId string
+}
+
+func (b0 RowAccessPolicyReference_builder) Build() *RowAccessPolicyReference {
+	m0 := &RowAccessPolicyReference{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.DatasetId = b.DatasetId
+	x.TableId = b.TableId
+	x.PolicyId = b.PolicyId
+	return m0
+}
+
 var File_google_cloud_bigquery_v2_row_access_policy_reference_proto protoreflect.FileDescriptor
 
 const file_google_cloud_bigquery_v2_row_access_policy_reference_proto_rawDesc = "" +
@@ -125,18 +163,6 @@ const file_google_cloud_bigquery_v2_row_access_policy_reference_proto_rawDesc = 
 	"\btable_id\x18\x03 \x01(\tB\x03\xe0A\x02R\atableId\x12 \n" +
 	"\tpolicy_id\x18\x04 \x01(\tB\x03\xe0A\x02R\bpolicyIdB|\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\x1dRowAccessPolicyReferenceProtoP\x01Z;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_row_access_policy_reference_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_row_access_policy_reference_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_row_access_policy_reference_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_row_access_policy_reference_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_row_access_policy_reference_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_row_access_policy_reference_proto_rawDesc), len(file_google_cloud_bigquery_v2_row_access_policy_reference_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_row_access_policy_reference_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_row_access_policy_reference_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_google_cloud_bigquery_v2_row_access_policy_reference_proto_goTypes = []any{

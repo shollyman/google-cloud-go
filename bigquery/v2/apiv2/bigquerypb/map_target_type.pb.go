@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/map_target_type.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -82,11 +83,6 @@ func (x MapTargetType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use MapTargetType.Descriptor instead.
-func (MapTargetType) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_map_target_type_proto_rawDescGZIP(), []int{0}
-}
-
 var File_google_cloud_bigquery_v2_map_target_type_proto protoreflect.FileDescriptor
 
 const file_google_cloud_bigquery_v2_map_target_type_proto_rawDesc = "" +
@@ -96,18 +92,6 @@ const file_google_cloud_bigquery_v2_map_target_type_proto_rawDesc = "" +
 	"\x1bMAP_TARGET_TYPE_UNSPECIFIED\x10\x00\x12\x13\n" +
 	"\x0fARRAY_OF_STRUCT\x10\x01Bq\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\x12MapTargetTypeProtoP\x01Z;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_map_target_type_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_map_target_type_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_map_target_type_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_map_target_type_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_map_target_type_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_map_target_type_proto_rawDesc), len(file_google_cloud_bigquery_v2_map_target_type_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_map_target_type_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_map_target_type_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_google_cloud_bigquery_v2_map_target_type_proto_goTypes = []any{

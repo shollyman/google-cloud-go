@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/udf_resource.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -45,7 +46,7 @@ const (
 // For additional information on migrating, see:
 // https://cloud.google.com/bigquery/docs/reference/standard-sql/migrating-from-legacy-sql#differences_in_user-defined_javascript_functions
 type UserDefinedFunctionResource struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// [Pick one] A code resource to load from a Google Cloud Storage URI
 	// (gs://bucket/path).
 	ResourceUri *wrapperspb.StringValue `protobuf:"bytes,1,opt,name=resource_uri,json=resourceUri,proto3" json:"resource_uri,omitempty"`
@@ -82,11 +83,6 @@ func (x *UserDefinedFunctionResource) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UserDefinedFunctionResource.ProtoReflect.Descriptor instead.
-func (*UserDefinedFunctionResource) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_udf_resource_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *UserDefinedFunctionResource) GetResourceUri() *wrapperspb.StringValue {
 	if x != nil {
 		return x.ResourceUri
@@ -101,6 +97,57 @@ func (x *UserDefinedFunctionResource) GetInlineCode() *wrapperspb.StringValue {
 	return nil
 }
 
+func (x *UserDefinedFunctionResource) SetResourceUri(v *wrapperspb.StringValue) {
+	x.ResourceUri = v
+}
+
+func (x *UserDefinedFunctionResource) SetInlineCode(v *wrapperspb.StringValue) {
+	x.InlineCode = v
+}
+
+func (x *UserDefinedFunctionResource) HasResourceUri() bool {
+	if x == nil {
+		return false
+	}
+	return x.ResourceUri != nil
+}
+
+func (x *UserDefinedFunctionResource) HasInlineCode() bool {
+	if x == nil {
+		return false
+	}
+	return x.InlineCode != nil
+}
+
+func (x *UserDefinedFunctionResource) ClearResourceUri() {
+	x.ResourceUri = nil
+}
+
+func (x *UserDefinedFunctionResource) ClearInlineCode() {
+	x.InlineCode = nil
+}
+
+type UserDefinedFunctionResource_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// [Pick one] A code resource to load from a Google Cloud Storage URI
+	// (gs://bucket/path).
+	ResourceUri *wrapperspb.StringValue
+	// [Pick one] An inline resource that contains code for a user-defined
+	// function (UDF). Providing a inline code resource is equivalent to providing
+	// a URI for a file containing the same code.
+	InlineCode *wrapperspb.StringValue
+}
+
+func (b0 UserDefinedFunctionResource_builder) Build() *UserDefinedFunctionResource {
+	m0 := &UserDefinedFunctionResource{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ResourceUri = b.ResourceUri
+	x.InlineCode = b.InlineCode
+	return m0
+}
+
 var File_google_cloud_bigquery_v2_udf_resource_proto protoreflect.FileDescriptor
 
 const file_google_cloud_bigquery_v2_udf_resource_proto_rawDesc = "" +
@@ -111,18 +158,6 @@ const file_google_cloud_bigquery_v2_udf_resource_proto_rawDesc = "" +
 	"\vinline_code\x18\x02 \x01(\v2\x1c.google.protobuf.StringValueR\n" +
 	"inlineCodeBe\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\bUdfProtoZ;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_udf_resource_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_udf_resource_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_udf_resource_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_udf_resource_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_udf_resource_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_udf_resource_proto_rawDesc), len(file_google_cloud_bigquery_v2_udf_resource_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_udf_resource_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_udf_resource_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_google_cloud_bigquery_v2_udf_resource_proto_goTypes = []any{

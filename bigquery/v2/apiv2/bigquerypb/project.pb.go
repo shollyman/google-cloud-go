@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/project.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -39,7 +40,7 @@ const (
 
 // Request object of GetServiceAccount
 type GetServiceAccountRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. ID of the project.
 	ProjectId     string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -71,11 +72,6 @@ func (x *GetServiceAccountRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetServiceAccountRequest.ProtoReflect.Descriptor instead.
-func (*GetServiceAccountRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_project_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *GetServiceAccountRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -83,9 +79,28 @@ func (x *GetServiceAccountRequest) GetProjectId() string {
 	return ""
 }
 
+func (x *GetServiceAccountRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+type GetServiceAccountRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. ID of the project.
+	ProjectId string
+}
+
+func (b0 GetServiceAccountRequest_builder) Build() *GetServiceAccountRequest {
+	m0 := &GetServiceAccountRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	return m0
+}
+
 // Response object of GetServiceAccount
 type GetServiceAccountResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The resource type of the response.
 	Kind string `protobuf:"bytes,1,opt,name=kind,proto3" json:"kind,omitempty"`
 	// The service account email address.
@@ -119,11 +134,6 @@ func (x *GetServiceAccountResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetServiceAccountResponse.ProtoReflect.Descriptor instead.
-func (*GetServiceAccountResponse) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_project_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *GetServiceAccountResponse) GetKind() string {
 	if x != nil {
 		return x.Kind
@@ -136,6 +146,32 @@ func (x *GetServiceAccountResponse) GetEmail() string {
 		return x.Email
 	}
 	return ""
+}
+
+func (x *GetServiceAccountResponse) SetKind(v string) {
+	x.Kind = v
+}
+
+func (x *GetServiceAccountResponse) SetEmail(v string) {
+	x.Email = v
+}
+
+type GetServiceAccountResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The resource type of the response.
+	Kind string
+	// The service account email address.
+	Email string
+}
+
+func (b0 GetServiceAccountResponse_builder) Build() *GetServiceAccountResponse {
+	m0 := &GetServiceAccountResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Kind = b.Kind
+	x.Email = b.Email
+	return m0
 }
 
 var File_google_cloud_bigquery_v2_project_proto protoreflect.FileDescriptor
@@ -152,18 +188,6 @@ const file_google_cloud_bigquery_v2_project_proto_rawDesc = "" +
 	"\x0eProjectService\x12\xb9\x01\n" +
 	"\x11GetServiceAccount\x122.google.cloud.bigquery.v2.GetServiceAccountRequest\x1a3.google.cloud.bigquery.v2.GetServiceAccountResponse\";\x82\xd3\xe4\x93\x025\x123/bigquery/v2/projects/{project_id=*}/serviceAccount\x1a\xae\x01\xcaA\x17bigquery.googleapis.com\xd2A\x90\x01https://www.googleapis.com/auth/bigquery,https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-onlyBi\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\fProjectProtoZ;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_project_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_project_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_project_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_project_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_project_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_project_proto_rawDesc), len(file_google_cloud_bigquery_v2_project_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_project_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_project_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_google_cloud_bigquery_v2_project_proto_goTypes = []any{

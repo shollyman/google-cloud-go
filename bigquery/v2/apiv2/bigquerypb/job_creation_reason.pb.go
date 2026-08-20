@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/job_creation_reason.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -97,11 +98,6 @@ func (x JobCreationReason_Code) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use JobCreationReason_Code.Descriptor instead.
-func (JobCreationReason_Code) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_creation_reason_proto_rawDescGZIP(), []int{0, 0}
-}
-
 // Reason about why a Job was created from a
 // [`jobs.query`](https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/query)
 // method when used with `JOB_CREATION_OPTIONAL` Job creation mode.
@@ -110,7 +106,7 @@ func (JobCreationReason_Code) EnumDescriptor() ([]byte, []int) {
 // [`jobs.insert`](https://cloud.google.com/bigquery/docs/reference/rest/v2/jobs/insert)
 // method calls it will always be `REQUESTED`.
 type JobCreationReason struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. Specifies the high level reason why a Job was created.
 	Code          JobCreationReason_Code `protobuf:"varint,1,opt,name=code,proto3,enum=google.cloud.bigquery.v2.JobCreationReason_Code" json:"code,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -142,16 +138,30 @@ func (x *JobCreationReason) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use JobCreationReason.ProtoReflect.Descriptor instead.
-func (*JobCreationReason) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_job_creation_reason_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *JobCreationReason) GetCode() JobCreationReason_Code {
 	if x != nil {
 		return x.Code
 	}
 	return JobCreationReason_CODE_UNSPECIFIED
+}
+
+func (x *JobCreationReason) SetCode(v JobCreationReason_Code) {
+	x.Code = v
+}
+
+type JobCreationReason_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. Specifies the high level reason why a Job was created.
+	Code JobCreationReason_Code
+}
+
+func (b0 JobCreationReason_builder) Build() *JobCreationReason {
+	m0 := &JobCreationReason{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Code = b.Code
+	return m0
 }
 
 var File_google_cloud_bigquery_v2_job_creation_reason_proto protoreflect.FileDescriptor
@@ -168,18 +178,6 @@ const file_google_cloud_bigquery_v2_job_creation_reason_proto_rawDesc = "" +
 	"\rLARGE_RESULTS\x10\x03\x12\t\n" +
 	"\x05OTHER\x10\x04Bu\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\x16JobCreationReasonProtoP\x01Z;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_job_creation_reason_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_job_creation_reason_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_job_creation_reason_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_job_creation_reason_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_job_creation_reason_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_job_creation_reason_proto_rawDesc), len(file_google_cloud_bigquery_v2_job_creation_reason_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_job_creation_reason_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_job_creation_reason_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_google_cloud_bigquery_v2_job_creation_reason_proto_msgTypes = make([]protoimpl.MessageInfo, 1)

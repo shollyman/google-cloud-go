@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/external_catalog_dataset_options.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -41,7 +42,7 @@ const (
 // catalog. Contains metadata of open source database, schema,
 // or namespace represented by the current dataset.
 type ExternalCatalogDatasetOptions struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. A map of key value pairs defining the parameters and properties
 	// of the open source schema. Maximum size of 2MiB.
 	Parameters map[string]string `protobuf:"bytes,1,rep,name=parameters,proto3" json:"parameters,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
@@ -78,11 +79,6 @@ func (x *ExternalCatalogDatasetOptions) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ExternalCatalogDatasetOptions.ProtoReflect.Descriptor instead.
-func (*ExternalCatalogDatasetOptions) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_external_catalog_dataset_options_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *ExternalCatalogDatasetOptions) GetParameters() map[string]string {
 	if x != nil {
 		return x.Parameters
@@ -95,6 +91,35 @@ func (x *ExternalCatalogDatasetOptions) GetDefaultStorageLocationUri() string {
 		return x.DefaultStorageLocationUri
 	}
 	return ""
+}
+
+func (x *ExternalCatalogDatasetOptions) SetParameters(v map[string]string) {
+	x.Parameters = v
+}
+
+func (x *ExternalCatalogDatasetOptions) SetDefaultStorageLocationUri(v string) {
+	x.DefaultStorageLocationUri = v
+}
+
+type ExternalCatalogDatasetOptions_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. A map of key value pairs defining the parameters and properties
+	// of the open source schema. Maximum size of 2MiB.
+	Parameters map[string]string
+	// Optional. The storage location URI for all tables in the dataset.
+	// Equivalent to hive metastore's database locationUri. Maximum length of 1024
+	// characters.
+	DefaultStorageLocationUri string
+}
+
+func (b0 ExternalCatalogDatasetOptions_builder) Build() *ExternalCatalogDatasetOptions {
+	m0 := &ExternalCatalogDatasetOptions{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Parameters = b.Parameters
+	x.DefaultStorageLocationUri = b.DefaultStorageLocationUri
+	return m0
 }
 
 var File_google_cloud_bigquery_v2_external_catalog_dataset_options_proto protoreflect.FileDescriptor
@@ -111,18 +136,6 @@ const file_google_cloud_bigquery_v2_external_catalog_dataset_options_proto_rawDe
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\x81\x01\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\"ExternalCatalogDatasetOptionsProtoP\x01Z;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_external_catalog_dataset_options_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_external_catalog_dataset_options_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_external_catalog_dataset_options_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_external_catalog_dataset_options_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_external_catalog_dataset_options_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_external_catalog_dataset_options_proto_rawDesc), len(file_google_cloud_bigquery_v2_external_catalog_dataset_options_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_external_catalog_dataset_options_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_external_catalog_dataset_options_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_google_cloud_bigquery_v2_external_catalog_dataset_options_proto_goTypes = []any{

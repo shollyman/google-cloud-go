@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/decimal_target_types.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -91,11 +92,6 @@ func (x DecimalTargetType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use DecimalTargetType.Descriptor instead.
-func (DecimalTargetType) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_decimal_target_types_proto_rawDescGZIP(), []int{0}
-}
-
 var File_google_cloud_bigquery_v2_decimal_target_types_proto protoreflect.FileDescriptor
 
 const file_google_cloud_bigquery_v2_decimal_target_types_proto_rawDesc = "" +
@@ -109,18 +105,6 @@ const file_google_cloud_bigquery_v2_decimal_target_types_proto_rawDesc = "" +
 	"\n" +
 	"\x06STRING\x10\x03Bv\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\x17DecimalTargetTypesProtoP\x01Z;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_decimal_target_types_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_decimal_target_types_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_decimal_target_types_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_decimal_target_types_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_decimal_target_types_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_decimal_target_types_proto_rawDesc), len(file_google_cloud_bigquery_v2_decimal_target_types_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_decimal_target_types_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_decimal_target_types_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_google_cloud_bigquery_v2_decimal_target_types_proto_goTypes = []any{

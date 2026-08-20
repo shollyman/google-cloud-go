@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/error.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -38,7 +39,7 @@ const (
 
 // Error details.
 type ErrorProto struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// A short error code that summarizes the error.
 	Reason string `protobuf:"bytes,1,opt,name=reason,proto3" json:"reason,omitempty"`
 	// Specifies where the error occurred, if present.
@@ -77,11 +78,6 @@ func (x *ErrorProto) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ErrorProto.ProtoReflect.Descriptor instead.
-func (*ErrorProto) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_error_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *ErrorProto) GetReason() string {
 	if x != nil {
 		return x.Reason
@@ -110,6 +106,47 @@ func (x *ErrorProto) GetMessage() string {
 	return ""
 }
 
+func (x *ErrorProto) SetReason(v string) {
+	x.Reason = v
+}
+
+func (x *ErrorProto) SetLocation(v string) {
+	x.Location = v
+}
+
+func (x *ErrorProto) SetDebugInfo(v string) {
+	x.DebugInfo = v
+}
+
+func (x *ErrorProto) SetMessage(v string) {
+	x.Message = v
+}
+
+type ErrorProto_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// A short error code that summarizes the error.
+	Reason string
+	// Specifies where the error occurred, if present.
+	Location string
+	// Debugging information. This property is internal to Google and should not
+	// be used.
+	DebugInfo string
+	// A human-readable description of the error.
+	Message string
+}
+
+func (b0 ErrorProto_builder) Build() *ErrorProto {
+	m0 := &ErrorProto{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Reason = b.Reason
+	x.Location = b.Location
+	x.DebugInfo = b.DebugInfo
+	x.Message = b.Message
+	return m0
+}
+
 var File_google_cloud_bigquery_v2_error_proto protoreflect.FileDescriptor
 
 const file_google_cloud_bigquery_v2_error_proto_rawDesc = "" +
@@ -123,18 +160,6 @@ const file_google_cloud_bigquery_v2_error_proto_rawDesc = "" +
 	"debug_info\x18\x03 \x01(\tR\tdebugInfo\x12\x18\n" +
 	"\amessage\x18\x04 \x01(\tR\amessageB[\n" +
 	"\x1ccom.google.cloud.bigquery.v2Z;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_error_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_error_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_error_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_error_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_error_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_error_proto_rawDesc), len(file_google_cloud_bigquery_v2_error_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_error_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_error_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_google_cloud_bigquery_v2_error_proto_goTypes = []any{

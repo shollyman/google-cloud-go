@@ -382,6 +382,7 @@ libraries:
             - F_wrapper_types_for_page_size
           import_path: bigquery/v2/apiv2
           no_snippets: true
+          proto_api_level: API_HYBRID
     keep:
       - README.md
     skip_release: true

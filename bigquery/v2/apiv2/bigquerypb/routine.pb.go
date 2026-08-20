@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/routine.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -97,11 +98,6 @@ func (x Routine_RoutineType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use Routine_RoutineType.Descriptor instead.
-func (Routine_RoutineType) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_routine_proto_rawDescGZIP(), []int{0, 0}
-}
-
 // The language of the routine.
 type Routine_Language int32
 
@@ -160,11 +156,6 @@ func (Routine_Language) Type() protoreflect.EnumType {
 
 func (x Routine_Language) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Routine_Language.Descriptor instead.
-func (Routine_Language) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_routine_proto_rawDescGZIP(), []int{0, 1}
 }
 
 // JavaScript UDF determinism levels.
@@ -228,11 +219,6 @@ func (x Routine_DeterminismLevel) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use Routine_DeterminismLevel.Descriptor instead.
-func (Routine_DeterminismLevel) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_routine_proto_rawDescGZIP(), []int{0, 2}
-}
-
 // Security mode.
 type Routine_SecurityMode int32
 
@@ -283,11 +269,6 @@ func (x Routine_SecurityMode) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use Routine_SecurityMode.Descriptor instead.
-func (Routine_SecurityMode) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_routine_proto_rawDescGZIP(), []int{0, 3}
-}
-
 // Data governance type values. Only supports `DATA_MASKING`.
 type Routine_DataGovernanceType int32
 
@@ -330,11 +311,6 @@ func (Routine_DataGovernanceType) Type() protoreflect.EnumType {
 
 func (x Routine_DataGovernanceType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Routine_DataGovernanceType.Descriptor instead.
-func (Routine_DataGovernanceType) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_routine_proto_rawDescGZIP(), []int{0, 4}
 }
 
 // Represents the kind of a given argument.
@@ -394,11 +370,6 @@ func (x Routine_Argument_ArgumentKind) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use Routine_Argument_ArgumentKind.Descriptor instead.
-func (Routine_Argument_ArgumentKind) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_routine_proto_rawDescGZIP(), []int{0, 0, 0}
-}
-
 // The input/output mode of the argument.
 type Routine_Argument_Mode int32
 
@@ -449,11 +420,6 @@ func (Routine_Argument_Mode) Type() protoreflect.EnumType {
 
 func (x Routine_Argument_Mode) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Routine_Argument_Mode.Descriptor instead.
-func (Routine_Argument_Mode) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_routine_proto_rawDescGZIP(), []int{0, 0, 1}
 }
 
 // The build state of a routine.
@@ -508,14 +474,9 @@ func (x RoutineBuildStatus_BuildState) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use RoutineBuildStatus_BuildState.Descriptor instead.
-func (RoutineBuildStatus_BuildState) EnumDescriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_routine_proto_rawDescGZIP(), []int{4, 0}
-}
-
 // A user-defined function or a stored procedure.
 type Routine struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. A hash of this resource.
 	Etag string `protobuf:"bytes,1,opt,name=etag,proto3" json:"etag,omitempty"`
 	// Required. Reference describing the ID of this routine.
@@ -665,11 +626,6 @@ func (x *Routine) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Routine.ProtoReflect.Descriptor instead.
-func (*Routine) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_routine_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *Routine) GetEtag() string {
 	if x != nil {
 		return x.Etag
@@ -817,9 +773,345 @@ func (x *Routine) GetBuildStatus() *RoutineBuildStatus {
 	return nil
 }
 
+func (x *Routine) SetEtag(v string) {
+	x.Etag = v
+}
+
+func (x *Routine) SetRoutineReference(v *RoutineReference) {
+	x.RoutineReference = v
+}
+
+func (x *Routine) SetRoutineType(v Routine_RoutineType) {
+	x.RoutineType = v
+}
+
+func (x *Routine) SetCreationTime(v int64) {
+	x.CreationTime = v
+}
+
+func (x *Routine) SetLastModifiedTime(v int64) {
+	x.LastModifiedTime = v
+}
+
+func (x *Routine) SetLanguage(v Routine_Language) {
+	x.Language = v
+}
+
+func (x *Routine) SetArguments(v []*Routine_Argument) {
+	x.Arguments = v
+}
+
+func (x *Routine) SetReturnType(v *StandardSqlDataType) {
+	x.ReturnType = v
+}
+
+func (x *Routine) SetReturnTableType(v *StandardSqlTableType) {
+	x.ReturnTableType = v
+}
+
+func (x *Routine) SetImportedLibraries(v []string) {
+	x.ImportedLibraries = v
+}
+
+func (x *Routine) SetDefinitionBody(v string) {
+	x.DefinitionBody = v
+}
+
+func (x *Routine) SetDescription(v string) {
+	x.Description = v
+}
+
+func (x *Routine) SetDeterminismLevel(v Routine_DeterminismLevel) {
+	x.DeterminismLevel = v
+}
+
+func (x *Routine) SetSecurityMode(v Routine_SecurityMode) {
+	x.SecurityMode = v
+}
+
+func (x *Routine) SetStrictMode(v *wrapperspb.BoolValue) {
+	x.StrictMode = v
+}
+
+func (x *Routine) SetRemoteFunctionOptions(v *Routine_RemoteFunctionOptions) {
+	x.RemoteFunctionOptions = v
+}
+
+func (x *Routine) SetSparkOptions(v *SparkOptions) {
+	x.SparkOptions = v
+}
+
+func (x *Routine) SetDataGovernanceType(v Routine_DataGovernanceType) {
+	x.DataGovernanceType = v
+}
+
+func (x *Routine) SetPythonOptions(v *PythonOptions) {
+	x.PythonOptions = v
+}
+
+func (x *Routine) SetExternalRuntimeOptions(v *ExternalRuntimeOptions) {
+	x.ExternalRuntimeOptions = v
+}
+
+func (x *Routine) SetBuildStatus(v *RoutineBuildStatus) {
+	x.BuildStatus = v
+}
+
+func (x *Routine) HasRoutineReference() bool {
+	if x == nil {
+		return false
+	}
+	return x.RoutineReference != nil
+}
+
+func (x *Routine) HasReturnType() bool {
+	if x == nil {
+		return false
+	}
+	return x.ReturnType != nil
+}
+
+func (x *Routine) HasReturnTableType() bool {
+	if x == nil {
+		return false
+	}
+	return x.ReturnTableType != nil
+}
+
+func (x *Routine) HasStrictMode() bool {
+	if x == nil {
+		return false
+	}
+	return x.StrictMode != nil
+}
+
+func (x *Routine) HasRemoteFunctionOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.RemoteFunctionOptions != nil
+}
+
+func (x *Routine) HasSparkOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.SparkOptions != nil
+}
+
+func (x *Routine) HasPythonOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.PythonOptions != nil
+}
+
+func (x *Routine) HasExternalRuntimeOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.ExternalRuntimeOptions != nil
+}
+
+func (x *Routine) HasBuildStatus() bool {
+	if x == nil {
+		return false
+	}
+	return x.BuildStatus != nil
+}
+
+func (x *Routine) ClearRoutineReference() {
+	x.RoutineReference = nil
+}
+
+func (x *Routine) ClearReturnType() {
+	x.ReturnType = nil
+}
+
+func (x *Routine) ClearReturnTableType() {
+	x.ReturnTableType = nil
+}
+
+func (x *Routine) ClearStrictMode() {
+	x.StrictMode = nil
+}
+
+func (x *Routine) ClearRemoteFunctionOptions() {
+	x.RemoteFunctionOptions = nil
+}
+
+func (x *Routine) ClearSparkOptions() {
+	x.SparkOptions = nil
+}
+
+func (x *Routine) ClearPythonOptions() {
+	x.PythonOptions = nil
+}
+
+func (x *Routine) ClearExternalRuntimeOptions() {
+	x.ExternalRuntimeOptions = nil
+}
+
+func (x *Routine) ClearBuildStatus() {
+	x.BuildStatus = nil
+}
+
+type Routine_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. A hash of this resource.
+	Etag string
+	// Required. Reference describing the ID of this routine.
+	RoutineReference *RoutineReference
+	// Required. The type of routine.
+	RoutineType Routine_RoutineType
+	// Output only. The time when this routine was created, in milliseconds since
+	// the epoch.
+	CreationTime int64
+	// Output only. The time when this routine was last modified, in milliseconds
+	// since the epoch.
+	LastModifiedTime int64
+	// Optional. Defaults to "SQL" if remote_function_options field is absent, not
+	// set otherwise.
+	Language Routine_Language
+	// Optional.
+	Arguments []*Routine_Argument
+	// Optional if language = "SQL"; required otherwise.
+	// Cannot be set if routine_type = "TABLE_VALUED_FUNCTION".
+	//
+	// If absent, the return type is inferred from definition_body at query time
+	// in each query that references this routine. If present, then the evaluated
+	// result will be cast to the specified returned type at query time.
+	//
+	// For example, for the functions created with the following statements:
+	//
+	// * `CREATE FUNCTION Add(x FLOAT64, y FLOAT64) RETURNS FLOAT64 AS (x + y);`
+	//
+	// * `CREATE FUNCTION Increment(x FLOAT64) AS (Add(x, 1));`
+	//
+	// * `CREATE FUNCTION Decrement(x FLOAT64) RETURNS FLOAT64 AS (Add(x, -1));`
+	//
+	// The return_type is `{type_kind: "FLOAT64"}` for `Add` and `Decrement`, and
+	// is absent for `Increment` (inferred as FLOAT64 at query time).
+	//
+	// Suppose the function `Add` is replaced by
+	//
+	//	`CREATE OR REPLACE FUNCTION Add(x INT64, y INT64) AS (x + y);`
+	//
+	// Then the inferred return type of `Increment` is automatically changed to
+	// INT64 at query time, while the return type of `Decrement` remains FLOAT64.
+	ReturnType *StandardSqlDataType
+	// Optional. Can be set only if routine_type = "TABLE_VALUED_FUNCTION".
+	//
+	// If absent, the return table type is inferred from definition_body at query
+	// time in each query that references this routine. If present, then the
+	// columns in the evaluated table result will be cast to match the column
+	// types specified in return table type, at query time.
+	ReturnTableType *StandardSqlTableType
+	// Optional. If language = "JAVASCRIPT", this field stores the path of the
+	// imported JAVASCRIPT libraries.
+	ImportedLibraries []string
+	// Required. The body of the routine.
+	//
+	// For functions, this is the expression in the AS clause.
+	//
+	// If `language = "SQL"`, it is the substring inside (but excluding) the
+	// parentheses. For example, for the function created with the following
+	// statement:
+	//
+	// `CREATE FUNCTION JoinLines(x string, y string) as (concat(x, "\n", y))`
+	//
+	// The definition_body is `concat(x, "\n", y)` (\n is not replaced with
+	// linebreak).
+	//
+	// If `language="JAVASCRIPT"`, it is the evaluated string in the AS clause.
+	// For example, for the function created with the following statement:
+	//
+	// `CREATE FUNCTION f() RETURNS STRING LANGUAGE js AS 'return "\n";\n'`
+	//
+	// The definition_body is
+	//
+	// `return "\n";\n`
+	//
+	// Note that both \n are replaced with linebreaks.
+	//
+	// If `definition_body` references another routine, then that routine must
+	// be fully qualified with its project ID.
+	DefinitionBody string
+	// Optional. The description of the routine, if defined.
+	Description string
+	// Optional. The determinism level of the JavaScript UDF, if defined.
+	DeterminismLevel Routine_DeterminismLevel
+	// Optional. The security mode of the routine, if defined. If not defined, the
+	// security mode is automatically determined from the routine's configuration.
+	SecurityMode Routine_SecurityMode
+	// Optional. Use this option to catch many common errors. Error checking is
+	// not exhaustive, and successfully creating a procedure doesn't guarantee
+	// that the procedure will successfully execute at runtime. If `strictMode` is
+	// set to `TRUE`, the procedure body is further checked for errors such as
+	// non-existent tables or columns. The `CREATE PROCEDURE` statement fails if
+	// the body fails any of these checks.
+	//
+	// If `strictMode` is set to `FALSE`, the procedure body is checked only for
+	// syntax. For procedures that invoke themselves recursively, specify
+	// `strictMode=FALSE` to avoid non-existent procedure errors during
+	// validation.
+	//
+	// Default value is `TRUE`.
+	StrictMode *wrapperspb.BoolValue
+	// Optional. Remote function specific options.
+	RemoteFunctionOptions *Routine_RemoteFunctionOptions
+	// Optional. Spark specific options.
+	SparkOptions *SparkOptions
+	// Optional. If set to `DATA_MASKING`, the function is validated and made
+	// available as a masking function. For more information, see [Create custom
+	// masking
+	// routines](https://cloud.google.com/bigquery/docs/user-defined-functions#custom-mask).
+	DataGovernanceType Routine_DataGovernanceType
+	// Optional. Options for the Python UDF.
+	// [Preview](https://cloud.google.com/products/#product-launch-stages)
+	PythonOptions *PythonOptions
+	// Optional. Options for the runtime of the external system executing the
+	// routine. This field is only applicable for Python UDFs.
+	// [Preview](https://cloud.google.com/products/#product-launch-stages)
+	ExternalRuntimeOptions *ExternalRuntimeOptions
+	// Output only. The build status of the routine. This field is only applicable
+	// to Python UDFs.
+	// [Preview](https://cloud.google.com/products/#product-launch-stages)
+	BuildStatus *RoutineBuildStatus
+}
+
+func (b0 Routine_builder) Build() *Routine {
+	m0 := &Routine{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Etag = b.Etag
+	x.RoutineReference = b.RoutineReference
+	x.RoutineType = b.RoutineType
+	x.CreationTime = b.CreationTime
+	x.LastModifiedTime = b.LastModifiedTime
+	x.Language = b.Language
+	x.Arguments = b.Arguments
+	x.ReturnType = b.ReturnType
+	x.ReturnTableType = b.ReturnTableType
+	x.ImportedLibraries = b.ImportedLibraries
+	x.DefinitionBody = b.DefinitionBody
+	x.Description = b.Description
+	x.DeterminismLevel = b.DeterminismLevel
+	x.SecurityMode = b.SecurityMode
+	x.StrictMode = b.StrictMode
+	x.RemoteFunctionOptions = b.RemoteFunctionOptions
+	x.SparkOptions = b.SparkOptions
+	x.DataGovernanceType = b.DataGovernanceType
+	x.PythonOptions = b.PythonOptions
+	x.ExternalRuntimeOptions = b.ExternalRuntimeOptions
+	x.BuildStatus = b.BuildStatus
+	return m0
+}
+
 // Options for a user-defined Python function.
 type PythonOptions struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. The name of the function defined in Python code as the entry
 	// point when the Python UDF is invoked.
 	EntryPoint string `protobuf:"bytes,1,opt,name=entry_point,json=entryPoint,proto3" json:"entry_point,omitempty"`
@@ -857,11 +1149,6 @@ func (x *PythonOptions) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PythonOptions.ProtoReflect.Descriptor instead.
-func (*PythonOptions) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_routine_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *PythonOptions) GetEntryPoint() string {
 	if x != nil {
 		return x.EntryPoint
@@ -876,9 +1163,39 @@ func (x *PythonOptions) GetPackages() []string {
 	return nil
 }
 
+func (x *PythonOptions) SetEntryPoint(v string) {
+	x.EntryPoint = v
+}
+
+func (x *PythonOptions) SetPackages(v []string) {
+	x.Packages = v
+}
+
+type PythonOptions_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. The name of the function defined in Python code as the entry
+	// point when the Python UDF is invoked.
+	EntryPoint string
+	// Optional. A list of Python package names along with versions to be
+	// installed. Example: ["pandas>=2.1", "google-cloud-translate==3.11"]. For
+	// more information, see [Use third-party
+	// packages](https://cloud.google.com/bigquery/docs/user-defined-functions-python#third-party-packages).
+	Packages []string
+}
+
+func (b0 PythonOptions_builder) Build() *PythonOptions {
+	m0 := &PythonOptions{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.EntryPoint = b.EntryPoint
+	x.Packages = b.Packages
+	return m0
+}
+
 // Options for the runtime of the external system.
 type ExternalRuntimeOptions struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. Amount of memory provisioned for a Python UDF container instance.
 	// Format: {number}{unit} where unit is one of "M", "G", "Mi" and "Gi" (e.g.
 	// 1G, 512Mi). If not specified, the default value is 512Mi. For more
@@ -933,11 +1250,6 @@ func (x *ExternalRuntimeOptions) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ExternalRuntimeOptions.ProtoReflect.Descriptor instead.
-func (*ExternalRuntimeOptions) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_routine_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *ExternalRuntimeOptions) GetContainerMemory() string {
 	if x != nil {
 		return x.ContainerMemory
@@ -980,9 +1292,76 @@ func (x *ExternalRuntimeOptions) GetContainerRequestConcurrency() int64 {
 	return 0
 }
 
+func (x *ExternalRuntimeOptions) SetContainerMemory(v string) {
+	x.ContainerMemory = v
+}
+
+func (x *ExternalRuntimeOptions) SetContainerCpu(v float64) {
+	x.ContainerCpu = v
+}
+
+func (x *ExternalRuntimeOptions) SetRuntimeConnection(v string) {
+	x.RuntimeConnection = v
+}
+
+func (x *ExternalRuntimeOptions) SetMaxBatchingRows(v int64) {
+	x.MaxBatchingRows = v
+}
+
+func (x *ExternalRuntimeOptions) SetRuntimeVersion(v string) {
+	x.RuntimeVersion = v
+}
+
+func (x *ExternalRuntimeOptions) SetContainerRequestConcurrency(v int64) {
+	x.ContainerRequestConcurrency = v
+}
+
+type ExternalRuntimeOptions_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. Amount of memory provisioned for a Python UDF container instance.
+	// Format: {number}{unit} where unit is one of "M", "G", "Mi" and "Gi" (e.g.
+	// 1G, 512Mi). If not specified, the default value is 512Mi. For more
+	// information, see [Configure container limits for Python
+	// UDFs](https://cloud.google.com/bigquery/docs/user-defined-functions-python#configure-container-limits)
+	ContainerMemory string
+	// Optional. Amount of CPU provisioned for a Python UDF container instance.
+	// For more information, see [Configure container limits for Python
+	// UDFs](https://cloud.google.com/bigquery/docs/user-defined-functions-python#configure-container-limits)
+	ContainerCpu float64
+	// Optional. Fully qualified name of the connection whose service account will
+	// be used to execute the code in the container. Format:
+	// ```"projects/{project_id}/locations/{location_id}/connections/{connection_id}"```
+	RuntimeConnection string
+	// Optional. Maximum number of rows in each batch sent to the external
+	// runtime. If absent or if 0, BigQuery dynamically decides the number of rows
+	// in a batch.
+	MaxBatchingRows int64
+	// Optional. Language runtime version. Example: `python-3.11`.
+	RuntimeVersion string
+	// Optional. Maximum number of requests that a Python UDF instance can handle
+	// concurrently. If absent or if `0`, the default concurrency value is used.
+	// For more information, see [Configure container limits for Python
+	// UDFs](https://cloud.google.com/bigquery/docs/user-defined-functions-python#configure-container-limits).
+	ContainerRequestConcurrency int64
+}
+
+func (b0 ExternalRuntimeOptions_builder) Build() *ExternalRuntimeOptions {
+	m0 := &ExternalRuntimeOptions{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ContainerMemory = b.ContainerMemory
+	x.ContainerCpu = b.ContainerCpu
+	x.RuntimeConnection = b.RuntimeConnection
+	x.MaxBatchingRows = b.MaxBatchingRows
+	x.RuntimeVersion = b.RuntimeVersion
+	x.ContainerRequestConcurrency = b.ContainerRequestConcurrency
+	return m0
+}
+
 // Options for a user-defined Spark routine.
 type SparkOptions struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Fully qualified name of the user-provided Spark connection object. Format:
 	// ```"projects/{project_id}/locations/{location_id}/connections/{connection_id}"```
 	Connection string `protobuf:"bytes,1,opt,name=connection,proto3" json:"connection,omitempty"`
@@ -1050,11 +1429,6 @@ func (x *SparkOptions) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use SparkOptions.ProtoReflect.Descriptor instead.
-func (*SparkOptions) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_routine_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *SparkOptions) GetConnection() string {
@@ -1127,9 +1501,111 @@ func (x *SparkOptions) GetMainClass() string {
 	return ""
 }
 
+func (x *SparkOptions) SetConnection(v string) {
+	x.Connection = v
+}
+
+func (x *SparkOptions) SetRuntimeVersion(v string) {
+	x.RuntimeVersion = v
+}
+
+func (x *SparkOptions) SetContainerImage(v string) {
+	x.ContainerImage = v
+}
+
+func (x *SparkOptions) SetProperties(v map[string]string) {
+	x.Properties = v
+}
+
+func (x *SparkOptions) SetMainFileUri(v string) {
+	x.MainFileUri = v
+}
+
+func (x *SparkOptions) SetPyFileUris(v []string) {
+	x.PyFileUris = v
+}
+
+func (x *SparkOptions) SetJarUris(v []string) {
+	x.JarUris = v
+}
+
+func (x *SparkOptions) SetFileUris(v []string) {
+	x.FileUris = v
+}
+
+func (x *SparkOptions) SetArchiveUris(v []string) {
+	x.ArchiveUris = v
+}
+
+func (x *SparkOptions) SetMainClass(v string) {
+	x.MainClass = v
+}
+
+type SparkOptions_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Fully qualified name of the user-provided Spark connection object. Format:
+	// ```"projects/{project_id}/locations/{location_id}/connections/{connection_id}"```
+	Connection string
+	// Runtime version. If not specified, the default runtime version is used.
+	RuntimeVersion string
+	// Custom container image for the runtime environment.
+	ContainerImage string
+	// Configuration properties as a set of key/value pairs, which will be passed
+	// on to the Spark application. For more information, see
+	// [Apache Spark](https://spark.apache.org/docs/latest/index.html) and the
+	// [procedure option
+	// list](https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language#procedure_option_list).
+	Properties map[string]string
+	// The main file/jar URI of the Spark application. Exactly one of the
+	// definition_body field and the main_file_uri field must be set for Python.
+	// Exactly one of main_class and main_file_uri field
+	// should be set for Java/Scala language type.
+	MainFileUri string
+	// Python files to be placed on the PYTHONPATH for PySpark application.
+	// Supported file types: `.py`, `.egg`, and `.zip`. For more information
+	// about Apache Spark, see
+	// [Apache Spark](https://spark.apache.org/docs/latest/index.html).
+	PyFileUris []string
+	// JARs to include on the driver and executor CLASSPATH.
+	// For more information about Apache Spark, see
+	// [Apache Spark](https://spark.apache.org/docs/latest/index.html).
+	JarUris []string
+	// Files to be placed in the working directory of each executor.
+	// For more information about Apache Spark, see
+	// [Apache Spark](https://spark.apache.org/docs/latest/index.html).
+	FileUris []string
+	// Archive files to be extracted into the working directory of each executor.
+	// For more information about Apache Spark, see
+	// [Apache Spark](https://spark.apache.org/docs/latest/index.html).
+	ArchiveUris []string
+	// The fully qualified name of a class in jar_uris, for example,
+	// com.example.wordcount. Exactly one of main_class and main_jar_uri field
+	//
+	//	should be set for Java/Scala language type.
+	MainClass string
+}
+
+func (b0 SparkOptions_builder) Build() *SparkOptions {
+	m0 := &SparkOptions{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Connection = b.Connection
+	x.RuntimeVersion = b.RuntimeVersion
+	x.ContainerImage = b.ContainerImage
+	x.Properties = b.Properties
+	x.MainFileUri = b.MainFileUri
+	x.PyFileUris = b.PyFileUris
+	x.JarUris = b.JarUris
+	x.FileUris = b.FileUris
+	x.ArchiveUris = b.ArchiveUris
+	x.MainClass = b.MainClass
+	return m0
+}
+
 // The status of a routine build.
 type RoutineBuildStatus struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Output only. The current build state of the routine.
 	BuildState RoutineBuildStatus_BuildState `protobuf:"varint,1,opt,name=build_state,json=buildState,proto3,enum=google.cloud.bigquery.v2.RoutineBuildStatus_BuildState" json:"build_state,omitempty"`
 	// Output only. A result object that will be present only if the build has
@@ -1172,11 +1648,6 @@ func (x *RoutineBuildStatus) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RoutineBuildStatus.ProtoReflect.Descriptor instead.
-func (*RoutineBuildStatus) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_routine_proto_rawDescGZIP(), []int{4}
-}
-
 func (x *RoutineBuildStatus) GetBuildState() RoutineBuildStatus_BuildState {
 	if x != nil {
 		return x.BuildState
@@ -1212,9 +1683,92 @@ func (x *RoutineBuildStatus) GetImageSizeBytes() int64 {
 	return 0
 }
 
+func (x *RoutineBuildStatus) SetBuildState(v RoutineBuildStatus_BuildState) {
+	x.BuildState = v
+}
+
+func (x *RoutineBuildStatus) SetErrorResult(v *ErrorProto) {
+	x.ErrorResult = v
+}
+
+func (x *RoutineBuildStatus) SetBuildStateUpdateTime(v *timestamppb.Timestamp) {
+	x.BuildStateUpdateTime = v
+}
+
+func (x *RoutineBuildStatus) SetBuildDuration(v *durationpb.Duration) {
+	x.BuildDuration = v
+}
+
+func (x *RoutineBuildStatus) SetImageSizeBytes(v int64) {
+	x.ImageSizeBytes = v
+}
+
+func (x *RoutineBuildStatus) HasErrorResult() bool {
+	if x == nil {
+		return false
+	}
+	return x.ErrorResult != nil
+}
+
+func (x *RoutineBuildStatus) HasBuildStateUpdateTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.BuildStateUpdateTime != nil
+}
+
+func (x *RoutineBuildStatus) HasBuildDuration() bool {
+	if x == nil {
+		return false
+	}
+	return x.BuildDuration != nil
+}
+
+func (x *RoutineBuildStatus) ClearErrorResult() {
+	x.ErrorResult = nil
+}
+
+func (x *RoutineBuildStatus) ClearBuildStateUpdateTime() {
+	x.BuildStateUpdateTime = nil
+}
+
+func (x *RoutineBuildStatus) ClearBuildDuration() {
+	x.BuildDuration = nil
+}
+
+type RoutineBuildStatus_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Output only. The current build state of the routine.
+	BuildState RoutineBuildStatus_BuildState
+	// Output only. A result object that will be present only if the build has
+	// failed.
+	ErrorResult *ErrorProto
+	// Output only. The time when the build state was updated last.
+	BuildStateUpdateTime *timestamppb.Timestamp
+	// Output only. The time taken for the image build. Populated only after the
+	// build succeeds or fails.
+	BuildDuration *durationpb.Duration
+	// Output only. The size of the image in bytes. Populated only after the build
+	// succeeds.
+	ImageSizeBytes int64
+}
+
+func (b0 RoutineBuildStatus_builder) Build() *RoutineBuildStatus {
+	m0 := &RoutineBuildStatus{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.BuildState = b.BuildState
+	x.ErrorResult = b.ErrorResult
+	x.BuildStateUpdateTime = b.BuildStateUpdateTime
+	x.BuildDuration = b.BuildDuration
+	x.ImageSizeBytes = b.ImageSizeBytes
+	return m0
+}
+
 // Describes the format for getting information about a routine.
 type GetRoutineRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the requested routine
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. Dataset ID of the requested routine
@@ -1250,11 +1804,6 @@ func (x *GetRoutineRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetRoutineRequest.ProtoReflect.Descriptor instead.
-func (*GetRoutineRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_routine_proto_rawDescGZIP(), []int{5}
-}
-
 func (x *GetRoutineRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -1276,9 +1825,42 @@ func (x *GetRoutineRequest) GetRoutineId() string {
 	return ""
 }
 
+func (x *GetRoutineRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *GetRoutineRequest) SetDatasetId(v string) {
+	x.DatasetId = v
+}
+
+func (x *GetRoutineRequest) SetRoutineId(v string) {
+	x.RoutineId = v
+}
+
+type GetRoutineRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the requested routine
+	ProjectId string
+	// Required. Dataset ID of the requested routine
+	DatasetId string
+	// Required. Routine ID of the requested routine
+	RoutineId string
+}
+
+func (b0 GetRoutineRequest_builder) Build() *GetRoutineRequest {
+	m0 := &GetRoutineRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.DatasetId = b.DatasetId
+	x.RoutineId = b.RoutineId
+	return m0
+}
+
 // Describes the format for inserting a routine.
 type InsertRoutineRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the new routine
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. Dataset ID of the new routine
@@ -1314,11 +1896,6 @@ func (x *InsertRoutineRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use InsertRoutineRequest.ProtoReflect.Descriptor instead.
-func (*InsertRoutineRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_routine_proto_rawDescGZIP(), []int{6}
-}
-
 func (x *InsertRoutineRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -1340,9 +1917,53 @@ func (x *InsertRoutineRequest) GetRoutine() *Routine {
 	return nil
 }
 
+func (x *InsertRoutineRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *InsertRoutineRequest) SetDatasetId(v string) {
+	x.DatasetId = v
+}
+
+func (x *InsertRoutineRequest) SetRoutine(v *Routine) {
+	x.Routine = v
+}
+
+func (x *InsertRoutineRequest) HasRoutine() bool {
+	if x == nil {
+		return false
+	}
+	return x.Routine != nil
+}
+
+func (x *InsertRoutineRequest) ClearRoutine() {
+	x.Routine = nil
+}
+
+type InsertRoutineRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the new routine
+	ProjectId string
+	// Required. Dataset ID of the new routine
+	DatasetId string
+	// Required. A routine resource to insert
+	Routine *Routine
+}
+
+func (b0 InsertRoutineRequest_builder) Build() *InsertRoutineRequest {
+	m0 := &InsertRoutineRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.DatasetId = b.DatasetId
+	x.Routine = b.Routine
+	return m0
+}
+
 // Describes the format for updating a routine.
 type UpdateRoutineRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the routine to update
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. Dataset ID of the routine to update
@@ -1380,11 +2001,6 @@ func (x *UpdateRoutineRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateRoutineRequest.ProtoReflect.Descriptor instead.
-func (*UpdateRoutineRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_routine_proto_rawDescGZIP(), []int{7}
-}
-
 func (x *UpdateRoutineRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -1413,9 +2029,60 @@ func (x *UpdateRoutineRequest) GetRoutine() *Routine {
 	return nil
 }
 
+func (x *UpdateRoutineRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *UpdateRoutineRequest) SetDatasetId(v string) {
+	x.DatasetId = v
+}
+
+func (x *UpdateRoutineRequest) SetRoutineId(v string) {
+	x.RoutineId = v
+}
+
+func (x *UpdateRoutineRequest) SetRoutine(v *Routine) {
+	x.Routine = v
+}
+
+func (x *UpdateRoutineRequest) HasRoutine() bool {
+	if x == nil {
+		return false
+	}
+	return x.Routine != nil
+}
+
+func (x *UpdateRoutineRequest) ClearRoutine() {
+	x.Routine = nil
+}
+
+type UpdateRoutineRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the routine to update
+	ProjectId string
+	// Required. Dataset ID of the routine to update
+	DatasetId string
+	// Required. Routine ID of the routine to update
+	RoutineId string
+	// Required. A routine resource which will replace the specified routine
+	Routine *Routine
+}
+
+func (b0 UpdateRoutineRequest_builder) Build() *UpdateRoutineRequest {
+	m0 := &UpdateRoutineRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.DatasetId = b.DatasetId
+	x.RoutineId = b.RoutineId
+	x.Routine = b.Routine
+	return m0
+}
+
 // Describes the format for deleting a routine.
 type DeleteRoutineRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the routine to delete
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. Dataset ID of the routine to delete
@@ -1451,11 +2118,6 @@ func (x *DeleteRoutineRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteRoutineRequest.ProtoReflect.Descriptor instead.
-func (*DeleteRoutineRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_routine_proto_rawDescGZIP(), []int{8}
-}
-
 func (x *DeleteRoutineRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -1477,9 +2139,42 @@ func (x *DeleteRoutineRequest) GetRoutineId() string {
 	return ""
 }
 
+func (x *DeleteRoutineRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *DeleteRoutineRequest) SetDatasetId(v string) {
+	x.DatasetId = v
+}
+
+func (x *DeleteRoutineRequest) SetRoutineId(v string) {
+	x.RoutineId = v
+}
+
+type DeleteRoutineRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the routine to delete
+	ProjectId string
+	// Required. Dataset ID of the routine to delete
+	DatasetId string
+	// Required. Routine ID of the routine to delete
+	RoutineId string
+}
+
+func (b0 DeleteRoutineRequest_builder) Build() *DeleteRoutineRequest {
+	m0 := &DeleteRoutineRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.DatasetId = b.DatasetId
+	x.RoutineId = b.RoutineId
+	return m0
+}
+
 // Describes the format for listing routines.
 type ListRoutinesRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. Project ID of the routines to list
 	ProjectId string `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	// Required. Dataset ID of the routines to list
@@ -1523,11 +2218,6 @@ func (x *ListRoutinesRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListRoutinesRequest.ProtoReflect.Descriptor instead.
-func (*ListRoutinesRequest) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_routine_proto_rawDescGZIP(), []int{9}
-}
-
 func (x *ListRoutinesRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
@@ -1563,9 +2253,71 @@ func (x *ListRoutinesRequest) GetFilter() string {
 	return ""
 }
 
+func (x *ListRoutinesRequest) SetProjectId(v string) {
+	x.ProjectId = v
+}
+
+func (x *ListRoutinesRequest) SetDatasetId(v string) {
+	x.DatasetId = v
+}
+
+func (x *ListRoutinesRequest) SetMaxResults(v *wrapperspb.UInt32Value) {
+	x.MaxResults = v
+}
+
+func (x *ListRoutinesRequest) SetPageToken(v string) {
+	x.PageToken = v
+}
+
+func (x *ListRoutinesRequest) SetFilter(v string) {
+	x.Filter = v
+}
+
+func (x *ListRoutinesRequest) HasMaxResults() bool {
+	if x == nil {
+		return false
+	}
+	return x.MaxResults != nil
+}
+
+func (x *ListRoutinesRequest) ClearMaxResults() {
+	x.MaxResults = nil
+}
+
+type ListRoutinesRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. Project ID of the routines to list
+	ProjectId string
+	// Required. Dataset ID of the routines to list
+	DatasetId string
+	// The maximum number of results to return in a single response page.
+	// Leverage the page tokens to iterate through the entire collection.
+	MaxResults *wrapperspb.UInt32Value
+	// Page token, returned by a previous call, to request the next page of
+	// results
+	PageToken string
+	// If set, then only the Routines matching this filter are returned.
+	// The supported format is `routineType:{RoutineType}`, where `{RoutineType}`
+	// is a RoutineType enum. For example: `routineType:SCALAR_FUNCTION`.
+	Filter string
+}
+
+func (b0 ListRoutinesRequest_builder) Build() *ListRoutinesRequest {
+	m0 := &ListRoutinesRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProjectId = b.ProjectId
+	x.DatasetId = b.DatasetId
+	x.MaxResults = b.MaxResults
+	x.PageToken = b.PageToken
+	x.Filter = b.Filter
+	return m0
+}
+
 // Describes the format of a single result page when listing routines.
 type ListRoutinesResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Routines in the requested dataset. Unless read_mask is set in the request,
 	// only the following fields are populated:
 	// etag, project_id, dataset_id, routine_id, routine_type, creation_time,
@@ -1602,11 +2354,6 @@ func (x *ListRoutinesResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListRoutinesResponse.ProtoReflect.Descriptor instead.
-func (*ListRoutinesResponse) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_routine_proto_rawDescGZIP(), []int{10}
-}
-
 func (x *ListRoutinesResponse) GetRoutines() []*Routine {
 	if x != nil {
 		return x.Routines
@@ -1621,9 +2368,38 @@ func (x *ListRoutinesResponse) GetNextPageToken() string {
 	return ""
 }
 
+func (x *ListRoutinesResponse) SetRoutines(v []*Routine) {
+	x.Routines = v
+}
+
+func (x *ListRoutinesResponse) SetNextPageToken(v string) {
+	x.NextPageToken = v
+}
+
+type ListRoutinesResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Routines in the requested dataset. Unless read_mask is set in the request,
+	// only the following fields are populated:
+	// etag, project_id, dataset_id, routine_id, routine_type, creation_time,
+	// last_modified_time, language, and remote_function_options.
+	Routines []*Routine
+	// A token to request the next page of results.
+	NextPageToken string
+}
+
+func (b0 ListRoutinesResponse_builder) Build() *ListRoutinesResponse {
+	m0 := &ListRoutinesResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Routines = b.Routines
+	x.NextPageToken = b.NextPageToken
+	return m0
+}
+
 // Input/output argument of a function or a stored procedure.
 type Routine_Argument struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. The name of this argument. Can be absent for function return
 	// argument.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
@@ -1671,11 +2447,6 @@ func (x *Routine_Argument) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Routine_Argument.ProtoReflect.Descriptor instead.
-func (*Routine_Argument) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_routine_proto_rawDescGZIP(), []int{0, 0}
-}
-
 func (x *Routine_Argument) GetName() string {
 	if x != nil {
 		return x.Name
@@ -1718,9 +2489,102 @@ func (x *Routine_Argument) GetIsAggregate() *wrapperspb.BoolValue {
 	return nil
 }
 
+func (x *Routine_Argument) SetName(v string) {
+	x.Name = v
+}
+
+func (x *Routine_Argument) SetArgumentKind(v Routine_Argument_ArgumentKind) {
+	x.ArgumentKind = v
+}
+
+func (x *Routine_Argument) SetMode(v Routine_Argument_Mode) {
+	x.Mode = v
+}
+
+func (x *Routine_Argument) SetDataType(v *StandardSqlDataType) {
+	x.DataType = v
+}
+
+func (x *Routine_Argument) SetTableType(v *StandardSqlTableType) {
+	x.TableType = v
+}
+
+func (x *Routine_Argument) SetIsAggregate(v *wrapperspb.BoolValue) {
+	x.IsAggregate = v
+}
+
+func (x *Routine_Argument) HasDataType() bool {
+	if x == nil {
+		return false
+	}
+	return x.DataType != nil
+}
+
+func (x *Routine_Argument) HasTableType() bool {
+	if x == nil {
+		return false
+	}
+	return x.TableType != nil
+}
+
+func (x *Routine_Argument) HasIsAggregate() bool {
+	if x == nil {
+		return false
+	}
+	return x.IsAggregate != nil
+}
+
+func (x *Routine_Argument) ClearDataType() {
+	x.DataType = nil
+}
+
+func (x *Routine_Argument) ClearTableType() {
+	x.TableType = nil
+}
+
+func (x *Routine_Argument) ClearIsAggregate() {
+	x.IsAggregate = nil
+}
+
+type Routine_Argument_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. The name of this argument. Can be absent for function return
+	// argument.
+	Name string
+	// Optional. Defaults to FIXED_TYPE.
+	ArgumentKind Routine_Argument_ArgumentKind
+	// Optional. Specifies whether the argument is input or output.
+	// Can be set for procedures only.
+	Mode Routine_Argument_Mode
+	// Set if argument_kind == FIXED_TYPE.
+	DataType *StandardSqlDataType
+	// Optional. Set if argument_kind == FIXED_TABLE.
+	TableType *StandardSqlTableType
+	// Optional. Whether the argument is an aggregate function parameter.
+	// Must be Unset for routine types other than AGGREGATE_FUNCTION.
+	// For AGGREGATE_FUNCTION, if set to false, it is equivalent to adding "NOT
+	// AGGREGATE" clause in DDL; Otherwise, it is equivalent to omitting "NOT
+	// AGGREGATE" clause in DDL.
+	IsAggregate *wrapperspb.BoolValue
+}
+
+func (b0 Routine_Argument_builder) Build() *Routine_Argument {
+	m0 := &Routine_Argument{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Name = b.Name
+	x.ArgumentKind = b.ArgumentKind
+	x.Mode = b.Mode
+	x.DataType = b.DataType
+	x.TableType = b.TableType
+	x.IsAggregate = b.IsAggregate
+	return m0
+}
+
 // Options for a remote user-defined function.
 type Routine_RemoteFunctionOptions struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Endpoint of the user-provided remote service, e.g.
 	// ```https://us-east1-my_gcf_project.cloudfunctions.net/remote_add```
 	Endpoint string `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
@@ -1767,11 +2631,6 @@ func (x *Routine_RemoteFunctionOptions) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Routine_RemoteFunctionOptions.ProtoReflect.Descriptor instead.
-func (*Routine_RemoteFunctionOptions) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_routine_proto_rawDescGZIP(), []int{0, 1}
-}
-
 func (x *Routine_RemoteFunctionOptions) GetEndpoint() string {
 	if x != nil {
 		return x.Endpoint
@@ -1798,6 +2657,55 @@ func (x *Routine_RemoteFunctionOptions) GetMaxBatchingRows() int64 {
 		return x.MaxBatchingRows
 	}
 	return 0
+}
+
+func (x *Routine_RemoteFunctionOptions) SetEndpoint(v string) {
+	x.Endpoint = v
+}
+
+func (x *Routine_RemoteFunctionOptions) SetConnection(v string) {
+	x.Connection = v
+}
+
+func (x *Routine_RemoteFunctionOptions) SetUserDefinedContext(v map[string]string) {
+	x.UserDefinedContext = v
+}
+
+func (x *Routine_RemoteFunctionOptions) SetMaxBatchingRows(v int64) {
+	x.MaxBatchingRows = v
+}
+
+type Routine_RemoteFunctionOptions_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Endpoint of the user-provided remote service, e.g.
+	// ```https://us-east1-my_gcf_project.cloudfunctions.net/remote_add```
+	Endpoint string
+	// Fully qualified name of the user-provided connection object which holds
+	// the authentication information to send requests to the remote service.
+	// Format:
+	// ```"projects/{projectId}/locations/{locationId}/connections/{connectionId}"```
+	Connection string
+	// User-defined context as a set of key/value pairs, which will be sent as
+	// function invocation context together with batched arguments in the
+	// requests to the remote service. The total number of bytes of keys and
+	// values must be less than 8KB.
+	UserDefinedContext map[string]string
+	// Max number of rows in each batch sent to the remote service.
+	// If absent or if 0, BigQuery dynamically decides the number of rows in a
+	// batch.
+	MaxBatchingRows int64
+}
+
+func (b0 Routine_RemoteFunctionOptions_builder) Build() *Routine_RemoteFunctionOptions {
+	m0 := &Routine_RemoteFunctionOptions{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Endpoint = b.Endpoint
+	x.Connection = b.Connection
+	x.UserDefinedContext = b.UserDefinedContext
+	x.MaxBatchingRows = b.MaxBatchingRows
+	return m0
 }
 
 var File_google_cloud_bigquery_v2_routine_proto protoreflect.FileDescriptor
@@ -1981,18 +2889,6 @@ const file_google_cloud_bigquery_v2_routine_proto_rawDesc = "" +
 	"\rDeleteRoutine\x12..google.cloud.bigquery.v2.DeleteRoutineRequest\x1a\x16.google.protobuf.Empty\"\\\x82\xd3\xe4\x93\x02V*T/bigquery/v2/projects/{project_id=*}/datasets/{dataset_id=*}/routines/{routine_id=*}\x12\xbc\x01\n" +
 	"\fListRoutines\x12-.google.cloud.bigquery.v2.ListRoutinesRequest\x1a..google.cloud.bigquery.v2.ListRoutinesResponse\"M\x82\xd3\xe4\x93\x02G\x12E/bigquery/v2/projects/{project_id=*}/datasets/{dataset_id=*}/routines\x1a\xae\x01\xcaA\x17bigquery.googleapis.com\xd2A\x90\x01https://www.googleapis.com/auth/bigquery,https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/cloud-platform.read-onlyBi\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\fRoutineProtoZ;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_routine_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_routine_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_routine_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_routine_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_routine_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_routine_proto_rawDesc), len(file_google_cloud_bigquery_v2_routine_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_routine_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_routine_proto_enumTypes = make([]protoimpl.EnumInfo, 8)
 var file_google_cloud_bigquery_v2_routine_proto_msgTypes = make([]protoimpl.MessageInfo, 15)

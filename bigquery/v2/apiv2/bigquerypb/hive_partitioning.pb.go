@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/hive_partitioning.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -40,7 +41,7 @@ const (
 
 // Options for configuring hive partitioning detect.
 type HivePartitioningOptions struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Optional. When set, what mode of hive partitioning to use when reading
 	// data.  The following modes are supported:
 	//
@@ -124,11 +125,6 @@ func (x *HivePartitioningOptions) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use HivePartitioningOptions.ProtoReflect.Descriptor instead.
-func (*HivePartitioningOptions) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_hive_partitioning_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *HivePartitioningOptions) GetMode() string {
 	if x != nil {
 		return x.Mode
@@ -157,6 +153,103 @@ func (x *HivePartitioningOptions) GetFields() []string {
 	return nil
 }
 
+func (x *HivePartitioningOptions) SetMode(v string) {
+	x.Mode = v
+}
+
+func (x *HivePartitioningOptions) SetSourceUriPrefix(v string) {
+	x.SourceUriPrefix = v
+}
+
+func (x *HivePartitioningOptions) SetRequirePartitionFilter(v *wrapperspb.BoolValue) {
+	x.RequirePartitionFilter = v
+}
+
+func (x *HivePartitioningOptions) SetFields(v []string) {
+	x.Fields = v
+}
+
+func (x *HivePartitioningOptions) HasRequirePartitionFilter() bool {
+	if x == nil {
+		return false
+	}
+	return x.RequirePartitionFilter != nil
+}
+
+func (x *HivePartitioningOptions) ClearRequirePartitionFilter() {
+	x.RequirePartitionFilter = nil
+}
+
+type HivePartitioningOptions_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Optional. When set, what mode of hive partitioning to use when reading
+	// data.  The following modes are supported:
+	//
+	// * AUTO: automatically infer partition key name(s) and type(s).
+	//
+	// * STRINGS: automatically infer partition key name(s).  All types are
+	// strings.
+	//
+	// * CUSTOM: partition key schema is encoded in the source URI prefix.
+	//
+	// Not all storage formats support hive partitioning. Requesting hive
+	// partitioning on an unsupported format will lead to an error.
+	// Currently supported formats are: JSON, CSV, ORC, Avro and Parquet.
+	Mode string
+	// Optional. When hive partition detection is requested, a common prefix for
+	// all source uris must be required.  The prefix must end immediately before
+	// the partition key encoding begins. For example, consider files following
+	// this data layout:
+	//
+	// gs://bucket/path_to_table/dt=2019-06-01/country=USA/id=7/file.avro
+	//
+	// gs://bucket/path_to_table/dt=2019-05-31/country=CA/id=3/file.avro
+	//
+	// When hive partitioning is requested with either AUTO or STRINGS detection,
+	// the common prefix can be either of gs://bucket/path_to_table or
+	// gs://bucket/path_to_table/.
+	//
+	// CUSTOM detection requires encoding the partitioning schema immediately
+	// after the common prefix.  For CUSTOM, any of
+	//
+	// * gs://bucket/path_to_table/{dt:DATE}/{country:STRING}/{id:INTEGER}
+	//
+	// * gs://bucket/path_to_table/{dt:STRING}/{country:STRING}/{id:INTEGER}
+	//
+	// * gs://bucket/path_to_table/{dt:DATE}/{country:STRING}/{id:STRING}
+	//
+	// would all be valid source URI prefixes.
+	SourceUriPrefix string
+	// Optional. If set to true, queries over this table require a partition
+	// filter that can be used for partition elimination to be specified.
+	//
+	// Note that this field should only be true when creating a permanent
+	// external table or querying a temporary external table.
+	//
+	// Hive-partitioned loads with require_partition_filter explicitly set to
+	// true will fail.
+	RequirePartitionFilter *wrapperspb.BoolValue
+	// Output only. For permanent external tables, this field is populated with
+	// the hive partition keys in the order they were inferred. The types of the
+	// partition keys can be deduced by checking the table schema (which will
+	// include the partition keys). Not every API will populate this field in the
+	// output. For example, Tables.Get will populate it, but Tables.List will not
+	// contain this field.
+	Fields []string
+}
+
+func (b0 HivePartitioningOptions_builder) Build() *HivePartitioningOptions {
+	m0 := &HivePartitioningOptions{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Mode = b.Mode
+	x.SourceUriPrefix = b.SourceUriPrefix
+	x.RequirePartitionFilter = b.RequirePartitionFilter
+	x.Fields = b.Fields
+	return m0
+}
+
 var File_google_cloud_bigquery_v2_hive_partitioning_proto protoreflect.FileDescriptor
 
 const file_google_cloud_bigquery_v2_hive_partitioning_proto_rawDesc = "" +
@@ -168,18 +261,6 @@ const file_google_cloud_bigquery_v2_hive_partitioning_proto_rawDesc = "" +
 	"\x18require_partition_filter\x18\x03 \x01(\v2\x1a.google.protobuf.BoolValueB\x03\xe0A\x01R\x16requirePartitionFilter\x12\x1b\n" +
 	"\x06fields\x18\x04 \x03(\tB\x03\xe0A\x03R\x06fieldsBr\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\x15HivePartitioningProtoZ;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_hive_partitioning_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_hive_partitioning_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_hive_partitioning_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_hive_partitioning_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_hive_partitioning_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_hive_partitioning_proto_rawDesc), len(file_google_cloud_bigquery_v2_hive_partitioning_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_hive_partitioning_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_hive_partitioning_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_google_cloud_bigquery_v2_hive_partitioning_proto_goTypes = []any{

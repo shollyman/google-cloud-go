@@ -18,11 +18,12 @@
 // 	protoc        v6.33.2
 // source: google/cloud/bigquery/v2/external_dataset_reference.proto
 
+//go:build !protoopaque
+
 package bigquerypb
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -39,7 +40,7 @@ const (
 
 // Configures the access a dataset defined in an external metadata storage.
 type ExternalDatasetReference struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required. External source that backs this dataset.
 	ExternalSource string `protobuf:"bytes,2,opt,name=external_source,json=externalSource,proto3" json:"external_source,omitempty"`
 	// Required. The connection id that is used to access the external_source.
@@ -77,11 +78,6 @@ func (x *ExternalDatasetReference) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ExternalDatasetReference.ProtoReflect.Descriptor instead.
-func (*ExternalDatasetReference) Descriptor() ([]byte, []int) {
-	return file_google_cloud_bigquery_v2_external_dataset_reference_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *ExternalDatasetReference) GetExternalSource() string {
 	if x != nil {
 		return x.ExternalSource
@@ -94,6 +90,36 @@ func (x *ExternalDatasetReference) GetConnection() string {
 		return x.Connection
 	}
 	return ""
+}
+
+func (x *ExternalDatasetReference) SetExternalSource(v string) {
+	x.ExternalSource = v
+}
+
+func (x *ExternalDatasetReference) SetConnection(v string) {
+	x.Connection = v
+}
+
+type ExternalDatasetReference_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required. External source that backs this dataset.
+	ExternalSource string
+	// Required. The connection id that is used to access the external_source.
+	//
+	// Format:
+	//
+	//	projects/{project_id}/locations/{location_id}/connections/{connection_id}
+	Connection string
+}
+
+func (b0 ExternalDatasetReference_builder) Build() *ExternalDatasetReference {
+	m0 := &ExternalDatasetReference{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ExternalSource = b.ExternalSource
+	x.Connection = b.Connection
+	return m0
 }
 
 var File_google_cloud_bigquery_v2_external_dataset_reference_proto protoreflect.FileDescriptor
@@ -109,18 +135,6 @@ const file_google_cloud_bigquery_v2_external_dataset_reference_proto_rawDesc = "
 	"connectionB\xef\x01\xeaAp\n" +
 	",bigqueryconnection.googleapis.com/Connection\x12@projects/{project}/locations/{location}/connections/{connection}\n" +
 	"\x1ccom.google.cloud.bigquery.v2B\x1dExternalDatasetReferenceProtoP\x01Z;cloud.google.com/go/bigquery/v2/apiv2/bigquerypb;bigquerypbb\x06proto3"
-
-var (
-	file_google_cloud_bigquery_v2_external_dataset_reference_proto_rawDescOnce sync.Once
-	file_google_cloud_bigquery_v2_external_dataset_reference_proto_rawDescData []byte
-)
-
-func file_google_cloud_bigquery_v2_external_dataset_reference_proto_rawDescGZIP() []byte {
-	file_google_cloud_bigquery_v2_external_dataset_reference_proto_rawDescOnce.Do(func() {
-		file_google_cloud_bigquery_v2_external_dataset_reference_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_google_cloud_bigquery_v2_external_dataset_reference_proto_rawDesc), len(file_google_cloud_bigquery_v2_external_dataset_reference_proto_rawDesc)))
-	})
-	return file_google_cloud_bigquery_v2_external_dataset_reference_proto_rawDescData
-}
 
 var file_google_cloud_bigquery_v2_external_dataset_reference_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_google_cloud_bigquery_v2_external_dataset_reference_proto_goTypes = []any{
