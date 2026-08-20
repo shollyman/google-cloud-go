@@ -734,12 +734,12 @@ func (c *datasetGRPCClient) ListDatasets(ctx context.Context, req *bigquerypb.Li
 	it.InternalFetch = func(pageSize int, pageToken string) ([]*bigquerypb.ListFormatDataset, string, error) {
 		resp := &bigquerypb.DatasetList{}
 		if pageToken != "" {
-			req.PageToken = pageToken
+			req.SetPageToken(pageToken)
 		}
 		if pageSize > math.MaxInt32 {
-			req.MaxResults = &wrapperspb.UInt32Value{Value: uint32(math.MaxInt32)}
+			req.SetMaxResults(&wrapperspb.UInt32Value{Value: uint32(math.MaxInt32)})
 		} else if pageSize != 0 {
-			req.MaxResults = &wrapperspb.UInt32Value{Value: uint32(pageSize)}
+			req.SetMaxResults(&wrapperspb.UInt32Value{Value: uint32(pageSize)})
 		}
 		err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 			var err error
@@ -1140,12 +1140,12 @@ func (c *datasetRESTClient) ListDatasets(ctx context.Context, req *bigquerypb.Li
 	it.InternalFetch = func(pageSize int, pageToken string) ([]*bigquerypb.ListFormatDataset, string, error) {
 		resp := &bigquerypb.DatasetList{}
 		if pageToken != "" {
-			req.PageToken = pageToken
+			req.SetPageToken(pageToken)
 		}
 		if pageSize > math.MaxInt32 {
-			req.MaxResults = &wrapperspb.UInt32Value{Value: uint32(math.MaxInt32)}
+			req.SetMaxResults(&wrapperspb.UInt32Value{Value: uint32(math.MaxInt32)})
 		} else if pageSize != 0 {
-			req.MaxResults = &wrapperspb.UInt32Value{Value: uint32(pageSize)}
+			req.SetMaxResults(&wrapperspb.UInt32Value{Value: uint32(pageSize)})
 		}
 		baseUrl, err := url.Parse(c.endpoint)
 		if err != nil {

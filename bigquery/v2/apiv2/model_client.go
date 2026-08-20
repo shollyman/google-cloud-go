@@ -484,12 +484,12 @@ func (c *modelGRPCClient) ListModels(ctx context.Context, req *bigquerypb.ListMo
 	it.InternalFetch = func(pageSize int, pageToken string) ([]*bigquerypb.Model, string, error) {
 		resp := &bigquerypb.ListModelsResponse{}
 		if pageToken != "" {
-			req.PageToken = pageToken
+			req.SetPageToken(pageToken)
 		}
 		if pageSize > math.MaxInt32 {
-			req.MaxResults = &wrapperspb.UInt32Value{Value: uint32(math.MaxInt32)}
+			req.SetMaxResults(&wrapperspb.UInt32Value{Value: uint32(math.MaxInt32)})
 		} else if pageSize != 0 {
-			req.MaxResults = &wrapperspb.UInt32Value{Value: uint32(pageSize)}
+			req.SetMaxResults(&wrapperspb.UInt32Value{Value: uint32(pageSize)})
 		}
 		err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 			var err error
@@ -631,12 +631,12 @@ func (c *modelRESTClient) ListModels(ctx context.Context, req *bigquerypb.ListMo
 	it.InternalFetch = func(pageSize int, pageToken string) ([]*bigquerypb.Model, string, error) {
 		resp := &bigquerypb.ListModelsResponse{}
 		if pageToken != "" {
-			req.PageToken = pageToken
+			req.SetPageToken(pageToken)
 		}
 		if pageSize > math.MaxInt32 {
-			req.MaxResults = &wrapperspb.UInt32Value{Value: uint32(math.MaxInt32)}
+			req.SetMaxResults(&wrapperspb.UInt32Value{Value: uint32(math.MaxInt32)})
 		} else if pageSize != 0 {
-			req.MaxResults = &wrapperspb.UInt32Value{Value: uint32(pageSize)}
+			req.SetMaxResults(&wrapperspb.UInt32Value{Value: uint32(pageSize)})
 		}
 		baseUrl, err := url.Parse(c.endpoint)
 		if err != nil {

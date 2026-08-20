@@ -743,12 +743,12 @@ func (c *jobGRPCClient) ListJobs(ctx context.Context, req *bigquerypb.ListJobsRe
 	it.InternalFetch = func(pageSize int, pageToken string) ([]*bigquerypb.ListFormatJob, string, error) {
 		resp := &bigquerypb.JobList{}
 		if pageToken != "" {
-			req.PageToken = pageToken
+			req.SetPageToken(pageToken)
 		}
 		if pageSize > math.MaxInt32 {
-			req.MaxResults = &wrapperspb.Int32Value{Value: math.MaxInt32}
+			req.SetMaxResults(&wrapperspb.Int32Value{Value: math.MaxInt32})
 		} else if pageSize != 0 {
-			req.MaxResults = &wrapperspb.Int32Value{Value: int32(pageSize)}
+			req.SetMaxResults(&wrapperspb.Int32Value{Value: int32(pageSize)})
 		}
 		err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 			var err error
@@ -1110,12 +1110,12 @@ func (c *jobRESTClient) ListJobs(ctx context.Context, req *bigquerypb.ListJobsRe
 	it.InternalFetch = func(pageSize int, pageToken string) ([]*bigquerypb.ListFormatJob, string, error) {
 		resp := &bigquerypb.JobList{}
 		if pageToken != "" {
-			req.PageToken = pageToken
+			req.SetPageToken(pageToken)
 		}
 		if pageSize > math.MaxInt32 {
-			req.MaxResults = &wrapperspb.Int32Value{Value: math.MaxInt32}
+			req.SetMaxResults(&wrapperspb.Int32Value{Value: math.MaxInt32})
 		} else if pageSize != 0 {
-			req.MaxResults = &wrapperspb.Int32Value{Value: int32(pageSize)}
+			req.SetMaxResults(&wrapperspb.Int32Value{Value: int32(pageSize)})
 		}
 		baseUrl, err := url.Parse(c.endpoint)
 		if err != nil {

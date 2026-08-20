@@ -578,12 +578,12 @@ func (c *rowAccessPolicyGRPCClient) ListRowAccessPolicies(ctx context.Context, r
 	it.InternalFetch = func(pageSize int, pageToken string) ([]*bigquerypb.RowAccessPolicy, string, error) {
 		resp := &bigquerypb.ListRowAccessPoliciesResponse{}
 		if pageToken != "" {
-			req.PageToken = pageToken
+			req.SetPageToken(pageToken)
 		}
 		if pageSize > math.MaxInt32 {
-			req.PageSize = math.MaxInt32
+			req.SetPageSize(math.MaxInt32)
 		} else if pageSize != 0 {
-			req.PageSize = int32(pageSize)
+			req.SetPageSize(int32(pageSize))
 		}
 		err := gax.Invoke(ctx, func(ctx context.Context, settings gax.CallSettings) error {
 			var err error
@@ -735,12 +735,12 @@ func (c *rowAccessPolicyRESTClient) ListRowAccessPolicies(ctx context.Context, r
 	it.InternalFetch = func(pageSize int, pageToken string) ([]*bigquerypb.RowAccessPolicy, string, error) {
 		resp := &bigquerypb.ListRowAccessPoliciesResponse{}
 		if pageToken != "" {
-			req.PageToken = pageToken
+			req.SetPageToken(pageToken)
 		}
 		if pageSize > math.MaxInt32 {
-			req.PageSize = math.MaxInt32
+			req.SetPageSize(math.MaxInt32)
 		} else if pageSize != 0 {
-			req.PageSize = int32(pageSize)
+			req.SetPageSize(int32(pageSize))
 		}
 		baseUrl, err := url.Parse(c.endpoint)
 		if err != nil {
@@ -1007,7 +1007,7 @@ func (c *rowAccessPolicyRESTClient) DeleteRowAccessPolicy(ctx context.Context, r
 	baseUrl.Path += fmt.Sprintf("/bigquery/v2/projects/%v/datasets/%v/tables/%v/rowAccessPolicies/%v", req.GetProjectId(), req.GetDatasetId(), req.GetTableId(), req.GetPolicyId())
 
 	params := url.Values{}
-	if req != nil && req.Force != nil {
+	if req != nil && req.HasForce() {
 		params.Add("force", fmt.Sprintf("%v", req.GetForce()))
 	}
 
