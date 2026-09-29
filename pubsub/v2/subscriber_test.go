@@ -18,6 +18,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"sync"
 	"sync/atomic"
 	"testing"
 	"time"
@@ -546,5 +547,69 @@ func TestPerStreamFlowControl(t *testing.T) {
 				}
 			}
 		})
+	}
+}
+
+func TestSubscribeExpiredMessage(t *testing.T) {
+	t.Parallel()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	client, srv := newFake(t)
+	defer client.Close()
+	defer srv.Close()
+
+	topicName := fmt.Sprintf("projects/%s/topics/t", projName)
+	subName := fmt.Sprintf("projects/%s/subscriptions/s", subID)
+	publisher := mustCreateTopic(t, client, topicName)
+	s := mustCreateSubConfig(t, client, &pb.Subscription{
+		Name:  subName,
+		Topic: topicName,
+	})
+
+	s.ReceiveSettings.NumGoroutines = 1
+	s.ReceiveSettings.MaxOutstandingMessages = 1
+	s.ReceiveSettings.MaxExtension = 1 * time.Second
+
+	// Publish two messages.
+	r1 := publisher.Publish(ctx, &Message{Data: []byte("msg1")})
+	r2 := publisher.Publish(ctx, &Message{Data: []byte("msg2")})
+	if _, err := r1.Get(ctx); err != nil {
+		t.Fatalf("failed to publish msg1: %v", err)
+	}
+	if _, err := r2.Get(ctx); err != nil {
+		t.Fatalf("failed to publish msg2: %v", err)
+	}
+
+	var mu sync.Mutex
+	var received [][]byte
+
+	ctx, cancel = context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	err := s.Receive(ctx, func(ctx context.Context, msg *Message) {
+		mu.Lock()
+		received = append(received, msg.Data)
+		count := len(received)
+		mu.Unlock()
+
+		if count == 1 {
+			// Sleep for longer than s.ReceiveSettings.MaxExtension so the second message expires while waiting.
+			time.Sleep(3 * time.Second)
+		}
+		msg.Ack()
+		if count == 2 {
+			cancel()
+		}
+	})
+
+	if err != nil && !errors.Is(err, context.Canceled) {
+		t.Fatalf("s.Receive err: %v", err)
+	}
+
+	mu.Lock()
+	defer mu.Unlock()
+	t.Logf("Received messages: %s", received)
+	if len(received) > 1 {
+		t.Errorf("expected only 1 message, but received both: %s (second one should have expired and not been delivered)", received)
 	}
 }

@@ -446,6 +446,20 @@ func (s *Subscriber) Receive(ctx context.Context, f func(context.Context, *Messa
 					if err := sched.Add(key, msg, func(msg interface{}) {
 						m := msg.(*Message)
 						defer wg.Done()
+						defer fc.release(ctx, msgLen)
+
+						// Check if the message has already expired.
+						// If so, do not deliver it to the user callback.
+						maxExt := iter.po.maxExtension
+						deadline := iter.ackDeadline()
+						if (maxExt > 0 && time.Since(ackh.receiveTime) >= maxExt) ||
+							(maxExt <= 0 && time.Since(ackh.receiveTime) >= deadline) {
+							if iter.enableTracing {
+								schedulerSpan.End()
+							}
+							return
+						}
+
 						var ps trace.Span
 						if iter.enableTracing {
 							schedulerSpan.End()
@@ -468,7 +482,6 @@ func (s *Subscriber) Receive(ctx context.Context, f func(context.Context, *Messa
 								old(ackID, ack, r, receiveTime)
 							}
 						}
-						defer fc.release(ctx, msgLen)
 
 						cbDone := make(chan struct{})
 						go func() {
