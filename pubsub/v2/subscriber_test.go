@@ -53,7 +53,7 @@ func testReceive(t *testing.T, exactlyOnceDelivery bool) {
 			Topic:                     topicName,
 			EnableExactlyOnceDelivery: exactlyOnceDelivery,
 		})
-		for i := 0; i < 256; i++ {
+		for i := range 256 {
 			srv.Publish(topicName, []byte{byte(i)}, nil)
 		}
 		msgs, err := pullN(ctx, sub, 256, 0, func(_ context.Context, m *Message) {
@@ -407,8 +407,7 @@ func TestPerStreamFlowControl(t *testing.T) {
 	// Use a fake server. The fake doesn't currently implement server-side flow
 	// control, so it will deliver messages as soon as client requests them.
 	// This is perfect for testing both forms of flow control.
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+	ctx := t.Context()
 	client, srv := newFake(t)
 	defer client.Close()
 	defer srv.Close()
@@ -429,8 +428,8 @@ func TestPerStreamFlowControl(t *testing.T) {
 	const numGoroutines = 2
 	const totalMessages = 20
 
-	for i := 0; i < totalMessages; i++ {
-		srv.Publish(topicName, []byte(fmt.Sprintf("msg-%d", i)), nil)
+	for i := range totalMessages {
+		srv.Publish(topicName, fmt.Appendf(nil, "msg-%d", i), nil)
 	}
 
 	testCases := []struct {
@@ -453,8 +452,8 @@ func TestPerStreamFlowControl(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.desc, func(t *testing.T) {
 			// Republish messages for each test case since the previous one consumed them.
-			for i := 0; i < totalMessages; i++ {
-				srv.Publish(topicName, []byte(fmt.Sprintf("%s-msg-%d", tc.desc, i)), nil)
+			for i := range totalMessages {
+				srv.Publish(topicName, fmt.Appendf(nil, "%s-msg-%d", tc.desc, i), nil)
 			}
 
 			sub.ReceiveSettings = ReceiveSettings{

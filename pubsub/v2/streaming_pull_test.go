@@ -117,7 +117,7 @@ func testStreamingPullIteration(t *testing.T, client *Client, server *mockServer
 	server.wait()
 	server.mu.Lock()
 	defer server.mu.Unlock()
-	for i := 0; i < len(msgs); i++ {
+	for i := range msgs {
 		id := msgs[i].AckId
 		if i%2 == 0 {
 			if !server.Acked[id] {
@@ -248,7 +248,7 @@ func TestStreamingPullRetry(t *testing.T) {
 	}
 	server.stop()
 	server.wait()
-	for i := 0; i < len(testMessages); i++ {
+	for i := range testMessages {
 		id := testMessages[i].AckId
 		server.mu.Lock()
 		if i%2 == 0 {
@@ -344,7 +344,7 @@ func TestStreamingPullFlowControl(t *testing.T) {
 	}()
 	// Here, two callbacks are active. Receive should be blocked in the flow
 	// control acquire method on the third message.
-	for i := 0; i < 2; i++ {
+	for i := range 2 {
 		select {
 		case <-activec:
 		case <-time.After(time.Second):
@@ -466,7 +466,7 @@ func TestStreamingPull_ReconnectsAfterServerDies(t *testing.T) {
 	sub := client.Subscriber("S")
 	sub.ReceiveSettings.MaxOutstandingBytes = 1
 	recvErr := make(chan error, 1)
-	recvdMsgs := make(chan interface{}, len(testMessages)*2)
+	recvdMsgs := make(chan any, len(testMessages)*2)
 
 	go func() {
 		recvErr <- sub.Receive(ctx, func(_ context.Context, m *Message) {

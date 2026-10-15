@@ -306,11 +306,9 @@ func TestPublishFlowControl_Block(t *testing.T) {
 
 	// Sending a third message blocks because the messages are outstanding.
 	var publish3Completed sync.WaitGroup
-	publish3Completed.Add(1)
-	go func() {
+	publish3Completed.Go(func() {
 		publishSingleMessage(ctx, publisher, "AAAAAA")
-		publish3Completed.Done()
-	}()
+	})
 
 	go func() {
 		sendResponse1.Done()
@@ -321,13 +319,11 @@ func TestPublishFlowControl_Block(t *testing.T) {
 	// Sending a fourth message blocks because although only one message has been sent,
 	// the third message claimed the tokens for outstanding bytes.
 	var publish4Completed sync.WaitGroup
-	publish4Completed.Add(1)
 
-	go func() {
+	publish4Completed.Go(func() {
 		publish3Completed.Wait()
 		publishSingleMessage(ctx, publisher, "A")
-		publish4Completed.Done()
-	}()
+	})
 
 	publish3Completed.Wait()
 	addSingleResponse(srv, "3")

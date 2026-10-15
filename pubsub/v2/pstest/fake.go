@@ -56,7 +56,7 @@ type Reactor interface {
 	// React handles the message types and returns results.  If "handled" is false,
 	// then the test server will ignore the results and continue to the next reactor
 	// or the original handler.
-	React(_ interface{}) (handled bool, ret interface{}, err error)
+	React(_ any) (handled bool, ret any, err error)
 }
 
 // ServerReactorOption is options passed to the server for reactor creation.
@@ -950,9 +950,7 @@ func newSubscription(t *topic, mu *sync.Mutex, timeNowFunc func() time.Time, dea
 }
 
 func (s *subscription) start(wg *sync.WaitGroup) {
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
+	wg.Go(func() {
 		for {
 			select {
 			case <-s.done:
@@ -961,7 +959,7 @@ func (s *subscription) start(wg *sync.WaitGroup) {
 				s.deliver()
 			}
 		}
-	}()
+	})
 }
 
 func (s *subscription) stop() {
@@ -1552,7 +1550,7 @@ func parseAckID(ackID string) string {
 
 // runReactor looks up the reactors for a function, then launches them until handled=true
 // or err is returned. If the reactor returns nil, the function returns defaultObj instead.
-func (s *GServer) runReactor(req interface{}, funcName string, defaultObj interface{}) (bool, interface{}, error) {
+func (s *GServer) runReactor(req any, funcName string, defaultObj any) (bool, any, error) {
 	if val, ok := s.reactorOptions[funcName]; ok {
 		for _, reactor := range val {
 			handled, ret, err := reactor.React(req)
@@ -1577,7 +1575,7 @@ type errorInjectionReactor struct {
 }
 
 // React simply returns an error with defined error message and status code.
-func (e *errorInjectionReactor) React(_ interface{}) (handled bool, ret interface{}, err error) {
+func (e *errorInjectionReactor) React(_ any) (handled bool, ret any, err error) {
 	return true, nil, status.Error(e.code, e.msg)
 }
 

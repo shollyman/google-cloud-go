@@ -45,14 +45,12 @@ func TestShutdown_NackImmediately(t *testing.T) {
 		Timeout:  1 * time.Minute,
 	}
 	var wg sync.WaitGroup
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
+	wg.Go(func() {
 		_, err := topic.Publish(ctx, &Message{Data: []byte("m1")}).Get(ctx)
 		if err != nil {
 			t.Errorf("Publish().Get() got err: %v", err)
 		}
-	}()
+	})
 	wg.Wait()
 
 	cctx, ccancel := context.WithCancel(ctx)
@@ -124,14 +122,12 @@ func TestShutdown_WaitForProcessing(t *testing.T) {
 			processingTime := 1 * time.Hour
 
 			var wg sync.WaitGroup
-			wg.Add(1)
-			go func() {
-				defer wg.Done()
+			wg.Go(func() {
 				_, err := topic.Publish(ctx, &Message{Data: []byte("m1")}).Get(ctx)
 				if err != nil {
 					t.Errorf("Publish().Get() got err: %v", err)
 				}
-			}()
+			})
 			wg.Wait()
 
 			cctx, cancel2 := context.WithCancel(ctx)

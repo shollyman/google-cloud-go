@@ -78,7 +78,7 @@ func TestStreamTimeout(t *testing.T) {
 		})
 	}()
 
-	for i := 0; i < nPublish; i++ {
+	for range nPublish {
 		pr := publisher.Publish(ctx, &Message{Data: []byte("msg")})
 		_, err := pr.Get(ctx)
 		if err != nil {

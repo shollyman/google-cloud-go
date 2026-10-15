@@ -443,7 +443,7 @@ func (s *Subscriber) Receive(ctx context.Context, f func(context.Context, *Messa
 					}
 					iter.orderingMu.RUnlock()
 					msgLen := len(msg.Data)
-					if err := sched.Add(key, msg, func(msg interface{}) {
+					if err := sched.Add(key, msg, func(msg any) {
 						m := msg.(*Message)
 						defer wg.Done()
 						var ps trace.Span

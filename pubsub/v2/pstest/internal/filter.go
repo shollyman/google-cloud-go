@@ -28,8 +28,7 @@ const (
 )
 
 // ASTNode represents a node in the Abstract Syntax Tree of a filter.
-type ASTNode interface {
-}
+type ASTNode any
 
 type identNode struct {
 	name string

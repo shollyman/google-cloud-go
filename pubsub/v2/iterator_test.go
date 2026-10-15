@@ -112,8 +112,7 @@ func TestCalcFieldSize(t *testing.T) {
 
 func TestMaxExtensionPeriod(t *testing.T) {
 	srv := pstest.NewServer()
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+	ctx := t.Context()
 
 	srv.Publish(fullyQualifiedTopicName, []byte("creating a topic"), nil)
 
@@ -141,8 +140,7 @@ func TestAckDistribution(t *testing.T) {
 	}
 	t.Skip("broken")
 
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+	ctx := t.Context()
 
 	minDurationPerLeaseExtension = 1 * time.Second
 	pstest.SetMinAckDeadline(minDurationPerLeaseExtension)
@@ -279,7 +277,7 @@ func startSending(t *testing.T, queuedMsgs chan int32, processTimeSecs *int32, i
 
 	t.Logf("Sending some messages to update distribution to %d. This new distribution will be used "+
 		"when the next batch of messages go out.", initialProcessSecs)
-	for i := 0; i < 10; i++ {
+	for range 10 {
 		recvdWg.Add(1)
 		msg++
 		queuedMsgs <- msg
@@ -289,7 +287,7 @@ func startSending(t *testing.T, queuedMsgs chan int32, processTimeSecs *int32, i
 
 	t.Logf("Sending many messages to update distribution to %d. This new distribution will be used "+
 		"when the next batch of messages go out.", finalProcessSecs)
-	for i := 0; i < 100; i++ {
+	for range 100 {
 		recvdWg.Add(1)
 		msg++
 		queuedMsgs <- msg // Send many messages to drastically change distribution
@@ -309,7 +307,7 @@ func continuouslySend(ctx context.Context, srv *pstest.Server, queuedMsgs chan i
 		case <-ctx.Done():
 			return
 		case m := <-queuedMsgs:
-			srv.Publish(fullyQualifiedTopicName, []byte(fmt.Sprintf("message %d", m)), nil)
+			srv.Publish(fullyQualifiedTopicName, fmt.Appendf(nil, "message %d", m), nil)
 		}
 	}
 }
@@ -475,8 +473,7 @@ func TestIterator_BoundedDuration(t *testing.T) {
 
 func TestIterator_StreamingPullExactlyOnce(t *testing.T) {
 	srv := pstest.NewServer()
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+	ctx := t.Context()
 
 	srv.Publish(fullyQualifiedTopicName, []byte("creating a topic"), nil)
 
@@ -556,8 +553,7 @@ func TestAddToDistribution(t *testing.T) {
 
 func TestPingStreamAckDeadline(t *testing.T) {
 	c, srv := newFake(t)
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+	ctx := t.Context()
 
 	srv.Publish(fullyQualifiedTopicName, []byte("creating a topic"), nil)
 	s, err := c.SubscriptionAdminClient.CreateSubscription(ctx, &pb.Subscription{

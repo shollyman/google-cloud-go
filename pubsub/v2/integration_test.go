@@ -148,7 +148,7 @@ func testPublishAndReceive(t *testing.T, client *Client, maxMsgs int, exactlyOnc
 			sub := client.Subscriber(pbs.Name)
 
 			var msgs []*Message
-			for i := 0; i < numMsgs; i++ {
+			for i := range numMsgs {
 				text := fmt.Sprintf("a message with an index %d - %s", i, strings.Repeat(".", extraBytes))
 				attrs := make(map[string]string)
 				attrs["foo"] = "bar"
@@ -395,10 +395,10 @@ func TestIntegration_OrderedKeys_Basic(t *testing.T) {
 
 	orderingKey := "some-ordering-key"
 	numItems := 1000
-	for i := 0; i < numItems; i++ {
+	for i := range numItems {
 		r := publisher.Publish(ctx, &Message{
 			ID:          fmt.Sprintf("id-%d", i),
-			Data:        []byte(fmt.Sprintf("item-%d", i)),
+			Data:        fmt.Appendf(nil, "item-%d", i),
 			OrderingKey: orderingKey,
 		})
 		go func() {
@@ -411,7 +411,7 @@ func TestIntegration_OrderedKeys_Basic(t *testing.T) {
 	received := make(chan string, numItems)
 	ctx2, cancel := context.WithCancel(ctx)
 	go func() {
-		for i := 0; i < numItems; i++ {
+		for i := range numItems {
 			select {
 			case r := <-received:
 				if got, want := r, fmt.Sprintf("item-%d", i); got != want {
@@ -678,10 +678,10 @@ func TestIntegration_OrderingWithExactlyOnce(t *testing.T) {
 
 	orderingKey := "some-ordering-key"
 	numItems := 10
-	for i := 0; i < numItems; i++ {
+	for i := range numItems {
 		r := publisher.Publish(ctx, &Message{
 			ID:          fmt.Sprintf("id-%d", i),
-			Data:        []byte(fmt.Sprintf("item-%d", i)),
+			Data:        fmt.Appendf(nil, "item-%d", i),
 			OrderingKey: orderingKey,
 		})
 		go func() {
@@ -694,7 +694,7 @@ func TestIntegration_OrderingWithExactlyOnce(t *testing.T) {
 	received := make(chan string, numItems)
 	ctx2, cancel := context.WithCancel(ctx)
 	go func() {
-		for i := 0; i < numItems; i++ {
+		for i := range numItems {
 			select {
 			case r := <-received:
 				if got, want := r, fmt.Sprintf("item-%d", i); got != want {
