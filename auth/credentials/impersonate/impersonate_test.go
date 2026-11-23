@@ -25,6 +25,7 @@ import (
 	"time"
 
 	"cloud.google.com/go/auth"
+	"cloud.google.com/go/auth/httptransport"
 	"cloud.google.com/go/auth/internal"
 	"github.com/google/go-cmp/cmp"
 )
@@ -67,14 +68,14 @@ func TestNewCredentials_serviceAccount(t *testing.T) {
 			wantUniverseDomain: "googleapis.com",
 		},
 		{
-			name: "universe domain from options",
+			name: "universe domain from options with custom client",
 			config: CredentialsOptions{
 				TargetPrincipal: "foo@project-id.iam.gserviceaccount.com",
 				Scopes:          []string{"scope"},
 				UniverseDomain:  "example.com",
 			},
 			wantErr:            nil,
-			wantUniverseDomain: "googleapis.com", // From creds, not CredentialsOptions.UniverseDomain
+			wantUniverseDomain: "example.com",
 		},
 		{
 			name: "universe domain from options and credentials",
@@ -120,8 +121,8 @@ func TestNewCredentials_serviceAccount(t *testing.T) {
 					if !strings.Contains(req.URL.Path, tt.config.TargetPrincipal) {
 						t.Errorf("got %q, want %q", req.URL.Path, tt.config.TargetPrincipal)
 					}
-					if !strings.Contains(req.URL.Hostname(), tt.wantUniverseDomain) {
-						t.Errorf("got %q, want %q", req.URL.Hostname(), tt.wantUniverseDomain)
+					if wantHost := "iamcredentials." + tt.wantUniverseDomain; req.URL.Hostname() != wantHost {
+						t.Errorf("got %q, want %q", req.URL.Hostname(), wantHost)
 					}
 					if !strings.Contains(req.URL.Path, "generateAccessToken") {
 						t.Fatal("path must contain 'generateAccessToken'")
@@ -150,6 +151,8 @@ func TestNewCredentials_serviceAccount(t *testing.T) {
 				if err != tt.wantErr {
 					t.Fatalf("err: %v", err)
 				}
+			} else if tt.wantErr != nil {
+				t.Fatalf("got nil error, want %v", tt.wantErr)
 			} else if tt.config.Credentials != nil {
 				// config.Credentials is invalid for Token request, just assert universe domain.
 				if got, _ := creds.UniverseDomain(ctx); got != tt.wantUniverseDomain {
@@ -168,6 +171,79 @@ func TestNewCredentials_serviceAccount(t *testing.T) {
 				}
 			}
 		})
+	}
+}
+
+func TestNewCredentials_CustomHTTPTransportClient_UniverseDomain(t *testing.T) {
+	ctx := context.Background()
+	const (
+		tpcUniverseDomain = "s3nsapis.fr"
+		tpcBearerToken    = "tpc-live-token"
+		saTok             = "impersonated-sa-token"
+		targetPrincipal   = "target@project-id.iam.gserviceaccount.com"
+	)
+
+	tpcCreds := auth.NewCredentials(&auth.CredentialsOptions{
+		TokenProvider:          staticTokenProvider(tpcBearerToken),
+		UniverseDomainProvider: internal.StaticCredentialsProperty(tpcUniverseDomain),
+	})
+
+	var gotHost, gotAuth string
+	tpcClient, err := httptransport.NewClient(&httptransport.Options{
+		Credentials:      tpcCreds,
+		UniverseDomain:   tpcUniverseDomain,
+		DisableTelemetry: true,
+		BaseRoundTripper: RoundTripFn(func(req *http.Request) *http.Response {
+			gotHost = req.URL.Hostname()
+			gotAuth = req.Header.Get("Authorization")
+			resp := generateAccessTokenResponse{
+				AccessToken: saTok,
+				ExpireTime:  time.Now().Add(time.Hour).Format(time.RFC3339),
+			}
+			b, err := json.Marshal(&resp)
+			if err != nil {
+				t.Fatalf("unable to marshal response: %v", err)
+			}
+			return &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       io.NopCloser(bytes.NewReader(b)),
+				Header:     http.Header{},
+			}
+		}),
+	})
+	if err != nil {
+		t.Fatalf("httptransport.NewClient() = %v", err)
+	}
+
+	creds, err := NewCredentials(&CredentialsOptions{
+		TargetPrincipal: targetPrincipal,
+		Scopes:          []string{"https://www.googleapis.com/auth/cloud-platform"},
+		Client:          tpcClient,
+		UniverseDomain:  tpcUniverseDomain,
+	})
+	if err != nil {
+		t.Fatalf("NewCredentials() = %v", err)
+	}
+
+	tok, err := creds.Token(ctx)
+	if err != nil {
+		t.Fatalf("creds.Token() = %v", err)
+	}
+	if tok.Value != saTok {
+		t.Errorf("tok.Value = %q, want %q", tok.Value, saTok)
+	}
+	if wantHost := "iamcredentials." + tpcUniverseDomain; gotHost != wantHost {
+		t.Errorf("request hostname = %q, want %q", gotHost, wantHost)
+	}
+	if wantAuth := "Bearer " + tpcBearerToken; gotAuth != wantAuth {
+		t.Errorf("Authorization header = %q, want %q", gotAuth, wantAuth)
+	}
+	gotUD, err := creds.UniverseDomain(ctx)
+	if err != nil {
+		t.Fatalf("creds.UniverseDomain() = %v", err)
+	}
+	if gotUD != tpcUniverseDomain {
+		t.Errorf("creds.UniverseDomain() = %q, want %q", gotUD, tpcUniverseDomain)
 	}
 }
 

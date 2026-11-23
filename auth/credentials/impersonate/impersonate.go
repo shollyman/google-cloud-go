@@ -86,7 +86,7 @@ func NewCredentials(opts *CredentialsOptions) (*auth.Credentials, error) {
 		}
 	}
 
-	universeDomainProvider := resolveUniverseDomainProvider(creds)
+	universeDomainProvider := resolveUniverseDomainProvider(creds, opts.UniverseDomain)
 	// If a subject is specified a domain-wide delegation auth-flow is initiated
 	// to impersonate as the provided subject (user).
 	if opts.Subject != "" {
@@ -146,12 +146,16 @@ func transportOpts(opts *CredentialsOptions, creds *auth.Credentials, logger *sl
 }
 
 // resolveUniverseDomainProvider returns the default service domain for a given
-// Cloud universe. This is the universe domain configured for the credentials,
-// which will be used in endpoint(s), and compared to the universe domain that
-// is separately configured for the client.
-func resolveUniverseDomainProvider(creds *auth.Credentials) auth.CredentialsPropertyProvider {
+// Cloud universe. If creds is non-nil, the universe domain configured for the
+// base credentials is used. Otherwise (when a custom Client is supplied without
+// Credentials), universeDomain is used if non-empty, falling back to
+// "googleapis.com".
+func resolveUniverseDomainProvider(creds *auth.Credentials, universeDomain string) auth.CredentialsPropertyProvider {
 	if creds != nil {
 		return auth.CredentialsPropertyFunc(creds.UniverseDomain)
+	}
+	if universeDomain != "" {
+		return internal.StaticCredentialsProperty(universeDomain)
 	}
 	return internal.StaticCredentialsProperty(internal.DefaultUniverseDomain)
 }
@@ -185,11 +189,15 @@ type CredentialsOptions struct {
 	Credentials *auth.Credentials
 	// Client configures the underlying client used to make network requests
 	// when fetching tokens. If provided this should be a fully-authenticated
-	// client. Optional.
+	// client. If provided without Credentials in a non-default universe,
+	// UniverseDomain must also be set to match the client's universe. Optional.
 	Client *http.Client
 	// UniverseDomain is the default service domain for a given Cloud universe.
-	// This field has no default value, and only if provided will it be used to
-	// verify the universe domain from the credentials. Optional.
+	// When Credentials is provided or detected, this field has no default value
+	// and, if set, is used to verify the universe domain from the credentials.
+	// When a custom Client is provided without Credentials, this field
+	// specifies the universe domain used for endpoint construction and reported
+	// by the returned Credentials, defaulting to "googleapis.com". Optional.
 	UniverseDomain string
 	// Logger is used for debug logging. If provided, logging will be enabled
 	// at the loggers configured level. By default logging is disabled unless

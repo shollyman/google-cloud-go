@@ -51,12 +51,16 @@ type IDTokenOptions struct {
 	Credentials *auth.Credentials
 	// Client configures the underlying client used to make network requests
 	// when fetching tokens. If provided this should be a fully-authenticated
-	// client. Optional.
+	// client. If provided without Credentials in a non-default universe,
+	// UniverseDomain must also be set to match the client's universe. Optional.
 	Client *http.Client
 	// UniverseDomain is the default service domain for a given Cloud universe.
-	// The default value is "googleapis.com". This is the universe domain
-	// configured for the client, which will be compared to the universe domain
-	// that is separately configured for the credentials. Optional.
+	// When Credentials is provided or detected, this field has a default value
+	// of "googleapis.com" and is compared to the universe domain configured for
+	// the credentials. When a custom Client is provided without Credentials,
+	// this field specifies the universe domain used for endpoint construction
+	// and reported by the returned Credentials, defaulting to "googleapis.com".
+	// Optional.
 	UniverseDomain string
 	// Logger is used for debug logging. If provided, logging will be enabled
 	// at the loggers configured level. By default logging is disabled unless
@@ -116,7 +120,7 @@ func NewIDTokenCredentials(opts *IDTokenOptions) (*auth.Credentials, error) {
 		}
 	}
 
-	universeDomainProvider := resolveUniverseDomainProvider(creds)
+	universeDomainProvider := resolveUniverseDomainProvider(creds, opts.UniverseDomain)
 	var delegates []string
 	for _, v := range opts.Delegates {
 		delegates = append(delegates, internal.FormatIAMServiceAccountResource(v))

@@ -26,7 +26,10 @@ import (
 	"testing"
 	"time"
 
+	"cloud.google.com/go/auth"
 	"cloud.google.com/go/auth/credentials/internal/impersonate"
+	"cloud.google.com/go/auth/httptransport"
+	"cloud.google.com/go/auth/internal"
 	"cloud.google.com/go/auth/internal/jwt"
 )
 
@@ -61,13 +64,13 @@ func TestNewIDTokenCredentials(t *testing.T) {
 			wantUniverseDomain: "googleapis.com",
 		},
 		{
-			name: "universe domain from options",
+			name: "universe domain from options with custom client",
 			config: IDTokenOptions{
 				Audience:        "http://example.com/",
 				TargetPrincipal: "foo@project-id.iam.gserviceaccount.com",
 				UniverseDomain:  "example.com",
 			},
-			wantUniverseDomain: "googleapis.com", // From creds, not IDTokenOptions.UniverseDomain
+			wantUniverseDomain: "example.com",
 		},
 		{
 			name: "universe domain from options and credentials",
@@ -124,8 +127,8 @@ func TestNewIDTokenCredentials(t *testing.T) {
 					if !strings.Contains(req.URL.Path, tt.config.TargetPrincipal) {
 						t.Errorf("got %q, want %q", req.URL.Path, tt.config.TargetPrincipal)
 					}
-					if !strings.Contains(req.URL.Hostname(), tt.wantUniverseDomain) {
-						t.Errorf("got %q, want %q", req.URL.Hostname(), tt.wantUniverseDomain)
+					if wantHost := "iamcredentials." + tt.wantUniverseDomain; req.URL.Hostname() != wantHost {
+						t.Errorf("got %q, want %q", req.URL.Hostname(), wantHost)
 					}
 					if !strings.Contains(req.URL.Path, "generateIdToken") {
 						t.Error("path must contain 'generateIdToken'")
@@ -155,6 +158,9 @@ func TestNewIDTokenCredentials(t *testing.T) {
 				}
 				return
 			}
+			if tt.wantErr {
+				t.Fatal("got nil error, want error")
+			}
 			// Static config.Credentials is invalid for Token request, skip.
 			if tt.config.Credentials == nil {
 				tok, err := creds.Token(ctx)
@@ -172,5 +178,91 @@ func TestNewIDTokenCredentials(t *testing.T) {
 				t.Errorf("got %q, want %q", got, tt.wantUniverseDomain)
 			}
 		})
+	}
+}
+
+func TestNewIDTokenCredentials_CustomHTTPTransportClient_UniverseDomain(t *testing.T) {
+	ctx := context.Background()
+	const (
+		tpcUniverseDomain = "s3nsapis.fr"
+		tpcBearerToken    = "tpc-live-token"
+		targetPrincipal   = "target@project-id.iam.gserviceaccount.com"
+		audience          = "https://example.com/"
+		wantExp           = 1893456000
+	)
+
+	privateKey, err := rsa.GenerateKey(rand.Reader, 2048)
+	if err != nil {
+		t.Fatal(err)
+	}
+	idTok, err := jwt.EncodeJWS(
+		&jwt.Header{Algorithm: jwt.HeaderAlgRSA256, Type: jwt.HeaderType},
+		&jwt.Claims{Iss: "example.com", Aud: audience, Iat: wantExp - 3600, Exp: wantExp},
+		privateKey,
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	tpcCreds := auth.NewCredentials(&auth.CredentialsOptions{
+		TokenProvider:          staticTokenProvider(tpcBearerToken),
+		UniverseDomainProvider: internal.StaticCredentialsProperty(tpcUniverseDomain),
+	})
+
+	var gotHost, gotAuth string
+	tpcClient, err := httptransport.NewClient(&httptransport.Options{
+		Credentials:      tpcCreds,
+		UniverseDomain:   tpcUniverseDomain,
+		DisableTelemetry: true,
+		BaseRoundTripper: RoundTripFn(func(req *http.Request) *http.Response {
+			gotHost = req.URL.Hostname()
+			gotAuth = req.Header.Get("Authorization")
+			resp := impersonate.GenerateIDTokenResponse{
+				Token: idTok,
+			}
+			b, err := json.Marshal(&resp)
+			if err != nil {
+				t.Fatalf("unable to marshal response: %v", err)
+			}
+			return &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       io.NopCloser(bytes.NewReader(b)),
+				Header:     http.Header{},
+			}
+		}),
+	})
+	if err != nil {
+		t.Fatalf("httptransport.NewClient() = %v", err)
+	}
+
+	creds, err := NewIDTokenCredentials(&IDTokenOptions{
+		Audience:        audience,
+		TargetPrincipal: targetPrincipal,
+		Client:          tpcClient,
+		UniverseDomain:  tpcUniverseDomain,
+	})
+	if err != nil {
+		t.Fatalf("NewIDTokenCredentials() = %v", err)
+	}
+
+	tok, err := creds.Token(ctx)
+	if err != nil {
+		t.Fatalf("creds.Token() = %v", err)
+	}
+	if tok.Value != idTok {
+		t.Errorf("tok.Value = %q, want %q", tok.Value, idTok)
+	}
+	if wantHost := "iamcredentials." + tpcUniverseDomain; gotHost != wantHost {
+		t.Errorf("request hostname = %q, want %q", gotHost, wantHost)
+	}
+	if wantAuth := "Bearer " + tpcBearerToken; gotAuth != wantAuth {
+		t.Errorf("Authorization header = %q, want %q", gotAuth, wantAuth)
+	}
+	gotUD, err := creds.UniverseDomain(ctx)
+	if err != nil {
+		t.Fatalf("creds.UniverseDomain() = %v", err)
+	}
+	if gotUD != tpcUniverseDomain {
+		t.Errorf("creds.UniverseDomain() = %q, want %q", gotUD, tpcUniverseDomain)
 	}
 }

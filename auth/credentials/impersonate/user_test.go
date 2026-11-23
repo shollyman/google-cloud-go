@@ -18,6 +18,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"io"
 	"net/http"
 	"strings"
@@ -31,14 +32,15 @@ import (
 func TestNewCredentials_user(t *testing.T) {
 	ctx := context.Background()
 	tests := []struct {
-		name            string
-		targetPrincipal string
-		scopes          []string
-		lifetime        time.Duration
-		subject         string
-		wantErr         bool
-		wantTokenErr    bool
-		universeDomain  string
+		name               string
+		targetPrincipal    string
+		scopes             []string
+		lifetime           time.Duration
+		subject            string
+		wantErr            bool
+		wantTokenErr       error
+		universeDomain     string
+		wantUniverseDomain string
 	}{
 		{
 			name:    "missing targetPrincipal",
@@ -57,20 +59,22 @@ func TestNewCredentials_user(t *testing.T) {
 			wantErr:         true,
 		},
 		{
-			name:            "works",
-			targetPrincipal: "foo@project-id.iam.gserviceaccount.com",
-			scopes:          []string{"scope"},
-			subject:         "admin@example.com",
+			name:               "works",
+			targetPrincipal:    "foo@project-id.iam.gserviceaccount.com",
+			scopes:             []string{"scope"},
+			subject:            "admin@example.com",
+			wantUniverseDomain: "googleapis.com",
 		},
 		{
 			name:            "universeDomain",
 			targetPrincipal: "foo@project-id.iam.gserviceaccount.com",
 			scopes:          []string{"scope"},
 			subject:         "admin@example.com",
-			wantTokenErr:    true,
+			wantTokenErr:    errUniverseNotSupportedDomainWideDelegation,
 			// Non-GDU Universe Domain should result in error if
-			// CredentialsConfig.Subject is present for domain-wide delegation.
-			universeDomain: "example.com",
+			// CredentialsOptions.Subject is present for domain-wide delegation.
+			universeDomain:     "example.com",
+			wantUniverseDomain: "example.com",
 		},
 	}
 
@@ -78,8 +82,10 @@ func TestNewCredentials_user(t *testing.T) {
 		userTok := "user-token"
 		name := tt.name
 		t.Run(name, func(t *testing.T) {
+			transportCalled := false
 			client := &http.Client{
 				Transport: RoundTripFn(func(req *http.Request) *http.Response {
+					transportCalled = true
 					defer req.Body.Close()
 					if strings.Contains(req.URL.Path, "signJwt") {
 						b, err := io.ReadAll(req.Body)
@@ -148,14 +154,28 @@ func TestNewCredentials_user(t *testing.T) {
 				Client:          client,
 				UniverseDomain:  tt.universeDomain,
 			})
-			if tt.wantErr && err != nil {
+			if tt.wantErr {
+				if err == nil {
+					t.Fatal("NewCredentials() got nil, want error")
+				}
 				return
 			}
 			if err != nil {
 				t.Fatal(err)
 			}
+			if got, err := ts.UniverseDomain(ctx); err != nil {
+				t.Fatalf("UniverseDomain() = %v", err)
+			} else if got != tt.wantUniverseDomain {
+				t.Errorf("UniverseDomain() = %q, want %q", got, tt.wantUniverseDomain)
+			}
 			tok, err := ts.Token(ctx)
-			if tt.wantTokenErr && err != nil {
+			if tt.wantTokenErr != nil {
+				if !errors.Is(err, tt.wantTokenErr) {
+					t.Fatalf("Token() got err %v, want %v", err, tt.wantTokenErr)
+				}
+				if transportCalled {
+					t.Fatal("expected no HTTP request when Token() returns error")
+				}
 				return
 			}
 			if err != nil {
